@@ -1,0 +1,10 @@
+{
+	"name": "hex-industry",
+	"displayName": "Hex Industry",
+	"description": "",
+	"author": "xzxADIxzx",
+	"version": "0.0.1",
+	"minGameVersion": "135",
+	"hidden": true,
+	"main": "hex.main"
+}

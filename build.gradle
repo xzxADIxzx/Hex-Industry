@@ -4,8 +4,6 @@ version '1.0'
 
 sourceCompatibility = 1.8
 
-sourceSets.main.java.srcDirs = ["src"]
-
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
@@ -30,7 +28,8 @@ jar{
         configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
     }
 
-    from(rootDir){
-        include "plugin.json"
+    sourceSets.main {
+        java.srcDirs = ['src']
+        resources.srcDirs = ['src/resources']
     }
 }

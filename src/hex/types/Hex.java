@@ -19,7 +19,7 @@ public class Hex {
 
 	public boolean openned = false;
 	public HexType type;
-	public byte doors;
+	public byte door;
 
 	public Hex(int x, int y) {
 		this.x = x;
@@ -29,7 +29,7 @@ public class Hex {
 		cy = y + height / 2;
 
 		type = HexType.from(world.tile(cx, cy).block());
-		random.nextBytes(new byte[]{doors});
+		door = (byte)random.nextLong();
 
 		// add walls
 		Schems.hex.tiles.each(st -> {
@@ -47,7 +47,7 @@ public class Hex {
 	}
 
 	public void open() {
-		Schems.door(doors).tiles.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
+		Schems.door(door).tiles.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 	}
 
 	public static boolean bounds(int x, int y) {

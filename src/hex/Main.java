@@ -27,21 +27,27 @@ public class Main extends Plugin {
 	public void registerClientCommands(CommandHandler handler) {
 		handler.register("init", "initialize new game", args -> {
 			// generate hex-map
-			Vec2 pos = new Vec2();
-			hexes.add(new Hex((int)pos.x, (int)pos.y));
+			Point2 start = new Point2();
+			Point2 point = new Point2();
 
-			// boolean up = false;
-			// while (true) {
-			// 	hexes.add(new Hex((int)pos.x, (int)pos.y));
+			while (true) {
+				hexes.add(new Hex(point.x, point.y));
+				point.add(38, 0);
 
-			// 	up = !up;
-			// 	pos.add(20f * (up ? 1f : -1f), 12f);
-			// }
+				if (!Hex.bounds(point.x, point.y)) {
+					start.add(19, 11);
+					point.set(start);
+
+					if (!Hex.bounds(start.x, start.y))
+						break;
+				}
+			}
 
 			// synchronize the world
 			Call.worldDataBegin();
 			Groups.player.each(ppl -> {
-				if(ppl != player) netServer.sendWorldData(ppl);
+				if (ppl != player)
+					netServer.sendWorldData(ppl);
 			});
 
 			// ask unit type & abilities

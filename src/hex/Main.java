@@ -35,7 +35,7 @@ public class Main extends Plugin {
 				point.add(38, 0);
 
 				if (!Hex.bounds(point.x, point.y)) {
-					start.add(19 * start.x == 0 ? 1 : -1, 11);
+					start.add(19 * (start.x == 0 ? 1 : -1), 11);
 					point.set(start);
 
 					if (!Hex.bounds(start.x, start.y))

@@ -1,6 +1,7 @@
 package hex;
 
 import hex.types.*;
+import hex.content.*;
 import arc.util.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -20,7 +21,9 @@ public class Main extends Plugin {
 		Schems.load();
 
 		Timer.schedule(() -> {
-			humans.each(ppl -> Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id)));
+			humans.each(ppl -> {
+				if(ppl.player != player) Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id));
+			});
 		}, 0f, .01f);
 	}
 
@@ -53,7 +56,7 @@ public class Main extends Plugin {
 			});
 
 			// ask unit type & abilities
-			Groups.player.each(ppl -> humans.add(new Human(ppl, new Fraction())));
+			Groups.player.each(ppl -> humans.add(new Human(ppl, Fractions.horde)));
 
 			// spawn a citadel in a random hex
 			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size))));

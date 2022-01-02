@@ -1,6 +1,6 @@
 package hex.types;
 
-import hex.*;
+import hex.content.*;
 import arc.math.*;
 import arc.math.geom.*;
 import mindustry.world.*;

@@ -1,4 +1,4 @@
-package hex;
+package hex.content;
 
 import hex.types.*;
 import arc.struct.*;

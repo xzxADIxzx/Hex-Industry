@@ -1,6 +1,7 @@
 package hex.types;
 
 import hex.*;
+import hex.content.*;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.world.*;
@@ -24,6 +25,7 @@ public class Human {
 	public void init(Hex hex) {
 		this.citadel = hex;
 		player.team(Team.baseTeams[_id++]);
+		player.unit(fraction.unit.spawn(player.team(), hex.pos()));
 
 		// TODO: move to hex.build
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);

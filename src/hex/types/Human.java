@@ -33,4 +33,8 @@ public class Human {
 			if (st.config != null) tile.build.configureAny(st.config);
 		});
 	}
+
+	public Hex location() {
+		return Main.hexes.min(hex -> player.dst2(hex.pos()));
+	}
 }

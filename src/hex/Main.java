@@ -19,8 +19,9 @@ public class Main extends Plugin {
 	public void init() {
 		Schems.load();
 
-		// Timer.schedule(main, 0f, 1f);
-		// Timer.schedule(todo, 0f, .01f);
+		Timer.schedule(() -> {
+			humans.each(ppl -> Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id)));
+		}, 0f, .01f);
 	}
 
 	@Override
@@ -41,16 +42,14 @@ public class Main extends Plugin {
 					start.add(19 * (start.x == 0 ? 1 : -1), 11);
 					point.set(start);
 
-					if (!Hex.bounds(start.x, start.y))
-						break;
+					if (!Hex.bounds(start.x, start.y)) break;
 				}
 			}
 
 			// synchronize the world
 			Call.worldDataBegin();
 			Groups.player.each(ppl -> {
-				if (ppl != player)
-					netServer.sendWorldData(ppl);
+				if (ppl != player) netServer.sendWorldData(ppl);
 			});
 
 			// ask unit type & abilities
@@ -60,6 +59,16 @@ public class Main extends Plugin {
 			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size))));
 		});
 
-		handler.<Player>register("tp", "<id>", "Teleport to hex", (args, ppl) -> ppl.set(hexes.get(Integer.valueOf(args[0])).pos()));
+		handler.<Player>register("tp", "<id>", "Teleport to hex", (args, ppl) -> {
+			try {
+				int id = Integer.valueOf(args[0]);
+				if (id <= hexes.size && id >= 0)
+					ppl.unit().set(hexes.get(id).pos());
+				else
+					throw new NumberFormatException();
+			} catch (Exception e) {
+				ppl.sendMessage("[scarlet]Invalid hex id");
+			}
+		});
 	}
 }

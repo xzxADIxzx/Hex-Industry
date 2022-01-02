@@ -1,6 +1,7 @@
 package hex.types;
 
 import hex.*;
+import arc.math.*;
 import mindustry.world.*;
 import mindustry.content.*;
 
@@ -9,6 +10,7 @@ import static mindustry.Vars.*;
 public class Hex {
 	public static final int width = 27;
 	public static final int height = 25;
+	public static final Rand random = new Rand();
 
 	public int x;
 	public int y;
@@ -17,7 +19,7 @@ public class Hex {
 
 	public boolean openned = false;
 	public HexType type;
-	public byte door;
+	public byte doors;
 
 	public Hex(int x, int y) {
 		this.x = x;
@@ -27,7 +29,7 @@ public class Hex {
 		cy = y + height / 2;
 
 		type = HexType.from(world.tile(cx, cy).block());
-		door = 1 << 0 | 1 << 2 | 1 << 4;
+		random.nextBytes(new byte[]{doors});
 
 		// add walls
 		Schems.hex.tiles.each(st -> {
@@ -37,16 +39,15 @@ public class Hex {
 		});
 
 		// close every door
-		// TODO: open random doors and save to int like Env.java
 		Schems.closed.tiles.each(st -> {
-			Tile tile = world.tile(st.x + x + 1, st.y + y);
+			Tile tile = world.tile(st.x + x, st.y + y);
 			tile.setFloor(st.block.asFloor());
 			tile.setBlock(Blocks.darkMetal);
 		});
 	}
 
 	public void open() {
-		Schems.closed.tiles.each(st -> world.tile(st.x + x + 1, st.y + y).setNet(Blocks.air));
+		Schems.door(doors).tiles.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 	}
 
 	public static boolean bounds(int x, int y) {

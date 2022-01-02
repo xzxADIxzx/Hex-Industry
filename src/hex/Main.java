@@ -1,5 +1,6 @@
 package hex;
 
+import hex.types.*;
 import arc.util.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -53,6 +54,10 @@ public class Main extends Plugin {
 			// ask unit type & abilities
 
 			// spawn a citadel in a random hex
+		});
+
+		handler.register("test", "", args -> {
+			hexes.add(new Hex(30, 30));
 		});
 	}
 }

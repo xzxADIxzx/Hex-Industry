@@ -1,5 +1,6 @@
-package hex;
+package hex.types;
 
+import hex.*;
 import mindustry.world.*;
 import mindustry.content.*;
 
@@ -16,6 +17,7 @@ public class Hex {
 
 	public boolean openned = false;
 	public HexType type;
+	public byte door;
 
 	public Hex(int x, int y) {
 		this.x = x;
@@ -25,7 +27,9 @@ public class Hex {
 		cy = y + height / 2;
 
 		type = HexType.from(world.tile(cx, cy).block());
+		door = 1 << 0 | 1 << 2 | 1 << 4;
 
+		// add walls
 		Schems.hex.tiles.each(st -> {
 			Tile tile = world.tile(st.x + x, st.y + y);
 			tile.setFloor(Blocks.darkPanel3.asFloor());
@@ -34,19 +38,19 @@ public class Hex {
 
 		// close every door
 		// TODO: open random doors and save to int like Env.java
-		Schems.doors.tiles.each(st -> {
+		Schems.closed.tiles.each(st -> {
 			Tile tile = world.tile(st.x + x + 1, st.y + y);
-			tile.setFloor(st.block == Blocks.door ? Blocks.metalFloor5.asFloor() : Blocks.darkPanel3.asFloor());
+			tile.setFloor(st.block.asFloor());
 			tile.setBlock(Blocks.darkMetal);
 		});
 	}
 
 	public void open() {
-		Schems.doors.tiles.each(st -> world.tile(st.x + x + 1, st.y + y).setNet(Blocks.air));
+		Schems.closed.tiles.each(st -> world.tile(st.x + x + 1, st.y + y).setNet(Blocks.air));
 	}
 
 	public static boolean bounds(int x, int y) {
-		return x + width < world.width() && y + height < world.height();
+		return x + width <= world.width() && y + height <= world.height();
 	}
 
 	public enum HexType {

@@ -25,7 +25,7 @@ public class Main extends Plugin {
 
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
-		handler.register("init", "initialize new game", args -> {
+		handler.register("init", "Initialize new game", args -> {
 			// generate hex-map
 			Point2 start = new Point2();
 			Point2 point = new Point2();
@@ -35,7 +35,7 @@ public class Main extends Plugin {
 				point.add(38, 0);
 
 				if (!Hex.bounds(point.x, point.y)) {
-					start.add(19, 11);
+					start.add(19 * start.x == 0 ? 1 : -1, 11);
 					point.set(start);
 
 					if (!Hex.bounds(start.x, start.y))

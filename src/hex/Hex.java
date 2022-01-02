@@ -35,14 +35,14 @@ public class Hex {
 		// close every door
 		// TODO: open random doors and save to int like Env.java
 		Schems.doors.tiles.each(st -> {
-			Tile tile = world.tile(st.x + x + 1, st.y + y + 1);
+			Tile tile = world.tile(st.x + x + 1, st.y + y);
 			tile.setFloor(st.block == Blocks.door ? Blocks.metalFloor5.asFloor() : Blocks.darkPanel3.asFloor());
 			tile.setBlock(Blocks.darkMetal);
 		});
 	}
 
 	public void open() {
-		Schems.doors.tiles.each(st -> world.tile(st.x + x + 1, st.y + y + 1).setNet(Blocks.air));
+		Schems.doors.tiles.each(st -> world.tile(st.x + x + 1, st.y + y).setNet(Blocks.air));
 	}
 
 	public static boolean bounds(int x, int y) {

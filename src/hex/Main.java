@@ -2,6 +2,7 @@ package hex;
 
 import hex.types.*;
 import arc.util.*;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.gen.*;
@@ -12,6 +13,7 @@ import static mindustry.Vars.*;
 public class Main extends Plugin {
 
 	public static Seq<Hex> hexes = new Seq<>();
+	public static Seq<Human> humans = new Seq<>();
 
 	@Override
 	public void init() {
@@ -52,8 +54,10 @@ public class Main extends Plugin {
 			});
 
 			// ask unit type & abilities
+			Groups.player.each(ppl -> humans.add(new Human(ppl, new Fraction())));
 
 			// spawn a citadel in a random hex
+			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size))));
 		});
 
 		handler.register("test", "", args -> {

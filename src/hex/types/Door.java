@@ -6,7 +6,7 @@ import mindustry.game.Schematic.*;
 
 public class Door {
 
-	public static int id;
+	protected static int id;
 
 	public Seq<Stile> scheme;
 	public byte key;

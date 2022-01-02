@@ -46,7 +46,7 @@ public class Hex {
 	}
 
 	public static boolean bounds(int x, int y) {
-		return x + width / 2 < world.width() && y + height / 2 < world.height();
+		return x + width < world.width() && y + height < world.height();
 	}
 
 	public enum HexType {

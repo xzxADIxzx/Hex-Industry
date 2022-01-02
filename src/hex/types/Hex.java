@@ -2,12 +2,16 @@ package hex.types;
 
 import hex.*;
 import arc.math.*;
+import arc.math.geom.*;
 import mindustry.world.*;
 import mindustry.content.*;
 
 import static mindustry.Vars.*;
 
 public class Hex {
+
+	protected static int _id;
+
 	public static final int width = 27;
 	public static final int height = 25;
 	public static final Rand random = new Rand();
@@ -20,6 +24,7 @@ public class Hex {
 	public boolean openned = false;
 	public HexType type;
 	public byte door;
+	public int id;
 
 	public Hex(int x, int y) {
 		this.x = x;
@@ -30,6 +35,7 @@ public class Hex {
 
 		type = HexType.from(world.tile(cx, cy).block());
 		door = (byte)random.nextLong();
+		id = _id++;
 
 		// add walls
 		Schems.hex.tiles.each(st -> {
@@ -48,6 +54,10 @@ public class Hex {
 
 	public void open() {
 		Schems.door(door).tiles.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
+	}
+
+	public Position pos(){
+		return new Vec2(cx, cy);
 	}
 
 	public static boolean bounds(int x, int y) {

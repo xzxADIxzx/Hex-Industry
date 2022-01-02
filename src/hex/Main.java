@@ -60,8 +60,6 @@ public class Main extends Plugin {
 			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size))));
 		});
 
-		handler.register("test", "", args -> {
-			hexes.add(new Hex(30, 30));
-		});
+		handler.<Player>register("tp", "Hex ID", "Teleport to hex", (args, ppl) -> ppl.set(hexes.get(Integer.valueOf(args[0])).pos()));
 	}
 }

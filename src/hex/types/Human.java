@@ -10,7 +10,7 @@ import static mindustry.Vars.*;
 
 public class Human {
 
-	protected static int id;
+	protected static int _id;
 
 	public Player player;
 	public Hex citadel;
@@ -23,7 +23,7 @@ public class Human {
 
 	public void init(Hex hex) {
 		this.citadel = hex;
-		player.team(Team.baseTeams[id++]);
+		player.team(Team.baseTeams[_id++]);
 
 		// TODO: move to hex.build
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);

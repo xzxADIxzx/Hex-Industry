@@ -16,14 +16,15 @@ public class Main extends Plugin {
 	public void init() {
 		Schems.load();
 
-		Timer.schedule(() -> Log.info("main update resources & etc"), 0f, 60f);
-
-		// Timer.schedule(main, 0f, 60f);
+		// Timer.schedule(main, 0f, 1f);
 		// Timer.schedule(todo, 0f, .01f);
 	}
 
 	@Override
-	public void registerServerCommands(CommandHandler handler) {
+	public void registerServerCommands(CommandHandler handler) {}
+
+	@Override
+	public void registerClientCommands(CommandHandler handler) {
 		handler.register("init", "initialize new game", args -> {
 			// generate hex-map
 			Vec2 pos = new Vec2();
@@ -48,7 +49,4 @@ public class Main extends Plugin {
 			// spawn a citadel in a random hex
 		});
 	}
-
-	@Override
-	public void registerClientCommands(CommandHandler handler) {}
 }

@@ -21,11 +21,12 @@ public class Human {
 	public Human(Player ppl, Fraction abilities) {
 		player = ppl;
 		fraction = abilities;
-		production = new Production(this);
 	}
 
 	public void init(Hex hex) {
-		this.citadel = hex;
+		citadel = hex;
+		production = new Production(this);
+
 		player.team(Team.baseTeams[_id++]);
 		player.unit(fraction.unit.spawn(player.team(), hex.pos()));
 

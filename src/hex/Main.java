@@ -61,17 +61,5 @@ public class Main extends Plugin {
 			// spawn a citadel in a random hex
 			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size))));
 		});
-
-		handler.<Player>register("tp", "<id>", "Teleport to hex", (args, ppl) -> {
-			try {
-				int id = Integer.valueOf(args[0]);
-				if (id <= hexes.size && id >= 0)
-					ppl.unit().set(hexes.get(id).pos());
-				else
-					throw new NumberFormatException();
-			} catch (Exception e) {
-				ppl.sendMessage("[scarlet]Invalid hex id");
-			}
-		});
 	}
 }

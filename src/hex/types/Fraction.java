@@ -9,7 +9,7 @@ public class Fraction {
 	public float production;
 	public float people;
 
-	public Fraction() {
+	public void dmgfix() {
 		unit.weapons.get(0).bullet.damage = 0;
 	}
 }

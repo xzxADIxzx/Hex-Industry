@@ -19,6 +19,7 @@ public class Main extends Plugin {
 	@Override
 	public void init() {
 		Schems.load();
+		Fractions.load();
 
 		Timer.schedule(() -> {
 			humans.each(ppl -> {

@@ -4,6 +4,7 @@ import hex.*;
 import hex.content.*;
 import arc.*;
 import arc.struct.*;
+import arc.util.Log;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
@@ -16,7 +17,7 @@ public class Human {
 
 	protected static int _id;
 
-	private static ObjectMap<Player, Unit> units = new ObjectMap<>();
+	public static ObjectMap<Player, Unit> units = new ObjectMap<>();
 
 	static {
 		Events.on(UnitChangeEvent.class, event -> {
@@ -43,6 +44,7 @@ public class Human {
 		player.unit(fraction.spawn(player.team(), hex.pos()));
 
 		// saves the player's unit
+		Log.info(player.unit());
 		units.put(player, player.unit());
 
 		// TODO: move to hex.build

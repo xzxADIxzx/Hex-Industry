@@ -16,10 +16,12 @@ public class Human {
 	public Player player;
 	public Hex citadel;
 	public Fraction fraction;
+	public Production production;
 
 	public Human(Player ppl, Fraction abilities) {
 		player = ppl;
 		fraction = abilities;
+		production = new Production(this);
 	}
 
 	public void init(Hex hex) {

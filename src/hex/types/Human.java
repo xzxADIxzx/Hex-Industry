@@ -17,10 +17,12 @@ public class Human {
 	protected static int _id;
 
 	private static ObjectMap<Player, Unit> units = new ObjectMap<>();
+
 	static {
 		Events.on(UnitChangeEvent.class, event -> {
+			if (!Main.initialized) return;
+
 			Unit unit = units.get(event.player);
-			if (unit == null) units.put(event.player, unit = event.unit);
 			if (event.unit != unit)
 				event.player.unit(unit);
 		});
@@ -38,7 +40,10 @@ public class Human {
 
 	public void init(Hex hex) {
 		player.team(Team.baseTeams[_id++]);
-		player.unit(fraction.unit.spawn(player.team(), hex.pos()));
+		player.unit(fraction.spawn(player.team(), hex.pos()));
+
+		// saves the player's unit
+		units.put(player, player.unit());
 
 		// TODO: move to hex.build
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);

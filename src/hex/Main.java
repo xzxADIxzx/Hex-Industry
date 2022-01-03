@@ -13,7 +13,7 @@ import static mindustry.Vars.*;
 
 public class Main extends Plugin {
 
-	private static boolean initialized;
+	public static boolean initialized;
 
 	public static Seq<Hex> hexes = new Seq<>();
 	public static Seq<Human> humans = new Seq<>();

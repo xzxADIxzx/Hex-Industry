@@ -17,8 +17,7 @@ public class Human {
 
 	protected static int _id;
 
-	public static ObjectMap<Player, Unit> units = new ObjectMap<>();
-
+	static ObjectMap<Player, Unit> units = new ObjectMap<>();
 	static {
 		Events.on(UnitChangeEvent.class, event -> {
 			if (!Main.initialized) return;
@@ -41,11 +40,6 @@ public class Human {
 
 	public void init(Hex hex) {
 		player.team(Team.baseTeams[_id++]);
-		player.unit(fraction.spawn(player.team(), hex.pos()));
-
-		// saves the player's unit
-		Log.info(player.unit());
-		units.put(player, player.unit());
 
 		// TODO: move to hex.build
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
@@ -54,6 +48,12 @@ public class Human {
 			tile.setNet(st.block, player.team(), 0);
 			if (st.config != null) tile.build.configureAny(st.config);
 		});
+
+		// spawns fraction's unit
+		player.unit(fraction.spawn(player.team(), hex.pos()));
+		
+		// saves the player's unit
+		units.put(player, player.unit());
 
 		citadel = hex;
 		production = new Production(this);

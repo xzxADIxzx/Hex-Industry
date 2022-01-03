@@ -20,6 +20,7 @@ public class Human {
 	static {
 		Events.on(UnitChangeEvent.class, event -> {
 			Unit unit = units.get(event.player);
+			if (unit == null) units.put(event.player, unit = event.unit);
 			if (event.unit != unit)
 				event.player.unit(unit);
 		});
@@ -37,7 +38,7 @@ public class Human {
 
 	public void init(Hex hex) {
 		player.team(Team.baseTeams[_id++]);
-		player.unit(units.put(player, fraction.unit.spawn(player.team(), hex.pos())));
+		player.unit(fraction.unit.spawn(player.team(), hex.pos()));
 
 		// TODO: move to hex.build
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);

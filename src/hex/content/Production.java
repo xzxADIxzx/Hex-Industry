@@ -94,7 +94,7 @@ public class Production {
 	}
 
 	public void ppl(int amount) {
-		pplPrd += amount;
+		pplPrd += amount * fract.people;
 	}
 
 	public int pplMax() {
@@ -102,6 +102,6 @@ public class Production {
 	}
 
 	public void pplMax(int amount) {
-		pplMax += amount;
+		pplMax += amount * fract.people;
 	}
 }

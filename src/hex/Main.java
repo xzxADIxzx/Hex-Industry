@@ -21,6 +21,13 @@ public class Main extends Plugin {
 		Schems.load();
 		Fractions.load();
 
+		netServer.admins.actionFilters.clear();
+		netServer.admins.addActionFilter(action -> false);
+
+		Timer.schedule(() -> {
+			humans.each(ppl -> ppl.production.update());
+		}, 0f, 1f);
+
 		Timer.schedule(() -> {
 			humans.each(ppl -> {
 				if(ppl.player != player) Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id));

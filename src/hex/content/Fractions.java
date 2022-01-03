@@ -5,7 +5,8 @@ import mindustry.content.*;
 
 public class Fractions {
 
-	public static Fraction horde,
+	public static Fraction 
+			horde,
 			engineer,
 			militant;
 

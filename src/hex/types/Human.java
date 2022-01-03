@@ -2,8 +2,11 @@ package hex.types;
 
 import hex.*;
 import hex.content.*;
+import arc.*;
+import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.game.*;
+import mindustry.game.EventType.*;
 import mindustry.world.*;
 import mindustry.content.*;
 
@@ -12,6 +15,15 @@ import static mindustry.Vars.*;
 public class Human {
 
 	protected static int _id;
+
+	private static ObjectMap<Player, Unit> units = new ObjectMap<>();
+	static {
+		Events.on(UnitChangeEvent.class, event -> {
+			Unit unit = units.get(event.player);
+			if (event.unit != unit)
+				event.player.unit(unit);
+		});
+	}
 
 	public Player player;
 	public Hex citadel;
@@ -25,7 +37,7 @@ public class Human {
 
 	public void init(Hex hex) {
 		player.team(Team.baseTeams[_id++]);
-		player.unit(fraction.unit.spawn(player.team(), hex.pos()));
+		player.unit(units.put(player, fraction.unit.spawn(player.team(), hex.pos())));
 
 		// TODO: move to hex.build
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);

@@ -13,6 +13,8 @@ import static mindustry.Vars.*;
 
 public class Main extends Plugin {
 
+	private static boolean initialized;
+
 	public static Seq<Hex> hexes = new Seq<>();
 	public static Seq<Human> humans = new Seq<>();
 
@@ -25,12 +27,12 @@ public class Main extends Plugin {
 		netServer.admins.addActionFilter(action -> false);
 
 		Timer.schedule(() -> {
-			humans.each(ppl -> ppl.production.update());
+			if (initialized) humans.each(ppl -> ppl.production.update());
 		}, 0f, 1f);
 
 		Timer.schedule(() -> {
 			humans.each(ppl -> {
-				if(ppl.player != player) Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id));
+				if (ppl.player != player) Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id));
 			});
 		}, 0f, .01f);
 	}
@@ -68,6 +70,8 @@ public class Main extends Plugin {
 
 			// spawn a citadel in a random hex
 			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size))));
+
+			initialized = true;
 		});
 	}
 }

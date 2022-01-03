@@ -57,7 +57,7 @@ public class Hex {
 	}
 
 	public Position pos(){
-		return new Vec2(cx, cy);
+		return new Vec2(cx * tilesize, cy * tilesize);
 	}
 
 	public static boolean bounds(int x, int y) {

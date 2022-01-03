@@ -24,9 +24,6 @@ public class Human {
 	}
 
 	public void init(Hex hex) {
-		citadel = hex;
-		production = new Production(this);
-
 		player.team(Team.baseTeams[_id++]);
 		player.unit(fraction.unit.spawn(player.team(), hex.pos()));
 
@@ -37,6 +34,9 @@ public class Human {
 			tile.setNet(st.block, player.team(), 0);
 			if (st.config != null) tile.build.configureAny(st.config);
 		});
+
+		citadel = hex;
+		production = new Production(this);
 	}
 
 	public Hex location() {

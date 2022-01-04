@@ -11,7 +11,7 @@ import static mindustry.Vars.*;
 
 public class HexBuild {
 
-	public Schematic scheme;
+	public Schem scheme;
 	public Effect boom;
 
 	public Cons<Production> onBuild;
@@ -22,8 +22,8 @@ public class HexBuild {
 		Team team = hex.owner.player.team();
 
 		// TODO: spawn poly & add build plan
-		scheme.tiles.each(st -> {
-			Tile tile = world.tile(st.x + hex.x + 2, st.y + hex.y + 3);
+		scheme.each(st -> {
+			Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
 			tile.setNet(st.block, team, 0);
 			if (st.config != null)
 				tile.build.configureAny(st.config);

@@ -40,14 +40,14 @@ public class Hex {
 		id = _id++;
 
 		// add walls
-		Schems.hex.tiles.each(st -> {
+		Schems.hex.each(st -> {
 			Tile tile = world.tile(st.x + x, st.y + y);
 			tile.setFloor(Blocks.darkPanel3.asFloor());
 			tile.setBlock(Blocks.darkMetal);
 		});
 
 		// close every door
-		Schems.closed.tiles.each(st -> {
+		Schems.closed.each(st -> {
 			Tile tile = world.tile(st.x + x, st.y + y);
 			tile.setFloor(st.block.asFloor());
 			tile.setBlock(Blocks.darkMetal);
@@ -60,7 +60,7 @@ public class Hex {
 	}
 
 	public void open() {
-		Schems.door(door).tiles.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
+		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 	}
 
 	public Position pos() {

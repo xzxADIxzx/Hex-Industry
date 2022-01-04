@@ -26,6 +26,9 @@ public class Main extends Plugin {
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);
 
+		state.rules.enemyCoreBuildRadius = 0f;
+		state.rules.unitCap = 16;
+
 		Timer.schedule(() -> {
 			if (initialized) humans.each(ppl -> ppl.production.update());
 		}, 0f, 1f);

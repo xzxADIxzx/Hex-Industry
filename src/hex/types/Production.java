@@ -1,6 +1,5 @@
-package hex.content;
+package hex.types;
 
-import hex.types.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.content.*;
 
@@ -22,9 +21,9 @@ public class Production {
 	private int cryo;
 
 	// little people
-	private int ppl = 20;
-	private int pplPrd = 1;
-	private int pplMax = 20;
+	private int ppl;
+	private int pplPrd;
+	private int pplMax;
 
 	public Production(Human ppl) {
 		core = world.build(ppl.citadel.cx, ppl.citadel.cy).core();

@@ -21,7 +21,9 @@ public class Hex {
 	public int cx;
 	public int cy;
 
-	public boolean openned = false;
+	public HexBuild build;
+	public Human owner;
+	public boolean openned;
 	public HexType type;
 	public byte door;
 	public int id;
@@ -52,11 +54,16 @@ public class Hex {
 		});
 	}
 
+	public void build(HexBuild building) {
+		build = building;
+		build.build(this);
+	}
+
 	public void open() {
 		Schems.door(door).tiles.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 	}
 
-	public Position pos(){
+	public Position pos() {
 		return new Vec2(cx * tilesize, cy * tilesize);
 	}
 

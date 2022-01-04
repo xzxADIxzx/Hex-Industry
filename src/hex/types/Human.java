@@ -4,11 +4,9 @@ import hex.*;
 import hex.content.*;
 import arc.*;
 import arc.struct.*;
-import arc.util.Log;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
-import mindustry.world.*;
 import mindustry.content.*;
 
 import static mindustry.Vars.*;
@@ -39,21 +37,17 @@ public class Human {
 	}
 
 	public void init(Hex hex) {
+		// TODO: Team.all
 		player.team(Team.baseTeams[_id++]);
-
-		// TODO: move to hex.build
-		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
-		Schems.citadel.tiles.each(st -> {
-			Tile tile = world.tile(st.x + hex.x + 2, st.y + hex.y + 3);
-			tile.setNet(st.block, player.team(), 0);
-			if (st.config != null) tile.build.configureAny(st.config);
-		});
 
 		// spawns fraction's unit
 		player.unit(fraction.spawn(player.team(), hex.pos()));
 		
 		// saves the player's unit
 		units.put(player, player.unit());
+
+		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
+		hex.build(HexBuilds.citadel);
 
 		citadel = hex;
 		production = new Production(this);

@@ -1,5 +1,6 @@
 package hex.types;
 
+import arc.func.*;
 import arc.graphics.*;
 import mindustry.gen.*;
 import mindustry.game.*;
@@ -8,17 +9,16 @@ import mindustry.entities.*;
 
 import static mindustry.Vars.*;
 
-public abstract class HexBuild {
+public class HexBuild {
 
 	public Schematic scheme;
 	public Effect boom;
 
-	public HexBuild(Schematic scheme) {
-		this.scheme = scheme;
-	}
+	public Cons<Production> onBuild;
+	public Cons<Production> onBreak;
 
 	public void build(Hex hex) {
-		onBuilded(hex.owner.production);
+		onBuild.get(hex.owner.production);
 		Team team = hex.owner.player.team();
 
 		// TODO: spawn poly & add build plan
@@ -39,8 +39,4 @@ public abstract class HexBuild {
 
 		Damage.damage(x, y, 13 * 8, 1000000);
 	}
-
-	public abstract void onBuilded(Production product);
-
-	public abstract void onBreaked(Production product);
 }

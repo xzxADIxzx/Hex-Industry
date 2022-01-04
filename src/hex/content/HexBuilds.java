@@ -1,24 +1,25 @@
 package hex.content;
 
-import hex.types.HexBuild;
-import hex.types.Production;
+import hex.types.*;
+import mindustry.content.*;
 
 public class HexBuilds {
 
 	public static HexBuild citadel;
 
 	public static void load() {
-		citadel = new HexBuild(Schems.citadel) {
-			@Override
-			public void onBuilded(Production prod) {
+		citadel = new HexBuild() {{
+			scheme = Schems.citadel;
+			boom = Fx.impactReactorExplosion;
+
+			onBuild = prod -> {
 				prod.ppl(1);
 				prod.pplMax(20);
-			}
-
-			@Override
-			public void onBreaked(Production prod) {
-
-			}
-		};
+			};
+			onBreak = prod -> {
+				prod.ppl(-1);
+				prod.pplMax(-20);
+			};
+		}};
 	}
 }

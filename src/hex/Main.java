@@ -2,14 +2,12 @@ package hex;
 
 import hex.types.*;
 import hex.content.*;
-import arc.*;
 import arc.util.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
-import mindustry.game.EventType.*;
 
 import static mindustry.Vars.*;
 
@@ -28,11 +26,6 @@ public class Main extends Plugin {
 
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);
-
-		Events.on(WorldLoadEvent.class, event -> {
-			state.rules.enemyCoreBuildRadius = 0f;
-			state.rules.unitCap = 16;
-		});
 
 		Timer.schedule(() -> {
 			if (initialized)
@@ -53,6 +46,10 @@ public class Main extends Plugin {
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
 		handler.register("init", "Initialize new game", args -> {
+			// change rules
+			state.rules.enemyCoreBuildRadius = 0f;
+			state.rules.unitCap = 16;
+
 			// generate hex-map
 			Point2 start = new Point2();
 			Point2 point = new Point2();

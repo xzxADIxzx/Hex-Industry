@@ -47,11 +47,12 @@ public class Human {
 		units.put(player, player.unit());
 
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
-		hex.owner = this;
-		hex.build(HexBuilds.citadel);
-
+		
 		citadel = hex;
 		production = new Production(this);
+		
+		hex.owner = this;
+		hex.build(HexBuilds.citadel);
 	}
 
 	public Hex location() {

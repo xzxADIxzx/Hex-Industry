@@ -2,12 +2,14 @@ package hex;
 
 import hex.types.*;
 import hex.content.*;
+import arc.*;
 import arc.util.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
+import mindustry.game.EventType.*;
 
 import static mindustry.Vars.*;
 
@@ -27,16 +29,20 @@ public class Main extends Plugin {
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);
 
-		state.rules.enemyCoreBuildRadius = 0f;
-		state.rules.unitCap = 16;
+		Events.on(WorldLoadEvent.class, event -> {
+			state.rules.enemyCoreBuildRadius = 0f;
+			state.rules.unitCap = 16;
+		});
 
 		Timer.schedule(() -> {
-			if (initialized) humans.each(ppl -> ppl.production.update());
+			if (initialized)
+				humans.each(ppl -> ppl.production.update());
 		}, 0f, 1f);
 
 		Timer.schedule(() -> {
 			humans.each(ppl -> {
-				if (ppl.player != player) Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id));
+				if (ppl.player != player)
+					Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id));
 			});
 		}, 0f, .01f);
 	}
@@ -66,7 +72,8 @@ public class Main extends Plugin {
 			// synchronize the world
 			Call.worldDataBegin();
 			Groups.player.each(ppl -> {
-				if (ppl != player) netServer.sendWorldData(ppl);
+				if (ppl != player)
+					netServer.sendWorldData(ppl);
 			});
 
 			// ask unit type & abilities

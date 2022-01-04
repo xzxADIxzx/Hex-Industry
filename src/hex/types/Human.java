@@ -42,17 +42,24 @@ public class Human {
 
 		// spawns fraction's unit
 		player.unit(fraction.spawn(player.team(), hex.pos()));
-		
+
 		// saves the player's unit
 		units.put(player, player.unit());
 
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
-		
+
 		citadel = hex;
 		production = new Production(this);
-		
+
 		hex.owner = this;
 		hex.build(HexBuilds.citadel);
+	}
+
+	public void cleanup() {
+		Main.hexes.each(hex -> {
+			if (hex.owner == this && hex.build != null)
+				hex.build.explode(hex);
+		});
 	}
 
 	public Hex location() {

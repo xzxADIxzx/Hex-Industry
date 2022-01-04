@@ -11,7 +11,7 @@ public class Production {
 	private Fraction fract;
 
 	// production per sec
-	private int titanium = 10;
+	private int titanium;
 	private int thorium;
 	private int spores;
 

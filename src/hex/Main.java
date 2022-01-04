@@ -22,6 +22,7 @@ public class Main extends Plugin {
 	public void init() {
 		Schems.load();
 		Fractions.load();
+		HexBuilds.load();
 
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);

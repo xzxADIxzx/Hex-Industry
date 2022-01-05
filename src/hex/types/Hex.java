@@ -1,96 +1,103 @@
 package hex.types;
 
-import arc.math.Rand;
-import arc.math.geom.Position;
-import arc.math.geom.Vec2;
-import hex.content.Schems;
-import mindustry.content.Blocks;
-import mindustry.world.Block;
-import mindustry.world.Tile;
+import hex.content.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.Log;
+import mindustry.world.*;
+import mindustry.content.*;
 
-import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
+import static mindustry.Vars.*;
 
 public class Hex {
 
-    public static final int width = 27;
-    public static final int height = 25;
-    public static final Rand random = new Rand();
-    protected static int _id;
-    public int x;
-    public int y;
-    public int cx;
-    public int cy;
+	protected static int _id;
 
-    public HexBuild build;
-    public Human owner;
-    public boolean opened;
-    public HexType type;
-    public byte door;
-    public int id;
+	public static final int width = 27;
+	public static final int height = 25;
+	public static final Rand random = new Rand();
 
-    public Hex(int x, int y) {
-        this.x = x;
-        this.y = y;
+	public int x;
+	public int y;
+	public int cx;
+	public int cy;
 
-        cx = x + width / 2;
-        cy = y + height / 2;
+	public HexBuild build;
+	public Human owner;
+	public boolean openned;
+	public HexType type;
+	public byte door;
+	public int id;
 
-        type = HexType.from(world.tile(cx, cy).block());
-        door = (byte) random.nextLong();
-        id = _id++;
+	public Hex(int x, int y) {
+		this.x = x;
+		this.y = y;
 
-        // add walls
-        Schems.hex.each(st -> {
-            Tile tile = world.tile(st.x + x, st.y + y);
-            tile.setFloor(Blocks.darkPanel3.asFloor());
-            tile.setBlock(Blocks.darkMetal);
-        });
+		cx = x + width / 2;
+		cy = y + height / 2;
 
-        // close every door
-        Schems.closed.each(st -> {
-            Tile tile = world.tile(st.x + x, st.y + y);
-            tile.setFloor(st.block.asFloor());
-            tile.setBlock(Blocks.darkMetal);
-        });
-    }
+		type = HexType.from(world.tile(cx, cy).block());
+		door = (byte)random.nextLong();
+		id = _id++;
 
-    public static boolean bounds(int x, int y) {
-        return x + width <= world.width() && y + height <= world.height();
-    }
+		// add walls
+		Schems.hex.each(st -> {
+			Tile tile = world.tile(st.x + x, st.y + y);
+			tile.setFloor(Blocks.darkPanel3.asFloor());
+			tile.setBlock(Blocks.darkMetal);
+		});
 
-    public void build(HexBuild building) {
-        build = building;
-        build.build(this);
-    }
+		// close every door
+		Schems.closed.each(st -> {
+			Tile tile = world.tile(st.x + x, st.y + y);
+			tile.setFloor(st.block.asFloor());
+			tile.setBlock(Blocks.darkMetal);
+		});
+	}
 
-    public void open() {
-        Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
-    }
+	public void build(HexBuild building) {
+		build = building;
+		build.build(this);
 
-    public Position pos() {
-        return new Vec2(cx * tilesize, cy * tilesize);
-    }
+		// TEMP
+		Hex shex = this;
+		Buttons.register(new Button(){{
+			onClick = () -> Log.info("work");
+			hex = shex;
+		}}, cy);
+	}
 
-    public enum HexType {
-        empty(Blocks.air),
-        titanium(Blocks.oreTitanium),
-        thorium(Blocks.oreThorium),
-        oil(Blocks.oreCoal),
-        spore(Blocks.sporeCluster);
+	public void open() {
+		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
+	}
 
-        private final Block id;
+	public Position pos() {
+		return new Vec2(cx * tilesize, cy * tilesize);
+	}
 
-        HexType(Block id) {
-            this.id = id;
-        }
+	public static boolean bounds(int x, int y) {
+		return x + width <= world.width() && y + height <= world.height();
+	}
 
-        public static HexType from(Block id) {
-            // java gods forgive me for this
-            for (HexType type : HexType.values())
-                if (type.id == id)
-                    return type;
-            return empty;
-        }
-    }
+	public enum HexType {
+		empty(Blocks.air),
+		titanium(Blocks.oreTitanium),
+		thorium(Blocks.oreThorium),
+		oil(Blocks.oreCoal),
+		spore(Blocks.sporeCluster);
+
+		private Block id;
+
+		private HexType(Block id) {
+			this.id = id;
+		}
+
+		public static HexType from(Block id) {
+			// java gods forgive me for this
+			for (HexType type : HexType.values())
+				if (type.id == id)
+					return type;
+			return empty;
+		}
+	}
 }

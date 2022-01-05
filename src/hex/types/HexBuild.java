@@ -1,19 +1,34 @@
 package hex.types;
 
-import arc.func.Cons;
-import arc.graphics.Color;
-import hex.content.Buttons;
-import mindustry.entities.Damage;
-import mindustry.entities.Effect;
-import mindustry.game.Team;
-import mindustry.gen.Call;
-import mindustry.gen.Sounds;
-import mindustry.world.Tile;
+import arc.util.*;
+import arc.func.*;
+import arc.struct.*;
+import arc.graphics.*;
+import hex.content.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.units.*;
+import mindustry.gen.*;
 
-import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
+import static mindustry.Vars.*;
 
 public class HexBuild {
+
+	static Seq<Unit> units = new Seq<>();
+	static {
+		Timer.schedule(() -> {
+			// removes poly if she finished building
+			units.each(poly -> {
+				if (poly.buildPlan() == null) {
+					poly.spawnedByCore(true);
+					units.remove(poly);
+				}
+			});
+		}, 0f, 10f);
+
+		UnitTypes.poly.health = 1000000000;
+		UnitTypes.poly.buildSpeed = 10;
+	}
 
 	public HexBuild next;
 	public Schem scheme;
@@ -26,16 +41,11 @@ public class HexBuild {
 		// cleanup old build
 		if (!hex.isEmpty()) explode(hex);
 
-		onBuild.get(hex.owner.production);
-		Team team = hex.owner.player.team();
+		Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
+		scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
+		units.add(poly);
 
-		// TODO: spawn poly & add build plan
-		scheme.each(st -> {
-			Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-			tile.setNet(st.block, team, 0);
-			if (st.config != null)
-				tile.build.configureAny(st.config);
-		});
+		onBuild.get(hex.owner.production);
 
 		hex.buttons.each(btn -> Buttons.unregister(btn));
 		hex.buttons.clear();

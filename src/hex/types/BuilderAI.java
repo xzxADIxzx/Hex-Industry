@@ -7,7 +7,7 @@ public class BuilderAI extends AIController {
 	public boolean start;
 
 	public BuilderAI() {
-		timer.get(200f); // reset
+		timer.get(3, 200f); // reset
 	}
 
 	@Override

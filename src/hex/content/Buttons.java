@@ -19,6 +19,10 @@ public class Buttons {
 		});
 	}
 
+	public static void register(Button button) {
+		register(button, button.y);
+	}
+
 	public static void register(Button button, int y) {
 		if (buttons.containsKey(y))
 			buttons.get(y).add(button);
@@ -32,6 +36,10 @@ public class Buttons {
 		if (buttons.containsKey(y))
 			buttons.get(y).remove(button);
 		else throw new IllegalArgumentException();
+	}
+
+	public static void unregister(Button button) {
+		unregister(button, button.y);
 	}
 
 	public static boolean bounds(int y, int in) {

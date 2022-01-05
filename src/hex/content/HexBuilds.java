@@ -11,7 +11,7 @@ public class HexBuilds {
 
 	public static void load() {
 		citadel = new HexBuild() {{
-			scheme = Schems.citadel1;
+			scheme = Schems.citadelMk1;
 			boom = Fx.impactReactorExplosion;
 
 			onBuild = prod -> {
@@ -24,7 +24,7 @@ public class HexBuilds {
 			};
 
 			next = new HexBuild() {{
-				scheme = Schems.citadel3;
+				scheme = Schems.citadelMk3;
 				boom = Fx.impactReactorExplosion;
 
 				onBuild = prod -> {
@@ -39,7 +39,7 @@ public class HexBuilds {
 		}};
 
 		miner = new HexBuild() {{
-			scheme = Schems.miner1;
+			scheme = Schems.minerMk1;
 			boom = Fx.reactorExplosion;
 
 			onBuild = prod -> {
@@ -50,7 +50,7 @@ public class HexBuilds {
 			};
 
 			next = new HexBuild() {{
-				scheme = Schems.miner2;
+				scheme = Schems.minerMk2;
 				boom = Fx.reactorExplosion;
 
 				onBuild = prod -> {

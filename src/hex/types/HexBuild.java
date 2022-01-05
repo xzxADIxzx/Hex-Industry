@@ -37,7 +37,7 @@ public class HexBuild {
 				tile.build.configureAny(st.config);
 		});
 
-		hex.buttons.each(btn -> Buttons.unregister(btn, btn.y));
+		hex.buttons.each(btn -> Buttons.unregister(btn));
 		hex.buttons.clear();
 		if (next != null) hex.buttons.add(new Button(h -> hex.build(next), hex, hex.cy));
 	}

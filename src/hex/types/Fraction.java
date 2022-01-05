@@ -23,7 +23,7 @@ public class Fraction {
 	public Unit spawn(Team team, Position pos) {
 		Unit unit = this.unit.spawn(team, pos);
 		unit.apply(StatusEffects.boss);
-		unit.health = 1000000;
+		unit.health = 1000000000;
 		return unit;
 	}
 }

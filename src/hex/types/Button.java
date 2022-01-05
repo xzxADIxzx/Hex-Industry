@@ -19,11 +19,11 @@ public class Button {
 
 		// temp
 		world.tile(hex.cx, y).setBlock(Blocks.daciteWall);
-		Buttons.register(this, y);
+		Buttons.register(this);
 	}
 
 	public void check(int x, Human human) {
 		if (Buttons.bounds(x, hex.cx))
-			onClick.get(human);;
+			onClick.get(human);
 	}
 }

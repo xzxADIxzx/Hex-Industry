@@ -60,8 +60,8 @@ public class Hex {
 	}
 
 	public void build(HexBuild building) {
-		build = building;
 		build.build(this);
+		build = building;
 	}
 
 	public void open() {
@@ -74,7 +74,7 @@ public class Hex {
 
 	public Seq<Hex> neighbours() {
 		return Main.hexes.copy().select(hex -> {
-			return pos().within(hex.pos(), 210f) && world.tile((hex.x + x) / 2, (hex.y + y) / 2).block() == Blocks.air;
+			return pos().within(hex.pos(), 210f) && world.tile((hex.x + x) / 2, (hex.y + y) / 2).block() == Blocks.air && hex != this;
 		});
 	}
 

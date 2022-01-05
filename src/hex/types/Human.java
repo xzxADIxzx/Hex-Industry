@@ -47,14 +47,14 @@ public class Human {
 
         world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
 
-		hex.open();
-		hex.neighbours().each(bour -> bour.build(HexBuilds.miner));
-
         citadel = hex;
         production = new Production(this);
 
         hex.owner = this;
         hex.build(HexBuilds.citadel);
+
+		hex.open();
+		hex.neighbours().each(bour -> bour.build(HexBuilds.miner));
     }
 
     public void cleanup() {

@@ -60,7 +60,7 @@ public class Hex {
 	}
 
 	public void build(HexBuild building) {
-		build.build(this);
+		building.build(this);
 		build = building;
 	}
 

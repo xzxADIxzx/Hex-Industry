@@ -2,8 +2,10 @@ package hex.types;
 
 import arc.func.Cons;
 import arc.struct.Seq;
-import mindustry.game.Schematic.Stile;
 import mindustry.game.Schematics;
+import mindustry.game.Schematic.Stile;
+
+import static mindustry.Vars.*;
 
 public class Schem {
 
@@ -16,7 +18,7 @@ public class Schem {
     }
 
     public Schem(String base) {
-        this(Schematics.readBase64(base).tiles);
+        this(Schematics.readBase64(schematicBaseStart + base).tiles);
     }
 
     public Schem(int x, int y, String base) {

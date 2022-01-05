@@ -39,10 +39,7 @@ public class Human {
     }
 
     public void init(Hex hex) {
-        // TODO: Team.all
-        player.team(Team.baseTeams[_id++]);
-
-        // spawns fraction's unit
+        player.team(Team.all[_id++]);
         player.unit(fraction.spawn(player.team(), hex.pos()));
 
         // saves the player's unit

@@ -14,6 +14,7 @@ import static mindustry.Vars.world;
 
 public class HexBuild {
 
+	public HexBuild next;
     public Schem scheme;
     public Effect boom;
 

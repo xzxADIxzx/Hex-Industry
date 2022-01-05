@@ -14,7 +14,6 @@ public class HexBuild {
 
 	static {
 		UnitTypes.poly.health = 1000000000;
-		UnitTypes.poly.buildSpeed = 10;
 		UnitTypes.poly.defaultController = BuilderAI::new;
 	}
 

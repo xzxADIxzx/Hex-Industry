@@ -1,8 +1,10 @@
 package hex.types;
 
+import hex.*;
 import hex.content.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.struct.*;
 import mindustry.world.*;
 import mindustry.content.*;
 
@@ -23,7 +25,6 @@ public class Hex {
 
 	public HexBuild build;
 	public Human owner;
-	public boolean openned;
 	public HexType type;
 	public byte door;
 	public int id;
@@ -72,6 +73,12 @@ public class Hex {
 
 	public Position pos() {
 		return new Vec2(cx * tilesize, cy * tilesize);
+	}
+
+	public Seq<Hex> neighbours() {
+		Seq<Hex> hexes = Main.hexes.copy().sort(hex -> pos().dst2(hex.pos()));
+		hexes.setSize(6);
+		return hexes;
 	}
 
 	public static boolean bounds(int x, int y) {

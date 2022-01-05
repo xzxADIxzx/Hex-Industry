@@ -23,6 +23,7 @@ public class Main extends Plugin {
 		Schems.load();
 		Fractions.load();
 		HexBuilds.load();
+		Buttons.load();
 
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);

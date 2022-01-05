@@ -9,7 +9,7 @@ public class Buttons {
 
 	public static ObjectMap<Integer, Seq<Button>> buttons;
 
-	static {
+	public static void load() {
 		Events.on(TapEvent.class, event -> {
 			buttons.keys().forEach(y -> {
 				if (bounds(y, event.tile.y)) buttons.get(y).each(button -> button.check(event.tile.x));
@@ -17,7 +17,7 @@ public class Buttons {
 		});
 	}
 
-	public void register(Button button, int y) {
+	public static void register(Button button, int y) {
 		if (buttons.containsKey(y))
 			buttons.get(y).add(button);
 		else {
@@ -26,7 +26,7 @@ public class Buttons {
 		}
 	}
 
-	public void unregister(Button button, int y) {
+	public static void unregister(Button button, int y) {
 		if (buttons.containsKey(y))
 			buttons.get(y).remove(button);
 		else throw new IllegalArgumentException();

@@ -3,6 +3,7 @@ package hex.types;
 import hex.content.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.util.Log;
 import mindustry.world.*;
 import mindustry.content.*;
 
@@ -57,6 +58,13 @@ public class Hex {
 	public void build(HexBuild building) {
 		build = building;
 		build.build(this);
+
+		// TEMP
+		Hex shex = this;
+		Buttons.register(new Button(){{
+			onClick = () -> Log.info("work");
+			hex = shex;
+		}}, cy);
 	}
 
 	public void open() {

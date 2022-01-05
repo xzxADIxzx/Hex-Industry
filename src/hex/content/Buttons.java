@@ -1,5 +1,6 @@
 package hex.content;
 
+import hex.*;
 import hex.types.*;
 import arc.*;
 import arc.struct.*;
@@ -11,8 +12,9 @@ public class Buttons {
 
 	public static void load() {
 		Events.on(TapEvent.class, event -> {
+			Human human = Main.humans.find(h -> h.player == event.player);
 			buttons.keys().forEach(y -> {
-				if (bounds(y, event.tile.y)) buttons.get(y).each(button -> button.check(event.tile.x));
+				if (bounds(y, event.tile.y)) buttons.get(y).each(button -> button.check(event.tile.x, human));
 			});
 		});
 	}

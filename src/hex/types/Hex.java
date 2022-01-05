@@ -23,11 +23,15 @@ public class Hex {
 	public int cx;
 	public int cy;
 
-	public HexBuild build;
 	public Human owner;
+	public int id;
+	
+	public Seq<Button> buttons;
+	public HexBuild build;
+
 	public HexType type;
 	public byte door;
-	public int id;
+
 
 	public Hex(int x, int y) {
 		this.x = x;

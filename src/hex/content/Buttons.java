@@ -33,6 +33,6 @@ public class Buttons {
 	}
 
 	public static boolean bounds(int y, int in) {
-		return in > y - 1 && in < y + 1;
+		return in >= y - 1 && in <= y + 1;
 	}
 }

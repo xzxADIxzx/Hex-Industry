@@ -3,7 +3,6 @@ package hex.types;
 import hex.content.*;
 import arc.math.*;
 import arc.math.geom.*;
-import arc.util.Log;
 import mindustry.world.*;
 import mindustry.content.*;
 
@@ -62,7 +61,7 @@ public class Hex {
 		// TEMP
 		Hex shex = this;
 		Buttons.register(new Button(){{
-			onClick = () -> Log.info("work");
+			onClick = () -> {};
 			hex = shex;
 		}}, cy);
 	}

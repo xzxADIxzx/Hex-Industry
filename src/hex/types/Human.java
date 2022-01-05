@@ -46,6 +46,7 @@ public class Human {
         units.put(player, player.unit());
 
         world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
+		// hex.door = (byte)0x00FFFFFF;
 
         citadel = hex;
         production = new Production(this);

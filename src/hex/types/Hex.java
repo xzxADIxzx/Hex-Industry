@@ -74,7 +74,7 @@ public class Hex {
 
 	public Seq<Hex> neighbours() {
 		return Main.hexes.copy().select(hex -> {
-			return pos().within(hex.pos(), 210f) && world.tile((hex.x + x) / 2, (hex.y + y) / 2).block() == Blocks.air && hex != this;
+			return pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this;
 		});
 	}
 

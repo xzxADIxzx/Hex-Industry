@@ -24,7 +24,7 @@ public class HexBuild {
 
 	public void build(Hex hex) {
 		// cleanup old build
-		explode(hex);
+		if (!hex.isEmpty()) explode(hex);
 
 		onBuild.get(hex.owner.production);
 		Team team = hex.owner.player.team();

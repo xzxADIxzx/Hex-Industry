@@ -26,7 +26,7 @@ public class Hex {
 	public Human owner;
 	public int id;
 	
-	public Seq<Button> buttons;
+	public Seq<Button> buttons = new Seq<>();
 	public HexBuild build;
 
 	public HexType type;
@@ -76,6 +76,11 @@ public class Hex {
 		return Main.hexes.copy().select(hex -> {
 			return pos().within(hex.pos(), 210f) && world.tile((hex.x + x) / 2, (hex.y + y) / 2).block() == Blocks.air;
 		});
+	}
+
+	public boolean isEmpty(){
+		// return build == null || build instanceof EmptyBuild;
+		return build == null;
 	}
 
 	public static boolean bounds(int x, int y) {

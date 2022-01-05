@@ -8,7 +8,7 @@ public class BuilderAI extends AIController {
 
 	@Override
 	public void updateMovement() {
-		if (!start) unit.updateBuilding = start = timer.get(500);
+		if (!start) unit.updateBuilding = start = timer.get(3, 500);
 
 		if (unit.buildPlan() != null) moveTo(unit.buildPlan().tile(), 200f);
 		else unit.spawnedByCore(true);

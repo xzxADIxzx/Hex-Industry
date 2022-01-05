@@ -50,6 +50,7 @@ public class Main extends Plugin {
 			// change rules
 			state.rules.enemyCoreBuildRadius = 0f;
 			state.rules.unitCap = 16;
+			state.rules.infiniteResources = true;
 
 			// generate hex-map
 			Point2 start = new Point2();

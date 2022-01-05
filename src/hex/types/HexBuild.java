@@ -1,8 +1,6 @@
 package hex.types;
 
-import arc.util.*;
 import arc.func.*;
-import arc.struct.*;
 import arc.graphics.*;
 import hex.content.*;
 import mindustry.content.*;
@@ -14,20 +12,10 @@ import static mindustry.Vars.*;
 
 public class HexBuild {
 
-	static Seq<Unit> units = new Seq<>();
 	static {
-		Timer.schedule(() -> {
-			// removes poly if she finished building
-			units.each(poly -> {
-				if (poly.buildPlan() == null) {
-					poly.spawnedByCore(true);
-					units.remove(poly);
-				}
-			});
-		}, 0f, 10f);
-
 		UnitTypes.poly.health = 1000000000;
 		UnitTypes.poly.buildSpeed = 10;
+		UnitTypes.poly.defaultController = BuilderAI::new;
 	}
 
 	public HexBuild next;
@@ -43,7 +31,6 @@ public class HexBuild {
 
 		Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
 		scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
-		units.add(poly);
 
 		onBuild.get(hex.owner.production);
 

@@ -17,13 +17,13 @@ public class Fraction {
 	public void unit(UnitType unit) {
 		unit.weapons.each(weapon -> weapon.bullet.damage = 0f);
 		unit.buildSpeed = 0f;
+		unit.health = 1000000000;
 		this.unit = unit;
 	}
 
 	public Unit spawn(Team team, Position pos) {
 		Unit unit = this.unit.spawn(team, pos);
 		unit.apply(StatusEffects.boss);
-		unit.health = 1000000000;
 		return unit;
 	}
 }

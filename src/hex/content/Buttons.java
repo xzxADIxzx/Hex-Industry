@@ -7,7 +7,7 @@ import mindustry.game.EventType.*;
 
 public class Buttons {
 
-	public static ObjectMap<Integer, Seq<Button>> buttons;
+	public static ObjectMap<Integer, Seq<Button>> buttons = new ObjectMap<>();
 
 	public static void load() {
 		Events.on(TapEvent.class, event -> {

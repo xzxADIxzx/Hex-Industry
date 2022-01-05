@@ -78,7 +78,7 @@ public class Main extends Plugin {
 			Groups.player.each(ppl -> humans.add(new Human(ppl, Fractions.horde)));
 
 			// spawn a citadel in a random hex
-			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size))));
+			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size - 1))));
 
 			initialized = true;
 		});

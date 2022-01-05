@@ -42,6 +42,6 @@ public class Schems {
 		for (int i = 0; i < doors.length; i++)
 			if ((1 << i & openned) == 1 << i) tiles.addAll(doors[i].tiles);
 
-		return new Schem(tiles.toArray());
+		return new Schem(tiles);
 	}
 }

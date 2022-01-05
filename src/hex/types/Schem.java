@@ -1,24 +1,23 @@
 package hex.types;
 
 import arc.func.*;
+import arc.struct.*;
 import mindustry.game.*;
 import mindustry.game.Schematic.*;
 
+// I hate the fucking ClassCastException
 public class Schem {
 
 	public Stile[] tiles;
 
-	public Schem(Stile[] tiles) {
-		this.tiles = tiles;
+	public Schem(Seq<Stile> scheme) {
+		tiles = new Stile[scheme.size];
+		for (int i = 0; i < tiles.length; i++)
+			tiles[i] = scheme.get(i);
 	}
 
-	// ClassCastException
 	public Schem(String base) {
-		Schematic scheme = Schematics.readBase64(base);
-		tiles = new Stile[scheme.tiles.size];
-
-		for (int i = 0; i < tiles.length; i++)
-			tiles[i] = scheme.tiles.get(i);
+		this(Schematics.readBase64(base).tiles);
 	}
 
 	public Schem(int x, int y, String base) {

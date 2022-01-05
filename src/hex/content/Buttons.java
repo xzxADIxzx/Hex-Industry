@@ -32,14 +32,14 @@ public class Buttons {
 		}
 	}
 
+	public static void unregister(Button button) {
+		unregister(button, button.y);
+	}
+
 	public static void unregister(Button button, int y) {
 		if (buttons.containsKey(y))
 			buttons.get(y).remove(button);
 		else throw new IllegalArgumentException();
-	}
-
-	public static void unregister(Button button) {
-		unregister(button, button.y);
 	}
 
 	public static boolean bounds(int y, int in) {

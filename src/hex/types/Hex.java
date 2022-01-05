@@ -37,7 +37,7 @@ public class Hex {
 		cy = y + height / 2;
 
 		type = HexType.from(world.tile(cx, cy).block());
-		door = (byte)random.nextLong();
+		door = (byte) random.nextLong();
 		id = _id++;
 
 		// add walls
@@ -58,13 +58,6 @@ public class Hex {
 	public void build(HexBuild building) {
 		build = building;
 		build.build(this);
-
-		// TEMP
-		Hex shex = this;
-		Buttons.register(new Button(){{
-			onClick = () -> {};
-			hex = shex;
-		}}, cy);
 	}
 
 	public void open() {
@@ -76,9 +69,9 @@ public class Hex {
 	}
 
 	public Seq<Hex> neighbours() {
-		Seq<Hex> hexes = Main.hexes.copy().sort(hex -> pos().dst2(hex.pos()));
-		hexes.setSize(6);
-		return hexes;
+		return Main.hexes.copy().select(hex -> {
+			return pos().within(hex.pos(), 210f) && world.tile((hex.x + x) / 2, (hex.y + y) / 2).block() == Blocks.air;
+		});
 	}
 
 	public static boolean bounds(int x, int y) {

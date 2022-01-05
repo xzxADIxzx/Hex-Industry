@@ -1,9 +1,9 @@
 {
 	"name": "hex-industry",
 	"displayName": "Hex Industry",
-	"description": "Strategy mini-game in the game, can also be run on a local server",
-	"author": "xzxADIxzx",
-	"version": "0.1.0",
+	"description": "Some schizophrenia with bad code. It doesn't even work.",
+	"author": "xzxADIxzx, Darkness6030",
+	"version": "0.0.0.0.0.0.0.0.0.1-pre-pre-pre-alpha",
 	"minGameVersion": "135",
 	"hidden": true,
 	"main": "hex.Main"

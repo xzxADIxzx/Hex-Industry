@@ -1,68 +1,70 @@
 package hex.types;
 
-import hex.*;
-import hex.content.*;
-import arc.*;
-import arc.struct.*;
-import mindustry.gen.*;
-import mindustry.game.*;
-import mindustry.game.EventType.*;
-import mindustry.content.*;
+import arc.Events;
+import arc.struct.ObjectMap;
+import hex.Main;
+import hex.content.HexBuilds;
+import mindustry.content.Blocks;
+import mindustry.game.EventType.UnitChangeEvent;
+import mindustry.game.Team;
+import mindustry.gen.Player;
+import mindustry.gen.Unit;
 
-import static mindustry.Vars.*;
+import static mindustry.Vars.world;
 
 public class Human {
 
-	protected static int _id;
+    protected static int _id;
 
-	static ObjectMap<Player, Unit> units = new ObjectMap<>();
-	static {
-		Events.on(UnitChangeEvent.class, event -> {
-			if (!Main.initialized) return;
+    static ObjectMap<Player, Unit> units = new ObjectMap<>();
 
-			Unit unit = units.get(event.player);
-			if (event.unit != unit)
-				event.player.unit(unit);
-		});
-	}
+    static {
+        Events.on(UnitChangeEvent.class, event -> {
+            if (!Main.initialized) return;
 
-	public Player player;
-	public Hex citadel;
-	public Fraction fraction;
-	public Production production;
+            Unit unit = units.get(event.player);
+            if (event.unit != unit)
+                event.player.unit(unit);
+        });
+    }
 
-	public Human(Player ppl, Fraction abilities) {
-		player = ppl;
-		fraction = abilities;
-	}
+    public Player player;
+    public Hex citadel;
+    public Fraction fraction;
+    public Production production;
 
-	public void init(Hex hex) {
-		// TODO: Team.all
-		player.team(Team.baseTeams[_id++]);
+    public Human(Player ppl, Fraction abilities) {
+        player = ppl;
+        fraction = abilities;
+    }
 
-		// spawns fraction's unit
-		player.unit(fraction.spawn(player.team(), hex.pos()));
+    public void init(Hex hex) {
+        // TODO: Team.all
+        player.team(Team.baseTeams[_id++]);
 
-		// saves the player's unit
-		units.put(player, player.unit());
+        // spawns fraction's unit
+        player.unit(fraction.spawn(player.team(), hex.pos()));
 
-		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
+        // saves the player's unit
+        units.put(player, player.unit());
 
-		citadel = hex;
-		production = new Production(this);
+        world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
 
-		hex.owner = this;
-		hex.build(HexBuilds.citadel);
-	}
+        citadel = hex;
+        production = new Production(this);
 
-	public void cleanup() {
-		Main.hexes.each(hex -> {
-			if (hex.owner == this && hex.build != null)
-				hex.build.explode(hex);
-		});
-	}
+        hex.owner = this;
+        hex.build(HexBuilds.citadel);
+    }
 
-	public Hex location() {
-		return Main.hexes.min(hex -> player.dst2(hex.pos()));
-	}
+    public void cleanup() {
+        Main.hexes.each(hex -> {
+            if (hex.owner == this && hex.build != null)
+                hex.build.explode(hex);
+        });
+    }
+
+    public Hex location() {
+        return Main.hexes.min(hex -> player.dst2(hex.pos()));
+    }
 }

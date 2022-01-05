@@ -12,8 +12,13 @@ public class Schem {
 		this.tiles = tiles;
 	}
 
+	// ClassCastException
 	public Schem(String base) {
-		tiles = Schematics.readBase64(base).tiles.toArray(Stile.class);
+		Schematic scheme = Schematics.readBase64(base);
+		tiles = new Stile[scheme.tiles.size];
+
+		for (int i = 0; i < tiles.length; i++)
+			tiles[i] = scheme.tiles.get(i);
 	}
 
 	public Schem(int x, int y, String base) {

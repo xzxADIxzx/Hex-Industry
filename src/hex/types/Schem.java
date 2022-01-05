@@ -13,7 +13,7 @@ public class Schem {
 	}
 
 	public Schem(String base) {
-		tiles = Schematics.readBase64(base).tiles.toArray();
+		tiles = (Stile[])Schematics.readBase64(base).tiles.toArray();
 	}
 
 	public Schem(int x, int y, String base) {

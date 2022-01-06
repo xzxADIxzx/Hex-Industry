@@ -29,14 +29,13 @@ public class Main extends Plugin {
 		netServer.admins.addActionFilter(action -> false);
 
 		Timer.schedule(() -> {
-			if (initialized)
-				humans.each(ppl -> ppl.production.update());
+			if (initialized) humans.each(ppl -> ppl.production.update());
 		}, 0f, 1f);
 
 		Timer.schedule(() -> {
 			humans.each(ppl -> {
-				if (ppl.player != player)
-					Call.setHudText(ppl.player.con, String.valueOf(ppl.location().id));
+				Call.setHudText(ppl.player.con, "[gray]hex #" + String.valueOf(ppl.location().id) + 
+												"\n[green]" + ppl.production.ppl() + "[][]\\" + ppl.production.pplMax());
 			});
 		}, 0f, .01f);
 	}
@@ -70,10 +69,7 @@ public class Main extends Plugin {
 
 			// synchronize the world
 			Call.worldDataBegin();
-			Groups.player.each(ppl -> {
-				if (ppl != player)
-					netServer.sendWorldData(ppl);
-			});
+			Groups.player.each(ppl -> netServer.sendWorldData(ppl));
 
 			// ask unit type & abilities
 			Groups.player.each(ppl -> humans.add(new Human(ppl, Fractions.horde)));

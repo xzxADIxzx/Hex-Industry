@@ -14,26 +14,18 @@ public class HexBuilds {
 			scheme = Schems.citadelMk1;
 			boom = Fx.impactReactorExplosion;
 
-			onBuild = prod -> {
+			cons = prod -> {
 				prod.ppl(1);
 				prod.pplMax(20);
-			};
-			onBreak = prod -> {
-				prod.ppl(-1);
-				prod.pplMax(-20);
 			};
 
 			next = new HexBuild() {{
 				scheme = Schems.citadelMk3;
 				boom = Fx.impactReactorExplosion;
 
-				onBuild = prod -> {
+				cons = prod -> {
 					prod.ppl(1);
 					prod.pplMax(20);
-				};
-				onBreak = prod -> {
-					prod.ppl(-2);
-					prod.pplMax(-40);
 				};
 			}};
 		}};
@@ -42,22 +34,16 @@ public class HexBuilds {
 			scheme = Schems.minerMk1;
 			boom = Fx.reactorExplosion;
 
-			onBuild = prod -> {
-				prod.titanium(10);
-			};
-			onBreak = prod -> {
-				prod.titanium(-10);
+			cons = prod -> {
+				prod.titaniumProd(10);
 			};
 
 			next = new HexBuild() {{
 				scheme = Schems.minerMk2;
 				boom = Fx.reactorExplosion;
 
-				onBuild = prod -> {
-					prod.titanium(20);
-				};
-				onBreak = prod -> {
-					prod.titanium(-30);
+				cons = prod -> {
+					prod.titaniumProd(10);
 				};
 			}};
 		}};

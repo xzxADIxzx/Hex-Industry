@@ -2,31 +2,33 @@ package hex.types;
 
 import hex.content.*;
 import arc.func.*;
-import mindustry.content.*;
 
 import static mindustry.Vars.*;
 
 public class Button {
 
-	public Cons<Human> onClick;
+	public Cons2<Human, Hex> onClick;
 	public Hex hex;
+
+	public int x;
 	public int y;
 
-	public Button(Cons<Human> onClick, Hex hex, int y) {
+	public Button(Cons2<Human, Hex> onClick, Hex hex, int x, int y) {
 		this.onClick = onClick;
 		this.hex = hex;
+	
+		this.x = x;
 		this.y = y;
 
-		// TODO: add schematic
-		// Schems.hex.each(st -> {
-			// world.tile(st.x + hex.cx, st.y + hex.cy).setFloorNet(st.block.asFloor());
-		// });
+		Schems.button.each(st -> {
+			world.tile(st.x + x, st.y + y).setFloorNet(st.block.asFloor());
+		});
 
 		Buttons.register(this);
 	}
 
 	public void check(int x, Human human) {
-		if (Buttons.bounds(x, hex.cx))
-			onClick.get(human);
+		if (Buttons.bounds(x, this.x))
+			onClick.get(human, hex);
 	}
 }

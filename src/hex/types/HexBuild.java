@@ -3,10 +3,10 @@ package hex.types;
 import arc.func.*;
 import arc.graphics.*;
 import hex.content.*;
+import mindustry.gen.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
-import mindustry.gen.*;
 
 import static mindustry.Vars.*;
 
@@ -21,25 +21,26 @@ public class HexBuild {
 	public Schem scheme;
 	public Effect boom;
 
-	public Cons<Production> onBuild;
-	public Cons<Production> onBreak;
+	public Cons<Production> cons;
 
 	public void build(Hex hex) {
-		// cleanup old build
-		if (!hex.isEmpty()) explode(hex);
+		if (!hex.isEmpty()) {
+			explode(hex);
+			recons(hex);
+		} // cleanup old build
 
 		Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
 		scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
 
-		onBuild.get(hex.owner.production);
+		cons.get(hex.owner.production);
 
 		hex.buttons.each(btn -> Buttons.unregister(btn));
 		hex.buttons.clear();
 
-		if (next != null) hex.buttons.add(new Button(h -> {
-			hex.build(next);
-			hex.open();
-		}, hex, hex.cy));
+		if (next != null) hex.buttons.add(new Button((h, x) -> {
+			x.build(next);
+			x.open();
+		}, hex, hex.cx, hex.cy));
 	}
 
 	public void explode(Hex hex) {
@@ -50,5 +51,11 @@ public class HexBuild {
 		Call.soundAt(Sounds.explosionbig, x, y, 1, 1);
 
 		Damage.damage(x, y, 13 * 8, 1000000);
+	}
+
+	public void recons(Hex hex) {
+		hex.owner.production.reverse();
+		hex.build.cons.get(hex.owner.production);
+		hex.owner.production.reverse();
 	}
 }

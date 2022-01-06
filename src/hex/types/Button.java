@@ -3,8 +3,6 @@ package hex.types;
 import hex.content.*;
 import arc.func.*;
 
-import static mindustry.Vars.*;
-
 public class Button {
 
 	public Cons2<Human, Hex> onClick;
@@ -19,10 +17,6 @@ public class Button {
 	
 		this.x = x;
 		this.y = y;
-
-		Schems.button.each(st -> {
-			world.tile(st.x + x, st.y + y).setFloorNet(st.block.asFloor());
-		});
 
 		Buttons.register(this);
 	}

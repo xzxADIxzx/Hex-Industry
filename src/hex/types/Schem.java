@@ -18,7 +18,7 @@ public class Schem {
 	}
 
 	public Schem(String base) {
-		this(Schematics.readBase64(schematicBaseStart + base).tiles);
+		this(Schematics.readBase64(schematicBaseStart + "F4n" + base).tiles);
 	}
 
 	public Schem(int x, int y, String base) {

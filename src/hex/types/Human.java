@@ -14,10 +14,8 @@ public class Human {
 	static ObjectMap<Player, Unit> units = new ObjectMap<>();
 	static {
 		Events.on(UnitChangeEvent.class, event -> {
-			if (!Main.initialized) return;
-
 			Unit unit = units.get(event.player);
-			if (event.unit != unit)
+			if (event.unit != unit && unit != null)
 				event.player.unit(unit);
 		});
 	}

@@ -48,14 +48,12 @@ public class Hex {
 		Schems.hex.each(st -> {
 			Tile tile = world.tile(st.x + x, st.y + y);
 			tile.setFloor(Blocks.darkPanel3.asFloor());
-			tile.setBlock(Blocks.darkMetal);
 		});
 
 		// close every door
 		Schems.closed.each(st -> {
 			Tile tile = world.tile(st.x + x, st.y + y);
 			tile.setFloor(st.block.asFloor());
-			tile.setBlock(Blocks.darkMetal);
 		});
 	}
 
@@ -67,9 +65,25 @@ public class Hex {
 	public void open() {
 		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 		neighbours().each(bour -> {
-			bour.owner = owner;
-			bour.build(HexBuilds.miner);
+			if (bour.isEmpty())
+				bour.buttons.add(new Button((h, x) -> x.clear(), bour, bour.cx, bour.cy));
 		});
+	}
+
+	public void clear() {
+		Schems.space.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
+		type.build(this);
+
+		clearButtons();
+		buttons.add(new Button((h, x) -> {
+			x.owner = h;
+			x.build(HexBuilds.miner);
+		}, this, cx, cy));
+	}
+
+	public void clearButtons() {
+		buttons.each(btn -> Buttons.unregister(btn));
+		buttons.clear();
 	}
 
 	public Position pos() {
@@ -82,8 +96,7 @@ public class Hex {
 		});
 	}
 
-	public boolean isEmpty(){
-		// return build == null || build instanceof EmptyBuild;
+	public boolean isEmpty() {
 		return build == null;
 	}
 
@@ -103,6 +116,9 @@ public class Hex {
 		private HexType(Block id) {
 			this.id = id;
 		}
+
+		// build terrain from schematics
+		public void build(Hex hex) {}
 
 		public static HexType from(Block id) {
 			// java gods forgive me for this

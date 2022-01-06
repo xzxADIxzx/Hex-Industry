@@ -1,14 +1,15 @@
 package hex.types;
 
-import arc.Events;
-import arc.struct.ObjectMap;
-import hex.Main;
-import hex.content.HexBuilds;
-import mindustry.content.Blocks;
-import mindustry.game.EventType.UnitChangeEvent;
-import mindustry.game.Team;
-import mindustry.gen.Player;
-import mindustry.gen.Unit;
+import hex.*;
+import hex.content.*;
+import arc.*;
+import arc.util.*;
+import arc.math.*;
+import arc.struct.*;
+import mindustry.gen.*;
+import mindustry.game.*;
+import mindustry.game.EventType.*;
+import mindustry.content.*;
 
 import static mindustry.Vars.world;
 
@@ -45,6 +46,7 @@ public class Human {
 		// saves the player's unit
 		units.put(player, player.unit());
 
+		hex.clear();
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
 		hex.door = (byte) 0x00FFFFFF;
 
@@ -60,7 +62,7 @@ public class Human {
 	public void cleanup() {
 		Main.hexes.each(hex -> {
 			if (hex.owner == this && hex.build != null)
-				hex.build.explode(hex);
+				Time.runTask(Mathf.random(120f), () -> hex.build.explode(hex));
 		});
 	}
 

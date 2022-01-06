@@ -2,7 +2,6 @@ package hex.types;
 
 import arc.func.*;
 import arc.graphics.*;
-import hex.content.*;
 import mindustry.gen.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -33,9 +32,7 @@ public class HexBuild {
 		scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
 
 		cons.get(hex.owner.production);
-
-		hex.buttons.each(btn -> Buttons.unregister(btn));
-		hex.buttons.clear();
+		hex.clearButtons();
 
 		if (next != null) hex.buttons.add(new Button((h, x) -> {
 			x.build(next);

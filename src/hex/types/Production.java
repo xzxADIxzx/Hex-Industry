@@ -44,7 +44,8 @@ public class Production {
 		core.items.add(Items.thorium, (int) (thorium * speed));
 		core.items.add(Items.sporePod, (int) (spores * speed));
 
-		ppl += pplPrd * fract.people;
+		ppl += pplPrd;
+		if (ppl > pplMax) ppl = pplMax;
 	}
 
 	public void reverse() {
@@ -128,7 +129,7 @@ public class Production {
 	}
 
 	public void ppl(int amount) {
-		pplPrd += amount * fract.people;
+		pplPrd += base * amount * fract.people;
 	}
 
 	public int pplMax() {
@@ -136,6 +137,6 @@ public class Production {
 	}
 
 	public void pplMax(int amount) {
-		pplMax += amount * fract.people;
+		pplMax += base * amount * fract.people;
 	}
 }

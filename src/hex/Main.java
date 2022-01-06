@@ -8,6 +8,7 @@ import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
+import mindustry.content.*;
 
 import static mindustry.Vars.*;
 
@@ -41,10 +42,10 @@ public class Main extends Plugin {
 	}
 
 	@Override
-	public void registerServerCommands(CommandHandler handler) {}
+	public void registerClientCommands(CommandHandler handler) {}
 
 	@Override
-	public void registerClientCommands(CommandHandler handler) {
+	public void registerServerCommands(CommandHandler handler) {
 		handler.register("init", "Initialize new game", args -> {
 			// change rules
 			state.rules.enemyCoreBuildRadius = 0f;
@@ -52,6 +53,9 @@ public class Main extends Plugin {
 			state.rules.infiniteResources = true;
 
 			// generate hex-map
+			// TODO: add generator class
+			world.loadGenerator(198, 201, tiles -> tiles.eachTile(tile -> tile.setBlock(Blocks.darkMetal)));
+
 			Point2 start = new Point2();
 			Point2 point = new Point2();
 
@@ -77,6 +81,7 @@ public class Main extends Plugin {
 			// spawn a citadel in a random hex
 			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size - 1))));
 
+			netServer.openServer();
 			initialized = true;
 		});
 	}

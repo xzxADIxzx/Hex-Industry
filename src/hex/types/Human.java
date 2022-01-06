@@ -55,10 +55,6 @@ public class Human {
 		hex.build(HexBuilds.citadel);
 
 		hex.open();
-		hex.neighbours().each(bour -> {
-			bour.owner = this;
-			bour.build(HexBuilds.miner);
-		});
 	}
 
 	public void cleanup() {

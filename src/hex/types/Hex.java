@@ -66,6 +66,10 @@ public class Hex {
 
 	public void open() {
 		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
+		neighbours().each(bour -> {
+			bour.owner = owner;
+			bour.build(HexBuilds.miner);
+		});
 	}
 
 	public Position pos() {

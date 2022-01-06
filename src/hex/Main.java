@@ -56,13 +56,13 @@ public class Main extends Plugin {
 	public void registerServerCommands(CommandHandler handler) {
 		handler.removeCommand("host");
 		handler.register("host", "Initialize new game", args -> {
+			// generate hex-map
+			Generator.generate();
+
 			// change rules
 			state.rules.enemyCoreBuildRadius = 0f;
 			state.rules.unitCap = 16;
 			state.rules.infiniteResources = true;
-
-			// generate hex-map
-			Generator.generate();
 
 			// synchronize the world
 			Call.worldDataBegin();

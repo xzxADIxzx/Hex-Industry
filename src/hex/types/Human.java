@@ -28,9 +28,7 @@ public class Human {
 	public Human(Player ppl, Fraction abilities) {
 		player = ppl;
 		fraction = abilities;
-	}
 
-	public void init() {
 		citadel = Generator.citadel(player);
 		production = new Production(this);
 

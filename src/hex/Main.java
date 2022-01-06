@@ -43,14 +43,10 @@ public class Main extends Plugin {
 	}
 
 	public void handle(Player player) {
-		if (!initialized) return;
-		Human human;
-
 		// ask unit type & abilities
-		humans.add(human = new Human(player, Fractions.horde));
-
+		
 		// spawn a citadel in a random hex
-		human.init();
+		humans.add(new Human(player, Fractions.horde));
 	}
 
 	@Override
@@ -75,7 +71,7 @@ public class Main extends Plugin {
 			// handle all players
 			Groups.player.each(ppl -> handle(ppl));
 
-			// netServer.openServer();
+			netServer.openServer();
 			initialized = true;
 		});
 	}

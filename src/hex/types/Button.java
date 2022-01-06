@@ -1,10 +1,10 @@
 package hex.types;
 
-import hex.content.Buttons;
-import arc.func.Cons;
-import mindustry.content.Blocks;
+import hex.content.*;
+import arc.func.*;
+import mindustry.content.*;
 
-import static mindustry.Vars.world;
+import static mindustry.Vars.*;
 
 public class Button {
 
@@ -17,8 +17,11 @@ public class Button {
 		this.hex = hex;
 		this.y = y;
 
-		// temp
-		world.tile(hex.cx, y).setBlock(Blocks.daciteWall);
+		// TODO: add schematic
+		// Schems.hex.each(st -> {
+			// world.tile(st.x + hex.cx, st.y + hex.cy).setFloorNet(st.block.asFloor());
+		// });
+
 		Buttons.register(this);
 	}
 

@@ -36,7 +36,10 @@ public class HexBuild {
 		hex.buttons.each(btn -> Buttons.unregister(btn));
 		hex.buttons.clear();
 
-		if (next != null) hex.buttons.add(new Button(h -> hex.build(next), hex, hex.cy));
+		if (next != null) hex.buttons.add(new Button(h -> {
+			hex.build(next);
+			hex.open();
+		}, hex, hex.cy));
 	}
 
 	public void explode(Hex hex) {

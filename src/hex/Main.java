@@ -3,12 +3,9 @@ package hex;
 import hex.types.*;
 import hex.content.*;
 import arc.util.*;
-import arc.math.*;
-import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
-import mindustry.content.*;
 
 import static mindustry.Vars.*;
 
@@ -53,23 +50,7 @@ public class Main extends Plugin {
 			state.rules.infiniteResources = true;
 
 			// generate hex-map
-			// TODO: add generator class
-			world.loadGenerator(198, 201, tiles -> tiles.eachTile(tile -> tile.setBlock(Blocks.darkMetal)));
-
-			Point2 start = new Point2();
-			Point2 point = new Point2();
-
-			while (true) {
-				hexes.add(new Hex(point.x, point.y));
-				point.add(38, 0);
-
-				if (!Hex.bounds(point.x, point.y)) {
-					start.add(19 * (start.x == 0 ? 1 : -1), 11);
-					point.set(start);
-
-					if (!Hex.bounds(start.x, start.y)) break;
-				}
-			}
+			Generator.generate();
 
 			// synchronize the world
 			Call.worldDataBegin();
@@ -79,7 +60,7 @@ public class Main extends Plugin {
 			Groups.player.each(ppl -> humans.add(new Human(ppl, Fractions.horde)));
 
 			// spawn a citadel in a random hex
-			humans.each(ppl -> ppl.init(hexes.get(Mathf.random(hexes.size - 1))));
+			humans.each(ppl -> ppl.init());
 
 			netServer.openServer();
 			initialized = true;

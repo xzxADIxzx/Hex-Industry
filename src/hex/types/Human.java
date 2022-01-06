@@ -9,9 +9,6 @@ import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
-import mindustry.content.*;
-
-import static mindustry.Vars.world;
 
 public class Human {
 
@@ -39,24 +36,18 @@ public class Human {
 		fraction = abilities;
 	}
 
-	public void init(Hex hex) {
+	public void init() {
+		citadel = Generator.citadel();
+		production = new Production(this);
+
+		citadel.owner = this;
+		citadel.build(HexBuilds.citadel);
+
 		player.team(Team.all[++_id]);
-		player.unit(fraction.spawn(player.team(), hex.pos()));
+		player.unit(fraction.spawn(player.team(), citadel.pos()));
 
 		// saves the player's unit
 		units.put(player, player.unit());
-
-		hex.clear();
-		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
-		hex.door = (byte) 0x00FFFFFF;
-
-		citadel = hex;
-		production = new Production(this);
-
-		hex.owner = this;
-		hex.build(HexBuilds.citadel);
-
-		hex.open();
 	}
 
 	public void cleanup() {

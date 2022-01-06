@@ -44,17 +44,8 @@ public class Hex {
 		door = (byte) random.nextLong();
 		id = _id++;
 
-		// add walls
-		Schems.hex.each(st -> {
-			Tile tile = world.tile(st.x + x, st.y + y);
-			tile.setFloor(Blocks.darkPanel3.asFloor());
-		});
-
-		// close every door
-		Schems.closed.each(st -> {
-			Tile tile = world.tile(st.x + x, st.y + y);
-			tile.setFloor(st.block.asFloor());
-		});
+		Schems.hex.floor(x, y);
+		Schems.closed.floor(x, y);
 	}
 
 	public void build(HexBuild building) {
@@ -62,15 +53,9 @@ public class Hex {
 		build = building;
 	}
 
+	// TEMP TODO: move it & Schems.space to Type.build
 	public void open() {
 		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
-		neighbours().each(bour -> {
-			if (bour.isEmpty())
-				bour.buttons.add(new Button((h, x) -> x.clear(), bour, bour.cx, bour.cy));
-		});
-	}
-
-	public void clear() {
 		Schems.space.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 		type.build(this);
 
@@ -79,6 +64,11 @@ public class Hex {
 			x.owner = h;
 			x.build(HexBuilds.miner);
 		}, this, cx, cy));
+
+		neighbours().each(bour -> {
+			if (bour.isClosed())
+				bour.buttons.add(new Button((h, x) -> x.open(), bour, bour.cx, bour.cy));
+		});
 	}
 
 	public void clearButtons() {
@@ -98,6 +88,10 @@ public class Hex {
 
 	public boolean isEmpty() {
 		return build == null;
+	}
+
+	public boolean isClosed(){
+		return world.tile(cx, cy + 3).solid();
 	}
 
 	public static boolean bounds(int x, int y) {

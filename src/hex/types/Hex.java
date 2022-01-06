@@ -53,7 +53,7 @@ public class Hex {
 		build = building;
 	}
 
-	// TEMP TODO: move it & Schems.space to Type.build
+	// TEMP TODO: move buttons & Schems.space to Type.build
 	public void open() {
 		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 		Schems.space.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));

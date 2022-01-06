@@ -12,7 +12,6 @@ import static mindustry.Vars.*;
 public class HexBuild {
 
 	static {
-		UnitTypes.poly.health = 1000000000;
 		UnitTypes.poly.defaultController = BuilderAI::new;
 	}
 
@@ -47,7 +46,7 @@ public class HexBuild {
 		Call.effect(boom, x, y, 0, Color.white);
 		Call.soundAt(Sounds.explosionbig, x, y, 1, 1);
 
-		Damage.damage(x, y, 13 * 8, 1000000);
+		Damage.damage(null, x, y, 13 * 8, 1000000, false, true);
 	}
 
 	public void recons(Hex hex) {

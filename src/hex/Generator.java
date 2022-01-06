@@ -12,7 +12,7 @@ public class Generator {
 
 	public static void generate() {
 		world.loadGenerator(198, 201, tiles -> tiles.each((x, y) -> {
-			tiles.set(x, y, new Tile(x, y, Blocks.air, Blocks.darkMetal, Blocks.air));
+			tiles.set(x, y, new Tile(x, y, Blocks.air, Blocks.air, Blocks.darkMetal));
 		}));
 
 		Point2 start = new Point2();

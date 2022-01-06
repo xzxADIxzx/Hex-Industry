@@ -2,10 +2,12 @@ package hex;
 
 import hex.types.*;
 import hex.content.*;
+import arc.*;
 import arc.util.*;
 import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
+import mindustry.game.EventType.*;
 
 import static mindustry.Vars.*;
 
@@ -32,10 +34,23 @@ public class Main extends Plugin {
 
 		Timer.schedule(() -> {
 			humans.each(ppl -> {
-				Call.setHudText(ppl.player.con, "[gray]hex #" + String.valueOf(ppl.location().id) + 
-												"\n[green]" + ppl.production.ppl() + "[][]\\" + ppl.production.pplMax());
+				Call.setHudText(ppl.player.con, "[gray]hex #" + String.valueOf(ppl.location().id) +
+						"\n[green]" + ppl.production.ppl() + "[][]\\" + ppl.production.pplMax());
 			});
 		}, 0f, .01f);
+
+		Events.on(PlayerJoin.class, event -> handle(event.player));
+	}
+
+	public void handle(Player player) {
+		if (!initialized) return;
+		Human human;
+
+		// ask unit type & abilities
+		humans.add(human = new Human(player, Fractions.horde));
+
+		// spawn a citadel in a random hex
+		human.init();
 	}
 
 	@Override
@@ -43,7 +58,8 @@ public class Main extends Plugin {
 
 	@Override
 	public void registerServerCommands(CommandHandler handler) {
-		handler.register("init", "Initialize new game", args -> {
+		handler.removeCommand("host");
+		handler.register("host", "Initialize new game", args -> {
 			// change rules
 			state.rules.enemyCoreBuildRadius = 0f;
 			state.rules.unitCap = 16;
@@ -56,11 +72,8 @@ public class Main extends Plugin {
 			Call.worldDataBegin();
 			Groups.player.each(ppl -> netServer.sendWorldData(ppl));
 
-			// ask unit type & abilities
-			Groups.player.each(ppl -> humans.add(new Human(ppl, Fractions.horde)));
-
-			// spawn a citadel in a random hex
-			humans.each(ppl -> ppl.init());
+			// handle all players
+			Groups.player.each(ppl -> handle(ppl));
 
 			netServer.openServer();
 			initialized = true;

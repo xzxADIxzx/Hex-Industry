@@ -36,6 +36,7 @@ public class Generator {
 	}
 
 	public static Hex citadel(Player player) {
+		if (!Main.initialized) return null;
 		Hex hex = Main.hexes.get(Mathf.random(Main.hexes.size - 1));
 
 		hex.door = (byte) 0x00FFFFFF;

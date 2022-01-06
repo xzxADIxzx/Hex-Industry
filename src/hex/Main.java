@@ -71,7 +71,7 @@ public class Main extends Plugin {
 			// handle all players
 			Groups.player.each(ppl -> handle(ppl));
 
-			netServer.openServer();
+			// netServer.openServer();
 			initialized = true;
 		});
 	}

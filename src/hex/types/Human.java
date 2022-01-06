@@ -7,15 +7,11 @@ import arc.util.*;
 import arc.math.*;
 import arc.struct.*;
 import mindustry.gen.*;
-import mindustry.game.*;
 import mindustry.game.EventType.*;
 
 public class Human {
 
-	protected static int _id;
-
 	static ObjectMap<Player, Unit> units = new ObjectMap<>();
-
 	static {
 		Events.on(UnitChangeEvent.class, event -> {
 			if (!Main.initialized) return;
@@ -37,17 +33,14 @@ public class Human {
 	}
 
 	public void init() {
-		citadel = Generator.citadel();
+		citadel = Generator.citadel(player);
 		production = new Production(this);
 
 		citadel.owner = this;
 		citadel.build(HexBuilds.citadel);
 
-		player.team(Team.all[++_id]);
 		player.unit(fraction.spawn(player.team(), citadel.pos()));
-
-		// saves the player's unit
-		units.put(player, player.unit());
+		units.put(player, player.unit()); // saves the player's unit
 	}
 
 	public void cleanup() {

@@ -5,10 +5,14 @@ import static mindustry.Vars.*;
 import hex.types.*;
 import arc.math.Mathf;
 import arc.math.geom.*;
+import mindustry.gen.*;
+import mindustry.game.*;
 import mindustry.world.*;
 import mindustry.content.*;
 
 public class Generator {
+
+	protected static int last;
 
 	public static void generate() {
 		world.loadGenerator(198, 201, tiles -> tiles.each((x, y) -> {
@@ -31,12 +35,13 @@ public class Generator {
 		}
 	}
 
-	public static Hex citadel() {
+	public static Hex citadel(Player player) {
 		Hex hex = Main.hexes.get(Mathf.random(Main.hexes.size - 1));
 
 		hex.door = (byte) 0x00FFFFFF;
 		hex.open();
 
+		player.team(Team.all[++last]);
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
 
 		return hex;

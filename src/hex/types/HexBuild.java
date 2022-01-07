@@ -13,6 +13,8 @@ public class HexBuild {
 
 	static {
 		UnitTypes.poly.defaultController = BuilderAI::new;
+
+		Items.titanium.hardness = 2;
 	}
 
 	public HexBuild next;
@@ -36,7 +38,7 @@ public class HexBuild {
 		if (next != null) hex.buttons.add(new Button((h, x) -> {
 			x.build(next);
 			x.open();
-		}, hex, hex.cx, hex.cy));
+		}, hex));
 	}
 
 	public void explode(Hex hex) {

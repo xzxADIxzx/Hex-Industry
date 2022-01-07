@@ -8,41 +8,20 @@ import mindustry.game.EventType.*;
 
 public class Buttons {
 
-	public static ObjectMap<Integer, Seq<Button>> buttons = new ObjectMap<>();
+	public static Seq<Button> buttons = new Seq<>();
 
 	public static void load() {
 		Events.on(TapEvent.class, event -> {
 			Human human = Main.humans.find(h -> h.player == event.player);
-			buttons.keys().forEach(y -> {
-				if (bounds(y, event.tile.y)) buttons.get(y).each(button -> button.check(event.tile.x, human));
-			});
+			buttons.each(btn -> btn.bounds(event.tile, human));
 		});
 	}
 
 	public static void register(Button button) {
-		register(button, button.y);
-	}
-
-	public static void register(Button button, int y) {
-		if (buttons.containsKey(y))
-			buttons.get(y).add(button);
-		else {
-			buttons.put(y, new Seq<Button>());
-			register(button, y);
-		}
+		buttons.add(button);
 	}
 
 	public static void unregister(Button button) {
-		unregister(button, button.y);
-	}
-
-	public static void unregister(Button button, int y) {
-		if (buttons.containsKey(y))
-			buttons.get(y).remove(button);
-		else throw new IllegalArgumentException();
-	}
-
-	public static boolean bounds(int y, int in) {
-		return in >= y - 1 && in <= y + 1;
+		buttons.remove(button);
 	}
 }

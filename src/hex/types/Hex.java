@@ -41,7 +41,7 @@ public class Hex {
 		cx = x + width / 2;
 		cy = y + height / 2;
 
-		type = HexType.from(world.tile(cx, cy).block());
+		type = HexType.titanium;
 		door = (byte) random.nextLong();
 		id = _id++;
 
@@ -54,22 +54,20 @@ public class Hex {
 		build = building;
 	}
 
-	// TEMP TODO: move buttons & Schems.space to Type.build
+	// TEMP TODO: move buttons to Type.build
 	public void open() {
 		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
-		Schems.space.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
-		// type.build(this);
+		type.build(this);
 
 		clearButtons();
 		buttons.add(new Button((h, x) -> {
 			x.owner = h;
 			x.build(HexBuilds.miner);
-		}, this, cx, cy));
+		}, this));
 
 		neighbours().each(bour -> {
 			if (bour.isClosed()) {
-				bour.buttons.add(new Button((h, x) -> x.open(), bour, bour.cx, bour.cy));
-				Geometry.circle(bour.cx, bour.cy, 2, (x, y) -> world.tile(x, y).setNet(Blocks.air));
+				bour.buttons.add(new Button((h, x) -> x.open(), bour));
 			}
 		});
 	}
@@ -79,14 +77,18 @@ public class Hex {
 		buttons.clear();
 	}
 
-	public Position pos() {
-		return new Vec2(cx * tilesize, cy * tilesize);
-	}
-
 	public Seq<Hex> neighbours() {
 		return Main.hexes.copy().select(hex -> {
 			return pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this;
 		});
+	}
+
+	public Position pos() {
+		return new Vec2(cx * tilesize, cy * tilesize);
+	}
+
+	public Point2 point() {
+		return new Point2(cx, cy);
 	}
 
 	public boolean isEmpty() {
@@ -102,19 +104,18 @@ public class Hex {
 	}
 
 	public enum HexType {
-		empty(Blocks.air),
-		titanium(Blocks.oreTitanium),
-		thorium(Blocks.oreThorium),
-		oil(Blocks.oreCoal),
-		spore(Blocks.sporeCluster);
-
-		private Block id;
+		empty(null, null),
+		titanium(Schems.titaniumLr1, Schems.titaniumLr2),
+		thorium(null, null),
+		oil(null, null),
+		spore(null, null);
 
 		private Schem Lr1;
 		private Schem Lr2;
 
-		private HexType(Block id) {
-			this.id = id;
+		private HexType(Schem floor, Schem block){
+			Lr1 = floor;
+			Lr2 = block;
 		}
 
 		// build terrain from schematics
@@ -122,19 +123,9 @@ public class Hex {
 			Lr1.floorNet(hex.x, hex.y);
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-				if (st.block instanceof OreBlock)
-					tile.setFloorNet(tile.floor(), st.block.asFloor());
-				else
-					tile.setNet(st.block);
+				if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
+				else tile.setNet(st.block);
 			});
-		}
-
-		public static HexType from(Block id) {
-			// java gods forgive me for this
-			for (HexType type : HexType.values())
-				if (type.id == id)
-					return type;
-			return empty;
 		}
 	}
 }

@@ -1,9 +1,9 @@
 package hex.types;
 
-import arc.func.Cons;
-import arc.struct.Seq;
-import mindustry.game.Schematics;
-import mindustry.game.Schematic.Stile;
+import arc.func.*;
+import arc.struct.*;
+import mindustry.game.*;
+import mindustry.game.Schematic.*;
 
 import static mindustry.Vars.*;
 

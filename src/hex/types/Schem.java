@@ -15,10 +15,9 @@ public class Schem {
 	public Schem() {}
 
 	public Schem(Seq<Stile> scheme) {
-		// tiles = new Stile[scheme.size];
-		// for (int i = 0; i < tiles.length; i++)
-		// 	tiles[i] = scheme.get(i);
-		tiles = scheme.items; // if it's works... bruh
+		tiles = new Stile[scheme.size];
+		for (int i = 0; i < tiles.length; i++)
+			tiles[i] = scheme.get(i);
 	}
 
 	public Schem(String base) {

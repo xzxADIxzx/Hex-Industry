@@ -8,7 +8,8 @@ import mindustry.game.EventType.*;
 
 public class Buttons {
 
-	public static Seq<Button> buttons = new Seq<>();
+	private static Seq<Button> buttons = new Seq<>();
+	private static Seq<Button> awaiting = new Seq<>();
 
 	public static void load() {
 		Events.on(TapEvent.class, event -> {
@@ -17,8 +18,13 @@ public class Buttons {
 		});
 	}
 
+	public static void update() {
+		buttons.addAll(awaiting);
+		awaiting.clear();
+	}
+
 	public static void register(Button button) {
-		buttons.add(button);
+		awaiting.add(button);
 	}
 
 	public static void unregister(Button button) {

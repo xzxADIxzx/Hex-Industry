@@ -67,6 +67,7 @@ public class Hex {
 		neighbours().each(bour -> {
 			if (bour.isClosed()) {
 				bour.buttons.add(new Button((h, x) -> x.open(), bour));
+				Schems.button.airNet(bour.cx, bour.cy);
 			}
 		});
 	}

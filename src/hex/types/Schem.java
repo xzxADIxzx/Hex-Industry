@@ -12,10 +12,13 @@ public class Schem {
 
 	public Stile[] tiles;
 
+	public Schem() {}
+
 	public Schem(Seq<Stile> scheme) {
-		tiles = new Stile[scheme.size];
-		for (int i = 0; i < tiles.length; i++)
-			tiles[i] = scheme.get(i);
+		// tiles = new Stile[scheme.size];
+		// for (int i = 0; i < tiles.length; i++)
+		// 	tiles[i] = scheme.get(i);
+		tiles = scheme.items; // if it's works... bruh
 	}
 
 	public Schem(String base) {
@@ -48,6 +51,6 @@ public class Schem {
 	}
 
 	public void airNet(int x, int y) {
-		each(st -> world.tile(st.x + x, st.y + y).setBlock(Blocks.air));
+		each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 	}
 }

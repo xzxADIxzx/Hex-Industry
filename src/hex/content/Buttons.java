@@ -13,7 +13,7 @@ public class Buttons {
 	public static void load() {
 		Events.on(TapEvent.class, event -> {
 			Human human = Main.humans.find(h -> h.player == event.player);
-			buttons.each(btn -> btn.bounds(event.tile, human));
+			buttons.each(btn -> btn.check(event.tile, human));
 		});
 	}
 

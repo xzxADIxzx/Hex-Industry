@@ -29,11 +29,11 @@ public class Button {
 		Buttons.register(this);
 	}
 
-	public void bounds(Tile tile, Human human) {
+	public void check(Tile tile, Human human) {
 		if (bounds(tile.x, tile.y)) clicked.get(human, hex);
 	}
 
-	public boolean bounds(int iy, int ix) {
+	public boolean bounds(int ix, int iy) {
 		return ix >= x - 1 && ix <= x + 1 && iy >= y - 1 && iy <= y + 1;
 	}
 }

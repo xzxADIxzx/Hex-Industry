@@ -95,7 +95,7 @@ public class Hex {
 	}
 
 	public boolean isClosed() {
-		return world.tile(cx, cy + 3).solid();
+		return world.tile(cx, cy + 3).block() == Blocks.darkMetal;
 	}
 
 	public static boolean bounds(int x, int y) {
@@ -104,6 +104,7 @@ public class Hex {
 
 	public enum HexEnv {
 		empty(null, null),
+		citadel(new Schem(), new Schem()),
 		titanium(Schems.titaniumLr1, Schems.titaniumLr2),
 		thorium(null, null),
 		oil(null, null),
@@ -119,7 +120,9 @@ public class Hex {
 
 		// build terrain from schematics
 		public void build(Hex hex) {
+			Lr1.airNet(hex.x, hex.y);
 			Lr1.floorNet(hex.x, hex.y);
+
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
 				if (st.block instanceof OreBlock)

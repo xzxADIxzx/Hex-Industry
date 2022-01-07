@@ -26,13 +26,12 @@ public class Hex {
 
 	public Human owner;
 	public int id;
-	
+
 	public Seq<Button> buttons = new Seq<>();
 	public HexBuild build;
 
-	public HexType type;
+	public HexEnv env;
 	public byte door;
-
 
 	public Hex(int x, int y) {
 		this.x = x;
@@ -41,7 +40,7 @@ public class Hex {
 		cx = x + width / 2;
 		cy = y + height / 2;
 
-		type = HexType.titanium;
+		env = HexEnv.titanium;
 		door = (byte) random.nextLong();
 		id = _id++;
 
@@ -56,8 +55,8 @@ public class Hex {
 
 	// TEMP TODO: move buttons to Type.build
 	public void open() {
-		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
-		type.build(this);
+		Schems.door(door).airNet(x, y);
+		env.build(this);
 
 		clearButtons();
 		buttons.add(new Button((h, x) -> {
@@ -95,7 +94,7 @@ public class Hex {
 		return build == null;
 	}
 
-	public boolean isClosed(){
+	public boolean isClosed() {
 		return world.tile(cx, cy + 3).solid();
 	}
 
@@ -103,7 +102,7 @@ public class Hex {
 		return x + width <= world.width() && y + height <= world.height();
 	}
 
-	public enum HexType {
+	public enum HexEnv {
 		empty(null, null),
 		titanium(Schems.titaniumLr1, Schems.titaniumLr2),
 		thorium(null, null),
@@ -113,7 +112,7 @@ public class Hex {
 		private Schem Lr1;
 		private Schem Lr2;
 
-		private HexType(Schem floor, Schem block){
+		private HexEnv(Schem floor, Schem block) {
 			Lr1 = floor;
 			Lr2 = block;
 		}
@@ -123,8 +122,10 @@ public class Hex {
 			Lr1.floorNet(hex.x, hex.y);
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-				if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
-				else tile.setNet(st.block);
+				if (st.block instanceof OreBlock)
+					tile.setFloorNet(tile.floor(), st.block.asFloor());
+				else
+					tile.setNet(st.block);
 			});
 		}
 	}

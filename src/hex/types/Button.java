@@ -23,7 +23,9 @@ public class Button {
 		this.x = x;
 		this.y = y;
 
+		Schems.button.airNet(x, y);
 		Schems.button.floorNet(x, y);
+
 		Buttons.register(this);
 	}
 

@@ -4,6 +4,7 @@ import arc.func.*;
 import arc.struct.*;
 import mindustry.game.*;
 import mindustry.game.Schematic.*;
+import mindustry.content.*;
 
 import static mindustry.Vars.*;
 
@@ -39,6 +40,14 @@ public class Schem {
 	}
 
 	public void floorNet(int x, int y) {
-		each(st -> world.tile(st.x + x, st.y + y).setNet(st.block.asFloor()));
+		each(st -> world.tile(st.x + x, st.y + y).setFloorNet(st.block.asFloor()));
+	}
+
+	public void air(int x, int y) {
+		each(st -> world.tile(st.x + x, st.y + y).setAir());
+	}
+
+	public void airNet(int x, int y) {
+		each(st -> world.tile(st.x + x, st.y + y).setBlock(Blocks.air));
 	}
 }

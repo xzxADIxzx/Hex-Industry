@@ -30,6 +30,7 @@ public class Main extends Plugin {
 
 		Timer.schedule(() -> {
 			if (initialized) humans.each(ppl -> ppl.production.update());
+			Buttons.update();
 		}, 0f, 1f);
 
 		Timer.schedule(() -> {

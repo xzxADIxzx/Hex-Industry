@@ -58,7 +58,7 @@ public class Hex {
 	public void open() {
 		Schems.door(door).each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
 		Schems.space.each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
-		type.build(this);
+		// type.build(this);
 
 		clearButtons();
 		buttons.add(new Button((h, x) -> {
@@ -119,7 +119,6 @@ public class Hex {
 
 		// build terrain from schematics
 		public void build(Hex hex) {
-			return;
 			Lr1.floorNet(hex.x, hex.y);
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);

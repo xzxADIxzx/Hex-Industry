@@ -63,6 +63,9 @@ public class Main extends Plugin {
 			state.rules.enemyCoreBuildRadius = 0f;
 			state.rules.unitCap = 16;
 			state.rules.infiniteResources = true;
+			state.rules.waves = false;
+			state.rules.canGameOver = false;
+			state.rules.modeName = "Hex Industry";
 
 			// synchronize the world
 			Call.worldDataBegin();

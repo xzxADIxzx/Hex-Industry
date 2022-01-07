@@ -66,8 +66,10 @@ public class Hex {
 		}, this, cx, cy));
 
 		neighbours().each(bour -> {
-			if (bour.isClosed())
+			if (bour.isClosed()) {
 				bour.buttons.add(new Button((h, x) -> x.open(), bour, bour.cx, bour.cy));
+				Geometry.circle(bour.cx, bour.cy, 3, (x, y) -> world.tile(x, y).setNet(Blocks.air));
+			}
 		});
 	}
 

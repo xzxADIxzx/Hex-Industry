@@ -3,8 +3,6 @@ package hex.types;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.content.*;
 
-import static mindustry.Vars.*;
-
 // TODO: go through all the hexes when the amount of liquid changes and turn on/off plants that require liquid
 public class Production {
 
@@ -30,7 +28,7 @@ public class Production {
 	private int pplMax;
 
 	public Production(Human ppl) {
-		core = world.build(ppl.citadel.cx, ppl.citadel.cy).core();
+		core = ppl.player.team().core();
 		fract = ppl.fraction;
 
 		// sets base to 1

@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.world.*;
+import mindustry.world.blocks.environment.*;
 import mindustry.content.*;
 
 import static mindustry.Vars.*;
@@ -68,7 +69,7 @@ public class Hex {
 		neighbours().each(bour -> {
 			if (bour.isClosed()) {
 				bour.buttons.add(new Button((h, x) -> x.open(), bour, bour.cx, bour.cy));
-				Geometry.circle(bour.cx, bour.cy, 3, (x, y) -> world.tile(x, y).setNet(Blocks.air));
+				Geometry.circle(bour.cx, bour.cy, 2, (x, y) -> world.tile(x, y).setNet(Blocks.air));
 			}
 		});
 	}
@@ -109,12 +110,25 @@ public class Hex {
 
 		private Block id;
 
+		private Schem Lr1;
+		private Schem Lr2;
+
 		private HexType(Block id) {
 			this.id = id;
 		}
 
 		// build terrain from schematics
-		public void build(Hex hex) {}
+		public void build(Hex hex) {
+			return;
+			Lr1.floorNet(hex.x, hex.y);
+			Lr2.each(st -> {
+				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
+				if (st.block instanceof OreBlock)
+					tile.setFloorNet(tile.floor(), st.block.asFloor());
+				else
+					tile.setNet(st.block);
+			});
+		}
 
 		public static HexType from(Block id) {
 			// java gods forgive me for this

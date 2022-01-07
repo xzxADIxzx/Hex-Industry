@@ -37,4 +37,8 @@ public class Schem {
 	public void floor(int x, int y) {
 		each(st -> world.tile(st.x + x, st.y + y).setFloor(st.block.asFloor()));
 	}
+
+	public void floorNet(int x, int y) {
+		each(st -> world.tile(st.x + x, st.y + y).setNet(st.block.asFloor()));
+	}
 }

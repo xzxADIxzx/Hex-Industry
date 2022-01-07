@@ -104,7 +104,7 @@ public class Hex {
 
 	public enum HexEnv {
 		empty(null, null),
-		citadel(new Schem(), new Schem()),
+		citadel(Schems.citadelLr1, Schems.citadelLr2),
 		titanium(Schems.titaniumLr1, Schems.titaniumLr2),
 		thorium(null, null),
 		oil(null, null),

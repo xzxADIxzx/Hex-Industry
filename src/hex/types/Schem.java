@@ -12,7 +12,9 @@ public class Schem {
 
 	public Stile[] tiles;
 
-	public Schem() {}
+	public Schem() {
+		tiles = new Stile[0];
+	}
 
 	public Schem(Seq<Stile> scheme) {
 		tiles = new Stile[scheme.size];

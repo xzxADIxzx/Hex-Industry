@@ -9,8 +9,8 @@ public class Button {
 	public Cons2<Human, Hex> clicked;
 	public Hex hex;
 
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 
 	public Button(Cons2<Human, Hex> clicked, Hex hex) {
 		this(clicked, hex, hex.cx, hex.cy);

@@ -1,12 +1,13 @@
 package hex.types;
 
 import mindustry.entities.units.*;
+import mindustry.gen.Call;
 
-public class BuilderAI extends AIController {
+public class HexBuilderAI extends AIController {
 
 	public boolean start;
 
-	public BuilderAI() {
+	public HexBuilderAI() {
 		timer.get(3, 180f); // reset
 	}
 
@@ -15,6 +16,6 @@ public class BuilderAI extends AIController {
 		if (!start) unit.updateBuilding = start = timer.get(3, 180f);
 
 		if (unit.buildPlan() != null) moveTo(unit.buildPlan().tile(), 180f);
-		else unit.spawnedByCore(true);
+		else Call.unitDespawn(unit);
 	}
 }

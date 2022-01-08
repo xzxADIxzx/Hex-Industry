@@ -1,8 +1,8 @@
 package hex;
 
-import hex.components.MenuListener;
 import hex.types.*;
 import hex.content.*;
+import hex.components.*;
 import arc.*;
 import arc.util.*;
 import arc.struct.*;
@@ -10,7 +10,7 @@ import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.game.EventType.*;
 
-import static hex.components.MenuListener.fractionChooseMenu;
+import static hex.components.MenuListener.*;
 import static mindustry.Vars.*;
 
 public class Main extends Plugin {
@@ -45,6 +45,8 @@ public class Main extends Plugin {
 		// spawn a citadel in a random hex
 		humans.add(new Human(player, Fractions.horde));
 
+		// дарк можно ли сделать так что бы Human создавался при выборе?
+		// просто в самом выборе игрок выбирает фракцию которая передаёться в конструктор Human'а
 		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] {{"Опция 1"}, {"Опция 2"}, {"Опция 3"}});
 	}
 

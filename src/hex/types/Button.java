@@ -1,8 +1,13 @@
 package hex.types;
 
+import hex.*;
 import hex.content.*;
 import arc.func.*;
+import arc.struct.*;
+import mindustry.gen.*;
 import mindustry.world.*;
+
+import static mindustry.Vars.*;
 
 public class Button {
 
@@ -11,6 +16,10 @@ public class Button {
 
 	private final int x;
 	private final int y;
+	private final int fx;
+	private final int fy;
+
+	private Seq<Human> cached;
 
 	public Button(Cons2<Human, Hex> clicked, Hex hex) {
 		this(clicked, hex, hex.cx, hex.cy);
@@ -23,12 +32,22 @@ public class Button {
 		this.x = x;
 		this.y = y;
 
+		this.fx = x * tilesize;
+		this.fy = y * tilesize;
+
 		Schems.button.floorNet(x, y);
 		Buttons.register(this);
+
+		if (hex.owner != null) cached = Main.humans.copy().select(h -> h != hex.owner);
 	}
 
+	/** show labels for players & etc */
 	public void update() {
-		// show labels for players & etc
+		if (cached == null) Call.label("build", 60f, fx, fy);
+		else {
+			Call.label(hex.owner.player.con, "upgrade", 60f, fx, fy);
+			cached.each(h -> Call.label(h.player.con, "attack", 60f, fx, fy));
+		}
 	}
 
 	public void check(Tile tile, Human human) {

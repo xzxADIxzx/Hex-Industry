@@ -135,17 +135,19 @@ public class Hex {
 
 		// build terrain from schematics
 		public void build(Hex hex) {
-			Lr1.airNet(hex.x, hex.y);
-			Lr1.floorNet(hex.x, hex.y);
+			hex.clearButtons();
 
+			Lr1.airNet(hex.x, hex.y);
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
 				if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
 				else tile.setNet(st.block);
 			});
 
-			hex.clearButtons();
-			addButtons((clicked, bx, by) -> hex.buttons.add(new Button(clicked, hex, hex.cx + bx, hex.cy + by)));
+			addButtons((build, bx, by) -> hex.buttons.add(new Button((h, x) -> {
+				x.owner = h;
+				build.get(h, x);
+			}, hex, hex.cx + bx, hex.cy + by)));
 		}
 
 		public abstract void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button);

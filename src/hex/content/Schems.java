@@ -51,11 +51,11 @@ public class Schems {
 		closed = door((byte) -1);
 	}
 
-	public static Schem door(byte openned) {
+	public static Schem door(byte opened) {
 		Seq<Stile> tiles = new Seq<>();
 
 		for (int i = 0; i < doors.length; i++)
-			if ((1 << i & openned) == 1 << i) tiles.addAll(doors[i].tiles);
+			if ((1 << i & opened) == 1 << i) tiles.addAll(doors[i].tiles);
 
 		return new Schem(tiles);
 	}

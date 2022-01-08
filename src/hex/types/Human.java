@@ -11,7 +11,8 @@ import mindustry.game.EventType.*;
 
 public class Human {
 
-	static ObjectMap<Player, Unit> units = new ObjectMap<>();
+	public static ObjectMap<Player, Unit> units = new ObjectMap<>();
+
 	static {
 		Events.on(UnitChangeEvent.class, event -> {
 			Unit unit = units.get(event.player);
@@ -25,8 +26,8 @@ public class Human {
 	public Fraction fraction;
 	public Production production;
 
-	public Human(Player ppl, Fraction abilities) {
-		player = ppl;
+	public Human(Player p, Fraction abilities) {
+		player = p;
 		fraction = abilities;
 
 		citadel = Generator.citadel(player);
@@ -41,8 +42,7 @@ public class Human {
 
 	public void cleanup() {
 		Main.hexes.each(hex -> {
-			if (hex.owner == this && hex.build != null)
-				Time.runTask(Mathf.random(120f), () -> hex.build.explode(hex));
+			if (hex.owner == this && hex.build != null) Time.runTask(Mathf.random(120f), () -> hex.build.explode(hex));
 		});
 	}
 

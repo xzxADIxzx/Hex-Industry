@@ -34,17 +34,13 @@ public class HexBuilds {
 			scheme = Schems.minerMk1;
 			boom = Fx.reactorExplosion;
 
-			cons = prod -> {
-				prod.titaniumProd(10);
-			};
+			cons = prod -> prod.titaniumProd(10);
 
 			next = new HexBuild() {{
 				scheme = Schems.minerMk2;
 				boom = Fx.reactorExplosion;
 
-				cons = prod -> {
-					prod.titaniumProd(10);
-				};
+				cons = prod -> prod.titaniumProd(10);
 			}};
 		}};
 	}

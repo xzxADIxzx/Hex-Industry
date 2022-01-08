@@ -8,8 +8,8 @@ import mindustry.game.EventType.*;
 
 public class Buttons {
 
-	private static Seq<Button> buttons = new Seq<>();
-	private static Seq<Button> awaiting = new Seq<>();
+	private static final Seq<Button> buttons = new Seq<>();
+	private static final Seq<Button> awaiting = new Seq<>();
 
 	public static void load() {
 		Events.on(TapEvent.class, event -> {

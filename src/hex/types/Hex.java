@@ -73,14 +73,12 @@ public class Hex {
 	}
 
 	public void clearButtons() {
-		buttons.each(btn -> Buttons.unregister(btn));
+		buttons.each(Buttons::unregister);
 		buttons.clear();
 	}
 
 	public Seq<Hex> neighbours() {
-		return Main.hexes.copy().select(hex -> {
-			return pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this;
-		});
+		return Main.hexes.copy().select(hex -> pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
 	}
 
 	public Position pos() {
@@ -100,7 +98,7 @@ public class Hex {
 	}
 
 	public static boolean bounds(int x, int y) {
-		return x + width <= world.width() && y + height <= world.height();
+		return x + width > world.width() || y + height > world.height();
 	}
 
 	public enum HexEnv {
@@ -111,10 +109,10 @@ public class Hex {
 		oil(null, null),
 		spore(null, null);
 
-		private Schem Lr1;
-		private Schem Lr2;
+		private final Schem Lr1;
+		private final Schem Lr2;
 
-		private HexEnv(Schem floor, Schem block) {
+		HexEnv(Schem floor, Schem block) {
 			Lr1 = floor;
 			Lr2 = block;
 		}
@@ -126,10 +124,8 @@ public class Hex {
 
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-				if (st.block instanceof OreBlock)
-					tile.setFloorNet(tile.floor(), st.block.asFloor());
-				else
-					tile.setNet(st.block);
+				if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
+				else tile.setNet(st.block);
 			});
 		}
 	}

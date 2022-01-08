@@ -1,5 +1,6 @@
 package hex;
 
+import hex.components.MenuListener;
 import hex.types.*;
 import hex.content.*;
 import arc.*;
@@ -9,6 +10,7 @@ import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.game.EventType.*;
 
+import static hex.components.MenuListener.fractionChooseMenu;
 import static mindustry.Vars.*;
 
 public class Main extends Plugin {
@@ -24,30 +26,26 @@ public class Main extends Plugin {
 		Fractions.load();
 		HexBuilds.load();
 		Buttons.load();
+		MenuListener.load();
 
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);
 
 		Timer.schedule(() -> {
-			if (initialized) humans.each(ppl -> ppl.production.update());
+			if (initialized) humans.each(h -> h.production.update());
 			Buttons.update();
 		}, 0f, 1f);
 
-		Timer.schedule(() -> {
-			humans.each(ppl -> {
-				Call.setHudText(ppl.player.con, "[gray]hex #" + String.valueOf(ppl.location().id) +
-						"\n[green]" + ppl.production.ppl() + "[][]\\" + ppl.production.pplMax());
-			});
-		}, 0f, .01f);
+		Timer.schedule(() -> humans.each(h -> Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "\n[green]" + h.production.ppl() + "[][]\\" + h.production.pplMax())), 0f, .01f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
 	}
 
 	public void handle(Player player) {
-		// ask unit type & abilities
-		
 		// spawn a citadel in a random hex
 		humans.add(new Human(player, Fractions.horde));
+
+		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] {{"Опция 1"}, {"Опция 2"}, {"Опция 3"}});
 	}
 
 	@Override
@@ -70,10 +68,10 @@ public class Main extends Plugin {
 
 			// synchronize the world
 			Call.worldDataBegin();
-			Groups.player.each(ppl -> netServer.sendWorldData(ppl));
+			Groups.player.each(p -> netServer.sendWorldData(p));
 
 			// handle all players
-			Groups.player.each(ppl -> handle(ppl));
+			Groups.player.each(this::handle);
 
 			logic.play();
 			netServer.openServer();

@@ -12,7 +12,7 @@ import static mindustry.Vars.*;
 public class HexBuild {
 
 	static {
-		UnitTypes.poly.defaultController = BuilderAI::new;
+		UnitTypes.poly.defaultController = HexBuilderAI::new;
 
 		Items.titanium.hardness = 2;
 	}

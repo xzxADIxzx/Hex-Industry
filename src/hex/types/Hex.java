@@ -69,6 +69,9 @@ public class Hex {
 	public void clearButtons() {
 		buttons.each(Buttons::unregister);
 		buttons.clear();
+
+		// removes the button's floor
+		env.Lr1.floorNet(x, y);
 	}
 
 	public Seq<Hex> neighbours() {
@@ -106,12 +109,10 @@ public class Hex {
 		titanium(Schems.titaniumLr1, Schems.titaniumLr2) {
 			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {
 				button.get((h, x) -> {
-					x.owner = h;
-					x.build(HexBuilds.miner);
-				}, -10, 0);
-				button.get((h, x) -> {
-					// plastanium production
-				}, 10, 0);
+					Lr1.airNet(x.x, x.y);
+					// build(plastanium)
+				}, 6, 4);
+				button.get((h, x) -> x.build(HexBuilds.miner), -6, -4);
 			}
 		},
 		thorium(null, null) {
@@ -124,8 +125,8 @@ public class Hex {
 			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
 		};
 
-		private final Schem Lr1;
-		private final Schem Lr2;
+		protected final Schem Lr1;
+		protected final Schem Lr2;
 
 		HexEnv(Schem floor, Schem block) {
 			Lr1 = floor;
@@ -144,10 +145,7 @@ public class Hex {
 			});
 
 			hex.clearButtons();
-			addButtons((clicked, bx, by) -> hex.buttons.add(new Button((h, x) -> {
-				Lr1.airNet(hex.x, hex.y); // remove buttons floor
-				clicked.get(h, x);
-			}, hex, hex.cx + bx, hex.cy + by)));
+			addButtons((clicked, bx, by) -> hex.buttons.add(new Button(clicked, hex, hex.cx + bx, hex.cy + by)));
 		}
 
 		public abstract void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button);

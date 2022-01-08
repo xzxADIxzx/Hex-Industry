@@ -70,7 +70,7 @@ public class Main extends Plugin {
 
 			// synchronize the world
 			Call.worldDataBegin();
-			Groups.player.each(p -> netServer.sendWorldData(p));
+			Groups.player.each(netServer::sendWorldData);
 
 			// handle all players
 			Groups.player.each(this::handle);

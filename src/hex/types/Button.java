@@ -27,6 +27,10 @@ public class Button {
 		Buttons.register(this);
 	}
 
+	public void update() {
+		// show labels for players & etc
+	}
+
 	public void check(Tile tile, Human human) {
 		if (bounds(tile.x, tile.y)) clicked.get(human, hex);
 	}

@@ -2,6 +2,7 @@ package hex.types;
 
 import hex.*;
 import hex.content.*;
+import arc.func.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -53,16 +54,9 @@ public class Hex {
 		build = building;
 	}
 
-	// TEMP TODO: move buttons to Type.build
 	public void open() {
 		Schems.door(door).airNet(x, y);
 		env.build(this);
-
-		clearButtons();
-		buttons.add(new Button((h, x) -> {
-			x.owner = h;
-			x.build(HexBuilds.miner);
-		}, this));
 
 		neighbours().each(bour -> {
 			if (bour.isClosed()) {
@@ -104,12 +98,33 @@ public class Hex {
 	}
 
 	public enum HexEnv {
-		empty(null, null),
-		citadel(Schems.citadelLr1, Schems.citadelLr2),
-		titanium(Schems.titaniumLr1, Schems.titaniumLr2),
-		thorium(null, null),
-		oil(null, null),
-		spore(null, null);
+		empty(null, null) {
+			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+		},
+		citadel(Schems.citadelLr1, Schems.citadelLr2) {
+			// there is nothing, because the citadel building will add the necessary buttons
+			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+		},
+		titanium(Schems.titaniumLr1, Schems.titaniumLr2) {
+			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {
+				button.get((h, x) -> {
+					x.owner = h;
+					x.build(HexBuilds.miner);
+				}, -10, 0);
+				button.get((h, x) -> {
+					// plastanium production
+				}, 10, 0);
+			}
+		},
+		thorium(null, null) {
+			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+		},
+		oil(null, null) {
+			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+		},
+		spore(null, null) {
+			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+		};
 
 		private Schem Lr1;
 		private Schem Lr2;
@@ -131,6 +146,14 @@ public class Hex {
 				else
 					tile.setNet(st.block);
 			});
+
+			hex.clearButtons();
+			addButtons((clicked, bx, by) -> hex.buttons.add(new Button((h, x) -> {
+				Lr1.airNet(hex.x, hex.y); // remove buttons floor
+				clicked.get(h, x);
+			}, hex, hex.cx + bx, hex.cy + by)));
 		}
+
+		public abstract void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button);
 	}
 }

@@ -35,10 +35,7 @@ public class HexBuild {
 		cons.get(hex.owner.production);
 		hex.clearButtons();
 
-		if (next != null) hex.buttons.add(new Button((h, x) -> {
-			x.build(next);
-			x.open();
-		}, hex));
+		if (next != null) hex.buttons.add(new Button((h, x) -> x.build(next), hex));
 	}
 
 	public void explode(Hex hex) {

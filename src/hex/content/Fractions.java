@@ -18,6 +18,7 @@ public class Fractions {
 			shield = .8f;
 			production = 1f;
 			people = 2.4f;
+			distance = 2;
 		}};
 
 		engineer = new Fraction() {{
@@ -27,6 +28,7 @@ public class Fractions {
 			shield = 1.2f;
 			production = 2f;
 			people = .8f;
+			distance = 3;
 		}};
 
 		militant = new Fraction() {{
@@ -36,6 +38,7 @@ public class Fractions {
 			shield = 1.2f;
 			production = .6f;
 			people = 1f;
+			distance = 2;
 		}};
 	}
 

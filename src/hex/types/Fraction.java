@@ -13,6 +13,7 @@ public class Fraction {
 	public float shield;
 	public float production;
 	public float people;
+	public int distance;
 
 	public void unit(UnitType unit) {
 		unit.weapons.each(weapon -> weapon.bullet.damage = 0f);

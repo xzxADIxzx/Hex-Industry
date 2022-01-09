@@ -15,6 +15,8 @@ public class HexBuild {
 		UnitTypes.poly.defaultController = HexBuilderAI::new;
 
 		Items.titanium.hardness = 2;
+
+		Blocks.coreFoundation.destructible = false;
 	}
 
 	public HexBuild next;

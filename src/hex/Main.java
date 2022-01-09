@@ -6,6 +6,7 @@ import hex.components.*;
 import arc.*;
 import arc.util.*;
 import arc.struct.*;
+import mindustry.net.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.game.EventType.*;
@@ -30,6 +31,8 @@ public class Main extends Plugin {
 
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);
+
+		Administration.Config.strict.set(false);
 
 		Timer.schedule(() -> {
 			if (initialized) humans.each(h -> h.production.update());

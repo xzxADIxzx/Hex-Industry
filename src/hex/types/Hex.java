@@ -71,7 +71,10 @@ public class Hex {
 		buttons.clear();
 
 		// removes the button's floor
-		env.Lr1.floorNet(x, y);
+		env.Lr1.each(st -> {
+			Tile tile = world.tile(st.x + x, st.y + y);
+			tile.setFloorNet(st.block, tile.overlay());
+		});
 	}
 
 	public Seq<Hex> neighbours() {
@@ -100,29 +103,26 @@ public class Hex {
 
 	public enum HexEnv {
 		empty(null, null) {
-			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
 		citadel(Schems.citadelLr1, Schems.citadelLr2) {
 			// there is nothing, because the citadel building will add the necessary buttons
-			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
 		titanium(Schems.titaniumLr1, Schems.titaniumLr2) {
-			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {
-				button.get((h, x) -> {
-					Lr1.airNet(x.x, x.y);
-					// build(plastanium)
-				}, 6, 4);
-				button.get((h, x) -> x.build(HexBuilds.miner), -6, -4);
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+				add.get(HexBuilds.citadel, 4, 4);
+				add.get(HexBuilds.miner, -6, -3);
 			}
 		},
 		thorium(null, null) {
-			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
 		oil(null, null) {
-			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
 		spore(null, null) {
-			public void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button) {}
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		};
 
 		protected final Schem Lr1;
@@ -135,8 +135,6 @@ public class Hex {
 
 		// build terrain from schematics
 		public void build(Hex hex) {
-			hex.clearButtons();
-
 			Lr1.airNet(hex.x, hex.y);
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
@@ -144,12 +142,10 @@ public class Hex {
 				else tile.setNet(st.block);
 			});
 
-			addButtons((build, bx, by) -> hex.buttons.add(new Button((h, x) -> {
-				x.owner = h;
-				build.get(h, x);
-			}, hex, hex.cx + bx, hex.cy + by)));
+			hex.clearButtons();
+			addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
 		}
 
-		public abstract void addButtons(Cons3<Cons2<Human, Hex>, Integer, Integer> button);
+		protected abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);
 	}
 }

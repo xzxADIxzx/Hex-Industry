@@ -1,6 +1,5 @@
 package hex.types;
 
-import arc.func.*;
 import arc.graphics.*;
 import mindustry.gen.*;
 import mindustry.content.*;
@@ -14,16 +13,17 @@ public class HexBuild {
 	static {
 		UnitTypes.poly.defaultController = HexBuilderAI::new;
 
+		// TODO: remove
 		Items.titanium.hardness = 2;
-
-		Blocks.coreNucleus.destructible = false;
 	}
 
+	public String name;
 	public HexBuild next;
 	public Schem scheme;
 	public Effect boom;
 
-	public Cons<Production> cons;
+	public Production prod = new Production();
+	public Production cons = new Production();
 
 	public void build(Hex hex) {
 		if (!hex.isEmpty()) {
@@ -34,9 +34,10 @@ public class HexBuild {
 		Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
 		scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
 
-		cons.get(hex.owner.production);
+		prod.sour.produce(hex.owner.production);
+		cons.sour.consume(hex.owner.production);
+		
 		hex.clearButtons();
-
 		if (next != null) hex.buttons.add(new BuildButton(next, hex));
 	}
 
@@ -52,7 +53,7 @@ public class HexBuild {
 
 	public void recons(Hex hex) {
 		hex.owner.production.reverse();
-		hex.build.cons.get(hex.owner.production);
+		// hex.build.cons.get(hex.owner.production);
 		hex.owner.production.reverse();
 	}
 }

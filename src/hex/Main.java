@@ -39,13 +39,13 @@ public class Main extends Plugin {
 			Buttons.update();
 		}, 0f, 1f);
 
-		Timer.schedule(() -> humans.each(h -> Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "\n[green]" + h.production.ppl() + "[][]\\" + h.production.pplMax())), 0f, .01f);
+		Timer.schedule(() -> humans.each(h -> Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "\n[green]" + h.production.human())), 0f, .01f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
 	}
 
 	public void handle(Player player) {
-		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] {{"Опция 1"}, {"Опция 2"}, {"Опция 3"}});
+		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] {{"Horde"}, {"Engineer"}, {"Militant"}});
 	}
 
 	@Override

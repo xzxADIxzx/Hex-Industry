@@ -6,6 +6,7 @@ import mindustry.gen.*;
 
 public class BuildButton extends Button {
 
+	private HexBuild build;
 	private Seq<Human> cached;
 
 	public BuildButton(HexBuild build, Hex hex) {
@@ -18,16 +19,26 @@ public class BuildButton extends Button {
 			h.build(build);
 		}, hex, x, y);
 
-		if (hex.owner != null) cached = Main.humans.copy().select(h -> h != hex.owner);
+		this.build = build;
+		joined();
+	}
+
+	public String format(Fraction fract) {
+		return build.name + "\n" + build.prod.sour.format(fract) + "\n" + build.cons.sour.format();
 	}
 
 	@Override
 	public void update() {
 		if (cached == null)
-			Call.label("build", 1f, fx, fy);
+			Main.humans.each(h -> Call.label(h.player.con, format(h.fraction), 1f, fx, fy));
 		else {
-			Call.label(hex.owner.player.con, "upgrade", 1f, fx, fy);
-			cached.each(h -> Call.label(h.player.con, "attack", 1f, fx, fy));
+			Call.label(hex.owner.player.con, format(hex.owner.fraction), 1f, fx, fy);
+			cached.each(h -> Call.label(h.player.con, format(h.fraction), 1f, fx, fy));
 		}
+	}
+
+	@Override
+	public void joined() {
+		if (hex.owner != null) cached = Main.humans.copy().select(h -> h != hex.owner);
 	}
 }

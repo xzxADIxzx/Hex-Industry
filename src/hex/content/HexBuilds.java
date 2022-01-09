@@ -14,19 +14,13 @@ public class HexBuilds {
 			scheme = Schems.citadelMk1;
 			boom = Fx.impactReactorExplosion;
 
-			cons = prod -> {
-				prod.ppl(1);
-				prod.pplMax(20);
-			};
+			prod.human(20);
 
 			next = new HexBuild() {{
 				scheme = Schems.citadelMk3;
 				boom = Fx.impactReactorExplosion;
 
-				cons = prod -> {
-					prod.ppl(1);
-					prod.pplMax(20);
-				};
+				prod.human(20);
 			}};
 		}};
 
@@ -34,13 +28,15 @@ public class HexBuilds {
 			scheme = Schems.minerMk1;
 			boom = Fx.reactorExplosion;
 
-			cons = prod -> prod.titaniumProd(10);
-
+			prod.titaniumProd(10);
+			cons.human(1);
+			
 			next = new HexBuild() {{
 				scheme = Schems.minerMk2;
 				boom = Fx.reactorExplosion;
-
-				cons = prod -> prod.titaniumProd(10);
+				
+				prod.titaniumProd(20);
+				cons.human(1);
 			}};
 		}};
 	}

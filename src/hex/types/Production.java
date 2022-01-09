@@ -6,6 +6,8 @@ import mindustry.content.*;
 // TODO: go through all the hexes when the amount of liquid changes and turn on/off plants that require liquid
 public class Production {
 
+	public Resource sour;
+
 	private final CoreBuild core;
 	private final Fraction fract;
 
@@ -13,23 +15,31 @@ public class Production {
 	private int base;
 
 	// production per sec
-	private int titanium;
-	private int thorium;
-	private int spores;
+	protected int titanium;
+	protected int thorium;
+	protected int spore;
 
 	// presence / absence
-	private int oil;
-	private int water;
-	private int cryo;
+	protected int oil;
+	protected int water;
+	protected int cryo;
 
 	// little people
-	private int ppl;
-	private int pplPrd;
-	private int pplMax;
+	protected int human;
 
-	public Production(Human ppl) {
-		core = ppl.player.team().core();
-		fract = ppl.fraction;
+	public Production() {
+		core = null;
+		fract = null;
+
+		sour = new Resource();
+	}
+
+	public Production(Human human) {
+		core = human.player.team().core();
+		fract = human.fraction;
+
+		// makes core invisible for 5 hours
+		core.iframes = 1000000;
 
 		// sets base to 1
 		reverse();
@@ -40,10 +50,7 @@ public class Production {
 
 		core.items.add(Items.titanium, (int) (titanium * speed));
 		core.items.add(Items.thorium, (int) (thorium * speed));
-		core.items.add(Items.sporePod, (int) (spores * speed));
-
-		ppl += pplPrd;
-		if (ppl > pplMax) ppl = pplMax;
+		core.items.add(Items.sporePod, (int) (spore * speed));
 	}
 
 	public void reverse() {
@@ -82,20 +89,20 @@ public class Production {
 		thorium += base * amount;
 	}
 
-	public int spores() {
+	public int spore() {
 		return core.items.get(Items.sporePod);
 	}
 
-	public void spores(int amount) {
+	public void spore(int amount) {
 		core.items.add(Items.sporePod, base * amount);
 	}
 
-	public int sporesProd() {
-		return spores;
+	public int sporeProd() {
+		return spore;
 	}
 
-	public void sporesProd(int amount) {
-		spores += base * amount;
+	public void sporeProd(int amount) {
+		spore += base * amount;
 	}
 
 	public boolean oil() {
@@ -122,19 +129,46 @@ public class Production {
 		cryo += base;
 	}
 
-	public int ppl() {
-		return ppl;
+	public int human() {
+		return human;
 	}
 
-	public void ppl(int amount) {
-		pplPrd += base * amount * fract.people;
+	public void human(int amount) {
+		human += base * amount * fract.people;
 	}
 
-	public int pplMax() {
-		return pplMax;
-	}
+	public class Resource {
 
-	public void pplMax(int amount) {
-		pplMax += base * amount * fract.people;
+		public void produce(Production prod) {
+			prod.titaniumProd(titanium);
+			prod.thoriumProd(thorium);
+			prod.sporeProd(spore);
+
+			if (oil()) prod.oilProd();
+			if (water()) prod.waterProd();
+			if (cryo()) prod.cryoProd();
+
+			prod.human(human);
+		}
+
+		public void consume(Production prod) {
+			prod.titanium(-titanium);
+			prod.thorium(-thorium);
+			prod.spore(-spore);
+
+			if (oil()) prod.oilProd();
+			if (water()) prod.waterProd();
+			if (cryo()) prod.cryoProd();
+
+			prod.human(-human);
+		}
+
+		public String format(Fraction fract) {
+			return "[green]+10 titanium";
+		}
+
+		public String format() {
+			return "[scarlet]-1 people";
+		}
 	}
 }

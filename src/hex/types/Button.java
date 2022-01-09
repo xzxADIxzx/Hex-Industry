@@ -34,9 +34,6 @@ public class Button {
 		Buttons.register(this);
 	}
 
-	/** show labels for players & etc */
-	public void update() {}
-
 	public void check(Tile tile, Human human) {
 		if (bounds(tile.x, tile.y)) clicked.get(human, hex);
 	}
@@ -44,4 +41,10 @@ public class Button {
 	public boolean bounds(int ix, int iy) {
 		return ix >= x - 1 && ix <= x + 1 && iy >= y - 1 && iy <= y + 1;
 	}
+
+	/** show labels for players & etc */
+	public void update() {}
+
+	/** called when new player joined */
+	public void joined() {}
 }

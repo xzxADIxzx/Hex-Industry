@@ -134,7 +134,7 @@ public class Production {
 	}
 
 	public void human(int amount) {
-		human += base * amount * fract.people;
+		human += base * amount * (fract == null ? 1 : fract.people);
 	}
 
 	public class Resource {

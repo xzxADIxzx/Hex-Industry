@@ -71,10 +71,7 @@ public class Hex {
 		buttons.clear();
 
 		// removes the button's floor
-		env.Lr1.each(st -> {
-			Tile tile = world.tile(st.x + x, st.y + y);
-			tile.setFloorNet(st.block, tile.overlay());
-		});
+		env.Lr1.floorFix(x, y);
 	}
 
 	public Seq<Hex> neighbours() {

@@ -16,7 +16,7 @@ public class HexBuild {
 
 		Items.titanium.hardness = 2;
 
-		Blocks.coreFoundation.destructible = false;
+		Blocks.coreNucleus.destructible = false;
 	}
 
 	public HexBuild next;
@@ -37,7 +37,7 @@ public class HexBuild {
 		cons.get(hex.owner.production);
 		hex.clearButtons();
 
-		if (next != null) hex.buttons.add(new Button((h, x) -> x.build(next), hex));
+		if (next != null) hex.buttons.add(new BuildButton(next, hex));
 	}
 
 	public void explode(Hex hex) {

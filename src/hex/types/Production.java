@@ -32,6 +32,8 @@ public class Production {
 		fract = null;
 
 		sour = new Resource();
+
+		reverse();
 	}
 
 	public Production(Human human) {

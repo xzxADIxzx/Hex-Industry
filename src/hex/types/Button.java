@@ -44,7 +44,4 @@ public class Button {
 
 	/** show labels for players & etc */
 	public void update() {}
-
-	/** called when new player joined */
-	public void joined() {}
 }

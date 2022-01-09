@@ -16,8 +16,6 @@ public class Buttons {
 			Human human = Main.humans.find(h -> h.player == event.player);
 			buttons.each(btn -> btn.check(event.tile, human));
 		});
-
-		Events.on(PlayerJoin.class, event -> buttons.each(btn -> btn.joined()));
 	}
 
 	public static void update() {

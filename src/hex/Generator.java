@@ -49,6 +49,6 @@ public class Generator {
 	}
 
 	public static Hex citadel() {
-		return hexes.max(h -> humans.sumf(p -> h.point().dst(p.citadel.point())) + Mathf.random(400f));
+		return hexes.max(h -> humans.sumf(p -> h.point().dst(p.citadel.point())) + Mathf.random(50f));
 	}
 }

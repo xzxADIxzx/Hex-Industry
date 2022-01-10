@@ -114,23 +114,23 @@ public class Production {
 		}
 
 		public String format(Fraction fract) {
-			return format(new String[] { "[green]+{1}[]{0}[gray]/sec[]\n", "extracts {0}\n", "gives {0}" });
+			return format(new String[] { "[green]+%d[]%s[gray]/sec[]\n", "extracts %s\n", "gives %s" });
 		}
 
 		public String format() {
-			return format(new String[] { "[scarlet]-{1}[]{0}\n", "requires {0}\n", "takes {0}" });
+			return format(new String[] { "[scarlet]-%d[]%s\n", "requires %s\n", "takes %s" });
 		}
 
 		private String format(String[] base) {
 			String result = "";
 
-			if (titanium != 0) result += base[0].formatted(Items.titanium.emoji(), titanium);
-			if (thorium != 0) result += base[0].formatted(Items.thorium.emoji(), thorium);
-			if (spore != 0) result += base[0].formatted(Items.sporePod.emoji(), spore);
+			if (titanium != 0) result += base[0].formatted(titanium, Items.titanium.emoji());
+			if (thorium != 0) result += base[0].formatted(thorium, Items.thorium.emoji());
+			if (spore != 0) result += base[0].formatted(spore, Items.sporePod.emoji());
 
-			if (oil != 0) result += base[1].formatted(Liquids.oil.emoji(), oil);
-			if (water != 0) result += base[1].formatted(Liquids.water.emoji(), water);
-			if (cryo != 0) result += base[1].formatted(Liquids.cryofluid.emoji(), cryo);
+			if (oil != 0) result += base[1].formatted(Liquids.oil.emoji());
+			if (water != 0) result += base[1].formatted(Liquids.water.emoji());
+			if (cryo != 0) result += base[1].formatted(Liquids.cryofluid.emoji());
 
 			if (human != 0) result += base[2].formatted(human);
 

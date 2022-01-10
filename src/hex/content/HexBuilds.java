@@ -15,6 +15,7 @@ public class HexBuilds {
 			prod = new Production() {{
 				human = 20;
 			}};
+			cons = new Production();
 
 			next = new HexBuild() {{
 				scheme = Schems.citadelMk3;

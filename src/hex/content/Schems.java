@@ -9,17 +9,7 @@ public class Schems {
 	private static Schem[] doors;
 	public static Schem closed;
 
-	public static Schem 
-			hex,
-			button,
-			citadelMk1,
-			citadelMk3,
-			minerMk1,
-			minerMk2,
-			citadelLr1,
-			citadelLr2,
-			titaniumLr1,
-			titaniumLr2;
+	public static Schem hex, button, citadelMk1, citadelMk3, minerMk1, minerMk2, citadelLr1, citadelLr2, titaniumLr1, titaniumLr2;
 
 	public static void load() {
 		hex = new Schem("DWQzQrCMBCEJwm0oq2H9M/GV7AnH0c8VOzJIqLvD+5kaEn5OrvfUrI4Y3Qo1vmxrD/4292hes7f1/SZ38s6XQFc7MUegTggP5VSrXSEg53cs3F4IvcK+/ZET5RWDoRXCkodx8tNGVjc2awnnJKnsjMlp0HpRESZUWaUGWVGmVFmI6WhTgSlTr1exfz3Vkqr4mgX80Ql1ETSQpJ6SQtJW88W8gc2DQx5");

@@ -20,8 +20,8 @@ public class BuildButton extends Button {
 		this.build = build;
 	}
 
-	public String format(Human owner) {
-		return owner == hex.owner ? build.name + "\n" + build.prod.sour.format(owner.fraction) + "\n" + build.cons.sour.format() : "ATTACK";
+	public String format(Human human) {
+		return hex.owner == null || hex.owner == human ? build.name + "\n" + build.prod.sour.format(human.fraction) + "\n" + build.cons.sour.format() : "ATTACK";
 	}
 
 	@Override

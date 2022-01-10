@@ -9,10 +9,9 @@ import mindustry.type.UnitType;
 public class Fraction {
 
 	public UnitType unit;
-	public float damage;
-	public float shield;
-	public float production;
-	public float people;
+	public int damage;
+	public int production;
+	public int people;
 	public int distance;
 
 	public void unit(UnitType unit) {

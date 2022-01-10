@@ -5,22 +5,27 @@ import mindustry.content.*;
 
 public class HexBuilds {
 
-	public static HexBuild
-			citadel,
-			miner;
+	public static HexBuild citadel, miner;
 
 	public static void load() {
 		citadel = new HexBuild() {{
 			scheme = Schems.citadelMk1;
 			boom = Fx.impactReactorExplosion;
 
-			prod.human(20);
+			prod = new Production() {{
+				human = 20;
+			}};
 
 			next = new HexBuild() {{
 				scheme = Schems.citadelMk3;
 				boom = Fx.impactReactorExplosion;
 
-				prod.human(20);
+				prod = new Production() {{
+					human = 20;
+				}};
+				cons = new Production() {{
+					titanium = 20;
+				}};
 			}};
 		}};
 
@@ -28,15 +33,24 @@ public class HexBuilds {
 			scheme = Schems.minerMk1;
 			boom = Fx.reactorExplosion;
 
-			prod.titaniumProd(10);
-			cons.human(1);
-			
+			prod = new Production() {{
+				titanium = 1;
+			}};
+			cons = new Production() {{
+				human = 1;
+			}};
+
 			next = new HexBuild() {{
 				scheme = Schems.minerMk2;
 				boom = Fx.reactorExplosion;
-				
-				prod.titaniumProd(20);
-				cons.human(1);
+
+				prod = new Production() {{
+					titanium = 2;
+				}};
+				cons = new Production() {{
+					titanium = 20;
+					human = 1;
+				}};
 			}};
 		}};
 	}

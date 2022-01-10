@@ -22,21 +22,18 @@ public class HexBuild {
 	public Schem scheme;
 	public Effect boom;
 
-	public Production prod = new Production();
-	public Production cons = new Production();
+	public Production prod;
+	public Production cons;
 
 	public void build(Hex hex) {
-		if (!hex.isEmpty()) {
-			explode(hex);
-			recons(hex);
-		} // cleanup old build
+		if (!hex.isEmpty()) explode(hex); // cleanup old build
 
 		Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
 		scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
 
 		prod.sour.produce(hex.owner.production);
 		cons.sour.consume(hex.owner.production);
-		
+
 		hex.clearButtons();
 		if (next != null) hex.buttons.add(new BuildButton(next, hex));
 	}
@@ -49,11 +46,5 @@ public class HexBuild {
 		Call.soundAt(Sounds.explosionbig, x, y, 1, 1);
 
 		Damage.damage(null, x, y, 13 * 8, 1000000, false, true);
-	}
-
-	public void recons(Hex hex) {
-		hex.owner.production.reverse();
-		// hex.build.cons.get(hex.owner.production);
-		hex.owner.production.reverse();
 	}
 }

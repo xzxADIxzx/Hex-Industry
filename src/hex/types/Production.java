@@ -11,9 +11,6 @@ public class Production {
 	private final CoreBuild core;
 	private final Fraction fract;
 
-	// can be 1 or -1
-	private int base;
-
 	// production per sec
 	protected int titanium;
 	protected int thorium;
@@ -32,8 +29,6 @@ public class Production {
 		fract = null;
 
 		sour = new Resource();
-
-		reverse();
 	}
 
 	public Production(Human human) {
@@ -42,9 +37,6 @@ public class Production {
 
 		// makes core invisible for 5 hours
 		core.iframes = 1000000;
-
-		// sets base to 1
-		reverse();
 	}
 
 	public void update() {
@@ -55,24 +47,12 @@ public class Production {
 		core.items.add(Items.sporePod, (int) (spore * speed));
 	}
 
-	public void reverse() {
-		base = base == 1 ? -1 : 1;
-	}
-
 	public int titanium() {
 		return core.items.get(Items.titanium);
 	}
 
 	public void titanium(int amount) {
-		core.items.add(Items.titanium, base * amount);
-	}
-
-	public int titaniumProd() {
-		return titanium;
-	}
-
-	public void titaniumProd(int amount) {
-		titanium += base * amount;
+		core.items.add(Items.titanium, amount);
 	}
 
 	public int thorium() {
@@ -80,15 +60,7 @@ public class Production {
 	}
 
 	public void thorium(int amount) {
-		core.items.add(Items.thorium, base * amount);
-	}
-
-	public int thoriumProd() {
-		return titanium;
-	}
-
-	public void thoriumProd(int amount) {
-		thorium += base * amount;
+		core.items.add(Items.thorium, amount);
 	}
 
 	public int spore() {
@@ -96,59 +68,39 @@ public class Production {
 	}
 
 	public void spore(int amount) {
-		core.items.add(Items.sporePod, base * amount);
-	}
-
-	public int sporeProd() {
-		return spore;
-	}
-
-	public void sporeProd(int amount) {
-		spore += base * amount;
+		core.items.add(Items.sporePod, amount);
 	}
 
 	public boolean oil() {
 		return oil > 0;
 	}
 
-	public void oilProd() {
-		oil += base;
-	}
-
 	public boolean water() {
 		return water > 0;
-	}
-
-	public void waterProd() {
-		water += base;
 	}
 
 	public boolean cryo() {
 		return cryo > 0;
 	}
 
-	public void cryoProd() {
-		cryo += base;
-	}
-
-	public int human() {
-		return human;
+	public String human() {
+		return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + String.valueOf(human) + "[]";
 	}
 
 	public void human(int amount) {
-		human += base * amount * (fract == null ? 1 : fract.people);
+		human += amount * (fract == null ? 1 : fract.people);
 	}
 
 	public class Resource {
 
 		public void produce(Production prod) {
-			prod.titaniumProd(titanium);
-			prod.thoriumProd(thorium);
-			prod.sporeProd(spore);
+			prod.titanium += titanium;
+			prod.thorium += thorium;
+			prod.spore += spore;
 
-			if (oil()) prod.oilProd();
-			if (water()) prod.waterProd();
-			if (cryo()) prod.cryoProd();
+			if (oil()) prod.oil++;
+			if (water()) prod.water++;
+			if (cryo()) prod.cryo++;
 
 			prod.human(human);
 		}
@@ -158,11 +110,7 @@ public class Production {
 			prod.thorium(-thorium);
 			prod.spore(-spore);
 
-			if (oil()) prod.oilProd();
-			if (water()) prod.waterProd();
-			if (cryo()) prod.cryoProd();
-
-			prod.human(-human);
+			prod.human -= human;
 		}
 
 		public String format(Fraction fract) {

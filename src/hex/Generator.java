@@ -5,6 +5,7 @@ import static mindustry.Vars.*;
 import hex.types.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.world.*;
@@ -49,6 +50,7 @@ public class Generator {
 	}
 
 	public static Hex citadel() {
-		return hexes.max(h -> humans.sumf(p -> h.point().dst(p.citadel.point())) + Mathf.random(50f));
+		Seq<Hex> closed = hexes.copy().filter(h -> h.isClosed());
+		return closed.max(h -> humans.sumf(p -> h.point().dst(p.citadel.point())) + Mathf.random(50f * humans.size));
 	}
 }

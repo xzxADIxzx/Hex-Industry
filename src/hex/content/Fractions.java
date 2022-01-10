@@ -1,6 +1,7 @@
 package hex.content;
 
 import hex.types.*;
+import arc.math.*;
 import mindustry.content.*;
 
 public class Fractions {
@@ -37,6 +38,7 @@ public class Fractions {
 	}
 
 	public static Fraction from(int id) {
+		if (id == -1) id = Mathf.random(2);
 		return new Fraction[] { horde, engineer, militant }[id];
 	}
 }

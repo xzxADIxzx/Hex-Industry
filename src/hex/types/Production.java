@@ -114,11 +114,11 @@ public class Production {
 		}
 
 		public String format(Fraction fract) {
-			return format(new String[] { "[green]+%d[]%c[gray]/sec[]\n", "extracts %c\n", "gives %d" }, fract.production, fract.people);
+			return format(new String[] { "[green]+%d[]%s[gray]/sec[]\n", "extracts %s\n", "gives %d" }, fract.production, fract.people);
 		}
 
 		public String format() {
-			return format(new String[] { "[scarlet]-%d[]%c\n", "requires %c\n", "takes %d" }, 1, 1);
+			return format(new String[] { "[scarlet]-%d[]%s\n", "requires %s\n", "takes %d" }, 1, 1);
 		}
 
 		private String format(String[] base, int r, int h) {

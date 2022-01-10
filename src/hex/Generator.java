@@ -53,7 +53,7 @@ public class Generator {
 		Seq<Hex> closed = hexes.copy().filter(h -> h.isClosed());
 		return closed.max(h -> humans.sumf(p -> {
 			float dst = h.point().dst(p.citadel.point());
-			return dst > 100f ? dst : -Mathf.sqrt(100f - dst);
+			return dst > 100f ? dst : -Mathf.sqr(100f - dst);
 		}));
 	}
 }

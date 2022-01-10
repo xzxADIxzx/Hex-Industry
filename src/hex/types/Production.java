@@ -121,6 +121,7 @@ public class Production {
 			return format(new String[] { "[scarlet]-%d[]%s\n", "requires %s\n", "takes %d" }, 1, 1);
 		}
 
+		// TODO: budnle.format
 		private String format(String[] base, int r, int h) {
 			String result = "";
 

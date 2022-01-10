@@ -51,6 +51,9 @@ public class Generator {
 
 	public static Hex citadel() {
 		Seq<Hex> closed = hexes.copy().filter(h -> h.isClosed());
-		return closed.max(h -> humans.sumf(p -> h.point().dst(p.citadel.point())) + Mathf.random(50f * humans.size));
+		return closed.max(h -> humans.sumf(p -> {
+			float dst = h.point().dst(p.citadel.point());
+			return dst > 50f ? Mathf.sqr(dst) : 0f;
+		}));
 	}
 }

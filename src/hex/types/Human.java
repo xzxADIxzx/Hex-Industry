@@ -47,6 +47,6 @@ public class Human {
 	}
 
 	public Hex location() {
-		return Main.hexes.min(hex -> player.dst2(hex.pos()));
+		return Main.hexes.min(hex -> player.dst(hex.pos()));
 	}
 }

@@ -3,12 +3,14 @@ package hex;
 import static mindustry.Vars.*;
 
 import hex.types.*;
-import arc.math.Mathf;
+import arc.math.*;
 import arc.math.geom.*;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.world.*;
 import mindustry.content.*;
+
+import static hex.Main.*;
 
 public class Generator {
 
@@ -21,7 +23,7 @@ public class Generator {
 		Point2 point = new Point2();
 
 		while (true) {
-			Main.hexes.add(new Hex(point.x, point.y));
+			hexes.add(new Hex(point.x, point.y));
 			point.add(38, 0);
 
 			if (Hex.bounds(point.x, point.y)) {
@@ -34,7 +36,7 @@ public class Generator {
 	}
 
 	public static Hex citadel(Player player) {
-		Hex hex = Main.hexes.get(Mathf.random(Main.hexes.size - 1));
+		Hex hex = citadel();
 
 		hex.env = Hex.HexEnv.citadel;
 		hex.door = (byte) 0x00FFFFFF;
@@ -44,5 +46,9 @@ public class Generator {
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
 
 		return hex;
+	}
+
+	public static Hex citadel() {
+		return hexes.max(h -> humans.sumf(p -> h.point().dst(p.citadel.point())) + Mathf.random(400f));
 	}
 }

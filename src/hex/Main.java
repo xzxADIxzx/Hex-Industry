@@ -39,7 +39,7 @@ public class Main extends Plugin {
 			Buttons.update();
 		}, 0f, 1f);
 
-		Timer.schedule(() -> humans.each(h -> Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human())), 0f, .01f);
+		Timer.schedule(() -> humans.each(h -> Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human())), 0f, .02f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
 	}

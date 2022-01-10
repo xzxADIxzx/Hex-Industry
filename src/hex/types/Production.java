@@ -84,7 +84,7 @@ public class Production {
 	}
 
 	public String human() {
-		return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + String.valueOf(human) + "[]";
+		return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human + "[]";
 	}
 
 	public void human(int amount) {
@@ -114,11 +114,27 @@ public class Production {
 		}
 
 		public String format(Fraction fract) {
-			return "[green]+10 titanium";
+			return format(new String[] { "[green]+{1}[]{0}[gray]/sec[]\n", "extracts {0}\n", "gives {0}" });
 		}
 
 		public String format() {
-			return "[scarlet]-1 people";
+			return format(new String[] { "[scarlet]-{1}[]{0}\n", "requires {0}\n", "takes {0}" });
+		}
+
+		private String format(String[] base) {
+			String result = "";
+
+			if (titanium != 0) result += base[0].formatted(Items.titanium.emoji(), titanium);
+			if (thorium != 0) result += base[0].formatted(Items.thorium.emoji(), thorium);
+			if (spore != 0) result += base[0].formatted(Items.sporePod.emoji(), spore);
+
+			if (oil != 0) result += base[1].formatted(Liquids.oil.emoji(), oil);
+			if (water != 0) result += base[1].formatted(Liquids.water.emoji(), water);
+			if (cryo != 0) result += base[1].formatted(Liquids.cryofluid.emoji(), cryo);
+
+			if (human != 0) result += base[2].formatted(human);
+
+			return result;
 		}
 	}
 }

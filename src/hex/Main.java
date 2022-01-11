@@ -45,17 +45,17 @@ public class Main extends Plugin {
 	}
 
 	public void handle(Player player) {
-		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] {{"Horde"}, {"Engineer"}, {"Militant"}});
+		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] { { "Horde" }, { "Engineer" }, { "Militant" } });
 	}
 
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> {
 			Human human = Human.from(args[0]);
-			if(human == null) player.sendMessage("[scarlet]Player not found");
-			else{
+			if (human == null) player.sendMessage("[scarlet]Player not found");
+			else {
 				player.sendMessage("[green]Offer sent");
-				human.player.sendMessage(player.coloredName() + "offered you a [green]peace[]... do /peace if you agree");
+				human.player.sendMessage(player.coloredName() + " [white]offered you a [green]peace[]... do /peace if you agree");
 			}
 		});
 	}
@@ -63,9 +63,9 @@ public class Main extends Plugin {
 	@Override
 	public void registerServerCommands(CommandHandler handler) {
 		handler.removeCommand("host");
-		handler.register("host", "Initialize new game", args -> {
+		handler.register("host", "[size]", "Initialize new game", args -> {
 			// generate hex-map
-			Generator.generate();
+			Generator.generate(args.length > 0 ? Integer.valueOf(args[0]) : 0);
 
 			// change rules
 			state.rules.enemyCoreBuildRadius = 0f;

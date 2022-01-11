@@ -17,8 +17,9 @@ public class Generator {
 
 	protected static int last;
 
-	public static void generate() {
-		world.loadGenerator(198, 201, tiles -> tiles.each((x, y) -> tiles.set(x, y, new Tile(x, y, Blocks.air, Blocks.air, Blocks.darkMetal))));
+	public static void generate(int size) {
+		MapSize m = MapSize.values()[size];
+		world.loadGenerator(m.width, m.height, tiles -> tiles.each((x, y) -> tiles.set(x, y, new Tile(x, y, Blocks.air, Blocks.air, Blocks.darkMetal))));
 
 		Point2 start = new Point2();
 		Point2 point = new Point2();
@@ -54,6 +55,18 @@ public class Generator {
 		return closed.sort(h -> humans.sumf(p -> {
 			float dst = h.point().dst(p.citadel.point());
 			return dst > 100f ? -dst : Mathf.sqr(100f - dst);
-		})).get(Mathf.random(humans.isEmpty() ? hexes.size - 1 : hexes.size / humans.size + 1));
+		})).get(Mathf.random(humans.isEmpty() ? hexes.size - 1 : hexes.size / humans.size + 2));
+	}
+
+	public enum MapSize {
+		small(198, 201), medium(369, 366), big(540, 542);
+
+		public final int width;
+		public final int height;
+
+		MapSize(int width, int height) {
+			this.width = width;
+			this.height = height;
+		}
 	}
 }

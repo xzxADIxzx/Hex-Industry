@@ -49,4 +49,12 @@ public class Human {
 	public Hex location() {
 		return Main.hexes.min(hex -> player.dst(hex.pos()));
 	}
+
+	public static Human from(Player player) {
+		return Main.humans.find(h -> h.player == player);
+	}
+
+	public static Human from(String name) {
+		return Main.humans.find(h -> Strings.stripGlyphs(Strings.stripColors(h.player.name)).equalsIgnoreCase(Strings.stripGlyphs(Strings.stripColors(name))));
+	}
 }

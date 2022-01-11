@@ -1,6 +1,5 @@
 package hex.content;
 
-import hex.*;
 import hex.types.*;
 import arc.*;
 import arc.struct.*;
@@ -13,7 +12,7 @@ public class Buttons {
 
 	public static void load() {
 		Events.on(TapEvent.class, event -> {
-			Human human = Main.humans.find(h -> h.player == event.player);
+			Human human = Human.from(event.player);
 			buttons.each(btn -> btn.check(event.tile, human));
 		});
 	}

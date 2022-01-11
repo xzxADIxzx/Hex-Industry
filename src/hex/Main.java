@@ -51,8 +51,12 @@ public class Main extends Plugin {
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> {
-			Player second = Groups.player.find(p -> p.name() == args[0]);
-			second.sendMessage(player.coloredName() + "offered you a [green]peace[]... do /peace if you agree");
+			Human human = Human.from(args[0]);
+			if(human == null) player.sendMessage("[scarlet]Player not found");
+			else{
+				player.sendMessage("[green]Offer sent");
+				human.player.sendMessage(player.coloredName() + "offered you a [green]peace[]... do /peace if you agree");
+			}
 		});
 	}
 

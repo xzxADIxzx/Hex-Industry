@@ -64,7 +64,11 @@ public class Human {
 	}
 
 	public Hex location() {
-		return Main.hexes.min(hex -> player.dst(hex.pos()));
+		return Main.hexes.min(hex -> hex.pos().dst(player));
+	}
+
+	public Hex lookAt() {
+		return Main.hexes.min(hex -> hex.pos().dst(player.mouseX, player.mouseY));
 	}
 
 	public Seq<Hex> captured() {

@@ -6,7 +6,7 @@ import mindustry.content.*;
 
 public class Fractions {
 
-	public static Fraction horde, engineer, militant;
+	public static Fraction horde, engineer, militant, spectator;
 
 	public static void load() {
 		horde = new Fraction() {{
@@ -39,6 +39,6 @@ public class Fractions {
 
 	public static Fraction from(int id) {
 		if (id == -1) id = Mathf.random(2);
-		return new Fraction[] { horde, engineer, militant }[id];
+		return new Fraction[] { horde, engineer, militant, spectator }[id];
 	}
 }

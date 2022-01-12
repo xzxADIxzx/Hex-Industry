@@ -41,7 +41,7 @@ public class Hex {
 		cx = x + width / 2;
 		cy = y + height / 2;
 
-		env = HexEnv.titanium;
+		env = HexEnv.get();
 		door = (byte) random.nextLong();
 		id = _id++;
 
@@ -115,10 +115,16 @@ public class Hex {
 		thorium(null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
+		spore(null, null) {
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+		},
 		oil(null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
-		spore(null, null) {
+		water(null, null) {
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+		},
+		cryo(null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		};
 
@@ -141,6 +147,11 @@ public class Hex {
 
 			hex.clearButtons();
 			addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
+		}
+
+		public static HexEnv get() {
+			// return values()[Mathf.random(values().length - 1)];
+			return Mathf.chance(.5d) ? titanium : water;
 		}
 
 		protected abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);

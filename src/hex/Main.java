@@ -9,14 +9,13 @@ import arc.struct.*;
 import mindustry.net.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
+import mindustry.game.*;
 import mindustry.game.EventType.*;
 
 import static hex.components.MenuListener.*;
 import static mindustry.Vars.*;
 
 public class Main extends Plugin {
-
-	public static boolean initialized;
 
 	public static Seq<Hex> hexes = new Seq<>();
 	public static Seq<Human> humans = new Seq<>();
@@ -35,17 +34,20 @@ public class Main extends Plugin {
 		Administration.Config.strict.set(false);
 
 		Timer.schedule(() -> {
-			if (initialized) humans.each(h -> h.production.update());
+			humans.each(h -> h.production.update());
 			Buttons.update();
 		}, 0f, 1f);
 
-		Timer.schedule(() -> humans.each(h -> Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human())), 0f, .02f);
+		Timer.schedule(() -> humans.each(h -> {
+			Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human());
+			Call.label(h.player.con, "[gray]hex #" + h.lookAt().id, h.player.mouseX, h.player.mouseY, .02f);
+		}), 0f, .02f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
 	}
 
 	public void handle(Player player) {
-		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] { { "Horde" }, { "Engineer" }, { "Militant" } });
+		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] { { "Horde" }, { "Engineer" }, { "Militant" }, { "Spectator" } });
 	}
 
 	@Override
@@ -59,6 +61,7 @@ public class Main extends Plugin {
 			}
 		});
 
+		// TODO: in early development! add HumanGroup & Politics
 		handler.<Player>register("join", "<player>", "Offer the player to team up", (args, player) -> {
 			Human human = Human.from(args[0]);
 			if (human == null) player.sendMessage("[scarlet]Player not found");
@@ -75,6 +78,7 @@ public class Main extends Plugin {
 			else {
 				human.lose();
 				humans.remove(human);
+				player.team(Team.derelict);
 			}
 		});
 	}
@@ -103,7 +107,6 @@ public class Main extends Plugin {
 
 			logic.play();
 			netServer.openServer();
-			initialized = true;
 		});
 	}
 }

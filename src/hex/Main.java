@@ -52,10 +52,29 @@ public class Main extends Plugin {
 	public void registerClientCommands(CommandHandler handler) {
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> {
 			Human human = Human.from(args[0]);
-			if (human == null) player.sendMessage("[scarlet]Player not found");
+			if (human == null || human.player == player) player.sendMessage("[scarlet]Player not found");
 			else {
 				player.sendMessage("[green]Offer sent");
 				human.player.sendMessage(player.coloredName() + " [white]offered you a [green]peace[]... do /peace if you agree");
+			}
+		});
+
+		handler.<Player>register("join", "<player>", "Offer the player to team up", (args, player) -> {
+			Human human = Human.from(args[0]);
+			if (human == null) player.sendMessage("[scarlet]Player not found");
+			else {
+				player.sendMessage("[green]Offer sent");
+				human.player.sendMessage(player.coloredName() + " [white]offered you to [green]team up[]... do /join if you agree");
+				human.team(Generator.team());
+			}
+		});
+
+		handler.<Player>register("spectate", "Watching the game is fun too", (args, player) -> {
+			Human human = Human.from(player);
+			if (human == null) handle(player);
+			else {
+				human.lose();
+				humans.remove(human);
 			}
 		});
 	}

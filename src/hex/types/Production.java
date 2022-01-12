@@ -1,5 +1,6 @@
 package hex.types;
 
+import mindustry.game.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.content.*;
 
@@ -45,6 +46,13 @@ public class Production {
 		core.items.add(Items.titanium, (int) (titanium * speed));
 		core.items.add(Items.thorium, (int) (thorium * speed));
 		core.items.add(Items.sporePod, (int) (spore * speed));
+	}
+
+	public void team(Team team) {
+		core.items.clear();
+		core.team(team);
+
+		titanium = thorium = spore = oil = water = cryo = human = 0;
 	}
 
 	public int titanium() {

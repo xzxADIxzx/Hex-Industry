@@ -1,7 +1,5 @@
 package hex;
 
-import static mindustry.Vars.*;
-
 import hex.types.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -12,6 +10,7 @@ import mindustry.world.*;
 import mindustry.content.*;
 
 import static hex.Main.*;
+import static mindustry.Vars.*;
 
 public class Generator {
 
@@ -44,18 +43,22 @@ public class Generator {
 		hex.door = (byte) 0x00FFFFFF;
 		hex.open();
 
-		player.team(Team.all[++last]);
+		player.team(team());
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
 
 		return hex;
 	}
 
 	public static Hex citadel() {
-		Seq<Hex> closed = hexes.copy().filter(h -> h.isClosed());
+		Seq<Hex> closed = hexes.copy().filter(Hex::isClosed);
 		return closed.sort(h -> humans.sumf(p -> {
 			float dst = h.point().dst(p.citadel.point());
 			return dst > 100f ? -dst : Mathf.sqr(100f - dst);
-		})).get(Mathf.random(humans.isEmpty() ? hexes.size - 1 : hexes.size / humans.size + 2));
+		})).get(Mathf.random(humans.isEmpty() ? closed.size - 1 : closed.size / humans.size + 2));
+	}
+
+	public static Team team() {
+		return Team.all[++last];
 	}
 
 	public enum MapSize {

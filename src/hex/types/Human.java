@@ -7,6 +7,7 @@ import arc.util.*;
 import arc.math.*;
 import arc.struct.*;
 import mindustry.gen.*;
+import mindustry.game.*;
 import mindustry.game.EventType.*;
 
 public class Human {
@@ -40,14 +41,34 @@ public class Human {
 		units.put(player, player.unit()); // saves the player's unit
 	}
 
+	public void team(Team team) {
+		player.team(team);
+		production.team(team);
+
+		captured().each(hex -> Time.runTask(Mathf.random(180f), () -> hex.build.build(hex)));
+	}
+
+	public void lose() {
+		Call.unitDespawn(units.remove(player));
+		cleanup();
+	}
+
 	public void cleanup() {
-		Main.hexes.each(hex -> {
-			if (hex.owner == this && hex.build != null) Time.runTask(Mathf.random(120f), () -> hex.build.explode(hex));
-		});
+		captured().each(hex -> Time.runTask(Mathf.random(180f), () -> {
+			hex.build.explode(hex);
+			hex.env.build(hex);
+
+			hex.build = null;
+			hex.owner = null;
+		}));
 	}
 
 	public Hex location() {
 		return Main.hexes.min(hex -> player.dst(hex.pos()));
+	}
+
+	public Seq<Hex> captured() {
+		return Main.hexes.copy().filter(hex -> hex.owner == this);
 	}
 
 	public static Human from(Player player) {

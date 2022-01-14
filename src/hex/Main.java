@@ -40,7 +40,7 @@ public class Main extends Plugin {
 
 		Timer.schedule(() -> humans.each(h -> {
 			Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human());
-			Call.label(h.player.con, "[gray]hex #" + h.lookAt().id, h.player.mouseX, h.player.mouseY, .02f);
+			Call.label(h.player.con, "[gray]hex #" + h.lookAt().id, .02f, h.player.mouseX, h.player.mouseY);
 		}), 0f, .02f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));

@@ -39,8 +39,10 @@ public class Main extends Plugin {
 		}, 0f, 1f);
 
 		Timer.schedule(() -> humans.each(h -> {
+			Hex look = h.lookAt();
+			// TODO: bundle.format
 			Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human());
-			Call.label(h.player.con, "[gray]hex #" + h.lookAt().id, .02f, h.player.mouseX, h.player.mouseY);
+			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + look.owner == null ? "" : look.owner.player.name(), .03f, look.x + 16f, look.y + 16f);
 		}), 0f, .02f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
@@ -68,7 +70,9 @@ public class Main extends Plugin {
 			else {
 				player.sendMessage("[green]Offer sent");
 				human.player.sendMessage(player.coloredName() + " [white]offered you to [green]team up[]... do /join if you agree");
+
 				human.team(Generator.team());
+				Human.from(player).team(human.player.team());
 			}
 		});
 

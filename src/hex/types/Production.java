@@ -14,6 +14,7 @@ public class Production {
 	private final Fraction fract;
 
 	// production per sec
+	protected int plastanium;
 	protected int titanium;
 	protected int thorium;
 	protected int spore;
@@ -44,6 +45,7 @@ public class Production {
 	public void update() {
 		float speed = fract.production + (water() ? .2f : 0f) + (cryo() ? .4f : 0f);
 
+		core.items.add(Items.plastanium, (int) (plastanium * speed));
 		core.items.add(Items.titanium, (int) (titanium * speed));
 		core.items.add(Items.thorium, (int) (thorium * speed));
 		core.items.add(Items.sporePod, (int) (spore * speed));
@@ -53,7 +55,15 @@ public class Production {
 		core.items.clear();
 		Call.setTeam(core, team);
 
-		titanium = thorium = spore = oil = water = cryo = human = 0;
+		titanium = plastanium = thorium = spore = oil = water = cryo = human = 0;
+	}
+
+	public int plastanium() {
+		return core.items.get(Items.plastanium);
+	}
+
+	public void plastanium(int amount) {
+		core.items.add(Items.plastanium, amount);
 	}
 
 	public int titanium() {
@@ -103,6 +113,7 @@ public class Production {
 	public class Resource {
 
 		public void produce(Production prod) {
+			prod.plastanium += plastanium;
 			prod.titanium += titanium;
 			prod.thorium += thorium;
 			prod.spore += spore;
@@ -115,6 +126,7 @@ public class Production {
 		}
 
 		public void consume(Production prod) {
+			prod.plastanium(-plastanium);
 			prod.titanium(-titanium);
 			prod.thorium(-thorium);
 			prod.spore(-spore);
@@ -134,6 +146,7 @@ public class Production {
 		private String format(String[] base, int r, int h) {
 			String result = "";
 
+			if (plastanium != 0) result += base[0].formatted(plastanium * r, Items.plastanium.emoji());
 			if (titanium != 0) result += base[0].formatted(titanium * r, Items.titanium.emoji());
 			if (thorium != 0) result += base[0].formatted(thorium * r, Items.thorium.emoji());
 			if (spore != 0) result += base[0].formatted(spore * r, Items.sporePod.emoji());

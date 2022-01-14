@@ -112,8 +112,10 @@ public class Hex {
 				add.get(HexBuilds.miner, -6, -3);
 			}
 		},
-		thorium(null, null) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+		thorium(Schems.thoriumLr1, Schems.thoriumLr2) {
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+				add.get(HexBuilds.thory, 0, 0);
+			}
 		},
 		spore(null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
@@ -151,7 +153,7 @@ public class Hex {
 
 		public static HexEnv get() {
 			// return values()[Mathf.random(values().length - 1)];
-			return Mathf.chance(.5d) ? titanium : water;
+			return Mathf.chance(.5d) ? titanium : thorium;
 		}
 
 		protected abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);

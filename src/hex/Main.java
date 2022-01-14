@@ -42,7 +42,7 @@ public class Main extends Plugin {
 			Hex look = h.lookAt();
 			// TODO: bundle.format
 			Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human());
-			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + (look.owner == null ? "" : look.owner.player.name()), .03f, look.x + 16f, look.y + 16f);
+			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + (look.owner == null ? "" : look.owner.player.name()), .03f, look.x * tilesize + 16f, look.y * tilesize + 16f);
 		}), 0f, .02f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));

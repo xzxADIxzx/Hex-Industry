@@ -13,8 +13,12 @@ public class BuildButton extends Button {
 
 	public BuildButton(HexBuild build, Hex hex, int x, int y) {
 		super((p, h) -> {
-			h.owner = p;
-			h.build(build);
+			if (h.owner == null || h.owner == p) {
+				if (build.cons.sour.enough(p.production)) {
+					h.owner = p;
+					h.build(build);
+				} else p.player.sendMessage("[scarlet]You don't have enough resources");
+			} else  p.player.sendMessage("ATTACK in development :D");
 		}, hex, x, y);
 
 		this.build = build;

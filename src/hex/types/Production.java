@@ -134,6 +134,17 @@ public class Production {
 			prod.human -= human;
 		}
 
+		public boolean enough(Production prod) {
+			return (plastanium > 0 ? prod.plastanium <= plastanium : true) &&
+					(titanium > 0 ? prod.titanium <= titanium : true) &&
+					(thorium > 0 ? prod.thorium <= thorium : true) &&
+					(spore > 0 ? prod.spore <= spore : true) &&
+					(oil() ? prod.oil() : true) &&
+					(water() ? prod.water() : true) &&
+					(cryo() ? prod.cryo() : true) &&
+					(human > 0 ? prod.human <= human : true);
+		}
+
 		public String format(Fraction fract) {
 			return format(new String[] { "[green]+%d[]%s[gray]/sec[]\n", "extracts %s\n", "gives %d" }, fract.production, fract.people);
 		}

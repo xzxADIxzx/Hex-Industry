@@ -37,7 +37,7 @@ public class Button {
 	}
 
 	public void terrain() {
-		if (world.tile(x, y).block() == Blocks.coreNucleus) {
+		if (world.tile(x, y).block() != Blocks.coreNucleus) {
 			Schems.button.floorNet(x, y);
 			Schems.button.airNet(x, y);
 		} else Geometry.circle(x, y, 3, (x, y) -> world.tile(x, y).setFloorNet(Blocks.darkPanel3));

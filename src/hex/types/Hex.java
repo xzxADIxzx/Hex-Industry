@@ -136,7 +136,6 @@ public class Hex {
 		}
 
 		public void build(Hex hex) {
-			terrain(hex);
 			hex.clearButtons();
 			addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
 		}

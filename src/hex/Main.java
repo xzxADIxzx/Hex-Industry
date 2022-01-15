@@ -42,10 +42,14 @@ public class Main extends Plugin {
 			Hex look = h.lookAt();
 			// TODO: bundle.format
 			Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human());
-			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + (look.owner == null ? "" : look.owner.name()), .03f, look.x * tilesize + 32f, look.y * tilesize + 64f);
-		}), 0f, .02f);
+			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + (look.owner == null ? "" : look.owner.name()), .04f, look.x * tilesize + 32f, look.y * tilesize + 64f);
+		}), 0f, .04f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
+		Events.on(PlayerLeave.class, event -> {
+			Human player = Human.from(event.player);
+			if (player != null) player.lose();
+		});
 	}
 
 	public void handle(Player player) {
@@ -71,8 +75,10 @@ public class Main extends Plugin {
 				player.sendMessage("[green]Offer sent");
 				human.player.sendMessage(player.coloredName() + " [white]offered you to [green]team up[]... do /join if you agree");
 
+				Human offerer = Human.from(player);
 				human.team(Generator.team());
-				Human.from(player).team(human.player.team());
+				offerer.team(human.player.team());
+				offerer.production = human.production;
 			}
 		});
 

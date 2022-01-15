@@ -75,6 +75,10 @@ public class Human {
 		return Main.hexes.copy().filter(hex -> hex.owner == this);
 	}
 
+	public String name() {
+		return Strings.stripColors(player.name());
+	}
+
 	public static Human from(Player player) {
 		return Main.humans.find(h -> h.player == player);
 	}

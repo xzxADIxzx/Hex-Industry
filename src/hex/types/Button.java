@@ -30,7 +30,9 @@ public class Button {
 		this.fx = x * tilesize;
 		this.fy = y * tilesize;
 
-		Schems.button.floorFix(x, y);
+		Schems.button.floorNet(x, y);
+		Schems.button.airNet(x, y);
+
 		Buttons.register(this);
 	}
 

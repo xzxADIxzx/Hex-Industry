@@ -15,14 +15,15 @@ public class Fraction {
 	public int distance;
 
 	public void unit(UnitType unit) {
-		unit.weapons.each(weapon -> weapon.bullet.damage = 0f);
-		unit.buildSpeed = 0f;
 		this.unit = unit;
 	}
 
 	public Unit spawn(Team team, Position pos) {
 		Unit unit = this.unit.spawn(team, pos);
 		unit.apply(StatusEffects.boss);
+
+		unit.buildSpeedMultiplier(0f);
+		unit.damageMultiplier(0f);
 		return unit;
 	}
 }

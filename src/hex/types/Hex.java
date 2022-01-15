@@ -59,10 +59,7 @@ public class Hex {
 		env.build(this);
 
 		neighbours().each(bour -> {
-			if (bour.isClosed()) {
-				bour.buttons.add(new Button((h, x) -> x.open(), bour));
-				Schems.button.airNet(bour.cx, bour.cy);
-			}
+			if (bour.isClosed()) bour.buttons.add(new Button((h, x) -> x.open(), bour));
 		});
 	}
 
@@ -71,7 +68,7 @@ public class Hex {
 		buttons.clear();
 
 		// removes the button's floor
-		env.Lr1.floorFix(x, y);
+		env.terrain(this);
 	}
 
 	public Seq<Hex> neighbours() {
@@ -108,7 +105,7 @@ public class Hex {
 		},
 		titanium(Schems.titaniumLr1, Schems.titaniumLr2) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-				add.get(HexBuilds.citadel, 4, 4);
+				add.get(HexBuilds.compressor, 4, 4);
 				add.get(HexBuilds.miner, -6, -3);
 			}
 		},
@@ -138,17 +135,20 @@ public class Hex {
 			Lr2 = block;
 		}
 
-		// build terrain from schematics
 		public void build(Hex hex) {
+			terrain(hex);
+			hex.clearButtons();
+			addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
+		}
+
+		/** build terrain from schematics */
+		public void terrain(Hex hex) {
 			Lr1.airNet(hex.x, hex.y);
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
 				if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
 				else tile.setNet(st.block);
 			});
-
-			hex.clearButtons();
-			addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
 		}
 
 		public static HexEnv get() {

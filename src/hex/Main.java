@@ -42,7 +42,7 @@ public class Main extends Plugin {
 			Hex look = h.lookAt();
 			// TODO: bundle.format
 			Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human());
-			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + (look.owner == null ? "" : look.owner.player.name()), .03f, look.x * tilesize + 16f, look.y * tilesize + 16f);
+			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + (look.owner == null ? "" : look.owner.player.name()), .03f, look.x * tilesize + 16f, look.y * tilesize + 32f);
 		}), 0f, .02f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
@@ -63,7 +63,7 @@ public class Main extends Plugin {
 			}
 		});
 
-		// TODO: in early development! add HumanGroup & Politics
+		// TODO: in early development! add Human.Leader & Politics
 		handler.<Player>register("join", "<player>", "Offer the player to team up", (args, player) -> {
 			Human human = Human.from(args[0]);
 			if (human == null) player.sendMessage("[scarlet]Player not found");
@@ -101,6 +101,8 @@ public class Main extends Plugin {
 			state.rules.waves = false;
 			state.rules.canGameOver = false;
 			state.rules.modeName = "Hex Industry";
+
+			for (Team team : Team.all) state.rules.teams.get(team).cheat = true;
 
 			// synchronize the world
 			Call.worldDataBegin();

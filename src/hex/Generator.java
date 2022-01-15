@@ -1,6 +1,7 @@
 package hex;
 
 import hex.types.*;
+import hex.content.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -45,6 +46,9 @@ public class Generator {
 
 		player.team(team());
 		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
+
+		hex.owner = Human.from(player);
+		hex.build(HexBuilds.citadel);
 
 		return hex;
 	}

@@ -2,7 +2,9 @@ package hex.types;
 
 import hex.content.*;
 import arc.func.*;
+import arc.math.geom.*;
 import mindustry.world.*;
+import mindustry.content.*;
 
 import static mindustry.Vars.*;
 
@@ -30,10 +32,15 @@ public class Button {
 		this.fx = x * tilesize;
 		this.fy = y * tilesize;
 
-		Schems.button.floorNet(x, y);
-		Schems.button.airNet(x, y);
-
+		terrain();
 		Buttons.register(this);
+	}
+
+	public void terrain() {
+		if (world.tile(x, y).block() == Blocks.coreNucleus) {
+			Schems.button.floorNet(x, y);
+			Schems.button.airNet(x, y);
+		} else Geometry.circle(x, y, 3, (x, y) -> world.tile(x, y).setFloorNet(Blocks.darkPanel3));
 	}
 
 	public void check(Tile tile, Human human) {

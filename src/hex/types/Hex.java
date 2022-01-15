@@ -143,7 +143,9 @@ public class Hex {
 
 		/** build terrain from schematics */
 		public void terrain(Hex hex) {
+			Lr1.floorNet(hex.x, hex.y);
 			Lr1.airNet(hex.x, hex.y);
+
 			Lr2.each(st -> {
 				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
 				if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());

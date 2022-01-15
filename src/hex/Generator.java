@@ -1,10 +1,10 @@
 package hex;
 
 import hex.types.*;
-import hex.content.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
+import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.world.*;
 import mindustry.content.*;
@@ -36,18 +36,15 @@ public class Generator {
 		}
 	}
 
-	public static Hex citadel(Human human) {
+	public static Hex citadel(Player player) {
 		Hex hex = citadel();
 
 		hex.env = Hex.HexEnv.citadel;
 		hex.door = (byte) 0x00FFFFFF;
 		hex.open();
 
-		human.player.team(team());
-		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, human.player.team(), 0);
-
-		hex.owner = human;
-		hex.build(HexBuilds.citadel);
+		player.team(team());
+		world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
 
 		return hex;
 	}

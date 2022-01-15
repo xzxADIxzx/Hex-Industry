@@ -1,6 +1,7 @@
 package hex.types;
 
 import hex.*;
+import hex.content.*;
 import arc.*;
 import arc.util.*;
 import arc.math.*;
@@ -30,8 +31,11 @@ public class Human {
 		player = p;
 		fraction = abilities;
 
-		citadel = Generator.citadel(this);
+		citadel = Generator.citadel(p);
 		production = new Production(this);
+
+		citadel.owner = this;
+		citadel.build(HexBuilds.citadel);
 
 		player.unit(fraction.spawn(player.team(), citadel.pos()));
 		units.put(player, player.unit()); // saves the player's unit

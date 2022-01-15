@@ -30,7 +30,7 @@ public class Human {
 		player = p;
 		fraction = abilities;
 
-		citadel = Generator.citadel(player);
+		citadel = Generator.citadel(this);
 		production = new Production(this);
 
 		player.unit(fraction.spawn(player.team(), citadel.pos()));

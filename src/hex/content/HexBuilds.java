@@ -97,7 +97,7 @@ public class HexBuilds {
 			}};
 			cons = new Production() {{
 				titanium = 20;
-				thorium = 20;
+				oil = 1;
 				human = 1;
 			}};
 		}};

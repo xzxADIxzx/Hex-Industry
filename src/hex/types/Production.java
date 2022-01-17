@@ -5,6 +5,10 @@ import mindustry.game.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.content.*;
 
+import java.util.*;
+
+import static hex.components.Bundle.*;
+
 // TODO: go through all the hexes when the amount of liquid changes and turn on/off plants that require liquid
 public class Production {
 
@@ -24,7 +28,7 @@ public class Production {
 	protected int water;
 	protected int cryo;
 
-	// little people
+	// little creatures
 	protected int human;
 
 	public Production() {
@@ -103,7 +107,7 @@ public class Production {
 	}
 
 	public String human() {
-		return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human + "[]";
+		return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human;
 	}
 
 	public void human(int amount) {
@@ -145,26 +149,25 @@ public class Production {
 					(human > 0 ? prod.human >= human : true);
 		}
 
-		public String format(Fraction fract) {
-			return format(new String[] { "[green]+%d[]%s[gray]/sec[]\n", "extracts %s\n", "gives %d" }, fract.production, fract.people);
+		public String formated(Locale loc, Fraction fract) {
+			return formated(loc, new String[] { "prod.item", "prod.liquid", "prod.creature" }, fract.production, fract.people);
 		}
 
-		public String format() {
-			return format(new String[] { "[scarlet]-%d[]%s\n", "requires %s\n", "takes %d" }, 1, 1);
+		public String formated(Locale loc) {
+			return formated(loc, new String[] { "cons.item", "cons.liquid", "cons.creature" }, 1, 1);
 		}
 
-		// TODO: bundle.format
-		private String format(String[] base, int r, int h) {
+		private String formated(Locale loc, String[] base, int r, int h) {
 			String result = "";
 
-			if (plastanium != 0) result += base[0].formatted(plastanium * r, Items.plastanium.emoji());
-			if (titanium != 0) result += base[0].formatted(titanium * r, Items.titanium.emoji());
-			if (thorium != 0) result += base[0].formatted(thorium * r, Items.thorium.emoji());
-			if (spore != 0) result += base[0].formatted(spore * r, Items.sporePod.emoji());
+			if (plastanium != 0) result += format(base[0], loc, plastanium * r, "");
+			if (titanium != 0) result += format(base[0], loc, titanium * r, "");
+			if (thorium != 0) result += format(base[0], loc, thorium * r, Items.thorium.emoji());
+			if (spore != 0) result += format(base[0], loc, spore * r, Items.sporePod.emoji());
 
-			if (oil != 0) result += base[1].formatted(Liquids.oil.emoji());
-			if (water != 0) result += base[1].formatted(Liquids.water.emoji());
-			if (cryo != 0) result += base[1].formatted(Liquids.cryofluid.emoji());
+			if (oil != 0) result += format(base[1], loc, Liquids.oil.emoji());
+			if (water != 0) result += format(base[1], loc, Liquids.water.emoji());
+			if (cryo != 0) result += format(base[1], loc, Liquids.cryofluid.emoji());
 
 			if (human != 0) result += base[2].formatted(human * h);
 

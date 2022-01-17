@@ -10,6 +10,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.content.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class Hex {
@@ -24,6 +25,11 @@ public class Hex {
 	public int y;
 	public int cx;
 	public int cy;
+
+	public float fx;
+	public float fy;
+	public float lx;
+	public float ly;
 
 	public Human owner;
 	public int id;
@@ -40,6 +46,12 @@ public class Hex {
 
 		cx = x + width / 2;
 		cy = y + height / 2;
+
+		fx = cx * tilesize;
+		fy = cy * tilesize;
+
+		lx = (x + 4f) * tilesize;
+		ly = (x + 8f) * tilesize;
 
 		env = HexEnv.get();
 		door = (byte) random.nextLong();
@@ -68,7 +80,7 @@ public class Hex {
 		buttons.clear();
 
 		// removes the button's floor
-		env.terrain(this);
+		app.post(() -> env.terrain(this));
 	}
 
 	public Seq<Hex> neighbours() {
@@ -76,7 +88,7 @@ public class Hex {
 	}
 
 	public Position pos() {
-		return new Vec2(cx * tilesize, cy * tilesize);
+		return new Vec2(fx, fx);
 	}
 
 	public Point2 point() {

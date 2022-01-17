@@ -6,8 +6,6 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 
-import static mindustry.Vars.*;
-
 public class HexBuild {
 
 	static {
@@ -40,12 +38,9 @@ public class HexBuild {
 	}
 
 	public void explode(Hex hex) {
-		float x = hex.cx * tilesize;
-		float y = hex.cy * tilesize;
+		Call.effect(boom, hex.fx, hex.fy, 0, Color.white);
+		Call.soundAt(Sounds.explosionbig, hex.fx, hex.fy, 1, 1);
 
-		Call.effect(boom, x, y, 0, Color.white);
-		Call.soundAt(Sounds.explosionbig, x, y, 1, 1);
-
-		Damage.damage(null, x, y, 13 * 8, 1000000, false, true);
+		Damage.damage(null, hex.fx, hex.fy, 13 * 8, 1000000, false, true);
 	}
 }

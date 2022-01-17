@@ -6,6 +6,7 @@ import arc.struct.StringMap;
 import arc.util.Strings;
 import arc.util.Structs;
 import mindustry.gen.Iconc;
+import mindustry.gen.Player;
 import hex.Main;
 
 import java.text.MessageFormat;
@@ -39,6 +40,11 @@ public class Bundle {
 
     public static Locale defaultLocale() {
         return Structs.find(supportedLocales, locale -> locale.toString().equals("en"));
+    }
+
+	public static Locale findLocale(Player player) {
+        Locale locale = Structs.find(supportedLocales, l -> l.toString().equals(player.locale) || player.locale.startsWith(l.toString()));
+        return locale != null ? locale : defaultLocale();
     }
 
     public static String get(String key, Locale locale) {

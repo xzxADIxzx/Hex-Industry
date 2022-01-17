@@ -12,6 +12,7 @@ import mindustry.mod.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
 
+import static hex.components.Bundle.*;
 import static hex.components.MenuListener.*;
 import static mindustry.Vars.*;
 
@@ -40,9 +41,8 @@ public class Main extends Plugin {
 
 		Timer.schedule(() -> humans.each(h -> {
 			Hex look = h.lookAt();
-			// TODO: bundle.format
-			Call.setHudText(h.player.con, "[gray]hex #" + h.location().id + "[]\n" + h.production.human());
-			Call.label(h.player.con, "[gray]hex #" + look.id + "\n" + (look.owner == null ? "" : look.owner.name()), .04f, look.x * tilesize + 32f, look.y * tilesize + 64f);
+			Call.setHudText(h.player.con, format("ui.hud", findLocale(h.player), h.location().id, h.production.human()));
+			Call.label(h.player.con, format("ui.label", findLocale(h.player), look.id, look.owner == null ? "" : look.owner.name()), .04f, look.lx, look.ly);
 		}), 0f, .04f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));

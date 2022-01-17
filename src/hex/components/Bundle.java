@@ -5,6 +5,7 @@ import arc.struct.ObjectMap;
 import arc.struct.StringMap;
 import arc.util.Strings;
 import arc.util.Structs;
+import mindustry.gen.Groups;
 import mindustry.gen.Iconc;
 import mindustry.gen.Player;
 import hex.Main;

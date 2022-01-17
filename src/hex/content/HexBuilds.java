@@ -27,7 +27,7 @@ public class HexBuilds {
 					human = 20;
 				}};
 				cons = new Production() {{
-					titanium = 20;
+					plastanium = 20;
 				}};
 			}};
 		}};

@@ -5,7 +5,7 @@ import mindustry.content.*;
 
 public class HexBuilds {
 
-	public static HexBuild citadel, miner, thory, compressor;
+	public static HexBuild citadel, miner, thory, oil, compressor;
 
 	public static void load() {
 		citadel = new HexBuild() {{
@@ -53,8 +53,8 @@ public class HexBuilds {
 					titanium = 2;
 				}};
 				cons = new Production() {{
-					titanium = 20;
-					human = 1;
+					plastanium = 20;
+					human = 2;
 				}};
 			}};
 		}};
@@ -82,8 +82,22 @@ public class HexBuilds {
 				}};
 				cons = new Production() {{
 					plastanium = 20;
-					human = 1;
+					human = 2;
 				}};
+			}};
+		}};
+
+        oil = new HexBuild() {{
+			name = "Oil Pump";
+			scheme = Schems.oil;
+			boom = Fx.impactcloud;
+
+			prod = new Production() {{
+				oil = 1;
+			}};
+			cons = new Production() {{
+				thorium = 20;
+				human = 1;
 			}};
 		}};
 

@@ -101,6 +101,10 @@ public class Main extends Plugin {
 				player.team(Team.derelict);
 			}
 		});
+
+        handler.<Player>register("author", "Plugin creators", (args, player) -> {
+            player.sendMessage(get("author", findLocale(player)));
+        });
 	}
 
 	@Override

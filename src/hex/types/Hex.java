@@ -128,8 +128,10 @@ public class Hex {
 		spore(null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
-		oil(null, null) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+		oil(Schems.oilLr1, Schems.oilLr2) {
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.oil, 7, 2);
+            }
 		},
 		water(null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
@@ -165,7 +167,7 @@ public class Hex {
 
 		public static HexEnv get() {
 			// return values()[Mathf.random(values().length - 1)];
-			return Mathf.chance(.5d) ? titanium : thorium;
+			return Mathf.chance(1f / 3f) ? titanium : Mathf.chance(1f / 3f) ? thorium : oil;
 		}
 
 		protected abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);

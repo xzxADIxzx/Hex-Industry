@@ -19,7 +19,7 @@ public class BuildButton extends Button {
 				if (build.cons.sour.enough(p.production)) {
 					h.owner = p;
 					h.build(build);
-				} else p.player.sendMessage("[scarlet]You don't have enough resources");
+				} else p.player.sendMessage(get("enough", findLocale(p.player)));
 			} else  p.player.sendMessage("ATTACK in development :D");
 		}, hex, x, y);
 
@@ -27,7 +27,7 @@ public class BuildButton extends Button {
 	}
 
 	public String format(Human human) {
-		return hex.owner == null || hex.owner == human ? build.name + "\n" + build.prod.sour.format(findLocale(human.player), human.fraction) + "\n" + build.cons.sour.format(findLocale(human.player)) : "ATTACK";
+		return hex.owner == null || hex.owner == human ? build.name + "\n" + build.prod.sour.format(findLocale(human.player), human.fraction) + build.cons.sour.format(findLocale(human.player)) : "ATTACK";
 	}
 
 	@Override

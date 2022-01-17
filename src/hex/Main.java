@@ -12,6 +12,8 @@ import mindustry.mod.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
 
+import java.util.Locale;
+
 import static hex.components.Bundle.*;
 import static hex.components.MenuListener.*;
 import static mindustry.Vars.*;
@@ -43,8 +45,8 @@ public class Main extends Plugin {
 		Timer.schedule(() -> humans.each(h -> {
 			Hex look = h.lookAt();
 			Call.setHudText(h.player.con, format("ui.hud", findLocale(h.player), h.location().id, h.production.human()));
-			Call.label(h.player.con, format("ui.label", findLocale(h.player), look.id, look.owner == null ? "" : look.owner.name()), .04f, look.lx, look.ly);
-		}), 0f, .04f);
+			Call.label(h.player.con, format("ui.label", findLocale(h.player), look.id, look.owner == null ? "" : look.owner.name()), .05f, look.lx, look.ly);
+		}), 0f, .05f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
 		Events.on(PlayerLeave.class, event -> {
@@ -54,27 +56,34 @@ public class Main extends Plugin {
 	}
 
 	public void handle(Player player) {
-		Call.menu(player.con, fractionChooseMenu, "Заголовок", "Текст", new String[][] { { "Horde" }, { "Engineer" }, { "Militant" }, { "Spectator" } });
-	}
+        Locale loc = findLocale(player);
+        Call.menu(player.con, fractionChooseMenu, get("fract.title", loc), get("fract.text", loc), new String[][] {
+                { get("fract.horde", loc) },
+                { get("fract.engineer", loc) },
+                { get("fract.militant", loc) },
+                { get("fract.spectator", loc) } });
+    }
 
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> {
+            Locale loc = findLocale(player);
 			Human human = Human.from(args[0]);
-			if (human == null || human.player == player) player.sendMessage("[scarlet]Player not found");
+			if (human == null || human.player == player) player.sendMessage(get("offer.notfound", loc));
 			else {
-				player.sendMessage("[green]Offer sent");
-				human.player.sendMessage(player.coloredName() + " [white]offered you a [green]peace[]... do /peace if you agree");
+				player.sendMessage(get("offer.sent", loc));
+				human.player.sendMessage(player.coloredName() + " " + get("offer.peace", loc));
 			}
 		});
 
 		// TODO: in early development! add Human.Leader & Politics
 		handler.<Player>register("join", "<player>", "Offer the player to team up", (args, player) -> {
+			Locale loc = findLocale(player);
 			Human human = Human.from(args[0]);
-			if (human == null) player.sendMessage("[scarlet]Player not found");
+			if (human == null) player.sendMessage(get("offer.notfound", loc));
 			else {
-				player.sendMessage("[green]Offer sent");
-				human.player.sendMessage(player.coloredName() + " [white]offered you to [green]team up[]... do /join if you agree");
+				player.sendMessage(get("offer.sent", loc));
+				human.player.sendMessage(player.coloredName() + " " + get("offer.join", loc));
 
 				Human offerer = Human.from(player);
 				human.team(Generator.team());

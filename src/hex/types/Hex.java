@@ -10,7 +10,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.content.*;
 
-import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class Hex {
@@ -80,7 +79,7 @@ public class Hex {
 		buttons.clear();
 
 		// removes the button's floor
-		app.post(() -> env.terrain(this));
+		env.terrain(this);
 	}
 
 	public Seq<Hex> neighbours() {

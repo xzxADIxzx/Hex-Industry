@@ -42,7 +42,7 @@ public class Bundle {
         return Structs.find(supportedLocales, locale -> locale.toString().equals("en"));
     }
 
-	public static Locale findLocale(Player player) {
+    public static Locale findLocale(Player player) {
         Locale locale = Structs.find(supportedLocales, l -> l.toString().equals(player.locale) || player.locale.startsWith(l.toString()));
         return locale != null ? locale : defaultLocale();
     }
@@ -90,5 +90,13 @@ public class Bundle {
             properties.put(s, bundle.getString(s));
         }
         return properties;
+    }
+
+    public static void bundled(Player player, String key, Object... values) {
+        player.sendMessage(Bundle.format(key, findLocale(player.locale), values));
+    }
+
+    public static void sendToChat(String key, Object... values) {
+        Groups.player.each(player -> bundled(player, key, values));
     }
 }

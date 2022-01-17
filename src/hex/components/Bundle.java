@@ -94,7 +94,7 @@ public class Bundle {
     }
 
     public static void bundled(Player player, String key, Object... values) {
-        player.sendMessage(Bundle.format(key, findLocale(player.locale), values));
+        player.sendMessage(Bundle.format(key, findLocale(player), values));
     }
 
     public static void sendToChat(String key, Object... values) {

@@ -7,7 +7,7 @@ public class Icons {
 
     private static StringMap icons;
 
-    public static void init() {
+    public static void load() {
         icons = StringMap.of(
                 "copper", Iconc.itemCopper,
                 "lead", Iconc.itemLead,

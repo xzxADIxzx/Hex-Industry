@@ -51,7 +51,7 @@ public class Hex {
 		fy = cy * tilesize;
 
 		lx = (x + 4f) * tilesize;
-		ly = (x + 8f) * tilesize;
+		ly = (y + 8f) * tilesize;
 
 		env = HexEnv.get();
 		door = (byte) random.nextLong();
@@ -88,7 +88,7 @@ public class Hex {
 	}
 
 	public Position pos() {
-		return new Vec2(fx, fx);
+		return new Vec2(fx, fy);
 	}
 
 	public Point2 point() {

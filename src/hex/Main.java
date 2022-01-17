@@ -28,7 +28,7 @@ public class Main extends Plugin {
 		HexBuilds.load();
 		Buttons.load();
 		MenuListener.load();
-                Icons.load();
+		Icons.load();
 
 		netServer.admins.actionFilters.clear();
 		netServer.admins.addActionFilter(action -> false);

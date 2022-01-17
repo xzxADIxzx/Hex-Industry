@@ -1,13 +1,12 @@
 package hex.types;
 
+import hex.components.*;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.content.*;
 
 import java.util.*;
-
-import static hex.components.Bundle.*;
 
 // TODO: go through all the hexes when the amount of liquid changes and turn on/off plants that require liquid
 public class Production {
@@ -149,27 +148,27 @@ public class Production {
 					(human > 0 ? prod.human >= human : true);
 		}
 
-		public String formated(Locale loc, Fraction fract) {
-			return formated(loc, new String[] { "prod.item", "prod.liquid", "prod.creature" }, fract.production, fract.people);
+		public String format(Locale loc, Fraction fract) {
+			return format(loc, new String[] { "prod.item", "prod.liquid", "prod.creature" }, fract.production, fract.people);
 		}
 
-		public String formated(Locale loc) {
-			return formated(loc, new String[] { "cons.item", "cons.liquid", "cons.creature" }, 1, 1);
+		public String format(Locale loc) {
+			return format(loc, new String[] { "cons.item", "cons.liquid", "cons.creature" }, 1, 1);
 		}
 
-		private String formated(Locale loc, String[] base, int r, int h) {
+		private String format(Locale loc, String[] base, int r, int h) {
 			String result = "";
 
-			if (plastanium != 0) result += format(base[0], loc, plastanium * r, "");
-			if (titanium != 0) result += format(base[0], loc, titanium * r, "");
-			if (thorium != 0) result += format(base[0], loc, thorium * r, Items.thorium.emoji());
-			if (spore != 0) result += format(base[0], loc, spore * r, Items.sporePod.emoji());
+			if (plastanium != 0) result += Bundle.format(base[0], loc, plastanium * r, Icons.get("plastanium"));
+			if (titanium != 0) result += Bundle.format(base[0], loc, titanium * r, Icons.get("titanium"));
+			if (thorium != 0) result += Bundle.format(base[0], loc, thorium * r, Icons.get("thorium"));
+			if (spore != 0) result += Bundle.format(base[0], loc, spore * r, Icons.get("spore"));
 
-			if (oil != 0) result += format(base[1], loc, Liquids.oil.emoji());
-			if (water != 0) result += format(base[1], loc, Liquids.water.emoji());
-			if (cryo != 0) result += format(base[1], loc, Liquids.cryofluid.emoji());
+			if (oil != 0) result += Bundle.format(base[1], loc, Icons.get("oil"));
+			if (water != 0) result += Bundle.format(base[1], loc, Icons.get("water"));
+			if (cryo != 0) result += Bundle.format(base[1], loc, Icons.get("cryo"));
 
-			if (human != 0) result += base[2].formatted(human * h);
+			if (human != 0) result += Bundle.format(base[2], loc, human * h);
 
 			return result;
 		}

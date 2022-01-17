@@ -27,7 +27,7 @@ public class BuildButton extends Button {
 	}
 
 	public String format(Human human) {
-		return hex.owner == null || hex.owner == human ? build.name + "\n" + build.prod.sour.formated(findLocale(human.player), human.fraction) + "\n" + build.cons.sour.formated(findLocale(human.player)) : "ATTACK";
+		return hex.owner == null || hex.owner == human ? build.name + "\n" + build.prod.sour.format(findLocale(human.player), human.fraction) + "\n" + build.cons.sour.format(findLocale(human.player)) : "ATTACK";
 	}
 
 	@Override

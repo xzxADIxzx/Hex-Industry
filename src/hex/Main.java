@@ -42,11 +42,7 @@ public class Main extends Plugin {
 			Buttons.update();
 		}, 0f, 1f);
 
-		Timer.schedule(() -> humans.each(h -> {
-			Hex look = h.lookAt();
-			Call.setHudText(h.player.con, format("ui.hud", findLocale(h.player), h.location().id, h.production.human()));
-			Call.label(h.player.con, format("ui.label", findLocale(h.player), look.id, look.owner == null ? "" : look.owner.name()), .05f, look.lx, look.ly);
-		}), 0f, .05f);
+		Timer.schedule(() -> humans.each(Human::update), 0f, .05f);
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
 		Events.on(PlayerLeave.class, event -> {
@@ -121,6 +117,7 @@ public class Main extends Plugin {
 			state.rules.waves = false;
 			state.rules.canGameOver = false;
 			state.rules.modeName = "Hex Industry";
+			state.rules.defaultTeam = Team.derelict;
 
 			for (Team team : Team.all) state.rules.teams.get(team).cheat = true;
 

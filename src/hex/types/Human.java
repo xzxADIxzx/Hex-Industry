@@ -10,6 +10,10 @@ import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
 
+import java.util.Locale;
+
+import static hex.components.Bundle.*;
+
 public class Human {
 
 	public static ObjectMap<Player, Unit> units = new ObjectMap<>();
@@ -39,6 +43,14 @@ public class Human {
 
 		player.unit(fraction.spawn(player.team(), citadel.pos()));
 		units.put(player, player.unit()); // saves the player's unit
+	}
+
+	public void update(){
+		Hex look = lookAt();
+		Locale loc = findLocale(player);
+
+		Call.setHudText(player.con, format("ui.hud", loc, location().id, production.human(), production.liquids()));
+		Call.label(player.con, format("ui.label", loc, look.id, look.owner == null ? "" : look.owner.name()), .05f, look.lx, look.ly);
 	}
 
 	public void team(Team team) {

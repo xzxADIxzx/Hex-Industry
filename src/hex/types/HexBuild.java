@@ -11,9 +11,6 @@ public class HexBuild {
 	static {
 		UnitTypes.poly.defaultController = HexBuilderAI::new;
 		UnitTypes.poly.weapons.clear();
-
-		// TODO: remove
-		Items.titanium.hardness = 2;
 	}
 
 	public String name;

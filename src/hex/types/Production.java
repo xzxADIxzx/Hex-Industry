@@ -46,7 +46,7 @@ public class Production {
 	}
 
 	public void update() {
-		float speed = fract.production + (water() ? .2f : 0f) + (cryo() ? .4f : 0f);
+		float speed = fract.production + (water > 0 ? .2f : 0f) + (cryo > 0 ? .4f : 0f);
 
 		core.items.add(Items.plastanium, (int) (plastanium * speed));
 		core.items.add(Items.titanium, (int) (titanium * speed));
@@ -93,16 +93,10 @@ public class Production {
 		core.items.add(Items.sporePod, amount);
 	}
 
-	public boolean oil() {
-		return oil > 0;
-	}
-
-	public boolean water() {
-		return water > 0;
-	}
-
-	public boolean cryo() {
-		return cryo > 0;
+	public String liquids() {
+		return (oil > 0 ? "" : "[scarlet]") + Icons.get("oil") +
+				(water > 0 ? "[]" : "[scarlet]") + Icons.get("water") +
+				(cryo > 0 ? "[]" : "[scarlet]") + Icons.get("cryo");
 	}
 
 	public String human() {
@@ -121,9 +115,9 @@ public class Production {
 			prod.thorium += thorium;
 			prod.spore += spore;
 
-			if (oil()) prod.oil++;
-			if (water()) prod.water++;
-			if (cryo()) prod.cryo++;
+			prod.oil = oil;
+			prod.water = water;
+			prod.cryo = cryo;
 
 			prod.human(human);
 		}
@@ -142,9 +136,9 @@ public class Production {
 					(titanium > 0 ? prod.titanium() >= titanium : true) &&
 					(thorium > 0 ? prod.thorium() >= thorium : true) &&
 					(spore > 0 ? prod.spore() >= spore : true) &&
-					(oil() ? prod.oil() : true) &&
-					(water() ? prod.water() : true) &&
-					(cryo() ? prod.cryo() : true) &&
+					(oil > 0 ? prod.oil >= oil : true) &&
+					(water > 0 ? prod.water >= water : true) &&
+					(cryo > 0 ? prod.cryo >= cryo : true) &&
 					(human > 0 ? prod.human >= human : true);
 		}
 

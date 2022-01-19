@@ -49,8 +49,8 @@ public class Hex {
 		fx = cx * tilesize;
 		fy = cy * tilesize;
 
-		lx = (x + 4f) * tilesize;
-		ly = (y + 8f) * tilesize;
+		lx = (x + 3.5f) * tilesize;
+		ly = (y + 6.5f) * tilesize;
 
 		env = HexEnv.get();
 		door = (byte) random.nextLong();
@@ -107,43 +107,44 @@ public class Hex {
 	}
 
 	public enum HexEnv {
-		empty(null, null) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
-		},
-		citadel(Schems.citadelLr1, Schems.citadelLr2) {
+		citadel(0f, Schems.citadelLr1, Schems.citadelLr2) {
 			// there is nothing, because the citadel building will add the necessary buttons
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
-		titanium(Schems.titaniumLr1, Schems.titaniumLr2) {
+		titanium(.2f, Schems.titaniumLr1, Schems.titaniumLr2) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
 				add.get(HexBuilds.compressor, 4, 4);
 				add.get(HexBuilds.miner, -6, -3);
 			}
 		},
-		thorium(Schems.thoriumLr1, Schems.thoriumLr2) {
+		thorium(.2f, Schems.thoriumLr1, Schems.thoriumLr2) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
 				add.get(HexBuilds.thory, 0, 0);
 			}
 		},
-		spore(null, null) {
+		spore(0f, null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
-		oil(Schems.oilLr1, Schems.oilLr2) {
+		oil(.1f, Schems.oilLr1, Schems.oilLr2) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.oil, 7, 2);
-            }
+				add.get(HexBuilds.oil, 7, 2);
+			}
 		},
-		water(null, null) {
+		water(.1f, null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
-		cryo(null, null) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+		cryo(1f, Schems.cryoLr1, Schems.cryoLr2) {
+			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+				add.get(HexBuilds.cryo, -3, -6);
+			}
 		};
 
+		protected final float frq;
 		protected final Schem Lr1;
 		protected final Schem Lr2;
 
-		HexEnv(Schem floor, Schem block) {
+		HexEnv(float chance, Schem floor, Schem block) {
+			frq = chance;
 			Lr1 = floor;
 			Lr2 = block;
 		}
@@ -166,8 +167,8 @@ public class Hex {
 		}
 
 		public static HexEnv get() {
-			// return values()[Mathf.random(values().length - 1)];
-			return Mathf.chance(1f / 3f) ? titanium : Mathf.chance(1f / 3f) ? thorium : oil;
+			for (HexEnv env : values()) if (Mathf.chance(env.frq)) return env;
+			return null; // never happen because the last one has a 100% drop chance
 		}
 
 		protected abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);

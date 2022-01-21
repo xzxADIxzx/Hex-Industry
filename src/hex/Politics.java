@@ -32,10 +32,8 @@ public class Politics {
 
 	public static void spectate(Player player) {
 		Human human = Human.from(player);
-		if (human == null)
-			join(player);
-		else
-			human.lose();
+		if (human == null) join(player);
+		else human.lose();
 	}
 
 	public static void attack(Player player, int option) {
@@ -59,9 +57,7 @@ public class Politics {
 
 	public static void peace(String arg, Player player) {
 		template(arg, player, "offer.peace", (o, t, l) -> {
-			o.team(Generator.team());
-			t.team(o.player.team());
-			t.production = o.production;
+			// TODO: 
 		});
 	}
 

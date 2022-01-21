@@ -65,7 +65,7 @@ public class Human {
 
 	public void lose() {
 		Call.unitDespawn(units.remove(player));
-		Call.setHudText(player.con, "");
+		Call.hideHudText(player.con);
 
 		player.team(Team.derelict);
 		world.tile(citadel.point().pack()).setNet(Blocks.air);

@@ -63,7 +63,7 @@ public class Production {
 	}
 
 	public void all(int amount) {
-		titanium = plastanium = thorium = spore = oil = water = cryo = human = amount;
+		titanium = plastanium = thorium = spore = oil = water = cryo = human = crawler = amount;
 	}
 
 	public int plastanium() {

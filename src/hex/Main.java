@@ -5,6 +5,7 @@ import hex.content.*;
 import hex.components.*;
 import arc.*;
 import arc.util.*;
+import arc.math.*;
 import arc.struct.*;
 import mindustry.net.*;
 import mindustry.gen.*;
@@ -22,6 +23,8 @@ public class Main extends Plugin {
 
 	public static Seq<Hex> hexes = new Seq<>();
 	public static Seq<Human> humans = new Seq<>();
+
+	public static Hex attacked;
 
 	@Override
 	public void init() {
@@ -52,18 +55,37 @@ public class Main extends Plugin {
 	}
 
 	public void handle(Player player) {
-        Locale loc = findLocale(player);
-        Call.menu(player.con, fractionChooseMenu, get("fract.title", loc), get("fract.text", loc), new String[][] {
-                { get("fract.horde", loc) },
-                { get("fract.engineer", loc) },
-                { get("fract.militant", loc) },
-                { get("fract.spectator", loc) } });
-    }
+		Locale loc = findLocale(player);
+		Call.menu(player.con, fractionChooseMenu, get("fract.title", loc), get("fract.text", loc), new String[][] {
+				{ get("fract.horde", loc) },
+				{ get("fract.engineer", loc) },
+				{ get("fract.militant", loc) },
+				{ get("fract.spectator", loc) } });
+	}
 
+	// TODO: move to Politics
+	public static void attack(float chance) {
+		if (Mathf.chance(chance)) attacked.clear();
+	}
+
+	// TODO: check for player.team() == Team.derelict
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
+		handler.<Player>register("attack", "[hex]", "Attack a hex", (args, player) -> {
+			Locale loc = findLocale(player);
+			Human human = Human.from(player);
+
+			attacked = args.length > 0 ? hexes.get(Integer.valueOf(args[0])) : human.location();
+
+			if (attacked.isEmpty() || attacked.owner == human) player.sendMessage("you can't to attack this hex");
+			else Call.menu(player.con, weaponChooseMenu, get("fract.title", loc), "chance to win", new String[][] {
+						{ "33%" },
+						{ "66%" },
+						{ "10%" } });
+		});
+
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> {
-            Locale loc = findLocale(player);
+			Locale loc = findLocale(player);
 			Human human = Human.from(args[0]);
 			if (human == null || human.player == player) player.sendMessage(get("offer.notfound", loc));
 			else {
@@ -94,13 +116,12 @@ public class Main extends Plugin {
 			else {
 				human.lose();
 				humans.remove(human);
-				player.team(Team.derelict);
 			}
 		});
 
-        handler.<Player>register("author", "Plugin creators", (args, player) -> {
-            player.sendMessage(get("author", findLocale(player)));
-        });
+		handler.<Player>register("author", "Plugin creators", (args, player) -> {
+			player.sendMessage(get("author", findLocale(player)));
+		});
 	}
 
 	@Override

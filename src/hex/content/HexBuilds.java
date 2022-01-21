@@ -87,7 +87,7 @@ public class HexBuilds {
 			}};
 		}};
 
-        oil = new HexBuild() {{
+		oil = new HexBuild() {{
 			name = "Oil Pump";
 			scheme = Schems.oil;
 			boom = Fx.impactcloud;
@@ -101,7 +101,7 @@ public class HexBuilds {
 			}};
 		}};
 
-        cryo = new HexBuild() {{
+		cryo = new HexBuild() {{
 			name = "Cryo Pump";
 			scheme = Schems.cryo;
 			boom = Fx.impactcloud;

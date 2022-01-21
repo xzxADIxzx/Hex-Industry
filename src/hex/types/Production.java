@@ -96,7 +96,7 @@ public class Production {
 	public String liquids() {
 		return (oil > 0 ? "" : "[scarlet]") + Icons.get("oil") +
 				(water > 0 ? "[]" : "[scarlet]") + Icons.get("water") +
-				(cryo > 0 ? "[]" : "[scarlet]") + Icons.get("cryo");
+				(cryo > 0 ? "[]" : "[scarlet]") + Icons.get("cryofluid");
 	}
 
 	public String human() {

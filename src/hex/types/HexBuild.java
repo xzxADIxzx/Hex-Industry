@@ -30,8 +30,13 @@ public class HexBuild {
 		prod.sour.produce(hex.owner.production);
 		cons.sour.consume(hex.owner.production);
 
-		hex.clearButtons();
+		hex.clearButtons(false);
 		if (next != null) hex.buttons.add(new BuildButton(next, hex));
+	}
+
+	public void destroy(Hex hex) {
+		explode(hex);
+		// TODO: remove prod from human
 	}
 
 	public void explode(Hex hex) {

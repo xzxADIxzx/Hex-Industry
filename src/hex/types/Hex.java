@@ -74,12 +74,20 @@ public class Hex {
 		});
 	}
 
-	public void clearButtons() {
+	public void clear() {
+		build.explode(this);
+		clearButtons(true);
+
+		build = null;
+		owner = null;
+	}
+
+	public void clearButtons(boolean full) {
 		buttons.each(Buttons::unregister);
 		buttons.clear();
 
-		// removes the button's floor
-		env.terrain(this);
+		if (full) env.build(this);
+		else env.terrain(this);
 	}
 
 	public Seq<Hex> neighbours() {
@@ -111,13 +119,13 @@ public class Hex {
 			// there is nothing, because the citadel building will add the necessary buttons
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
-		titanium(.2f, Schems.titaniumLr1, Schems.titaniumLr2) {
+		titanium(.4f, Schems.titaniumLr1, Schems.titaniumLr2) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
 				add.get(HexBuilds.compressor, 4, 4);
 				add.get(HexBuilds.miner, -6, -3);
 			}
 		},
-		thorium(.2f, Schems.thoriumLr1, Schems.thoriumLr2) {
+		thorium(.4f, Schems.thoriumLr1, Schems.thoriumLr2) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
 				add.get(HexBuilds.thory, 0, 0);
 			}
@@ -125,12 +133,12 @@ public class Hex {
 		spore(0f, null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
-		oil(.1f, Schems.oilLr1, Schems.oilLr2) {
+		oil(.2f, Schems.oilLr1, Schems.oilLr2) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
 				add.get(HexBuilds.oil, 7, 2);
 			}
 		},
-		water(.1f, null, null) {
+		water(0f, null, null) {
 			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
 		},
 		cryo(1f, Schems.cryoLr1, Schems.cryoLr2) {
@@ -150,7 +158,7 @@ public class Hex {
 		}
 
 		public void build(Hex hex) {
-			hex.clearButtons();
+			hex.clearButtons(false);
 			addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
 		}
 
@@ -167,10 +175,11 @@ public class Hex {
 		}
 
 		public static HexEnv get() {
-			for (HexEnv env : values()) if (Mathf.chance(env.frq)) return env;
+			for (HexEnv env : values())
+				if (Mathf.chance(env.frq)) return env;
 			return null; // never happen because the last one has a 100% drop chance
 		}
 
-		protected abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);
+		public abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);
 	}
 }

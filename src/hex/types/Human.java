@@ -45,7 +45,7 @@ public class Human {
 		units.put(player, player.unit()); // saves the player's unit
 	}
 
-	public void update(){
+	public void update() {
 		Hex look = lookAt();
 		Locale loc = findLocale(player);
 
@@ -62,17 +62,11 @@ public class Human {
 
 	public void lose() {
 		Call.unitDespawn(units.remove(player));
-		cleanup();
-	}
+		Call.setHudText(player.con, "");
 
-	public void cleanup() {
-		captured().each(hex -> Time.runTask(Mathf.random(180f), () -> {
-			hex.build.explode(hex);
-			hex.env.build(hex);
+		player.team(Team.derelict);
 
-			hex.build = null;
-			hex.owner = null;
-		}));
+		captured().each(hex -> Time.runTask(Mathf.random(180f), hex::clear));
 	}
 
 	public Hex location() {

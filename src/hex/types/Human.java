@@ -9,10 +9,12 @@ import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
+import mindustry.content.*;
 
 import java.util.Locale;
 
 import static hex.components.Bundle.*;
+import static mindustry.Vars.*;
 
 public class Human {
 
@@ -65,8 +67,11 @@ public class Human {
 		Call.setHudText(player.con, "");
 
 		player.team(Team.derelict);
+		world.tile(citadel.point().pack()).setNet(Blocks.air);
 
 		captured().each(hex -> Time.runTask(Mathf.random(180f), hex::clear));
+
+		Main.humans.remove(this);
 	}
 
 	public Hex location() {

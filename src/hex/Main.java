@@ -49,8 +49,8 @@ public class Main extends Plugin {
 
 		Events.on(PlayerJoin.class, event -> handle(event.player));
 		Events.on(PlayerLeave.class, event -> {
-			Human player = Human.from(event.player);
-			if (player != null) player.lose();
+			Human human = Human.from(event.player);
+			if (human != null) human.lose();
 		});
 	}
 
@@ -81,7 +81,7 @@ public class Main extends Plugin {
 			else Call.menu(player.con, weaponChooseMenu, get("fract.title", loc), "chance to win", new String[][] {
 						{ "33%" },
 						{ "66%" },
-						{ "10%" } });
+						{ "100%" } });
 		});
 
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> {
@@ -113,10 +113,7 @@ public class Main extends Plugin {
 		handler.<Player>register("spectate", "Watching the game is fun too", (args, player) -> {
 			Human human = Human.from(player);
 			if (human == null) handle(player);
-			else {
-				human.lose();
-				humans.remove(human);
-			}
+			else human.lose();
 		});
 
 		handler.<Player>register("author", "Plugin creators", (args, player) -> {

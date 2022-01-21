@@ -58,7 +58,11 @@ public class Production {
 		core.items.clear();
 		Call.setTeam(core, team);
 
-		titanium = plastanium = thorium = spore = oil = water = cryo = human = 0;
+		all(0);
+	}
+
+	public void all(int amount) {
+		titanium = plastanium = thorium = spore = oil = water = cryo = human = amount;
 	}
 
 	public int plastanium() {

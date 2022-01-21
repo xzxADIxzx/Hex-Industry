@@ -56,6 +56,20 @@ public class HexBuilds {
 					plastanium = 20;
 					human = 2;
 				}};
+
+				next = new HexBuild() {{
+					name = "Miner Mk3";
+					scheme = Schems.minerMk3;
+					boom = Fx.reactorExplosion;
+	
+					prod = new Production() {{
+						titanium = 3;
+					}};
+					cons = new Production() {{
+						spore = 20;
+						human = 3;
+					}};
+				}};
 			}};
 		}};
 
@@ -116,7 +130,7 @@ public class HexBuilds {
 		}};
 
 		compressor = new HexBuild() {{
-			name = "Plastanium Compressor";
+			name = "Compressor";
 			scheme = Schems.compressor;
 			boom = Fx.impactcloud;
 

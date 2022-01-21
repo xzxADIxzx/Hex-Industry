@@ -20,18 +20,20 @@ public class BuildButton extends Button {
 					h.owner = p;
 					h.build(build);
 				} else p.player.sendMessage(get("enough", findLocale(p.player)));
-			} else  p.player.sendMessage("ATTACK in development :D");
+			}
 		}, hex, x, y);
 
 		this.build = build;
 	}
 
 	public String format(Human human) {
-		return hex.owner == null || hex.owner == human ? build.name + "\n" + build.prod.sour.format(findLocale(human.player), human.fraction) + build.cons.sour.format(findLocale(human.player)) : "ATTACK";
+		return build.name + "\n" + build.prod.sour.format(findLocale(human.player), human.fraction) + build.cons.sour.format(findLocale(human.player));
 	}
 
 	@Override
 	public void update() {
-		Main.humans.each(h -> Call.label(h.player.con, format(h), 1f, fx, fy));
+		Main.humans.each(h -> {
+			if (hex.owner == null || hex.owner == h) Call.label(h.player.con, format(h), 1f, fx, fy);
+		});
 	}
 }

@@ -13,6 +13,7 @@ import mindustry.content.*;
 
 import java.util.Locale;
 
+import static hex.Main.*;
 import static hex.components.Bundle.*;
 import static mindustry.Vars.*;
 
@@ -51,7 +52,7 @@ public class Human {
 		Hex look = lookAt();
 		Locale loc = findLocale(player);
 
-		Call.setHudText(player.con, format("ui.hud", loc, location().id, production.human(), production.liquids()));
+		Call.setHudText(player.con, format("ui.hud", loc, location().id, production.human(), production.crawler(), production.liquids()));
 		Call.label(player.con, format("ui.label", loc, look.id, look.owner == null ? "" : look.owner.name()), .05f, look.lx, look.ly);
 	}
 
@@ -71,19 +72,19 @@ public class Human {
 
 		captured().each(hex -> Time.runTask(Mathf.random(180f), hex::clear));
 
-		Main.humans.remove(this);
+		humans.remove(this);
 	}
 
 	public Hex location() {
-		return Main.hexes.min(hex -> hex.pos().dst(player));
+		return hexes.min(hex -> hex.pos().dst(player));
 	}
 
 	public Hex lookAt() {
-		return Main.hexes.min(hex -> hex.pos().dst(player.mouseX, player.mouseY));
+		return hexes.min(hex -> hex.pos().dst(player.mouseX, player.mouseY));
 	}
 
 	public Seq<Hex> captured() {
-		return Main.hexes.copy().filter(hex -> hex.owner == this);
+		return hexes.copy().filter(hex -> hex.owner == this);
 	}
 
 	public String name() {
@@ -91,10 +92,10 @@ public class Human {
 	}
 
 	public static Human from(Player player) {
-		return Main.humans.find(h -> h.player == player);
+		return humans.find(h -> h.player == player);
 	}
 
 	public static Human from(String name) {
-		return Main.humans.find(h -> Strings.stripGlyphs(Strings.stripColors(h.player.name)).equalsIgnoreCase(Strings.stripGlyphs(Strings.stripColors(name))));
+		return humans.find(h -> Strings.stripGlyphs(Strings.stripColors(h.player.name)).equalsIgnoreCase(Strings.stripGlyphs(Strings.stripColors(name))));
 	}
 }

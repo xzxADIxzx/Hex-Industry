@@ -11,7 +11,7 @@ public class Fraction {
 	public UnitType unit;
 	public int damage;
 	public int production;
-	public int people;
+	public int creature;
 	public int distance;
 
 	public void unit(UnitType unit) {

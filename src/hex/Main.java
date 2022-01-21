@@ -5,7 +5,6 @@ import hex.content.*;
 import hex.components.*;
 import arc.*;
 import arc.util.*;
-import arc.math.*;
 import arc.struct.*;
 import mindustry.net.*;
 import mindustry.gen.*;
@@ -13,18 +12,13 @@ import mindustry.mod.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
 
-import java.util.Locale;
-
 import static hex.components.Bundle.*;
-import static hex.components.MenuListener.*;
 import static mindustry.Vars.*;
 
 public class Main extends Plugin {
 
 	public static Seq<Hex> hexes = new Seq<>();
 	public static Seq<Human> humans = new Seq<>();
-
-	public static Hex attacked;
 
 	@Override
 	public void init() {
@@ -47,78 +41,23 @@ public class Main extends Plugin {
 
 		Timer.schedule(() -> humans.each(Human::update), 0f, .05f);
 
-		Events.on(PlayerJoin.class, event -> handle(event.player));
-		Events.on(PlayerLeave.class, event -> {
-			Human human = Human.from(event.player);
-			if (human != null) human.lose();
-		});
-	}
-
-	public void handle(Player player) {
-		Locale loc = findLocale(player);
-		Call.menu(player.con, fractionChooseMenu, get("fract.title", loc), get("fract.text", loc), new String[][] {
-				{ get("fract.horde", loc) },
-				{ get("fract.engineer", loc) },
-				{ get("fract.militant", loc) },
-				{ get("fract.spectator", loc) } });
-	}
-
-	// TODO: move to Politics
-	public static void attack(float chance) {
-		if (Mathf.chance(chance)) attacked.clear();
+		Events.on(PlayerJoin.class, event -> Politics.join(event.player));
+		Events.on(PlayerLeave.class, event -> Politics.leave(event.player));
 	}
 
 	// TODO: check for player.team() == Team.derelict
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
-		handler.<Player>register("attack", "[hex]", "Attack a hex", (args, player) -> {
-			Locale loc = findLocale(player);
-			Human human = Human.from(player);
+		handler.<Player>register("attack", "[hex]", "Attack a hex", (args, player) -> Politics.peace(args[0], player));
 
-			attacked = args.length > 0 ? hexes.get(Integer.valueOf(args[0])) : human.location();
+		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> Politics.peace(args[0], player));
 
-			if (attacked.isEmpty() || attacked.owner == human) player.sendMessage("you can't to attack this hex");
-			else Call.menu(player.con, weaponChooseMenu, get("fract.title", loc), "chance to win", new String[][] {
-						{ "33%" },
-						{ "66%" },
-						{ "100%" } });
-		});
+		// TODO: in early development! add Human.Leader
+		handler.<Player>register("join", "<player>", "Offer the player to team up", (args, player) -> Politics.join(args[0], player));
 
-		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> {
-			Locale loc = findLocale(player);
-			Human human = Human.from(args[0]);
-			if (human == null || human.player == player) player.sendMessage(get("offer.notfound", loc));
-			else {
-				player.sendMessage(get("offer.sent", loc));
-				human.player.sendMessage(player.coloredName() + " " + get("offer.peace", loc));
-			}
-		});
+		handler.<Player>register("spectate", "Watching the game is fun too", (args, player) -> Politics.spectate(player));
 
-		// TODO: in early development! add Human.Leader & Politics
-		handler.<Player>register("join", "<player>", "Offer the player to team up", (args, player) -> {
-			Locale loc = findLocale(player);
-			Human human = Human.from(args[0]);
-			if (human == null) player.sendMessage(get("offer.notfound", loc));
-			else {
-				player.sendMessage(get("offer.sent", loc));
-				human.player.sendMessage(player.coloredName() + " " + get("offer.join", loc));
-
-				Human offerer = Human.from(player);
-				human.team(Generator.team());
-				offerer.team(human.player.team());
-				offerer.production = human.production;
-			}
-		});
-
-		handler.<Player>register("spectate", "Watching the game is fun too", (args, player) -> {
-			Human human = Human.from(player);
-			if (human == null) handle(player);
-			else human.lose();
-		});
-
-		handler.<Player>register("author", "Plugin creators", (args, player) -> {
-			player.sendMessage(get("author", findLocale(player)));
-		});
+		handler.<Player>register("author", "Plugin creators", (args, player) -> player.sendMessage(get("author", findLocale(player))));
 	}
 
 	@Override
@@ -144,7 +83,7 @@ public class Main extends Plugin {
 			Groups.player.each(netServer::sendWorldData);
 
 			// handle all players
-			Groups.player.each(this::handle);
+			Groups.player.each(Politics::join);
 
 			logic.play();
 			netServer.openServer();

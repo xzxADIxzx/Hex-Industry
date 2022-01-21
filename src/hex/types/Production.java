@@ -29,6 +29,7 @@ public class Production {
 
 	// little creatures
 	protected int human;
+	protected int crawler;
 
 	public Production() {
 		core = null;
@@ -108,7 +109,15 @@ public class Production {
 	}
 
 	public void human(int amount) {
-		human += amount * (fract == null ? 1 : fract.people);
+		human += amount * (fract == null ? 1 : fract.creature);
+	}
+
+	public String crawler() {
+		return (crawler > 0 ? "[green]" : "[scarlet]") + crawler;
+	}
+
+	public void crawler(int amount) {
+		crawler += amount * (fract == null ? 1 : fract.creature);
 	}
 
 	public class Resource {
@@ -119,9 +128,9 @@ public class Production {
 			prod.thorium += thorium;
 			prod.spore += spore;
 
-			prod.oil = oil;
-			prod.water = water;
-			prod.cryo = cryo;
+			prod.oil += oil;
+			prod.water += water;
+			prod.cryo += cryo;
 
 			prod.human(human);
 		}
@@ -147,7 +156,7 @@ public class Production {
 		}
 
 		public String format(Locale loc, Fraction fract) {
-			return format(loc, new String[] { "prod.item", "prod.liquid", "prod.creature" }, fract.production, fract.people);
+			return format(loc, new String[] { "prod.item", "prod.liquid", "prod.creature" }, fract.production, fract.creature);
 		}
 
 		public String format(Locale loc) {
@@ -160,11 +169,11 @@ public class Production {
 			if (plastanium != 0) result += Bundle.format(base[0], loc, plastanium * r, Icons.get("plastanium"));
 			if (titanium != 0) result += Bundle.format(base[0], loc, titanium * r, Icons.get("titanium"));
 			if (thorium != 0) result += Bundle.format(base[0], loc, thorium * r, Icons.get("thorium"));
-			if (spore != 0) result += Bundle.format(base[0], loc, spore * r, Icons.get("spore"));
+			if (spore != 0) result += Bundle.format(base[0], loc, spore * r, Icons.get("spore-pod"));
 
 			if (oil != 0) result += Bundle.format(base[1], loc, Icons.get("oil"));
 			if (water != 0) result += Bundle.format(base[1], loc, Icons.get("water"));
-			if (cryo != 0) result += Bundle.format(base[1], loc, Icons.get("cryo"));
+			if (cryo != 0) result += Bundle.format(base[1], loc, Icons.get("cryofluid"));
 
 			if (human != 0) result += Bundle.format(base[2], loc, human * h);
 

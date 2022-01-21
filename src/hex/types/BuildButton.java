@@ -1,8 +1,8 @@
 package hex.types;
 
-import hex.*;
 import mindustry.gen.*;
 
+import static hex.Main.*;
 import static hex.components.Bundle.*;
 
 public class BuildButton extends Button {
@@ -32,7 +32,7 @@ public class BuildButton extends Button {
 
 	@Override
 	public void update() {
-		Main.humans.each(h -> {
+		humans.each(h -> {
 			if (hex.owner == null || hex.owner == h) Call.label(h.player.con, format(h), 1f, fx, fy);
 		});
 	}

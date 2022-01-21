@@ -14,7 +14,7 @@ public class Fractions {
 
 			damage = 2;
 			production = 1;
-			people = 4;
+			creature = 4;
 			distance = 1;
 		}};
 
@@ -23,7 +23,7 @@ public class Fractions {
 
 			damage = 1;
 			production = 3;
-			people = 1;
+			creature = 1;
 			distance = 3;
 		}};
 
@@ -32,7 +32,7 @@ public class Fractions {
 
 			damage = 4;
 			production = 1;
-			people = 1;
+			creature = 1;
 			distance = 2;
 		}};
 	}

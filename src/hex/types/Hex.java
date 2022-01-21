@@ -1,6 +1,5 @@
 package hex.types;
 
-import hex.*;
 import hex.content.*;
 import arc.func.*;
 import arc.math.*;
@@ -10,6 +9,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.content.*;
 
+import static hex.Main.*;
 import static mindustry.Vars.*;
 
 public class Hex {
@@ -91,7 +91,7 @@ public class Hex {
 	}
 
 	public Seq<Hex> neighbours() {
-		return Main.hexes.copy().select(hex -> pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
+		return hexes.copy().select(hex -> pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
 	}
 
 	public Position pos() {

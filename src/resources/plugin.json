@@ -3,7 +3,7 @@
 	"displayName": "Hex Industry",
 	"description": "Some schizophrenia with bad code. It doesn't even work.",
 	"author": "xzxADIxzx, Darkness6030",
-	"version": "0.0.0.0.0.0.0.0.0.1-pre-pre-pre-alpha",
+	"version": "0.1-alpha",
 	"minGameVersion": "135",
 	"hidden": true,
 	"main": "hex.Main"

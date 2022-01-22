@@ -35,7 +35,6 @@ public class HexBuild {
 	}
 
 	public void destroy(Hex hex) {
-		explode(hex);
 		// TODO: remove prod from human
 	}
 

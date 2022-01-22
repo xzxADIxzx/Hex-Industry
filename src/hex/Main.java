@@ -51,7 +51,6 @@ public class Main extends Plugin {
 
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> Politics.peace(args[0], player));
 
-		// TODO: in early development! add Human.Leader
 		handler.<Player>register("join", "<player>", "Offer the player to team up", (args, player) -> Politics.join(args[0], player));
 
 		handler.<Player>register("spectate", "Watching the game is fun too", (args, player) -> Politics.spectate(player));

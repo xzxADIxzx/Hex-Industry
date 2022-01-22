@@ -47,7 +47,7 @@ public class Politics {
 		find(player, (o, ol) -> {
 			attacked = arg.isEmpty() ? o.location() : hexes.get(Integer.valueOf(arg));
 
-			if (attacked.isEmpty() || attacked.owner == o) player.sendMessage(get("attack", ol));
+			if (attacked.isEmpty() || attacked.owner == o.leader) player.sendMessage(get("attack", ol));
 			else Call.menu(player.con, weaponChooseMenu, get("fract.title", ol), "chance to win", new String[][] {
 						{ "33%" },
 						{ "66%" },
@@ -57,41 +57,46 @@ public class Politics {
 	}
 
 	public static void peace(String arg, Player player) {
-		offer(arg, "offer.peace", player, (o, ol, t, tl) -> {});
+		offer(arg, "offer.peace", 0, player, (o, ol, t, tl) -> {});
 	}
 
 	public static void join(String arg, Player player) {
-		offer(arg, "offer.join", player, (o, ol, t, tl) -> {
+		offer(arg, "offer.join", 1, player, (o, ol, t, tl) -> {
 			o.team(Generator.team());
 			t.team(o.player.team());
 			t.production = o.production;
+			t.leader = o;
+
+			o.captured().each(hex -> hex.owner = o);
 		});
 	}
 
-	private static void find(Player player, Cons2<Human, Locale> cons){
+	private static void find(Player player, Cons2<Human, Locale> cons) {
 		Locale loc = findLocale(player);
 		Human human = Human.from(player);
 		if (human == null) player.sendMessage(get("offer.spectator", loc));
 		else cons.get(human, loc);
 	}
-	
-	private static void offer(String arg, String msg, Player player, Cons4<Human, Locale, Human, Locale> cons){
+
+	private static void offer(String arg, String msg, int type, Player player, Cons4<Human, Locale, Human, Locale> cons) {
 		find(player, (o, ol) -> {
 			Human target = Human.from(arg);
 			if (target == null || target == o) player.sendMessage(get("offer.notfound", ol));
 			else {
 				Locale loc = findLocale(target.player);
 
-				if (offers.contains(of -> of.equals(target, o, 0))) {
+				if (offers.contains(of -> of.equals(target, o, type))) {
 					player.sendMessage(get("offer.accepted", ol));
 					target.player.sendMessage(player.coloredName() + get("offer.accept", loc));
 
 					cons.get(o, ol, target, loc);
+					offers.remove(of -> of.equals(target, o, type));
 				} else {
 					player.sendMessage(get("offer.sent", ol));
 					target.player.sendMessage(player.coloredName() + get(msg, loc));
 
-					offers.add(new Offer(o, target, 0));
+					if (!offers.contains(of -> of.equals(o, target, type))) offers.add(new Offer(o, target, 0));
+					else player.sendMessage(get("offer.already", ol));
 				}
 			}
 		});

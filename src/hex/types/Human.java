@@ -29,12 +29,16 @@ public class Human {
 		});
 	}
 
+	public Human leader;
 	public Player player;
 	public Hex citadel;
 	public Fraction fraction;
 	public Production production;
 
 	public Human(Player p, Fraction abilities) {
+		// for team mechanics
+		leader = this;
+
 		player = p;
 		fraction = abilities;
 

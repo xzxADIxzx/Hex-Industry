@@ -44,11 +44,11 @@ public class Politics {
 	}
 
 	public static void attack(String arg, Player player) {
-		template(player.name(), player, "", (o, t, l) -> {
+		find(player, (o, ol) -> {
 			attacked = arg.isEmpty() ? o.location() : hexes.get(Integer.valueOf(arg));
 
-			if (attacked.isEmpty() || attacked.owner == o) player.sendMessage(get("attack", l));
-			else Call.menu(player.con, weaponChooseMenu, get("fract.title", l), "chance to win", new String[][] {
+			if (attacked.isEmpty() || attacked.owner == o) player.sendMessage(get("attack", ol));
+			else Call.menu(player.con, weaponChooseMenu, get("fract.title", ol), "chance to win", new String[][] {
 						{ "33%" },
 						{ "66%" },
 						{ "100%" }
@@ -57,36 +57,44 @@ public class Politics {
 	}
 
 	public static void peace(String arg, Player player) {
-		template(arg, player, "offer.peace", (o, t, l) -> {
-			if (offers.contains(of -> of.equals(t, o, 0))) {
-				o.player.sendMessage("peace");
-				t.player.sendMessage("you offer accepted");
-			} else offers.add(new Offer(o, t, 0));
-		});
+		offer(arg, "offer.peace", player, (o, ol, t, tl) -> {});
 	}
 
 	public static void join(String arg, Player player) {
-		template(arg, player, "offer.join", (o, t, l) -> {
+		offer(arg, "offer.join", player, (o, ol, t, tl) -> {
 			o.team(Generator.team());
 			t.team(o.player.team());
 			t.production = o.production;
 		});
 	}
 
-	private static void template(String arg, Player player, String msg, Cons3<Human, Human, Locale> cons) {
+	private static void find(Player player, Cons2<Human, Locale> cons){
 		Locale loc = findLocale(player);
-		Human offer = Human.from(player);
-		if (offer == null) player.sendMessage(get("offer.spectator", loc));
-		else {
+		Human human = Human.from(player);
+		if (human == null) player.sendMessage(get("offer.spectator", loc));
+		else cons.get(human, loc);
+	}
+	
+	private static void offer(String arg, String msg, Player player, Cons4<Human, Locale, Human, Locale> cons){
+		find(player, (o, ol) -> {
 			Human target = Human.from(arg);
-			if (target == null) player.sendMessage(get("offer.notfound", loc));
+			if (target == null || target == o) player.sendMessage(get("offer.notfound", ol));
 			else {
-				player.sendMessage(get("offer.sent", loc));
-				target.player.sendMessage(player.coloredName() + " " + get(msg, loc));
+				Locale loc = findLocale(target.player);
 
-				cons.get(offer, target, loc);
+				if (offers.contains(of -> of.equals(target, o, 0))) {
+					player.sendMessage(get("offer.accepted", ol));
+					target.player.sendMessage(player.coloredName() + get("offer.accept", loc));
+
+					cons.get(o, ol, target, loc);
+				} else {
+					player.sendMessage(get("offer.sent", ol));
+					target.player.sendMessage(player.coloredName() + get(msg, loc));
+
+					offers.add(new Offer(o, target, 0));
+				}
 			}
-		}
+		});
 	}
 
 	public static class Offer {
@@ -96,14 +104,14 @@ public class Politics {
 
 		public int type;
 
-		public Offer(Human o, Human t, int l) {
-			type = l;
+		public Offer(Human o, Human t, int ot) {
+			type = ot;
 			offerer = o;
 			target = t;
 		}
 
-		public boolean equals(Human o, Human t, int l) {
-			return type == l && offerer == o && target == t;
+		public boolean equals(Human o, Human t, int ot) {
+			return type == ot && offerer == o && target == t;
 		}
 	}
 }

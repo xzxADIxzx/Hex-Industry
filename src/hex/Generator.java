@@ -54,7 +54,7 @@ public class Generator {
 		return closed.sort(h -> humans.sumf(p -> {
 			float dst = h.point().dst(p.citadel.point());
 			return dst > 100f ? -dst : Mathf.sqr(100f - dst);
-		})).get(Mathf.random(humans.isEmpty() ? closed.size - 1 : closed.size / humans.size + 2));
+		})).get(Mathf.random(humans.isEmpty() ? closed.size - 1 : closed.size / (humans.size + 2)));
 	}
 
 	public static Team team() {

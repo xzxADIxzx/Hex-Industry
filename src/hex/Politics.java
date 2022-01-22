@@ -3,6 +3,7 @@ package hex;
 import hex.types.*;
 import arc.func.*;
 import arc.math.*;
+import arc.struct.*;
 import mindustry.gen.*;
 
 import java.util.Locale;
@@ -12,6 +13,8 @@ import static hex.components.Bundle.*;
 import static hex.components.MenuListener.*;
 
 public class Politics {
+
+	public static Seq<Offer> offers = new Seq<>();
 
 	public static Hex attacked;
 
@@ -37,27 +40,28 @@ public class Politics {
 	}
 
 	public static void attack(Player player, int option) {
-		if (Mathf.chance(option / 3f)) attacked.clear();
+		if (Mathf.chance((option + 1) / 3f)) attacked.clear();
 	}
 
 	public static void attack(String arg, Player player) {
-		Locale loc = findLocale(player);
-		Human human = Human.from(player);
+		template(player.name(), player, "", (o, t, l) -> {
+			attacked = arg.isEmpty() ? o.location() : hexes.get(Integer.valueOf(arg));
 
-		attacked = arg.isEmpty() ? human.location() : hexes.get(Integer.valueOf(arg));
-
-		if (attacked.isEmpty() || attacked.owner == human)
-			player.sendMessage("you can't to attack this hex");
-		else
-			Call.menu(player.con, weaponChooseMenu, get("fract.title", loc), "chance to win", new String[][] {
-					{ "33%" },
-					{ "66%" },
-					{ "100%" } });
+			if (attacked.isEmpty() || attacked.owner == o) player.sendMessage(get("attack", l));
+			else Call.menu(player.con, weaponChooseMenu, get("fract.title", l), "chance to win", new String[][] {
+						{ "33%" },
+						{ "66%" },
+						{ "100%" }
+			});
+		});
 	}
 
 	public static void peace(String arg, Player player) {
 		template(arg, player, "offer.peace", (o, t, l) -> {
-			// TODO: 
+			if (offers.contains(of -> of.equals(t, o, 0))) {
+				o.player.sendMessage("peace");
+				t.player.sendMessage("you offer accepted");
+			} else offers.add(new Offer(o, t, 0));
 		});
 	}
 
@@ -82,6 +86,24 @@ public class Politics {
 
 				cons.get(offer, target, loc);
 			}
+		}
+	}
+
+	public static class Offer {
+
+		public Human offerer;
+		public Human target;
+
+		public int type;
+
+		public Offer(Human o, Human t, int l) {
+			type = l;
+			offerer = o;
+			target = t;
+		}
+
+		public boolean equals(Human o, Human t, int l) {
+			return type == l && offerer == o && target == t;
 		}
 	}
 }

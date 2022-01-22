@@ -45,10 +45,9 @@ public class Main extends Plugin {
 		Events.on(PlayerLeave.class, event -> Politics.leave(event.player));
 	}
 
-	// TODO: check for player.team() == Team.derelict
 	@Override
 	public void registerClientCommands(CommandHandler handler) {
-		handler.<Player>register("attack", "[hex]", "Attack a hex", (args, player) -> Politics.attack(args[0], player));
+		handler.<Player>register("attack", "[hex]", "Attack a hex", (args, player) -> Politics.attack(args.length > 0 ? args[0] : null, player));
 
 		handler.<Player>register("peace", "<player>", "Offer the player a peace", (args, player) -> Politics.peace(args[0], player));
 

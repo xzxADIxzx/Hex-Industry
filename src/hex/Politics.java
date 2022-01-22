@@ -95,7 +95,7 @@ public class Politics {
 					player.sendMessage(get("offer.sent", ol));
 					target.player.sendMessage(player.coloredName() + get(msg, loc));
 
-					if (!offers.contains(of -> of.equals(o, target, type))) offers.add(new Offer(o, target, 0));
+					if (!offers.contains(of -> of.equals(o, target, type))) offers.add(new Offer(o, target, type));
 					else player.sendMessage(get("offer.already", ol));
 				}
 			}

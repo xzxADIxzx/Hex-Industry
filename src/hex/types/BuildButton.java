@@ -3,7 +3,6 @@ package hex.types;
 import mindustry.gen.Call;
 
 import static hex.Main.humans;
-import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
 
 public class BuildButton extends Button {
@@ -20,7 +19,7 @@ public class BuildButton extends Button {
                 if (build.cons.sour.enough(human.production)) {
                     hex1.owner = human.leader;
                     hex1.build(build);
-                } else human.player.sendMessage(get("enough", findLocale(human.player)));
+                } else human.player.sendMessage(get("enough", human.locale));
             }
         }, hex, x, y);
 
@@ -28,7 +27,7 @@ public class BuildButton extends Button {
     }
 
     public String format(Human human) {
-        return build.name + "\n" + build.prod.sour.format(findLocale(human.player), human.fraction) + build.cons.sour.format(findLocale(human.player));
+        return build.name + "\n" + build.prod.sour.format(human.locale, human.fraction) + build.cons.sour.format(human.locale);
     }
 
     @Override

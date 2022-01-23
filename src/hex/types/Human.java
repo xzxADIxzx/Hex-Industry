@@ -35,16 +35,18 @@ public class Human {
     }
 
     public Human leader;
+    public Locale locale;
     public Player player;
     public Hex citadel;
     public Fraction fraction;
     public Production production;
 
     public Human(Player player, Fraction fraction) {
-        // for team mechanics
-        this.leader = this;
-
         this.player = player;
+        this.locale = findLocale(player);
+        
+        
+        this.leader = this; // for team mechanics
         this.fraction = fraction;
 
         this.citadel = Generator.citadel(player);
@@ -67,9 +69,8 @@ public class Human {
     }
 
     public void update() {
-        Locale loc = findLocale(player);
-
-        Call.setHudText(player.con, format("ui.hud", loc, location().id, production.human(), production.crawler(), production.liquids()));
+        Hex hex = location();
+        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? "" : hex.owner.player.name(), production.human(), production.crawler(), production.liquids()));
     }
 
     public void team(Team team) {

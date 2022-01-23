@@ -3,6 +3,7 @@ package hex;
 import arc.func.Cons2;
 import arc.func.Cons4;
 import arc.math.Mathf;
+import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import arc.util.Strings;
 import hex.types.Hex;
@@ -21,8 +22,7 @@ import static hex.components.MenuListener.weaponChooseMenu;
 public class Politics {
 
     public static Seq<Offer> offers = new Seq<>();
-
-    public static Hex attacked;
+    public static ObjectMap<Human, Hex> attacked = new ObjectMap<>();
 
     public static void join(Player player) {
         Locale loc = findLocale(player);
@@ -45,19 +45,24 @@ public class Politics {
         else human.lose();
     }
 
+    public static boolean attack(Human human) {
+        Hex hex = attacked.get(human);
+        boolean result = hex.isEmpty() || hex.owner == human.leader;
+        if (result) human.player.sendMessage(get("attack", human.locale));
+        return !result;
+    }
+
     public static void attack(Player player, int option) {
-        if (Mathf.chance((option + 1) / 3f)) attacked.clear();
+        if (Mathf.chance((option + 1) / 3f) && attack(Human.from(player))) attacked.clear();
     }
 
     public static void attack(String arg, Player player) {
         find(player, (human, locale) -> {
-            attacked = arg.isEmpty() ? human.location() : hexes.get(Strings.parseInt(arg, 0));
-
-            if (attacked.isEmpty() || attacked.owner == human.leader) player.sendMessage(get("attack", locale));
-            else Call.menu(player.con, weaponChooseMenu, get("fract.title", locale), "chance to win", new String[][] {
-                    {"33%"},
-                    {"66%"},
-                    {"100%"}
+            attacked.put(human, arg.isEmpty() ? human.location() : hexes.get(Strings.parseInt(arg, 0)));
+            if (attack(human)) Call.menu(player.con, weaponChooseMenu, get("fract.title", locale), "chance to win", new String[][] {
+                    { "33%" },
+                    { "66%" },
+                    { "100%" }
             });
         });
     }
@@ -78,10 +83,9 @@ public class Politics {
     }
 
     private static void find(Player player, Cons2<Human, Locale> cons) {
-        Locale loc = findLocale(player);
         Human human = Human.from(player);
-        if (human == null) player.sendMessage(get("offer.spectator", loc));
-        else cons.get(human, loc);
+        if (human == null) player.sendMessage(get("offer.spectator", findLocale(player)));
+        else cons.get(human, human.locale);
     }
 
     private static void offer(String arg, String msg, int type, Player player, Cons4<Human, Locale, Human, Locale> cons) {
@@ -89,17 +93,15 @@ public class Politics {
             Human target = Human.from(arg);
             if (target == null || target == human) player.sendMessage(get("offer.notfound", locale));
             else {
-                Locale loc = findLocale(target.player);
-
                 if (offers.contains(of -> of.equals(target, human, type))) {
                     player.sendMessage(get("offer.accepted", locale));
-                    target.player.sendMessage(player.coloredName() + get("offer.accept", loc));
+                    target.player.sendMessage(player.coloredName() + get("offer.accept", target.locale));
 
-                    cons.get(human, locale, target, loc);
+                    cons.get(human, locale, target, target.locale);
                     offers.remove(of -> of.equals(target, human, type));
                 } else {
                     player.sendMessage(get("offer.sent", locale));
-                    target.player.sendMessage(player.coloredName() + get(msg, loc));
+                    target.player.sendMessage(player.coloredName() + get(msg, target.locale));
 
                     if (!offers.contains(of -> of.equals(human, target, type))) offers.add(new Offer(human, target, type));
                     else player.sendMessage(get("offer.already", locale));

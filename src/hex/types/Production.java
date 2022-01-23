@@ -112,7 +112,7 @@ public class Production {
     }
 
     public String crawler() {
-        return (crawler > 0 ? "[green]" : "[scarlet]") + crawler + "\uF7FA";
+        return (crawler > 0 ? "[green]" : "[scarlet]") + crawler + "[]\uF7FA";
     }
 
     public void crawler(int amount) {

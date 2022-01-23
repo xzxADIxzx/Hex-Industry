@@ -20,8 +20,7 @@ public class HexSchematic {
 
     public HexSchematic(Seq<Stile> scheme) {
         tiles = new Stile[scheme.size];
-        for (int i = 0; i < tiles.length; i++)
-            tiles[i] = scheme.get(i);
+        for (int i = 0; i < tiles.length; i++) tiles[i] = scheme.get(i);
     }
 
     public HexSchematic(String base) {

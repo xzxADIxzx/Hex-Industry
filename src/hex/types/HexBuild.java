@@ -17,6 +17,7 @@ public class HexBuild {
     }
 
     public String name;
+    public HexBuild parent;
     public HexBuild next;
     public HexSchematic scheme;
     public Effect boom;
@@ -30,15 +31,22 @@ public class HexBuild {
         Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
         scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
 
-        prod.sour.produce(hex.owner.production);
+        prod.sour.produce(hex.owner.production, true);
         cons.sour.consume(hex.owner.production);
 
         hex.clearButtons(false);
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
     }
 
-    public void destroy(Hex hex) {
-        // TODO: remove prod from human
+    public void destroy(Production production) {
+        if (parent == null) production.sour.produce(prod, false);
+        else {
+            HexBuild cur = parent;
+            while (cur.next != null) {
+                production.sour.produce(cur.prod, false);
+                cur = cur.next;
+            }
+        }
     }
 
     public void explode(Hex hex) {

@@ -54,7 +54,11 @@ public class Politics {
 
     public static void attack(Player player, int option) {
         Human human = Human.from(player);
-        if (Mathf.chance((option + 1) / 3f) && attack(human)) attacked.get(human).clear();
+        if (Mathf.chance((option + 1) / 3f) && attack(human)) {
+            Hex hex = attacked.get(human);
+            hex.build.destroy(human.production);
+            hex.clear();
+        }
     }
 
     public static void attack(String arg, Player player) {

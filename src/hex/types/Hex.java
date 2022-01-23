@@ -7,6 +7,7 @@ import arc.math.geom.Point2;
 import arc.math.geom.Position;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
+import arc.util.Time;
 import hex.content.Buttons;
 import hex.content.HexBuilds;
 import hex.content.HexSchematics;
@@ -23,7 +24,9 @@ public class Hex {
     public static final int width = 27;
     public static final int height = 25;
     public static final Rand random = new Rand();
+
     protected static int _id;
+
     public int x;
     public int y;
     public int cx;
@@ -31,14 +34,13 @@ public class Hex {
 
     public float fx;
     public float fy;
-    public float lx;
-    public float ly;
 
     public Human owner;
     public int id;
 
     public Seq<Button> buttons = new Seq<>();
     public HexBuild build;
+    public boolean building;
 
     public HexEnv env;
     public byte door;
@@ -53,9 +55,6 @@ public class Hex {
         fx = cx * tilesize;
         fy = cy * tilesize;
 
-        lx = (x + 3.5f) * tilesize;
-        ly = (y + 6.5f) * tilesize;
-
         env = HexEnv.get();
         door = (byte) random.nextLong();
         id = _id++;
@@ -68,9 +67,12 @@ public class Hex {
         return x + width > world.width() || y + height > world.height();
     }
 
-    public void build(HexBuild building) {
-        building.build(this);
-        build = building;
+    public void build(HexBuild build) {
+        build.build(this);
+        this.build = build;
+
+        building = true; // cooldown
+        Time.runTask(10f, () -> building = false);
     }
 
     public void open() {
@@ -123,13 +125,13 @@ public class Hex {
             // there is nothing, because the citadel building will add the necessary buttons
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
         },
-        titanium(.4f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
+        titanium(.5f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.compressor, 4, 4);
                 add.get(HexBuilds.miner, -6, -3);
             }
         },
-        thorium(.4f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
+        thorium(.5f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.thory, 0, 0);
             }
@@ -137,7 +139,7 @@ public class Hex {
         spore(0f, null, null) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
         },
-        oil(.2f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
+        oil(.4f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.oil, 7, 2);
             }

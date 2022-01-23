@@ -46,11 +46,10 @@ public class Main extends Plugin {
         Administration.Config.strict.set(false);
 
         Timer.schedule(() -> {
-            humans.each(h -> h.production.update());
+            humans.each(Human::update);
             Buttons.update();
         }, 0f, 1f);
 
-        Timer.schedule(() -> humans.each(Human::update), 0f, 0.1f);
 
         Events.on(PlayerJoin.class, event -> Politics.join(event.player));
         Events.on(PlayerLeave.class, event -> Politics.leave(event.player));

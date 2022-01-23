@@ -11,6 +11,7 @@ public class HexBuilds {
     public static void load() {
         citadel = new HexBuild() {{
             name = "Citadel Mk1";
+            parent = citadel;
             scheme = HexSchematics.citadelMk1;
             boom = Fx.impactReactorExplosion;
 
@@ -21,6 +22,7 @@ public class HexBuilds {
 
             next = new HexBuild() {{
                 name = "Citadel Mk2";
+                parent = citadel;
                 scheme = HexSchematics.citadelMk2;
                 boom = Fx.impactReactorExplosion;
 
@@ -33,9 +35,10 @@ public class HexBuilds {
 
                 next = new HexBuild() {{
                     name = "Citadel Mk3";
+                    parent = citadel;
                     scheme = HexSchematics.citadelMk3;
                     boom = Fx.impactReactorExplosion;
-    
+                    
                     prod = new Production() {{
                         human = 20;
                     }};
@@ -45,9 +48,10 @@ public class HexBuilds {
                 }};
             }};
         }};
-
+        
         miner = new HexBuild() {{
             name = "Miner Mk1";
+            parent = miner;
             scheme = HexSchematics.minerMk1;
             boom = Fx.reactorExplosion;
 
@@ -60,6 +64,7 @@ public class HexBuilds {
 
             next = new HexBuild() {{
                 name = "Miner Mk2";
+                parent = miner;
                 scheme = HexSchematics.minerMk2;
                 boom = Fx.reactorExplosion;
 
@@ -73,6 +78,7 @@ public class HexBuilds {
 
                 next = new HexBuild() {{
                     name = "Miner Mk3";
+                    parent = miner;
                     scheme = HexSchematics.minerMk3;
                     boom = Fx.reactorExplosion;
 
@@ -89,6 +95,7 @@ public class HexBuilds {
 
         thory = new HexBuild() {{
             name = "Miner Mk1";
+            parent = thory;
             scheme = HexSchematics.thoryMk1;
             boom = Fx.reactorExplosion;
 
@@ -102,6 +109,7 @@ public class HexBuilds {
 
             next = new HexBuild() {{
                 name = "Miner Mk2";
+                parent = thory;
                 scheme = HexSchematics.thoryMk2;
                 boom = Fx.reactorExplosion;
 

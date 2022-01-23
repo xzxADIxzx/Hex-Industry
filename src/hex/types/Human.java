@@ -19,8 +19,7 @@ import java.util.Locale;
 
 import static hex.Main.hexes;
 import static hex.Main.humans;
-import static hex.components.Bundle.findLocale;
-import static hex.components.Bundle.format;
+import static hex.components.Bundle.*;
 import static mindustry.Vars.world;
 
 public class Human {
@@ -45,7 +44,6 @@ public class Human {
         this.player = player;
         this.locale = findLocale(player);
         
-        
         this.leader = this; // for team mechanics
         this.fraction = fraction;
 
@@ -69,9 +67,12 @@ public class Human {
     }
 
     public void update() {
+        production.update();
         Hex hex = location();
-        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? "" : hex.owner.player.coloredName(), production.human(), production.crawler(), production.liquids()));
+
+        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.isClosed() ? get("closed", locale) : hex.owner != null ? hex.owner.player.coloredName() : "", production.human(), production.crawler(), production.liquids()));
         hex.buttons.each(Button::update);
+        hex.neighbours().each(h -> h.buttons.each(Button::update));
     }
 
     public void team(Team team) {

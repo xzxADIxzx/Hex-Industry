@@ -3,14 +3,18 @@ package hex;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
 import arc.struct.Seq;
+import arc.struct.StringMap;
 import hex.types.Hex;
 import mindustry.content.Blocks;
 import mindustry.game.Team;
 import mindustry.gen.Player;
+import mindustry.maps.Map;
 import mindustry.world.Tile;
 
 import static hex.Main.hexes;
 import static hex.Main.humans;
+import static hex.components.Bundle.*;
+import static mindustry.Vars.state;
 import static mindustry.Vars.world;
 
 public class Generator {
@@ -35,6 +39,9 @@ public class Generator {
                 if (Hex.bounds(start.x, start.y)) break;
             }
         }
+
+        // Создаем карту с нужным названием
+        state.map = new Map(StringMap.of("name", "Industry", "author", get("author", defaultLocale())));
     }
 
     public static Hex citadel(Player player) {

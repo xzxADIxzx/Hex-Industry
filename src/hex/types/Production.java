@@ -1,5 +1,6 @@
 package hex.types;
 
+import arc.math.Mathf;
 import hex.components.Bundle;
 import hex.components.Icons;
 import mindustry.content.Items;
@@ -121,17 +122,19 @@ public class Production {
 
     public class Resource {
 
-        public void produce(Production prod) {
-            prod.plastanium += plastanium;
-            prod.titanium += titanium;
-            prod.thorium += thorium;
-            prod.spore += spore;
+        public void produce(Production prod, boolean add) {
+            int base = Mathf.sign(add);
 
-            prod.oil += oil;
-            prod.water += water;
-            prod.cryo += cryo;
+            prod.plastanium += plastanium * base;
+            prod.titanium += titanium * base;
+            prod.thorium += thorium * base;
+            prod.spore += spore * base;
 
-            prod.human(human);
+            prod.oil += oil * base;
+            prod.water += water * base;
+            prod.cryo += cryo * base;
+
+            prod.human(human * base);
         }
 
         public void consume(Production prod) {

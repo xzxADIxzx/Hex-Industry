@@ -29,7 +29,7 @@ public class MenuListener {
 
             leader.team(Generator.team());
             leader.unit(fract);
-            humans.each(human -> human.leader == leader, human -> {
+            leader.slaves().each(human -> {
                 human.team(leader.player.team());
                 human.unit(fract);
 

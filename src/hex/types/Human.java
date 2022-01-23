@@ -78,10 +78,11 @@ public class Human {
         player.team(team);
         production.team(team);
 
-        captured().each(hex -> Time.runTask(Mathf.random(180f), () -> hex.build.build(hex)));
+        captured().each(hex -> Time.runTask(Mathf.random(300f), () -> hex.build.build(hex)));
     }
 
     public void unit(Fraction fract) {
+        fraction = fract;
         Call.unitDespawn(units.put(player, fract.spawn(player.team(), citadel.pos())));
     }
 
@@ -92,7 +93,7 @@ public class Human {
         player.team(Team.derelict);
         world.tile(citadel.point().pack()).setNet(Blocks.air);
 
-        captured().each(hex -> Time.runTask(Mathf.random(180f), hex::clear));
+        captured().each(hex -> Time.runTask(Mathf.random(300f), hex::clear));
 
         humans.remove(this);
     }
@@ -102,6 +103,10 @@ public class Human {
     }
 
     public Seq<Hex> captured() {
-        return hexes.copy().filter(hex -> hex.owner == this.leader);
+        return hexes.copy().filter(hex -> hex.owner == this);
+    }
+
+    public Seq<Human> slaves() {
+        return humans.copy().filter(human -> human.leader == this && human != this);
     }
 }

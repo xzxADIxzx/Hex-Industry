@@ -72,7 +72,7 @@ public class Hex {
         this.build = build;
 
         building = true; // cooldown
-        Time.runTask(120f, () -> building = false);
+        Time.runTask(300f, () -> building = false);
     }
 
     public void open() {

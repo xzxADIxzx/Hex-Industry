@@ -21,7 +21,7 @@ public class HexBuilds {
 
             next = new HexBuild() {{
                 name = "Citadel Mk2";
-                scheme = HexSchematics.citadelMk3;
+                scheme = HexSchematics.citadelMk2;
                 boom = Fx.impactReactorExplosion;
 
                 prod = new Production() {{
@@ -29,6 +29,19 @@ public class HexBuilds {
                 }};
                 cons = new Production() {{
                     plastanium = 20;
+                }};
+
+                next = new HexBuild() {{
+                    name = "Citadel Mk3";
+                    scheme = HexSchematics.citadelMk3;
+                    boom = Fx.impactReactorExplosion;
+    
+                    prod = new Production() {{
+                        human = 20;
+                    }};
+                    cons = new Production() {{
+                        spore = 20;
+                    }};
                 }};
             }};
         }};

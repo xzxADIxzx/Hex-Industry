@@ -53,7 +53,8 @@ public class Politics {
     }
 
     public static void attack(Player player, int option) {
-        if (Mathf.chance((option + 1) / 3f) && attack(Human.from(player))) attacked.clear();
+        Human human = Human.from(player);
+        if (Mathf.chance((option + 1) / 3f) && attack(human)) attacked.get(human).clear();
     }
 
     public static void attack(String arg, Player player) {

@@ -60,7 +60,7 @@ public class Main extends Plugin {
 
     @Override
     public void registerClientCommands(CommandHandler handler) {
-        handler.<Player>register("attack", "[hex]", "Attack a hex.", (args, player) -> Politics.attack(args.length > 0 ? args[0] : null, player));
+        handler.<Player>register("attack", "[hex]", "Attack a hex.", (args, player) -> Politics.attack(args.length > 0 ? args[0] : "", player));
 
         handler.<Player>register("peace", "<player>", "Offer the player a peace.", (args, player) -> Politics.peace(args[0], player));
 

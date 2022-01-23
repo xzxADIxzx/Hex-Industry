@@ -21,8 +21,6 @@ public class Buttons {
     public static void update() {
         buttons.addAll(awaiting);
         awaiting.clear();
-
-        buttons.each(Button::update);
     }
 
     public static void register(Button button) {

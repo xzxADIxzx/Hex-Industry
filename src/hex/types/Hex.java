@@ -1,185 +1,189 @@
 package hex.types;
 
-import hex.content.*;
-import arc.func.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import mindustry.world.*;
-import mindustry.world.blocks.environment.*;
-import mindustry.content.*;
+import arc.func.Cons3;
+import arc.math.Mathf;
+import arc.math.Rand;
+import arc.math.geom.Point2;
+import arc.math.geom.Position;
+import arc.math.geom.Vec2;
+import arc.struct.Seq;
+import hex.content.Buttons;
+import hex.content.HexBuilds;
+import hex.content.HexSchematics;
+import mindustry.content.Blocks;
+import mindustry.world.Tile;
+import mindustry.world.blocks.environment.OreBlock;
 
-import static hex.Main.*;
-import static mindustry.Vars.*;
+import static hex.Main.hexes;
+import static mindustry.Vars.tilesize;
+import static mindustry.Vars.world;
 
 public class Hex {
 
-	protected static int _id;
+    public static final int width = 27;
+    public static final int height = 25;
+    public static final Rand random = new Rand();
+    protected static int _id;
+    public int x;
+    public int y;
+    public int cx;
+    public int cy;
 
-	public static final int width = 27;
-	public static final int height = 25;
-	public static final Rand random = new Rand();
+    public float fx;
+    public float fy;
+    public float lx;
+    public float ly;
 
-	public int x;
-	public int y;
-	public int cx;
-	public int cy;
+    public Human owner;
+    public int id;
 
-	public float fx;
-	public float fy;
-	public float lx;
-	public float ly;
+    public Seq<Button> buttons = new Seq<>();
+    public HexBuild build;
 
-	public Human owner;
-	public int id;
+    public HexEnv env;
+    public byte door;
 
-	public Seq<Button> buttons = new Seq<>();
-	public HexBuild build;
+    public Hex(int x, int y) {
+        this.x = x;
+        this.y = y;
 
-	public HexEnv env;
-	public byte door;
+        cx = x + width / 2;
+        cy = y + height / 2;
 
-	public Hex(int x, int y) {
-		this.x = x;
-		this.y = y;
+        fx = cx * tilesize;
+        fy = cy * tilesize;
 
-		cx = x + width / 2;
-		cy = y + height / 2;
+        lx = (x + 3.5f) * tilesize;
+        ly = (y + 6.5f) * tilesize;
 
-		fx = cx * tilesize;
-		fy = cy * tilesize;
+        env = HexEnv.get();
+        door = (byte) random.nextLong();
+        id = _id++;
 
-		lx = (x + 3.5f) * tilesize;
-		ly = (y + 6.5f) * tilesize;
+        HexSchematics.hex.floor(x, y);
+        HexSchematics.closed.floor(x, y);
+    }
 
-		env = HexEnv.get();
-		door = (byte) random.nextLong();
-		id = _id++;
+    public static boolean bounds(int x, int y) {
+        return x + width > world.width() || y + height > world.height();
+    }
 
-		Schems.hex.floor(x, y);
-		Schems.closed.floor(x, y);
-	}
+    public void build(HexBuild building) {
+        building.build(this);
+        build = building;
+    }
 
-	public void build(HexBuild building) {
-		building.build(this);
-		build = building;
-	}
+    public void open() {
+        HexSchematics.door(door).airNet(x, y);
+        env.build(this);
 
-	public void open() {
-		Schems.door(door).airNet(x, y);
-		env.build(this);
+        neighbours().each(bour -> {
+            if (bour.isClosed()) bour.buttons.add(new Button((h, x) -> x.open(), bour));
+        });
+    }
 
-		neighbours().each(bour -> {
-			if (bour.isClosed()) bour.buttons.add(new Button((h, x) -> x.open(), bour));
-		});
-	}
+    public void clear() {
+        build.explode(this);
+        clearButtons(true);
 
-	public void clear() {
-		build.explode(this);
-		clearButtons(true);
+        build = null;
+        owner = null;
+    }
 
-		build = null;
-		owner = null;
-	}
+    public void clearButtons(boolean full) {
+        buttons.each(Buttons::unregister);
+        buttons.clear();
 
-	public void clearButtons(boolean full) {
-		buttons.each(Buttons::unregister);
-		buttons.clear();
+        if (full) env.build(this);
+        else env.terrain(this);
+    }
 
-		if (full) env.build(this);
-		else env.terrain(this);
-	}
+    public Seq<Hex> neighbours() {
+        return hexes.copy().select(hex -> pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
+    }
 
-	public Seq<Hex> neighbours() {
-		return hexes.copy().select(hex -> pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
-	}
+    public Position pos() {
+        return new Vec2(fx, fy);
+    }
 
-	public Position pos() {
-		return new Vec2(fx, fy);
-	}
+    public Point2 point() {
+        return new Point2(cx, cy);
+    }
 
-	public Point2 point() {
-		return new Point2(cx, cy);
-	}
+    public boolean isEmpty() {
+        return build == null;
+    }
 
-	public boolean isEmpty() {
-		return build == null;
-	}
+    public boolean isClosed() {
+        return world.tile(cx, cy + 3).block() == Blocks.darkMetal;
+    }
 
-	public boolean isClosed() {
-		return world.tile(cx, cy + 3).block() == Blocks.darkMetal;
-	}
+    public enum HexEnv {
+        citadel(0f, HexSchematics.citadelLr1, HexSchematics.citadelLr2) {
+            // there is nothing, because the citadel building will add the necessary buttons
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+        },
+        titanium(.4f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.compressor, 4, 4);
+                add.get(HexBuilds.miner, -6, -3);
+            }
+        },
+        thorium(.4f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.thory, 0, 0);
+            }
+        },
+        spore(0f, null, null) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+        },
+        oil(.2f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.oil, 7, 2);
+            }
+        },
+        water(0f, null, null) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+        },
+        cryo(1f, HexSchematics.cryoLr1, HexSchematics.cryoLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.cryo, -3, -6);
+            }
+        };
 
-	public static boolean bounds(int x, int y) {
-		return x + width > world.width() || y + height > world.height();
-	}
+        protected final float frq;
+        protected final HexSchematic Lr1;
+        protected final HexSchematic Lr2;
 
-	public enum HexEnv {
-		citadel(0f, Schems.citadelLr1, Schems.citadelLr2) {
-			// there is nothing, because the citadel building will add the necessary buttons
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
-		},
-		titanium(.4f, Schems.titaniumLr1, Schems.titaniumLr2) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-				add.get(HexBuilds.compressor, 4, 4);
-				add.get(HexBuilds.miner, -6, -3);
-			}
-		},
-		thorium(.4f, Schems.thoriumLr1, Schems.thoriumLr2) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-				add.get(HexBuilds.thory, 0, 0);
-			}
-		},
-		spore(0f, null, null) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
-		},
-		oil(.2f, Schems.oilLr1, Schems.oilLr2) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-				add.get(HexBuilds.oil, 7, 2);
-			}
-		},
-		water(0f, null, null) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
-		},
-		cryo(1f, Schems.cryoLr1, Schems.cryoLr2) {
-			public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-				add.get(HexBuilds.cryo, -3, -6);
-			}
-		};
+        HexEnv(float chance, HexSchematic floor, HexSchematic block) {
+            frq = chance;
+            Lr1 = floor;
+            Lr2 = block;
+        }
 
-		protected final float frq;
-		protected final Schem Lr1;
-		protected final Schem Lr2;
+        public static HexEnv get() {
+            for (HexEnv env : values())
+                if (Mathf.chance(env.frq)) return env;
+            return null; // never happen because the last one has a 100% drop chance
+        }
 
-		HexEnv(float chance, Schem floor, Schem block) {
-			frq = chance;
-			Lr1 = floor;
-			Lr2 = block;
-		}
+        public void build(Hex hex) {
+            hex.clearButtons(false);
+            addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
+        }
 
-		public void build(Hex hex) {
-			hex.clearButtons(false);
-			addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
-		}
+        /** build terrain from schematics */
+        public void terrain(Hex hex) {
+            Lr1.floorNet(hex.x, hex.y);
+            Lr1.airNet(hex.x, hex.y);
 
-		/** build terrain from schematics */
-		public void terrain(Hex hex) {
-			Lr1.floorNet(hex.x, hex.y);
-			Lr1.airNet(hex.x, hex.y);
+            Lr2.each(st -> {
+                Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
+                if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
+                else tile.setNet(st.block);
+            });
+        }
 
-			Lr2.each(st -> {
-				Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-				if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
-				else tile.setNet(st.block);
-			});
-		}
-
-		public static HexEnv get() {
-			for (HexEnv env : values())
-				if (Mathf.chance(env.frq)) return env;
-			return null; // never happen because the last one has a 100% drop chance
-		}
-
-		public abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);
-	}
+        public abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);
+    }
 }

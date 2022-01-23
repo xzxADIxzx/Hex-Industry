@@ -5,10 +5,10 @@ import arc.struct.ObjectMap;
 import arc.struct.StringMap;
 import arc.util.Strings;
 import arc.util.Structs;
+import hex.Main;
 import mindustry.gen.Groups;
 import mindustry.gen.Iconc;
 import mindustry.gen.Player;
-import hex.Main;
 
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -94,7 +94,7 @@ public class Bundle {
     }
 
     public static void bundled(Player player, String key, Object... values) {
-        player.sendMessage(Bundle.format(key, findLocale(player), values));
+        player.sendMessage(format(key, findLocale(player), values));
     }
 
     public static void sendToChat(String key, Object... values) {

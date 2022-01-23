@@ -14,7 +14,7 @@ public class Buttons {
     public static void load() {
         Events.on(TapEvent.class, event -> {
             Human human = Human.from(event.player);
-            buttons.each(btn -> btn.check(event.tile, human));
+            if (human != null) buttons.each(btn -> btn.check(event.tile, human));
         });
     }
 

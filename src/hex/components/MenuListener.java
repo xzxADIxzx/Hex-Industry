@@ -10,7 +10,7 @@ import static hex.Main.humans;
 
 public class MenuListener {
 
-    public static int fractionChooseMenu, weaponChooseMenu;
+    public static int fractionChooseMenu, weaponChooseMenu, leaderFractionChooseMenu;
 
     public static void load() {
         fractionChooseMenu = Menus.registerMenu((player, option) -> {
@@ -20,6 +20,11 @@ public class MenuListener {
 
         weaponChooseMenu = Menus.registerMenu((player, option) -> {
             if (option > 0) Politics.attack(player, option);
+        });
+
+        leaderFractionChooseMenu = Menus.registerMenu((player, option) -> {
+            Fraction fract = Fractions.from(option);
+            humans.each(human -> human.leader.player == player, human -> human.unit(fract));
         });
     }
 }

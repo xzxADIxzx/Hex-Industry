@@ -2,7 +2,6 @@ package hex.types;
 
 import mindustry.gen.Call;
 
-import static hex.Main.humans;
 import static hex.components.Bundle.get;
 
 public class BuildButton extends Button {
@@ -32,9 +31,7 @@ public class BuildButton extends Button {
     }
 
     @Override
-    public void update() {
-        humans.each(human -> (hex.owner == null || hex.owner == human.leader) && human.location().neighbours().contains(hex), human -> {
-            Call.label(human.player.con, format(human), 1f, fx, fy);
-        });
+    public void update(Human human) {
+        Call.label(human.player.con, format(human), 1f, fx, fy);
     }
 }

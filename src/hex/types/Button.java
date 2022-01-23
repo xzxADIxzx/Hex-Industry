@@ -53,5 +53,5 @@ public class Button {
     }
 
     /** show labels for players & etc */
-    public void update() {}
+    public void update(Human human) {}
 }

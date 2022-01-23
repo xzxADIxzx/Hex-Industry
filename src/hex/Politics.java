@@ -18,6 +18,7 @@ import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
 import static hex.components.MenuListener.fractionChooseMenu;
 import static hex.components.MenuListener.weaponChooseMenu;
+import static hex.components.MenuListener.leaderFractionChooseMenu;
 
 public class Politics {
 
@@ -36,7 +37,7 @@ public class Politics {
 
     public static void leave(Player player) {
         Human human = Human.from(player);
-        if (human != null) human.lose();
+        if (human != null) human.lose(); // TODO: не сразу убивать а дать время на перезаход
     }
 
     public static void spectate(Player player) {
@@ -84,6 +85,11 @@ public class Politics {
             human1.leader = human;
 
             human.captured().each(hex -> hex.owner = human);
+            Call.menu(human1.player.con, leaderFractionChooseMenu, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
+                    { get("fract.horde", locale1) },
+                    { get("fract.engineer", locale1) },
+                    { get("fract.militant", locale1) }
+            });
         });
     }
 

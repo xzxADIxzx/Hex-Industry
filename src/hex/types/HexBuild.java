@@ -35,15 +35,15 @@ public class HexBuild {
         cons.sour.consume(hex.owner.production);
 
         hex.clearButtons(false);
-        if (next != null) hex.buttons.add(new BuildButton(next, hex));
+        if (next != null) hex.buttons.add(new BuildButton(next, hex)); // TODO: добавить лэйблы и трату людишек
     }
 
     public void destroy(Production production) {
-        if (parent == null) production.sour.produce(prod, false);
+        if (parent == null) prod.sour.produce(production, false);
         else {
             HexBuild cur = parent;
             while (cur != null) {
-                production.sour.produce(cur.prod, false);
+                cur.prod.sour.produce(production, false);
                 if (cur == this) return;
                 cur = cur.next;
             }

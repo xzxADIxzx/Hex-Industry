@@ -67,11 +67,11 @@ public class Human {
     }
 
     public void update() {
-        if (leader == this) production.update();
+        if (leader == this) production.update(); // TODO: я пофиксил но надо протестить
         Hex hex = location();
 
         Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.isClosed() ? get("closed", locale) : hex.owner != null ? hex.owner.player.coloredName() : "", production.human(), production.crawler(), production.liquids()));
-        hex.neighbours().each(h -> h.buttons.each(Button::update));
+        hex.neighbours().each(h -> h.buttons.each(b -> b.update(this)));
     }
 
     public void team(Team team) {
@@ -79,6 +79,10 @@ public class Human {
         production.team(team);
 
         captured().each(hex -> Time.runTask(Mathf.random(180f), () -> hex.build.build(hex)));
+    }
+
+    public void unit(Fraction fract) {
+        Call.unitDespawn(units.put(player, fract.spawn(player.team(), citadel.pos())));
     }
 
     public void lose() {

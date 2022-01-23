@@ -50,7 +50,7 @@ public class Main extends Plugin {
             Buttons.update();
         }, 0f, 1f);
 
-        Timer.schedule(() -> humans.each(Human::update), 0f, 0.5f);
+        Timer.schedule(() -> humans.each(Human::update), 0f, 0.1f);
 
         Events.on(PlayerJoin.class, event -> Politics.join(event.player));
         Events.on(PlayerLeave.class, event -> Politics.leave(event.player));

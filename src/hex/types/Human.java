@@ -67,7 +67,7 @@ public class Human {
     }
 
     public void update() {
-        if (leader == this) production.update(); // TODO: я пофиксил но надо протестить
+        if (leader == this) production.update();
         Hex hex = location();
 
         Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.isClosed() ? get("closed", locale) : hex.owner != null ? hex.owner.player.coloredName() : "", production.human(), production.crawler(), production.liquids()));
@@ -102,6 +102,6 @@ public class Human {
     }
 
     public Seq<Hex> captured() {
-        return hexes.copy().filter(hex -> hex.owner == this);
+        return hexes.copy().filter(hex -> hex.owner == this.leader);
     }
 }

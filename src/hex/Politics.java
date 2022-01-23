@@ -79,12 +79,9 @@ public class Politics {
 
     public static void join(String arg, Player player) {
         offer(arg, "offer.join", 1, player, (human, locale, human1, locale1) -> {
-            human.team(Generator.team());
-            human1.team(human.player.team());
-            human1.production = human.production;
-            human1.leader = human;
-
-            human.captured().each(hex -> hex.owner = human);
+            human.leader = human1;
+            if (offers.contains(of -> of.equals(human1, null, 2))) return;
+            offers.add(new Offer(human1, null, 2));
             Call.menu(human1.player.con, leaderFractionChooseMenu, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
                     { get("fract.horde", locale1) },
                     { get("fract.engineer", locale1) },

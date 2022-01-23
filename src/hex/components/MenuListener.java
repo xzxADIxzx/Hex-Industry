@@ -1,6 +1,7 @@
 package hex.components;
 
 import hex.Politics;
+import hex.Generator;
 import hex.content.Fractions;
 import hex.types.Fraction;
 import hex.types.Human;
@@ -23,8 +24,20 @@ public class MenuListener {
         });
 
         leaderFractionChooseMenu = Menus.registerMenu((player, option) -> {
+            Human leader = Human.from(player);
             Fraction fract = Fractions.from(option);
-            humans.each(human -> human.leader.player == player, human -> human.unit(fract));
+
+            leader.team(Generator.team());
+            leader.unit(fract);
+            humans.each(human -> human.leader == leader, human -> {
+                human.team(leader.player.team());
+                human.unit(fract);
+
+                human.production = leader.production;
+                human.captured().each(hex -> hex.owner = leader);
+            });
+
+            Politics.offers.remove(of -> of.equals(leader, null, 2));
         });
     }
 }

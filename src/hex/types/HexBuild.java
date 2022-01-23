@@ -42,8 +42,9 @@ public class HexBuild {
         if (parent == null) production.sour.produce(prod, false);
         else {
             HexBuild cur = parent;
-            while (cur.next != null) {
+            while (cur != null) {
                 production.sour.produce(cur.prod, false);
+                if (cur == this) return;
                 cur = cur.next;
             }
         }

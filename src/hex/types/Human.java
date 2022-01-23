@@ -67,11 +67,10 @@ public class Human {
     }
 
     public void update() {
-        production.update();
+        if (leader == this) production.update();
         Hex hex = location();
 
         Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.isClosed() ? get("closed", locale) : hex.owner != null ? hex.owner.player.coloredName() : "", production.human(), production.crawler(), production.liquids()));
-        hex.buttons.each(Button::update);
         hex.neighbours().each(h -> h.buttons.each(Button::update));
     }
 

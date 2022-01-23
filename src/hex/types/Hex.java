@@ -79,7 +79,7 @@ public class Hex {
         HexSchematics.door(door).airNet(x, y);
         env.build(this);
 
-        neighbours().each(bour -> {
+        openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new Button((h, x) -> x.open(), bour));
         });
     }
@@ -101,7 +101,11 @@ public class Hex {
     }
 
     public Seq<Hex> neighbours() {
-        return hexes.copy().select(hex -> pos().within(hex.pos(), 210f) && world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
+        return hexes.copy().select(hex -> pos().within(hex.pos(), 210f));
+    }
+
+    public Seq<Hex> openedNeighbours() {
+        return neighbours().select(hex -> world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
     }
 
     public Position pos() {

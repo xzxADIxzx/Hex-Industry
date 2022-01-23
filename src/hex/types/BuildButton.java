@@ -15,7 +15,7 @@ public class BuildButton extends Button {
 
     public BuildButton(HexBuild build, Hex hex, int x, int y) {
         super((human, hex1) -> {
-            if (hex1.owner == null || hex1.owner == human.leader && (human.location() == hex || human.location().neighbours().contains(hex))) {
+            if ((hex1.owner == null || hex1.owner == human.leader) && human.location().neighbours().contains(hex1)) {
                 if (build.cons.sour.enough(human.production)) {
                     if (hex1.building) return;
                     hex1.owner = human.leader;
@@ -33,8 +33,8 @@ public class BuildButton extends Button {
 
     @Override
     public void update() {
-        humans.each(h -> {
-            if (hex.owner == null || hex.owner == h.leader) Call.label(h.player.con, format(h), 1.5f, fx, fy);
+        humans.each(human -> (hex.owner == null || hex.owner == human.leader) && human.location().neighbours().contains(hex), human -> {
+            Call.label(human.player.con, format(human), 1f, fx, fy);
         });
     }
 }

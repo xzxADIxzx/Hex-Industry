@@ -56,7 +56,7 @@ public class Politics {
         Human human = Human.from(player);
         if (Mathf.chance((option + 1) / 3f) && attack(human)) {
             Hex hex = attacked.get(human);
-            hex.build.destroy(human.production);
+            hex.build.destroy(hex.owner.production);
             hex.clear();
         }
     }

@@ -40,20 +40,21 @@ public class Human {
     public Fraction fraction;
     public Production production;
 
-    public Human(Player p, Fraction abilities) {
+    public Human(Player player, Fraction fraction) {
         // for team mechanics
-        leader = this;
+        this.leader = this;
 
-        player = p;
-        fraction = abilities;
+        this.player = player;
+        this.fraction = fraction;
 
-        citadel = Generator.citadel(p);
-        production = new Production(this);
+        this.citadel = Generator.citadel(player);
+        this.production = new Production(this);
 
-        citadel.owner = this;
-        citadel.build(HexBuilds.citadel);
+        this.citadel.owner = this;
+        this.citadel.build(HexBuilds.citadel);
 
-        player.unit(fraction.spawn(player.team(), citadel.pos()));
+        this.player.unit(fraction.spawn(player.team(), citadel.pos()));
+
         units.put(player, player.unit()); // saves the player's unit
     }
 
@@ -66,11 +67,9 @@ public class Human {
     }
 
     public void update() {
-        Hex look = lookAt();
         Locale loc = findLocale(player);
 
         Call.setHudText(player.con, format("ui.hud", loc, location().id, production.human(), production.crawler(), production.liquids()));
-        Call.label(player.con, format("ui.label", loc, look.id, look.owner == null ? "" : look.owner.name()), .05f, look.lx, look.ly);
     }
 
     public void team(Team team) {
@@ -96,15 +95,7 @@ public class Human {
         return hexes.min(hex -> hex.pos().dst(player));
     }
 
-    public Hex lookAt() {
-        return hexes.min(hex -> hex.pos().dst(player.mouseX, player.mouseY));
-    }
-
     public Seq<Hex> captured() {
         return hexes.copy().filter(hex -> hex.owner == this);
-    }
-
-    public String name() {
-        return Strings.stripColors(player.name());
     }
 }

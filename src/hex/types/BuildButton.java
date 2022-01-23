@@ -15,12 +15,12 @@ public class BuildButton extends Button {
     }
 
     public BuildButton(HexBuild build, Hex hex, int x, int y) {
-        super((p, h) -> {
-            if (h.owner == null || h.owner == p.leader) {
-                if (build.cons.sour.enough(p.production)) {
-                    h.owner = p.leader;
-                    h.build(build);
-                } else p.player.sendMessage(get("enough", findLocale(p.player)));
+        super((human, hex1) -> {
+            if (hex1.owner == null || hex1.owner == human.leader) {
+                if (build.cons.sour.enough(human.production)) {
+                    hex1.owner = human.leader;
+                    hex1.build(build);
+                } else human.player.sendMessage(get("enough", findLocale(human.player)));
             }
         }, hex, x, y);
 

@@ -98,13 +98,13 @@ public class Production {
     }
 
     public String liquids() {
-        return (oil > 0 ? "" : "[scarlet]") + Icons.get("oil") +
-                (water > 0 ? "[]" : "[scarlet]") + Icons.get("water") +
-                (cryo > 0 ? "[]" : "[scarlet]") + Icons.get("cryofluid");
+        return (oil > 0 ? "[lime]\uE800[white]" : "[scarlet]\uE815[white]") + Icons.get("oil") +
+                (water > 0 ? "[lime]\uE800[white]" : "[scarlet]\uE815[white]") + Icons.get("water") +
+                (cryo > 0 ? "[lime]\uE800[white]" : "[scarlet]\uE815[white]") + Icons.get("cryofluid");
     }
 
     public String human() {
-        return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human;
+        return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human + "\uE86D";
     }
 
     public void human(int amount) {
@@ -112,7 +112,7 @@ public class Production {
     }
 
     public String crawler() {
-        return (crawler > 0 ? "[green]" : "[scarlet]") + crawler;
+        return (crawler > 0 ? "[green]" : "[scarlet]") + crawler + "\uF7FA";
     }
 
     public void crawler(int amount) {

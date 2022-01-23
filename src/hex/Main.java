@@ -54,6 +54,8 @@ public class Main extends Plugin {
 
         Events.on(PlayerJoin.class, event -> Politics.join(event.player));
         Events.on(PlayerLeave.class, event -> Politics.leave(event.player));
+
+        netServer.assigner = (player, players) -> Team.derelict;
     }
 
     @Override
@@ -82,7 +84,6 @@ public class Main extends Plugin {
             state.rules.waves = false;
             state.rules.canGameOver = false;
             state.rules.modeName = "Hex Industry";
-            state.rules.defaultTeam = Team.derelict;
 
             for (Team team : Team.all) state.rules.teams.get(team).cheat = true;
 

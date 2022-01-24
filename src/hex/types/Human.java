@@ -25,6 +25,7 @@ import static mindustry.Vars.world;
 public class Human {
 
     public static ObjectMap<Player, Unit> units = new ObjectMap<>();
+    public static String prefix = "[accent]\uE825[white]\uE872[]\uE83A";
 
     static {
         Events.on(UnitChangeEvent.class, event -> {
@@ -70,7 +71,7 @@ public class Human {
         if (leader == this) production.update();
         Hex hex = location();
 
-        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.isClosed() ? get("closed", locale) : hex.owner != null ? hex.owner.player.coloredName() : "", production.human(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "closed" : "nobody", locale) : hex.owner.player.coloredName(), production.human(), production.crawler(), production.liquids()));
         hex.neighbours().each(h -> h.buttons.each(b -> b.update(this)));
     }
 
@@ -81,9 +82,14 @@ public class Human {
         captured().each(hex -> Time.runTask(Mathf.random(300f), () -> hex.build.build(hex)));
     }
 
-    public void unit(Fraction fract) {
+    public void unit(Fraction fract, boolean leader) {
         fraction = fract;
         Call.unitDespawn(units.put(player, fract.spawn(player.team(), player)));
+
+        if(leader){
+            if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
+            Fraction.leader(units.get(player));
+        } else if (player.name().startsWith(prefix)) player.name(player.name().substring(prefix.length()));
     }
 
     public void lose() {

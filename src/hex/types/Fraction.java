@@ -25,4 +25,9 @@ public class Fraction {
         unit.apply(StatusEffects.boss);
         return unit;
     }
+
+    public static void leader(Unit unit) {
+        unit.apply(StatusEffects.overclock);
+        unit.apply(StatusEffects.overdrive);
+    }
 }

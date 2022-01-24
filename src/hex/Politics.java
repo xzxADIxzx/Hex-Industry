@@ -100,7 +100,7 @@ public class Politics {
         find(player, (human, locale) -> {
             Human target = Human.from(arg);
             if (target == null || target == human) player.sendMessage(get("offer.notfound", locale));
-            else if (target.leader != target) player.sendMessage(get("offer.notleader", locale));
+            else if (target.leader != target) player.sendMessage(player.coloredName() + get("offer.notleader", locale));
             else {
                 if (offers.contains(of -> of.equals(target, human, type))) {
                     player.sendMessage(get("offer.accepted", locale));

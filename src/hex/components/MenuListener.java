@@ -28,10 +28,10 @@ public class MenuListener {
             Fraction fract = Fractions.from(option);
 
             leader.team(Generator.team());
-            leader.unit(fract);
+            leader.unit(fract, true);
             leader.slaves().each(human -> {
                 human.team(leader.player.team());
-                human.unit(fract);
+                human.unit(fract, false);
 
                 human.production = leader.production;
                 human.captured().each(hex -> hex.owner = leader);

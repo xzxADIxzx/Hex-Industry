@@ -83,7 +83,7 @@ public class Human {
 
     public void unit(Fraction fract) {
         fraction = fract;
-        Call.unitDespawn(units.put(player, fract.spawn(player.team(), citadel.pos())));
+        Call.unitDespawn(units.put(player, fract.spawn(player.team(), player)));
     }
 
     public void lose() {

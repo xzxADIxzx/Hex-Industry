@@ -6,7 +6,7 @@ import mindustry.content.Fx;
 
 public class HexBuilds {
 
-    public static HexBuild citadel, miner, thory, oil, cryo, compressor;
+    public static HexBuild citadel, miner, thory, oil, water, cryo, compressor;
 
     public static void load() {
         citadel = new HexBuild() {{
@@ -130,6 +130,20 @@ public class HexBuilds {
 
             prod = new Production() {{
                 oil = 1;
+            }};
+            cons = new Production() {{
+                thorium = 20;
+                human = 1;
+            }};
+        }};
+
+        water = new HexBuild() {{
+            name = "Water Pump";
+            scheme = HexSchematics.water;
+            boom = Fx.impactcloud;
+
+            prod = new Production() {{
+                water = 1;
             }};
             cons = new Production() {{
                 thorium = 20;

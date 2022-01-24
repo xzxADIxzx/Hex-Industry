@@ -78,11 +78,11 @@ public class Politics {
     }
 
     public static void join(String arg, Player player) {
-        offer(arg, "offer.join", 1, player, (human, locale, human1, locale1) -> {
-            human.leader = human1;
-            if (offers.contains(of -> of.equals(human1, null, 2))) return;
-            offers.add(new Offer(human1, null, 2));
-            Call.menu(human1.player.con, leaderFractionChooseMenu, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
+        offer(arg, "offer.join", 1, player, (human, locale, leader, locale1) -> {
+            human.leader = leader;
+            if (offers.contains(of -> of.equals(leader, null, 2))) return;
+            offers.add(new Offer(leader, null, 2));
+            Call.menu(leader.player.con, leaderFractionChooseMenu, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
                     { get("fract.horde", locale1) },
                     { get("fract.engineer", locale1) },
                     { get("fract.militant", locale1) }
@@ -100,6 +100,7 @@ public class Politics {
         find(player, (human, locale) -> {
             Human target = Human.from(arg);
             if (target == null || target == human) player.sendMessage(get("offer.notfound", locale));
+            else if (target.leader != target) player.sendMessage(get("offer.notleader", locale));
             else {
                 if (offers.contains(of -> of.equals(target, human, type))) {
                     player.sendMessage(get("offer.accepted", locale));

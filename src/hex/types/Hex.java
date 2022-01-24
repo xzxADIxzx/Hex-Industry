@@ -148,8 +148,10 @@ public class Hex {
                 add.get(HexBuilds.oil, 7, 2);
             }
         },
-        water(0f, null, null) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+        water(.4f, HexSchematics.waterLr1, HexSchematics.waterLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.water, 0, 0);
+            }
         },
         cryo(1f, HexSchematics.cryoLr1, HexSchematics.cryoLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {

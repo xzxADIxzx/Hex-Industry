@@ -78,7 +78,7 @@ public class Human {
         if (leader == this) production.update();
         Hex hex = location();
 
-        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "closed" : "nobody", locale) : hex.owner.hudname, production.human(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "hex.closed" : "hex.nobody", locale) : hex.owner.hudname, production.human(), production.crawler(), production.liquids()));
         hex.neighbours().each(h -> h.buttons.each(b -> b.update(this)));
     }
 

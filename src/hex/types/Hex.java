@@ -80,7 +80,7 @@ public class Hex {
         env.build(this);
 
         openedNeighbours().each(bour -> {
-            if (bour.isClosed()) bour.buttons.add(new Button((h, x) -> x.open(), bour));
+            if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
         });
     }
 

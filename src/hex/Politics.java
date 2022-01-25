@@ -12,6 +12,7 @@ import mindustry.gen.Player;
 
 import java.util.Locale;
 
+import static hex.Main.hexes;
 import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
 import static hex.components.MenuListener.fractionChooseMenu;
@@ -24,6 +25,8 @@ public class Politics {
     public static ObjectMap<Human, Hex> attacked = new ObjectMap<>();
 
     public static void join(Player player) {
+        if (hexes.count(Hex::isClosed) == 0) return;
+
         Locale loc = findLocale(player);
         Call.menu(player.con, fractionChooseMenu, get("fract.title", loc), get("fract.text", loc), new String[][] {
                 {get("fract.horde", loc)},
@@ -105,11 +108,13 @@ public class Politics {
                     cons.get(human, locale, target, target.locale);
                     offers.remove(of -> of.equals(target, human, type));
                 } else {
-                    player.sendMessage(get("offer.sent", locale));
-                    target.player.sendMessage(player.coloredName() + get(msg, target.locale));
+                    if (offers.contains(of -> of.equals(human, target, type))) player.sendMessage(get("offer.already", locale));
+                    else {
+                        player.sendMessage(get("offer.sent", locale));
+                        target.player.sendMessage(player.coloredName() + get(msg, target.locale));
+                        offers.add(new Offer(human, target, type));
+                    }
 
-                    if (!offers.contains(of -> of.equals(human, target, type))) offers.add(new Offer(human, target, type));
-                    else player.sendMessage(get("offer.already", locale));
                 }
             }
         });

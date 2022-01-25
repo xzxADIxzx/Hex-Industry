@@ -11,7 +11,7 @@ import mindustry.game.EventType.TapEvent;
 import mindustry.gen.Player;
 import mindustry.world.Tile;
 
-import static hex.Main.*;
+import static hex.Main.hexes;;
 
 public class Buttons {
 
@@ -25,7 +25,7 @@ public class Buttons {
             Human human = Human.from(event.player);
             if (human != null) {
                 buttons.each(btn -> btn.check(event.tile, human));
-                if (Time.time - clicks.put(event.player, new Click(Time.time, event.tile)).time < 1.4f * Time.toSeconds)
+                if (clicks.put(event.player, new Click(Time.time, event.tile)).check(event))
                     Politics.attack(hexes.min(hex -> event.tile.dst(hex.pos())), human);
             }
         });
@@ -51,6 +51,10 @@ public class Buttons {
         public Click(float time, Tile tile) {
             this.time = time;
             this.tile = tile;
+        }
+
+        public boolean check(TapEvent event) {
+            return Time.time - time > Time.toSeconds && tile.dst(event.tile) < 20f;
         }
     }
 }

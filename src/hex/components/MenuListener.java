@@ -35,6 +35,7 @@ public class MenuListener {
 
                 human.production = leader.production;
                 human.captured().each(hex -> hex.owner = leader);
+                human.citadel.owner = human; // citadel must be assigned to a human
             });
 
             Politics.offers.remove(of -> of.equals(leader, null, 2));

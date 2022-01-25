@@ -50,7 +50,6 @@ public class Main extends Plugin {
             Buttons.update();
         }, 0f, 1f);
 
-
         Events.on(PlayerJoin.class, event -> Politics.join(event.player));
         Events.on(PlayerLeave.class, event -> Politics.leave(event.player));
 
@@ -60,9 +59,6 @@ public class Main extends Plugin {
     @Override
     public void registerClientCommands(CommandHandler handler) {
         handler.<Player>register("guide", "Manual with info about mechanics", (args, player) -> Guide.show(player));
-
-        // TODO remove
-        handler.<Player>register("attack", "[hex]", "Attack a hex.", (args, player) -> Politics.attack(args.length > 0 ? args[0] : "", player));
 
         handler.<Player>register("peace", "<player>", "Offer the player a peace.", (args, player) -> Politics.peace(args[0], player));
 

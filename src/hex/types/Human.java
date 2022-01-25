@@ -25,7 +25,7 @@ import static mindustry.Vars.world;
 public class Human {
 
     public static ObjectMap<Player, Unit> units = new ObjectMap<>();
-    public static String prefix = "[accent]\uE825[white]\uE872[]\uE83A";
+    public static String prefix = "[accent]<[white]\uE872[]> ";
 
     static {
         Events.on(UnitChangeEvent.class, event -> {
@@ -35,8 +35,9 @@ public class Human {
     }
 
     public Human leader;
-    public Locale locale;
     public Player player;
+    public Locale locale;
+    public String levname;
     public Hex citadel;
     public Fraction fraction;
     public Production production;
@@ -54,6 +55,7 @@ public class Human {
         this.citadel.owner = this;
         this.citadel.build(HexBuilds.citadel);
 
+        this.levname = Strings.stripGlyphs(Strings.stripColors(player.name())).toLowerCase().replace(" ", "");
         this.player.unit(fraction.spawn(player.team(), citadel.pos()));
 
         units.put(player, player.unit()); // saves the player's unit
@@ -64,7 +66,8 @@ public class Human {
     }
 
     public static Human from(String name) {
-        return humans.find(human -> Strings.stripGlyphs(Strings.stripColors(human.player.name)).equalsIgnoreCase(Strings.stripGlyphs(Strings.stripColors(name))));
+        String striped = Strings.stripGlyphs(Strings.stripColors(name)).toLowerCase();
+        return humans.min(human -> Strings.levenshtein(human.levname, name) < 10, human -> Strings.levenshtein(human.levname, striped));
     }
 
     public void update() {

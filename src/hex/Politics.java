@@ -5,7 +5,6 @@ import arc.func.Cons4;
 import arc.math.Mathf;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
-import arc.util.Strings;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.gen.Call;
@@ -13,7 +12,6 @@ import mindustry.gen.Player;
 
 import java.util.Locale;
 
-import static hex.Main.hexes;
 import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
 import static hex.components.MenuListener.fractionChooseMenu;
@@ -62,14 +60,12 @@ public class Politics {
         }
     }
 
-    public static void attack(String arg, Player player) {
-        find(player, (human, locale) -> {
-            attacked.put(human, arg.isEmpty() ? human.location() : hexes.get(Strings.parseInt(arg, 0)));
-            if (attack(human)) Call.menu(player.con, weaponChooseMenu, get("fract.title", locale), "chance to win", new String[][] {
-                    { "33%" },
-                    { "66%" },
-                    { "100%" }
-            });
+    public static void attack(Hex hex, Human human) {
+        attacked.put(human, hex);
+        if (attack(human)) Call.menu(human.player.con, weaponChooseMenu, get("fract.title", human.locale), "chance to win", new String[][] {
+                { "33%" },
+                { "66%" },
+                { "100%" }
         });
     }
 

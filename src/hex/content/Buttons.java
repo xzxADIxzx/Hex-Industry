@@ -25,7 +25,7 @@ public class Buttons {
             Human human = Human.from(event.player);
             if (human != null) {
                 buttons.each(btn -> btn.check(event.tile, human));
-                if (Time.time - clicks.put(event.player, new Click(Time.time, event.tile)).time < 2 * Time.toSeconds)
+                if (Time.time - clicks.put(event.player, new Click(Time.time, event.tile)).time < 1.4f * Time.toSeconds)
                     Politics.attack(hexes.min(hex -> event.tile.dst(hex.pos())), human);
             }
         });

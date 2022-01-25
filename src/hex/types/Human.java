@@ -37,10 +37,12 @@ public class Human {
     public Human leader;
     public Player player;
     public Locale locale;
-    public String levname;
     public Hex citadel;
     public Fraction fraction;
     public Production production;
+
+    public String levname;
+    public String hudname;
 
     public Human(Player player, Fraction fraction) {
         this.player = player;
@@ -55,7 +57,9 @@ public class Human {
         this.citadel.owner = this;
         this.citadel.build(HexBuilds.citadel);
 
-        this.levname = Strings.stripGlyphs(Strings.stripColors(player.name())).toLowerCase().replace(" ", "");
+        this.hudname = Strings.stripColors(player.name());
+        this.levname = Strings.stripGlyphs(hudname).toLowerCase().replace(" ", "");
+
         this.player.unit(fraction.spawn(player.team(), citadel.pos()));
 
         units.put(player, player.unit()); // saves the player's unit
@@ -67,14 +71,14 @@ public class Human {
 
     public static Human from(String name) {
         String striped = Strings.stripGlyphs(Strings.stripColors(name)).toLowerCase();
-        return humans.min(human -> Strings.levenshtein(human.levname, name) < 10, human -> Strings.levenshtein(human.levname, striped));
+        return humans.min(human -> Strings.levenshtein(human.levname, name) < 6, human -> Strings.levenshtein(human.levname, striped));
     }
 
     public void update() {
         if (leader == this) production.update();
         Hex hex = location();
 
-        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "closed" : "nobody", locale) : hex.owner.player.coloredName(), production.human(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "closed" : "nobody", locale) : hex.owner.hudname, production.human(), production.crawler(), production.liquids()));
         hex.neighbours().each(h -> h.buttons.each(b -> b.update(this)));
     }
 

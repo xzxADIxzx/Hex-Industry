@@ -11,11 +11,11 @@ import static hex.components.MenuListener.guideMenu;
 
 public class Guide {
 
-    // TODO (Дарк) гайд
+    private static final int max = 4;
     private static ObjectMap<Player, Integer> pages = new ObjectMap<>();
 
     public static void show(Player player) {
-        if (!pages.containsKey(player)) pages.put(player, 1);
+        if (!pages.containsKey(player)) pages.put(player, 0);
         int page = pages.get(player);
 
         Locale loc = findLocale(player);
@@ -26,7 +26,11 @@ public class Guide {
     }
 
     public static void choose(Player player, int option) {
-        if (option != -1 && option != 2) pages.put(player, pages.get(player) + (option < 0 ? 1 : -1));
+        if (option != -1 && option != 2) {
+            option = pages.get(player) + (option == 0 ? -1 : 1);
+            pages.put(player, option > max ? max : option < 0 ? 0 : option);
+            show(player);
+        }
     }
 
 }

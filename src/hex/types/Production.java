@@ -15,6 +15,7 @@ public class Production {
 
     private final CoreBuild core;
     private final Fraction fract;
+
     public Resource sour;
     // production per sec
     protected int plastanium;

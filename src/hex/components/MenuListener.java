@@ -28,7 +28,7 @@ public class MenuListener {
             Human leader = Human.from(player);
             Fraction fract = Fractions.from(option);
 
-            leader.team(Generator.team());
+            leader.team(Generator.team()); // TODO: fix production fraction
             leader.unit(fract, true);
             leader.slaves().each(human -> {
                 human.team(leader.player.team());

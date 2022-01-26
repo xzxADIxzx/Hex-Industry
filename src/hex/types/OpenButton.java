@@ -23,7 +23,7 @@ public class OpenButton extends Button {
     }
 
     public static int cost(Hex citadel, Hex hex) {
-        return Mathf.round(citadel.point().dst(hex.point()) / 100) + 1;
+        return Mathf.round(citadel.point().dst(hex.point()) / 140) + 1;
     }
 
     @Override

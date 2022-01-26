@@ -25,8 +25,11 @@ public class Buttons {
             Human human = Human.from(event.player);
             if (human != null) {
                 buttons.each(btn -> btn.check(event.tile, human));
-                if (clicks.put(event.player, new Click(Time.time, event.tile)).check(event))
+
+                if (clicks.containsKey(event.player) && clicks.get(event.player).check(event)) {
                     Politics.attack(hexes.min(hex -> event.tile.dst(hex.pos())), human);
+                    clicks.remove(event.player);
+                } else clicks.put(event.player, new Click(Time.time, event.tile));
             }
         });
     }

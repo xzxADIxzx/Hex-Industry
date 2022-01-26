@@ -129,7 +129,7 @@ public class Hex {
             // there is nothing, because the citadel building will add the necessary buttons
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
         },
-        titanium(.5f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
+        titanium(.4f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.compressor, 4, 4);
                 add.get(HexBuilds.miner, -6, -3);

@@ -71,7 +71,7 @@ public class Human {
 
     public static Human from(String name) {
         String striped = Strings.stripGlyphs(Strings.stripColors(name)).toLowerCase();
-        return humans.min(human -> Strings.levenshtein(human.levname, name) < 6, human -> Strings.levenshtein(human.levname, striped));
+        return humans.min(human -> human.levname.contains(striped) && Strings.levenshtein(human.levname, name) < 6, human -> Strings.levenshtein(human.levname, striped));
     }
 
     public void update() {

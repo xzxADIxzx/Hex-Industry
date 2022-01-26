@@ -11,8 +11,10 @@ public class OpenButton extends Button {
 
     public OpenButton(Hex hex) {
         super((human, hex1) -> {
-            if (human.production.human >= cost(human.citadel, hex)) hex.open();
-            else human.player.sendMessage(get("enough", human.locale));
+            if (human.production.human >= cost(human.citadel, hex)) {
+                human.production.human -= cost(human.citadel, hex);
+                hex.open();
+            } else human.player.sendMessage(get("enough", human.locale));
         }, hex);
     }
 
@@ -26,6 +28,6 @@ public class OpenButton extends Button {
 
     @Override
     public void update(Human human) {
-        Call.label(human.player.con, get("hex.open", human.locale) + format("cost.creature", human.locale, cost(human)), 1f, fx, fy);
+        Call.label(human.player.con, get("hex.open", human.locale) + "\n" + format("cons.creature", human.locale, cost(human)), 1f, fx, fy);
     }
 }

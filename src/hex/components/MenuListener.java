@@ -2,6 +2,7 @@ package hex.components;
 
 import hex.Politics;
 import hex.Generator;
+import hex.Guide;
 import hex.content.Fractions;
 import hex.types.Fraction;
 import hex.types.Human;
@@ -11,7 +12,7 @@ import static hex.Main.humans;
 
 public class MenuListener {
 
-    public static int fractionChooseMenu, weaponChooseMenu, leaderFractionChooseMenu;
+    public static int fractionChooseMenu, weaponChooseMenu, leaderFractionChooseMenu, guideMenu;
 
     public static void load() {
         fractionChooseMenu = Menus.registerMenu((player, option) -> {
@@ -40,5 +41,7 @@ public class MenuListener {
 
             Politics.offers.remove(of -> of.equals(leader, null, 2));
         });
+
+        guideMenu = Menus.registerMenu(Guide::choose);
     }
 }

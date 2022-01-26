@@ -39,7 +39,7 @@ public class HexBuild {
         cons.sour.consume(hex.owner.production);
 
         hex.clearButtons(false);
-        if (next != null) hex.buttons.add(new BuildButton(next, hex)); // TODO: добавить лэйблы и трату людишек
+        if (next != null) hex.buttons.add(new BuildButton(next, hex));
     }
 
     public void destroy(Production production) {

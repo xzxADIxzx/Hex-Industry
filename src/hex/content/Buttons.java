@@ -54,7 +54,7 @@ public class Buttons {
         }
 
         public boolean check(TapEvent event) {
-            return Time.time - time > Time.toSeconds && tile.dst(event.tile) < 20f;
+            return Time.time - time < Time.toSeconds && tile.dst(event.tile) < 18f;
         }
     }
 }

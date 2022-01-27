@@ -50,7 +50,7 @@ public class Politics {
     public static boolean attack(Human human) {
         Hex hex = attacked.get(human);
         boolean result = hex.isEmpty() || hex.owner == human.leader;
-        if (result) human.player.sendMessage(get("attack", human.locale));
+        if (result) human.player.sendMessage(get("hex.attack", human.locale));
         return !result;
     }
 
@@ -62,7 +62,9 @@ public class Politics {
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
         if (attack(human)) Call.menu(human.player.con, weaponChooseMenu, get("weapon.title", human.locale), get("weapon.text", human.locale), new String[][] {
-                human.weapons.map(w -> get(w.name, human.locale)).toArray()
+            { get("weapon.standart", human.locale) },
+            { get("weapon.crawler", human.locale) },
+            { get("weapon.atomic", human.locale) }
         });
     }
 

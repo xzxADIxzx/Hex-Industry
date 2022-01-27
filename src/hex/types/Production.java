@@ -4,8 +4,6 @@ import arc.math.Mathf;
 import hex.components.Bundle;
 import hex.components.Icons;
 import mindustry.content.Items;
-import mindustry.game.Team;
-import mindustry.gen.Call;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 
 import java.util.Locale;
@@ -45,6 +43,7 @@ public class Production {
 
         // makes core invisible for 5 hours
         core.iframes = 1000000;
+        core.items.clear();
     }
 
     public void update() {
@@ -54,13 +53,6 @@ public class Production {
         core.items.add(Items.titanium, (int) (titanium * speed));
         core.items.add(Items.thorium, (int) (thorium * speed));
         core.items.add(Items.sporePod, (int) (spore * speed));
-    }
-
-    public void team(Team team) {
-        core.items.clear();
-        Call.setTeam(core, team);
-
-        all(0);
     }
 
     public void all(int amount) {

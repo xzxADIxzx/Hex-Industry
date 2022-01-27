@@ -15,6 +15,7 @@ import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
+import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 
 import java.util.Locale;
 
@@ -87,7 +88,7 @@ public class Human {
 
     public void team(Team team) {
         player.team(team);
-        production.team(team);
+        Call.setTeam(core(), team);
 
         captured().each(hex -> Time.runTask(Mathf.random(300f), () -> hex.build.build(hex)));
     }
@@ -117,6 +118,10 @@ public class Human {
     public void unlock(Weapon weapon) {
         if (!weapons.contains(weapon)) weapons.add(weapon);
         weapons.sort(w -> w.chance);
+    }
+
+    public CoreBuild core() {
+        return (CoreBuild) world.build(citadel.cx, citadel.cy);
     }
 
     public Hex location() {

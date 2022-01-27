@@ -1,6 +1,8 @@
 package hex.types;
 
+import arc.func.Cons;
 import arc.graphics.Color;
+import hex.types.Production.Resource;
 import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
 import mindustry.entities.Damage;
@@ -17,7 +19,7 @@ public class HexBuild {
         UnitTypes.poly.defaultController = HexBuilderAI::new;
         UnitTypes.poly.weapons.clear();
 
-        ((MassDriver)Blocks.massDriver).bullet.damage = 0f;
+        ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
     }
 
     public String name;
@@ -42,15 +44,20 @@ public class HexBuild {
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
     }
 
+    public void create(Production production) {
+        family(sour -> sour.produce(production, true));
+    }
+
     public void destroy(Production production) {
-        if (parent == null) prod.sour.produce(production, false);
-        else {
-            HexBuild cur = parent;
-            while (cur != null) {
-                cur.prod.sour.produce(production, false);
-                if (cur == this) return;
-                cur = cur.next;
-            }
+        family(sour -> sour.produce(production, false));
+    }
+
+    public void family(Cons<Resource> cons) {
+        cons.get(prod.sour);
+        HexBuild cur = parent;
+        while (cur != null && cur != this) {
+            cons.get(cur.prod.sour);
+            cur = cur.next;
         }
     }
 

@@ -27,7 +27,7 @@ public class Fraction {
     }
 
     public static void leader(Unit unit) {
-        unit.apply(StatusEffects.overclock);
         unit.apply(StatusEffects.overdrive);
+        unit.apply(StatusEffects.overclock);
     }
 }

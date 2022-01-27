@@ -45,11 +45,17 @@ public class HexBuild {
     }
 
     public void create(Production production) {
-        family(sour -> sour.produce(production, true));
+        family(sour -> {
+            sour.produce(production, true);
+            sour.human(production, false);
+        });
     }
 
     public void destroy(Production production) {
-        family(sour -> sour.produce(production, false));
+        family(sour -> {
+            sour.produce(production, false);
+            sour.human(production, true);
+        });
     }
 
     public void family(Cons<Resource> cons) {

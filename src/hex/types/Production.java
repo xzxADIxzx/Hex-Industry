@@ -102,7 +102,7 @@ public class Production {
     }
 
     public void human(int amount) {
-        human += amount * (fract == null ? 1 : fract.creature);
+        human += amount * fract.creature;
     }
 
     public String crawler() {
@@ -110,7 +110,7 @@ public class Production {
     }
 
     public void crawler(int amount) {
-        crawler += amount * (fract == null ? 1 : fract.creature);
+        crawler += amount * fract.creature;
     }
 
     public class Resource {
@@ -139,6 +139,11 @@ public class Production {
             prod.human -= human;
         }
 
+        public void human(Production prod, boolean add) {
+            if (add) prod.human(human);
+            else  prod.human -= human;
+        }
+
         public boolean enough(Production prod) {
             return (plastanium <= 0 || prod.plastanium() >= plastanium) &&
                     (titanium <= 0 || prod.titanium() >= titanium) &&
@@ -151,11 +156,11 @@ public class Production {
         }
 
         public String format(Locale loc, Fraction fract) {
-            return format(loc, new String[] {"prod.item", "prod.liquid", "prod.creature"}, fract.production, fract.creature);
+            return format(loc, new String[] { "prod.item", "prod.liquid", "prod.creature" }, fract.production, fract.creature);
         }
 
         public String format(Locale loc) {
-            return format(loc, new String[] {"cons.item", "cons.liquid", "cons.creature"}, 1, 1);
+            return format(loc, new String[] { "cons.item", "cons.liquid", "cons.creature" }, 1, 1);
         }
 
         private String format(Locale loc, String[] base, int r, int h) {

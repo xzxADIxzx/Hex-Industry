@@ -49,7 +49,7 @@ public class Politics {
 
     public static boolean attack(Human human) {
         Hex hex = attacked.get(human);
-        boolean result = hex.isEmpty() || hex.owner == human.leader;
+        boolean result = hex.isEmpty() || hex.owner == human.leader || hex.building;
         if (result) human.player.sendMessage(get("hex.attack", human.locale));
         return !result;
     }

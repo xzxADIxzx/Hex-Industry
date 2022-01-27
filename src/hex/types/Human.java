@@ -111,6 +111,10 @@ public class Human {
         humans.remove(this);
     }
 
+    public void damage(){
+        world.build(citadel.cx, citadel.cy).damage(1f);
+    }
+
     public Hex location() {
         return hexes.min(hex -> hex.pos().dst(player));
     }

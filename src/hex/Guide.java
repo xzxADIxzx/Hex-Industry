@@ -19,7 +19,7 @@ public class Guide {
         int page = pages.get(player);
 
         Locale loc = findLocale(player);
-        Call.menu(player.con, guideMenu, format("guine.name", loc, page), get("guide.page." + page, loc), new String[][] {
+        Call.menu(player.con, guideMenu, format("guide.name", loc, page), get("guide.page." + page, loc), new String[][] {
                 { get("guide.prev", loc), get("guide.next", loc) },
                 { get("guide.exit", loc) }
         });

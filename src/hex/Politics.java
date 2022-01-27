@@ -5,6 +5,7 @@ import arc.func.Cons4;
 import arc.math.Mathf;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
+import hex.content.Weapons;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.gen.Call;
@@ -56,9 +57,11 @@ public class Politics {
 
     public static void attack(Player player, int option) {
         Human human = Human.from(player);
-        if (Mathf.chance((option + 1) / 3f) && attack(human)) {
-            Hex hex = attacked.get(human);
+        Hex hex = attacked.get(human);
+
+        if (Mathf.chance(Weapons.from(option).chance(human.fraction, hex.build)) && attack(human)) {
             hex.build.destroy(hex.owner.production);
+            hex.owner.damage();
             hex.clear();
         }
     }

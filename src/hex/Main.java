@@ -11,6 +11,7 @@ import hex.content.Buttons;
 import hex.content.Fractions;
 import hex.content.HexBuilds;
 import hex.content.HexSchematics;
+import hex.content.Weapons;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.game.EventType.PlayerJoin;
@@ -36,6 +37,7 @@ public class Main extends Plugin {
         HexSchematics.load();
         Fractions.load();
         HexBuilds.load();
+        Weapons.load();
         Buttons.load();
         MenuListener.load();
         Icons.load();

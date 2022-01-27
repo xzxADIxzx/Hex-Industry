@@ -2,7 +2,6 @@ package hex;
 
 import arc.func.Cons2;
 import arc.func.Cons4;
-import arc.math.Mathf;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import hex.content.Weapons;
@@ -57,21 +56,13 @@ public class Politics {
 
     public static void attack(Player player, int option) {
         Human human = Human.from(player);
-        Hex hex = attacked.get(human);
-
-        if (Mathf.chance(Weapons.from(option).chance(human.fraction, hex.build)) && attack(human)) {
-            hex.build.destroy(hex.owner.production);
-            hex.owner.damage();
-            hex.clear();
-        }
+        if (attack(human)) Weapons.from(option).chance(human, attacked.get(human));
     }
 
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
-        if (attack(human)) Call.menu(human.player.con, weaponChooseMenu, get("fract.title", human.locale), "chance to win", new String[][] {
-                { "33%" },
-                { "66%" },
-                { "100%" }
+        if (attack(human)) Call.menu(human.player.con, weaponChooseMenu, get("weapon.title", human.locale), get("weapon.text", human.locale), new String[][] {
+                human.weapons.map(w -> get(w.name, human.locale)).toArray()
         });
     }
 

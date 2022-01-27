@@ -8,6 +8,7 @@ import arc.util.Strings;
 import arc.util.Time;
 import hex.Generator;
 import hex.content.HexBuilds;
+import hex.content.Weapons;
 import mindustry.content.Blocks;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
@@ -40,6 +41,7 @@ public class Human {
     public Hex citadel;
     public Fraction fraction;
     public Production production;
+    public Seq<Weapon> weapons;
 
     public String levname;
     public String hudname;
@@ -47,7 +49,7 @@ public class Human {
     public Human(Player player, Fraction fraction) {
         this.player = player;
         this.locale = findLocale(player);
-        
+
         this.leader = this; // for team mechanics
         this.fraction = fraction;
 
@@ -61,6 +63,7 @@ public class Human {
         this.levname = Strings.stripGlyphs(hudname).toLowerCase().replace(" ", "");
 
         this.player.unit(fraction.spawn(player.team(), citadel.pos()));
+        this.weapons = Seq.with(Weapons.standart);
 
         units.put(player, player.unit()); // saves the player's unit
     }
@@ -93,7 +96,7 @@ public class Human {
         fraction = fract;
         Call.unitDespawn(units.put(player, fract.spawn(player.team(), player)));
 
-        if(leader){
+        if (leader) {
             if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
             Fraction.leader(units.get(player));
         } else if (player.name().startsWith(prefix)) player.name(player.name().substring(prefix.length()));
@@ -111,8 +114,9 @@ public class Human {
         humans.remove(this);
     }
 
-    public void damage(){
-        world.build(citadel.cx, citadel.cy).damage(1f);
+    public void unlock(Weapon weapon) {
+        if (!weapons.contains(weapon)) weapons.add(weapon);
+        weapons.sort(w -> w.chance);
     }
 
     public Hex location() {

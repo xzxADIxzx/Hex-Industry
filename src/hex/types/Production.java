@@ -141,7 +141,7 @@ public class Production {
 
         public void human(Production prod, boolean add) {
             if (add) prod.human(human);
-            else  prod.human -= human;
+            else prod.human -= human;
         }
 
         public boolean enough(Production prod) {
@@ -156,11 +156,11 @@ public class Production {
         }
 
         public String format(Locale loc, Fraction fract) {
-            return format(loc, new String[] { "prod.item", "prod.liquid", "prod.creature" }, fract.production, fract.creature);
+            return format(loc, new String[] {"prod.item", "prod.liquid", "prod.creature"}, fract.production, fract.creature);
         }
 
         public String format(Locale loc) {
-            return format(loc, new String[] { "cons.item", "cons.liquid", "cons.creature" }, 1, 1);
+            return format(loc, new String[] {"cons.item", "cons.liquid", "cons.creature"}, 1, 1);
         }
 
         private String format(Locale loc, String[] base, int r, int h) {

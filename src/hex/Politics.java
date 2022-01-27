@@ -15,9 +15,7 @@ import java.util.Locale;
 import static hex.Main.hexes;
 import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
-import static hex.components.MenuListener.fractionChooseMenu;
-import static hex.components.MenuListener.weaponChooseMenu;
-import static hex.components.MenuListener.leaderFractionChooseMenu;
+import static hex.components.MenuListener.*;
 
 public class Politics {
 
@@ -61,11 +59,12 @@ public class Politics {
 
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
-        if (attack(human)) Call.menu(human.player.con, weaponChooseMenu, get("weapon.title", human.locale), get("weapon.text", human.locale), new String[][] {
-            { get("weapon.standart", human.locale) },
-            { get("weapon.crawler", human.locale) },
-            { get("weapon.atomic", human.locale) }
-        });
+        if (attack(human))
+            Call.menu(human.player.con, weaponChooseMenu, get("weapon.title", human.locale), get("weapon.text", human.locale), new String[][] {
+                    {get("weapon.standart", human.locale)},
+                    {get("weapon.crawler", human.locale)},
+                    {get("weapon.atomic", human.locale)}
+            });
     }
 
     public static void peace(String arg, Player player) {
@@ -78,9 +77,9 @@ public class Politics {
             if (offers.contains(of -> of.equals(leader, null, 2))) return;
             offers.add(new Offer(leader, null, 2));
             Call.menu(leader.player.con, leaderFractionChooseMenu, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
-                    { get("fract.horde", locale1) },
-                    { get("fract.engineer", locale1) },
-                    { get("fract.militant", locale1) }
+                    {get("fract.horde", locale1)},
+                    {get("fract.engineer", locale1)},
+                    {get("fract.militant", locale1)}
             });
         });
     }
@@ -104,7 +103,8 @@ public class Politics {
                     cons.get(human, locale, target, target.locale);
                     offers.remove(of -> of.equals(target, human, type));
                 } else {
-                    if (offers.contains(of -> of.equals(human, target, type))) player.sendMessage(get("offer.already", locale));
+                    if (offers.contains(of -> of.equals(human, target, type)))
+                        player.sendMessage(get("offer.already", locale));
                     else {
                         player.sendMessage(get("offer.sent", locale));
                         target.player.sendMessage(player.coloredName() + get(msg, target.locale));

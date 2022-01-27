@@ -1,11 +1,10 @@
 package hex.types;
 
+import arc.math.Mathf;
 import mindustry.gen.Call;
 
-import static hex.components.Bundle.get;
 import static hex.components.Bundle.format;
-
-import arc.math.Mathf;
+import static hex.components.Bundle.get;
 
 public class OpenButton extends Button {
 
@@ -18,12 +17,12 @@ public class OpenButton extends Button {
         }, hex);
     }
 
-    public int cost(Human human) {
-        return cost(human.citadel, hex);
-    }
-
     public static int cost(Hex citadel, Hex hex) {
         return Mathf.round(citadel.point().dst(hex.point()) / 140) + 1;
+    }
+
+    public int cost(Human human) {
+        return cost(human.citadel, hex);
     }
 
     @Override

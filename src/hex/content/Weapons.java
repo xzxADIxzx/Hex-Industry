@@ -12,12 +12,12 @@ public class Weapons {
             name = "weapon.standart";
             chance = .3f;
         }};
-        
+
         crawler = new Weapon() {{
             name = "weapon.crawler";
             chance = .6f;
         }};
-        
+
         atomic = new Weapon() {{
             name = "weapon.atomic";
             chance = 1f;

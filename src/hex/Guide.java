@@ -1,10 +1,10 @@
 package hex;
 
-import java.util.Locale;
-
 import arc.struct.ObjectMap;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
+
+import java.util.Locale;
 
 import static hex.components.Bundle.*;
 import static hex.components.MenuListener.guideMenu;
@@ -12,7 +12,7 @@ import static hex.components.MenuListener.guideMenu;
 public class Guide {
 
     private static final int max = 4;
-    private static ObjectMap<Player, Integer> pages = new ObjectMap<>();
+    private static final ObjectMap<Player, Integer> pages = new ObjectMap<>();
 
     public static void show(Player player) {
         if (!pages.containsKey(player)) pages.put(player, 0);
@@ -20,8 +20,8 @@ public class Guide {
 
         Locale loc = findLocale(player);
         Call.menu(player.con, guideMenu, format("guide.name", loc, page), get("guide.page." + page, loc), new String[][] {
-                { get("guide.prev", loc), get("guide.next", loc) },
-                { get("guide.exit", loc) }
+                {get("guide.prev", loc), get("guide.next", loc)},
+                {get("guide.exit", loc)}
         });
     }
 

@@ -11,7 +11,7 @@ import mindustry.game.EventType.TapEvent;
 import mindustry.gen.Player;
 import mindustry.world.Tile;
 
-import static hex.Main.hexes;;
+import static hex.Main.hexes;
 
 public class Buttons {
 

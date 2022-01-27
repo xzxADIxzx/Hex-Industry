@@ -38,7 +38,7 @@ public class HexBuilds {
                     parent = citadel;
                     scheme = HexSchematics.citadelMk3;
                     boom = Fx.impactReactorExplosion;
-                    
+
                     prod = new Production() {{
                         human = 20;
                     }};
@@ -48,7 +48,7 @@ public class HexBuilds {
                 }};
             }};
         }};
-        
+
         miner = new HexBuild() {{
             name = "Miner Mk1";
             parent = miner;

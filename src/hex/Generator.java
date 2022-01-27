@@ -13,7 +13,8 @@ import mindustry.world.Tile;
 
 import static hex.Main.hexes;
 import static hex.Main.humans;
-import static hex.components.Bundle.*;
+import static hex.components.Bundle.defaultLocale;
+import static hex.components.Bundle.get;
 import static mindustry.Vars.state;
 import static mindustry.Vars.world;
 
@@ -79,5 +80,9 @@ public class Generator {
             this.width = width;
             this.height = height;
         }
+
+        state.map =new
+
+        Map(StringMap.of("name", "Industry","author",get("author", defaultLocale())));
     }
 }

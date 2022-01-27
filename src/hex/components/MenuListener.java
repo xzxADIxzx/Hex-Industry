@@ -1,8 +1,9 @@
 package hex.components;
 
-import hex.Politics;
+import arc.util.Time;
 import hex.Generator;
 import hex.Guide;
+import hex.Politics;
 import hex.content.Fractions;
 import hex.types.Fraction;
 import hex.types.Human;
@@ -10,8 +11,6 @@ import hex.types.Production;
 import mindustry.ui.Menus;
 
 import static hex.Main.humans;
-
-import arc.util.Time;
 
 public class MenuListener {
 

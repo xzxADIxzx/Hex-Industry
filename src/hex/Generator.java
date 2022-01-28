@@ -42,7 +42,7 @@ public class Generator {
         }
 
         // Создаем карту с нужным названием
-        state.map = new Map(StringMap.of("name", "Industry", "author", get("author", defaultLocale())));
+        state.map = new Map(StringMap.of("name", "Industry", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-industry gamemode."));
     }
 
     public static Hex citadel(Player player) {
@@ -80,9 +80,5 @@ public class Generator {
             this.width = width;
             this.height = height;
         }
-
-        state.map =new
-
-        Map(StringMap.of("name", "Industry","author",get("author", defaultLocale())));
     }
 }

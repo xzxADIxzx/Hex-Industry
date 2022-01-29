@@ -16,11 +16,10 @@ public class Fraction {
 
     public static void leader(Unit unit) {
         unit.apply(StatusEffects.overdrive);
-        unit.apply(StatusEffects.overclock);
     }
 
     public void unit(UnitType unit) {
-        unit.weapons.each(weapon -> weapon.bullet.damage = 0f);
+        unit.weapons.clear();
         unit.buildSpeed = 0f;
         this.unit = unit;
     }

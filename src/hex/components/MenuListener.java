@@ -27,7 +27,7 @@ public class MenuListener {
 
         weaponChooseMenu = Menus.registerMenu((player, option) -> {
             Human human = Human.from(player);
-            if (option > 0 && attack(human)) Weapons.from(option).chance(human, attacked.get(human));
+            if (option != -1 && attack(human)) Weapons.from(option).attack(human, attacked.get(human));
         });
 
         leaderFractionChooseMenu = Menus.registerMenu((player, option) -> {

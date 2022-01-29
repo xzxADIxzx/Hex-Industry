@@ -1,6 +1,6 @@
 package hex.types;
 
-import arc.func.Cons;
+import arc.func.Cons2;
 import arc.graphics.Color;
 import hex.types.Production.Resource;
 import mindustry.content.Blocks;
@@ -45,24 +45,24 @@ public class HexBuild {
     }
 
     public void create(Production production) {
-        family(sour -> {
-            sour.produce(production, true);
-            sour.human(production, false);
+        family((prod, cons) -> {
+            prod.produce(production, true);
+            cons.human(production, false);
         });
     }
 
     public void destroy(Production production) {
-        family(sour -> {
-            sour.produce(production, false);
-            sour.human(production, true);
+        family((prod, cons) -> {
+            prod.produce(production, false);
+            cons.human(production, true);
         });
     }
 
-    public void family(Cons<Resource> cons) {
-        cons.get(prod.sour);
+    public void family(Cons2<Resource, Resource> cons) {
+        cons.get(prod.sour, this.cons.sour);
         HexBuild cur = parent;
         while (cur != null && cur != this) {
-            cons.get(cur.prod.sour);
+            cons.get(cur.prod.sour, cur.cons.sour);
             cur = cur.next;
         }
     }

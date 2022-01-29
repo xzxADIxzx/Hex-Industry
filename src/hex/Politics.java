@@ -4,7 +4,6 @@ import arc.func.Cons2;
 import arc.func.Cons4;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
-import hex.content.Weapons;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.gen.Call;
@@ -47,14 +46,9 @@ public class Politics {
 
     public static boolean attack(Human human) {
         Hex hex = attacked.get(human);
-        boolean result = hex.isEmpty() || hex.owner == human.leader || hex.building;
+        boolean result = hex.isEmpty() || hex.owner == human.leader || hex.owner == human || hex.building;
         if (result) human.player.sendMessage(get("hex.attack", human.locale));
         return !result;
-    }
-
-    public static void attack(Player player, int option) {
-        Human human = Human.from(player);
-        if (attack(human)) Weapons.from(option).chance(human, attacked.get(human));
     }
 
     public static void attack(Hex hex, Human human) {

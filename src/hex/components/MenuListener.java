@@ -3,14 +3,17 @@ package hex.components;
 import arc.util.Time;
 import hex.Generator;
 import hex.Guide;
-import hex.Politics;
 import hex.content.Fractions;
+import hex.content.Weapons;
 import hex.types.Fraction;
 import hex.types.Human;
 import hex.types.Production;
 import mindustry.ui.Menus;
 
 import static hex.Main.humans;
+import static hex.Politics.attack;
+import static hex.Politics.offers;
+import static hex.Politics.attacked;
 
 public class MenuListener {
 
@@ -23,7 +26,8 @@ public class MenuListener {
         });
 
         weaponChooseMenu = Menus.registerMenu((player, option) -> {
-            if (option > 0) Politics.attack(player, option);
+            Human human = Human.from(player);
+            if (option > 0 && attack(human)) Weapons.from(option).chance(human, attacked.get(human));
         });
 
         leaderFractionChooseMenu = Menus.registerMenu((player, option) -> {
@@ -50,7 +54,7 @@ public class MenuListener {
                 });
             });
 
-            Politics.offers.remove(of -> of.equals(leader, null, 2));
+            offers.remove(of -> of.equals(leader, null, 2));
         });
 
         guideMenu = Menus.registerMenu(Guide::choose);

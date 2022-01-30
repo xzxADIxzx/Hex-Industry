@@ -35,7 +35,7 @@ public class Politics {
 
     public static void leave(Player player) {
         Human human = Human.from(player);
-        if (human != null) human.lose(); // TODO: не сразу убивать а дать время на перезаход
+        if (human != null) human.lose(); // TODO: не сразу убивать а дать время на перезаход и использовать Offer что бы возвращять опрос
     }
 
     public static void spectate(Player player) {

@@ -42,6 +42,7 @@ public class Hex {
     public HexBuild build;
     public boolean building;
 
+    public boolean base;
     public HexEnv env;
     public byte door;
 
@@ -55,7 +56,8 @@ public class Hex {
         fx = cx * tilesize;
         fy = cy * tilesize;
 
-        env = HexEnv.get();
+        base = (cx - 13) % 57 == 0 && (cy - ((cx - 13) % 114 == 0 ? 12 : 45)) % 66 == 0;
+        env = base ? HexEnv.base : HexEnv.get();
         door = (byte) random.nextLong();
         id = _id++;
 
@@ -96,7 +98,7 @@ public class Hex {
         buttons.each(Buttons::unregister);
         buttons.clear();
 
-        if (full) env.build(this);
+        if (full || base) env.build(this);
         else env.terrain(this);
     }
 
@@ -128,6 +130,11 @@ public class Hex {
         citadel(0f, HexSchematics.citadelLr1, HexSchematics.citadelLr2) {
             // there is nothing, because the citadel building will add the necessary buttons
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+        },
+        base(0f, null, null) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.base, 0, 0);
+            }
         },
         titanium(.4f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {

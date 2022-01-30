@@ -50,6 +50,7 @@ public class Generator {
 
         hex.env = Hex.HexEnv.citadel;
         hex.door = (byte) 0x00FFFFFF;
+        hex.base = true;
         hex.open();
 
         player.team(team());

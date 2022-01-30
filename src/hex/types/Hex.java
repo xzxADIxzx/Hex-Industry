@@ -98,7 +98,7 @@ public class Hex {
         buttons.each(Buttons::unregister);
         buttons.clear();
 
-        if (full || base) env.build(this);
+        if (full) env.build(this);
         else env.terrain(this);
     }
 

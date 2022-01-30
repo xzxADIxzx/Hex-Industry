@@ -99,7 +99,7 @@ public class Hex {
         buttons.clear();
 
         if (full) env.build(this);
-        else env.terrain(this);
+        else if (!base && (build == null || build.next == null)) env.terrain(this);
     }
 
     public Seq<Hex> neighbours() {
@@ -126,12 +126,16 @@ public class Hex {
         return world.tile(cx, cy + 3).block() == Blocks.darkMetal;
     }
 
+    public boolean isCaptured(Human owner) {
+        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), 210f * owner.fraction.distance) && hex.owner == owner);
+    }
+
     public enum HexEnv {
         citadel(0f, HexSchematics.citadelLr1, HexSchematics.citadelLr2) {
             // there is nothing, because the citadel building will add the necessary buttons
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
         },
-        base(0f, null, null) {
+        base(0f, HexSchematics.baseLr1, HexSchematics.baseLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.base, 0, 0);
             }

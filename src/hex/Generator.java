@@ -50,8 +50,8 @@ public class Generator {
 
         hex.env = Hex.HexEnv.citadel;
         hex.door = (byte) 0x00FFFFFF;
-        hex.base = true;
         hex.open();
+        hex.base = true;
 
         player.team(team());
         world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);

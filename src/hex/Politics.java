@@ -47,7 +47,9 @@ public class Politics {
     public static boolean attack(Human human) {
         Hex hex = attacked.get(human);
         boolean result = hex.isEmpty() || hex.owner == human.leader || hex.owner == human || hex.building;
-        if (result) human.player.sendMessage(get("hex.attack", human.locale));
+
+        if (!hex.isCaptured(human)) human.player.sendMessage(get("hex.toofar", human.locale));
+        else if (result) human.player.sendMessage(get("hex.attack", human.locale));
         return !result;
     }
 

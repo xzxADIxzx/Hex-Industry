@@ -9,7 +9,6 @@ import arc.util.Time;
 import hex.Generator;
 import hex.content.HexBuilds;
 import hex.content.Weapons;
-import mindustry.content.Blocks;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
 import mindustry.gen.Call;
@@ -108,9 +107,10 @@ public class Human {
         Call.hideHudText(player.con);
 
         player.team(Team.derelict);
-        world.tile(citadel.point().pack()).setNet(Blocks.air);
+        core().kill();
 
-        captured().each(hex -> Time.runTask(Mathf.random(300f), hex::clear));
+        if (leader == this) captured().each(hex -> Time.runTask(Mathf.random(300f), hex::clear));
+        else citadel.clear();
 
         humans.remove(this);
     }

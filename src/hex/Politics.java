@@ -46,11 +46,12 @@ public class Politics {
 
     public static boolean attack(Human human) {
         Hex hex = attacked.get(human);
-        boolean result = hex.isEmpty() || hex.owner == human.leader || hex.owner == human || hex.building;
+        boolean team = hex.isEmpty() || hex.owner == human.leader || hex.building;
+        boolean zone = hex.isCaptured(human);
 
-        if (!hex.isCaptured(human)) human.player.sendMessage(get("hex.toofar", human.locale));
-        else if (result) human.player.sendMessage(get("hex.attack", human.locale));
-        return !result;
+        if (!zone) human.player.sendMessage(get("hex.toofar", human.locale));
+        else if (team) human.player.sendMessage(get("hex.attack", human.locale));
+        return !team && zone;
     }
 
     public static void attack(Hex hex, Human human) {

@@ -14,15 +14,14 @@ public class BuildButton extends Button {
 
     public BuildButton(HexBuild build, Hex hex, int x, int y) {
         super((human, hex1) -> {
-            if ((hex1.owner == null || hex1.owner == human.leader) && human.location().neighbours().contains(hex1)) {
-                if (build.cons.sour.enough(human.production)) {
-                    if (hex1.isCaptured(human)) {
-                        if (hex1.building) return;
-                        hex1.owner = human.leader;
-                        hex1.build(build);
-                    } else human.player.sendMessage(get("hex.toofar", human.locale));
-                } else human.player.sendMessage(get("enough", human.locale));
-            }
+            if ((hex1.owner != null && hex1.owner != human.leader) && human.location().neighbours().contains(hex1)) return;
+            if (build.cons.sour.enough(human.production)) {
+                if (hex1.isCaptured(human)) {
+                    if (hex1.building) return;
+                    hex1.owner = human.leader;
+                    hex1.build(build);
+                } else human.player.sendMessage(get("hex.toofar", human.locale));
+            } else human.player.sendMessage(get("enough", human.locale));
         }, hex, x, y);
 
         this.build = build;

@@ -24,6 +24,7 @@ public class Hex {
     public static final int width = 27;
     public static final int height = 25;
     public static final Rand random = new Rand();
+    public static final float basedst = 300f;
 
     protected static int _id;
 
@@ -99,7 +100,7 @@ public class Hex {
         buttons.clear();
 
         if (full) env.build(this);
-        else if (!base && (build == null || build.next == null)) env.terrain(this);
+        else if (build == null || build.next == null) env.terrain(this);
     }
 
     public Seq<Hex> neighbours() {
@@ -127,7 +128,7 @@ public class Hex {
     }
 
     public boolean isCaptured(Human owner) {
-        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), 210f * owner.fraction.distance) && hex.owner == owner);
+        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), basedst * owner.fraction.distance) && hex.owner == owner.leader);
     }
 
     public enum HexEnv {

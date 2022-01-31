@@ -39,9 +39,7 @@ public class MenuListener {
             leader.slaves().each(human -> {
                 human.team(leader.player.team());
                 human.unit(fract, false);
-
                 human.captured().each(hex -> hex.owner = leader);
-                human.citadel.owner = human; // citadel must be assigned to a human
             });
 
             // recalculate production

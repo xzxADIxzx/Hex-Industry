@@ -24,7 +24,7 @@ public class Hex {
     public static final int width = 27;
     public static final int height = 25;
     public static final Rand random = new Rand();
-    public static final float basedst = 300f;
+    public static final float basedst = 600f;
 
     protected static int _id;
 

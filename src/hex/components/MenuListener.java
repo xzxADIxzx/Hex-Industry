@@ -46,10 +46,7 @@ public class MenuListener {
             Time.runTask(300f, () -> {
                 leader.production = new Production(leader);
                 leader.captured().each(hex -> hex.build.create(leader.production));
-                leader.slaves().each(human -> {
-                    human.production = leader.production;
-                    human.citadel.build.create(leader.production);
-                });
+                leader.slaves().each(human -> human.production = leader.production);
             });
 
             offers.remove(of -> of.equals(leader, null, 2));

@@ -165,9 +165,14 @@ public class Hex {
                 add.get(HexBuilds.water, 0, 0);
             }
         },
-        cryo(1f, HexSchematics.cryoLr1, HexSchematics.cryoLr2) {
+        cryo(.4f, HexSchematics.cryoLr1, HexSchematics.cryoLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.cryo, -3, -6);
+            }
+        },
+        forest(1f, HexSchematics.forestLr1, HexSchematics.forestLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.city, -1, 1);
             }
         };
 

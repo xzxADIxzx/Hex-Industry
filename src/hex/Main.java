@@ -10,14 +10,20 @@ import hex.components.MenuListener;
 import hex.content.*;
 import hex.types.Hex;
 import hex.types.Human;
+import hex.types.ai.HexBuilderAI;
+import hex.types.ai.HexMinerAI;
 import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
+import mindustry.content.Blocks;
+import mindustry.content.UnitTypes;
+import mindustry.game.Rules;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration;
+import mindustry.world.blocks.distribution.MassDriver;
 
 import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
@@ -27,6 +33,7 @@ public class Main extends Plugin {
 
     public static Seq<Hex> hexes = new Seq<>();
     public static Seq<Human> humans = new Seq<>();
+    public static Rules rules = new Rules();
 
     @Override
     public void init() {
@@ -38,10 +45,24 @@ public class Main extends Plugin {
         MenuListener.load();
         Icons.load();
 
+        Administration.Config.strict.set(false);
+
         netServer.admins.actionFilters.clear();
         netServer.admins.addActionFilter(action -> false);
+        netServer.assigner = (player, players) -> Team.derelict;
 
-        Administration.Config.strict.set(false);
+        UnitTypes.mono.defaultController = HexMinerAI::new;
+        UnitTypes.poly.defaultController = HexBuilderAI::new;
+        UnitTypes.poly.weapons.clear();
+
+        ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
+
+        rules.enemyCoreBuildRadius = 0f;
+        rules.unitCap = 16;
+        rules.infiniteResources = true;
+        rules.waves = false;
+        rules.canGameOver = false;
+        rules.modeName = "Hex Industry";
 
         Timer.schedule(() -> {
             humans.each(Human::update);
@@ -50,8 +71,6 @@ public class Main extends Plugin {
 
         Events.on(PlayerJoin.class, event -> Politics.join(event.player));
         Events.on(PlayerLeave.class, event -> Politics.leave(event.player));
-
-        netServer.assigner = (player, players) -> Team.derelict;
     }
 
     @Override
@@ -74,12 +93,7 @@ public class Main extends Plugin {
             Generator.generate(args.length > 0 ? Strings.parseInt(args[0], 0) : 0);
 
             // change rules
-            state.rules.enemyCoreBuildRadius = 0f;
-            state.rules.unitCap = 16;
-            state.rules.infiniteResources = true;
-            state.rules.waves = false;
-            state.rules.canGameOver = false;
-            state.rules.modeName = "Hex Industry";
+            state.rules = rules;
 
             for (Team team : Team.all) state.rules.teams.get(team).cheat = true;
 

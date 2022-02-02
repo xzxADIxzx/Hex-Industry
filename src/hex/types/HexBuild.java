@@ -3,7 +3,6 @@ package hex.types;
 import arc.func.Cons2;
 import arc.graphics.Color;
 import hex.types.Production.Resource;
-import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
@@ -11,16 +10,8 @@ import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Call;
 import mindustry.gen.Sounds;
 import mindustry.gen.Unit;
-import mindustry.world.blocks.distribution.MassDriver;
 
 public class HexBuild {
-
-    static {
-        UnitTypes.poly.defaultController = HexBuilderAI::new;
-        UnitTypes.poly.weapons.clear();
-
-        ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
-    }
 
     public String name;
     public HexBuild parent;

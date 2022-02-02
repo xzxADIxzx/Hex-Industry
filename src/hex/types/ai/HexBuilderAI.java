@@ -1,4 +1,4 @@
-package hex.types;
+package hex.types.ai;
 
 import mindustry.entities.units.AIController;
 import mindustry.gen.Call;

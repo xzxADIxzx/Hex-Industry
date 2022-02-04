@@ -13,8 +13,7 @@ import hex.content.HexBuilds;
 import hex.content.HexSchematics;
 import mindustry.content.Blocks;
 import mindustry.world.Tile;
-import mindustry.world.blocks.environment.OreBlock;
-import mindustry.world.blocks.environment.Prop;
+import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
 import static mindustry.Vars.tilesize;
@@ -208,8 +207,7 @@ public class Hex {
 
             Lr2.each(st -> {
                 Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-                if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
-                else if (st.block instanceof Prop) tile.setFloorNet(tile.floor(), st.block);
+                if (st.block instanceof Floor) tile.setFloorNet(tile.floor(), st.block.asFloor());
                 else tile.setNet(st.block);
             });
         }

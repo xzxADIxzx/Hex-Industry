@@ -208,7 +208,8 @@ public class Hex {
 
             Lr2.each(st -> {
                 Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-                if (st.block instanceof OreBlock || st.block instanceof Prop) tile.setFloorNet(tile.floor(), st.block.asFloor());
+                if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
+                else if (st.block instanceof Prop) tile.setFloorNet(tile.floor(), st.block);
                 else tile.setNet(st.block);
             });
         }

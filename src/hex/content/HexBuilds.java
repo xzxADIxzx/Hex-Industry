@@ -162,6 +162,20 @@ public class HexBuilds {
             }};
         }};
 
+        spore = new HexBuild() {{
+            name = "Cultivator";
+            // scheme = HexSchematics.;
+            boom = Fx.reactorExplosion;
+
+            prod = new Production() {{
+                spore = 1;
+            }};
+            cons = new Production() {{
+                plastanium = 20;
+                human = 1;
+            }};
+        }};
+
         oil = new HexBuild() {{
             name = "Oil Pump";
             scheme = HexSchematics.oil;

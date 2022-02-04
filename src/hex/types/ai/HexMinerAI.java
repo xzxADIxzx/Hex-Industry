@@ -10,7 +10,8 @@ public class HexMinerAI extends AIController {
 
     @Override
     public void updateMovement() {
-        moveTo(targetFlag(unit.x, unit.y, BlockFlag.rally, false), 0f);
+        target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
+        moveTo(target, 0f);
 
         if (unit.within(target, 10f)) {
             Call.unitDespawn(unit);

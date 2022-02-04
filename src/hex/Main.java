@@ -64,6 +64,7 @@ public class Main extends Plugin {
         rules.infiniteResources = true;
         rules.waves = false;
         rules.canGameOver = false;
+        rules.revealedBlocks.clear();
         rules.modeName = "Hex Industry";
 
         Timer.schedule(() -> {

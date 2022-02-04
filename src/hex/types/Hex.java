@@ -14,6 +14,7 @@ import hex.content.HexSchematics;
 import mindustry.content.Blocks;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.OreBlock;
+import mindustry.world.blocks.environment.Prop;
 
 import static hex.Main.hexes;
 import static mindustry.Vars.tilesize;
@@ -128,7 +129,7 @@ public class Hex {
     }
 
     public boolean isCaptured(Human owner) {
-        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), basedst * owner.fraction.distance) && hex.owner == owner.leader);
+        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), basedst * Mathf.sqrt(owner.fraction.distance)) && hex.owner == owner.leader);
     }
 
     public enum HexEnv {
@@ -141,21 +142,24 @@ public class Hex {
                 add.get(HexBuilds.base, 0, 0);
             }
         },
-        titanium(.4f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
+        titanium(.3f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.compressor, 4, 4);
                 add.get(HexBuilds.miner, -6, -3);
             }
         },
-        thorium(.5f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
+        thorium(.4f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.thory, 0, 0);
             }
         },
-        spore(0f, null, null) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
+        spore(.2f, HexSchematics.sporeLr1, HexSchematics.sporeLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.spore, -8, -3);
+                add.get(HexBuilds.maze, 5, -7);
+            }
         },
-        oil(.4f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
+        oil(.3f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.oil, 7, 2);
             }
@@ -204,7 +208,7 @@ public class Hex {
 
             Lr2.each(st -> {
                 Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-                if (st.block instanceof OreBlock) tile.setFloorNet(tile.floor(), st.block.asFloor());
+                if (st.block instanceof OreBlock || st.block instanceof Prop) tile.setFloorNet(tile.floor(), st.block.asFloor());
                 else tile.setNet(st.block);
             });
         }

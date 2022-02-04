@@ -12,6 +12,7 @@ import hex.types.Hex;
 import hex.types.Human;
 import hex.types.ai.HexBuilderAI;
 import hex.types.ai.HexMinerAI;
+import hex.types.ai.HexSuicideAI;
 import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
 import mindustry.content.Blocks;
@@ -51,6 +52,7 @@ public class Main extends Plugin {
         netServer.admins.addActionFilter(action -> false);
         netServer.assigner = (player, players) -> Team.derelict;
 
+        UnitTypes.crawler.defaultController = HexSuicideAI::new;
         UnitTypes.mono.defaultController = HexMinerAI::new;
         UnitTypes.poly.defaultController = HexBuilderAI::new;
         UnitTypes.poly.weapons.clear();

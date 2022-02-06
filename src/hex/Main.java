@@ -62,9 +62,10 @@ public class Main extends Plugin {
         rules.enemyCoreBuildRadius = 0f;
         rules.unitCap = 16;
         rules.infiniteResources = true;
+        rules.fire = false;
         rules.waves = false;
         rules.canGameOver = false;
-        rules.revealedBlocks.clear();
+        rules.revealedBlocks.add(Blocks.duct);
         rules.modeName = "Hex Industry";
 
         Timer.schedule(() -> {
@@ -78,12 +79,14 @@ public class Main extends Plugin {
 
     @Override
     public void registerClientCommands(CommandHandler handler) {
-        handler.<Player>register("guide", "Manual with info about mechanics", (args, player) -> Guide.show(player));
+        handler.<Player>register("guide", "Manual with info about mechanics.", (args, player) -> Guide.show(player));
 
         handler.<Player>register("peace", "<player>", "Offer the player a peace.", (args, player) -> Politics.peace(args[0], player));
 
         handler.<Player>register("join", "<player>", "Offer the player to team up.", (args, player) -> Politics.join(args[0], player));
 
+        handler.<Player>register("research", "Unlock new technology.", (args, player) -> player.sendMessage("coming soon"));
+        
         handler.<Player>register("spectate", "Watching the game is fun too.", (args, player) -> Politics.spectate(player));
 
         handler.<Player>register("author", "Plugin creators.", (args, player) -> player.sendMessage(get("author", findLocale(player))));

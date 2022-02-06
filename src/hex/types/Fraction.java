@@ -8,7 +8,9 @@ import mindustry.type.UnitType;
 
 public class Fraction {
 
+    public String name;
     public UnitType unit;
+
     public int damage;
     public int production;
     public int creature;

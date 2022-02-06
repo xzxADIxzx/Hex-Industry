@@ -4,6 +4,8 @@ import arc.func.Cons2;
 import arc.func.Cons4;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
+import hex.components.MenuListener;
+import hex.content.Fractions;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.gen.Call;
@@ -25,12 +27,7 @@ public class Politics {
         if (hexes.count(Hex::isClosed) == 0) return;
 
         Locale loc = findLocale(player);
-        Call.menu(player.con, fractionChooseMenu, get("fract.title", loc), get("fract.text", loc), new String[][] {
-                {get("fract.horde", loc)},
-                {get("fract.engineer", loc)},
-                {get("fract.militant", loc)},
-                {get("fract.spectator", loc)}
-        });
+        MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc), Fractions.names(loc), option -> get(Fractions.from(option).name + ".desc", loc));
     }
 
     public static void leave(Player player) {
@@ -57,7 +54,7 @@ public class Politics {
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
         if (attack(human))
-            Call.menu(human.player.con, weaponChooseMenu, get("weapon.title", human.locale), get("weapon.text", human.locale), new String[][] {
+            Call.menu(human.player.con, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale), new String[][] {
                     {get("weapon.standart", human.locale)},
                     {get("weapon.crawler", human.locale)},
                     {get("weapon.atomic", human.locale)}
@@ -73,7 +70,7 @@ public class Politics {
             human.leader = leader;
             if (offers.contains(of -> of.equals(leader, null, 2))) return;
             offers.add(new Offer(leader, null, 2));
-            Call.menu(leader.player.con, leaderFractionChooseMenu, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
+            Call.menu(leader.player.con, leaderFractionChoose, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
                     {get("fract.horde", locale1)},
                     {get("fract.engineer", locale1)},
                     {get("fract.militant", locale1)}

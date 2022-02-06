@@ -42,6 +42,10 @@ public class Fractions {
             creature = 1;
             distance = 2;
         }};
+
+        spectator = new Fraction() {{
+            name = "fract.spectator";
+        }};
     }
 
     public static Fraction from(int id) {

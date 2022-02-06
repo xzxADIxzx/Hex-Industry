@@ -3,6 +3,7 @@ package hex.components;
 import arc.func.Cons2;
 import arc.func.Func;
 import arc.struct.ObjectMap;
+import arc.util.Log;
 import arc.util.Time;
 import hex.Generator;
 import hex.Guide;
@@ -65,6 +66,7 @@ public class MenuListener {
 
         base = Menus.registerMenu((player, option) -> {
             MenuInfo menu = info.get(player);
+            Log.debug(option);
             if (last.get(player) == option || last.get(player) == -1) menus.get(menu.id).get(player, option);
             else {
                 Call.menu(player.con, base, menu.title, menu.text.get(option), menu.buttons);

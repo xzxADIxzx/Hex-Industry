@@ -54,8 +54,8 @@ public class Fractions {
     }
 
     public static String[][] names(Locale loc) {
-        String[][] names = new String[1][4];
-        for (int i = 0; i < 4; i++) names[0][i] = get(from(i).name + ".name", loc);
+        String[][] names = new String[4][1];
+        for (int i = 0; i < 4; i++) names[i][0] = get(from(i).name + ".name", loc);
         return names;
     }
 }

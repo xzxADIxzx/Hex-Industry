@@ -54,7 +54,7 @@ public class Weapons {
     public static Seq<Weapon> from(byte id) {
         Seq<Weapon> weapons = new Seq<>();
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
             if ((1 << i & id) == 1 << i) weapons.add(from(i));
 
         return weapons;
@@ -69,6 +69,6 @@ public class Weapons {
 
     public static String desc(Locale loc, byte id, int option, boolean stats) {
         Weapon weapon = from(id).get(option);
-        return get(weapon.name + ".desc", loc) + (stats ? format("weapon.stats", loc, weapon.chance) : format("research.stats", loc, weapon.cost));
+        return get(weapon.name + ".desc", loc) + (stats ? format("weapon.stats", loc, weapon.chance * 100) : format("research.stats", loc, weapon.cost));
     }
 }

@@ -10,7 +10,7 @@ public class Weapon {
 
     protected static int _id;
 
-    public byte id;
+    public int id;
     public String name;
 
     public float chance;
@@ -18,7 +18,7 @@ public class Weapon {
     public Production cons;
 
     public Weapon() {
-        id = (byte) (1 << _id++);
+        id = 1 << _id++;
     }
 
     public float chance(Fraction fract, HexBuild build) {

@@ -114,8 +114,8 @@ public class Human {
         humans.remove(this);
     }
 
-    public void unlock(byte unlock) {
-        weapons |= unlock;
+    public void unlock(int id) {
+        weapons |= id;
     }
 
     public byte locked() {

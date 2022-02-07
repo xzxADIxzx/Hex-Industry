@@ -87,7 +87,7 @@ public class Main extends Plugin {
 
         handler.<Player>register("research", "Unlock new technology.", (args, player) -> player.sendMessage("coming soon"));
         
-        handler.<Player>register("spectate", "Watching the game is fun too.", (args, player) -> Politics.spectate(player));
+        handler.<Player>register("spectate", "Watching the game is fun too!", (args, player) -> Politics.spectate(player));
 
         handler.<Player>register("author", "Plugin creators.", (args, player) -> player.sendMessage(get("author", findLocale(player))));
     }

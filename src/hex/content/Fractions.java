@@ -54,9 +54,10 @@ public class Fractions {
         return new Fraction[] {horde, engineer, militant, spectator}[id];
     }
 
-    public static String[][] names(Locale loc) {
-        String[][] names = new String[4][1];
-        for (int i = 0; i < 4; i++) names[i][0] = get(from(i).name + ".name", loc);
+    public static String[][] names(Locale loc, boolean spectator) {
+        int len = spectator ? 4 : 3;
+        String[][] names = new String[len][1];
+        for (int i = 0; i < len; i++) names[i][0] = get(from(i).name + ".name", loc);
         return names;
     }
 

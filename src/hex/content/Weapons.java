@@ -1,8 +1,13 @@
 package hex.content;
 
 import arc.math.Mathf;
+import arc.struct.Seq;
 import hex.types.Production;
 import hex.types.Weapon;
+
+import java.util.Locale;
+
+import static hex.components.Bundle.get;
 
 public class Weapons {
 
@@ -40,5 +45,27 @@ public class Weapons {
     public static Weapon from(int id) {
         if (id == -1) id = Mathf.random(2);
         return new Weapon[] {standart, crawler, atomic}[id];
+    }
+
+    public static Seq<Weapon> from(byte id) {
+        Seq<Weapon> weapons = new Seq<>();
+
+        for (int i = 0; i < 2; i++)
+            if ((1 << i & id) == 1 << i) weapons.add(from(i));
+
+        return weapons;
+    }
+
+    public static String[][] names(Locale loc, byte id) {
+        Seq<Weapon> weapons = from(id);
+        String[][] names = new String[weapons.size][1];
+        weapons.each(w -> names[w.id][0] = get(w.name + ".name", loc));
+        return names;
+    }
+
+    public static String desc(Locale loc, int id) {
+        Weapon weapon = from(id);
+        String desc = get(weapon.name + ".desc", loc);
+        return desc;
     }
 }

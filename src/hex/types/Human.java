@@ -8,7 +8,6 @@ import arc.util.Strings;
 import arc.util.Time;
 import hex.Generator;
 import hex.content.HexBuilds;
-import hex.content.Weapons;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
 import mindustry.gen.Call;
@@ -41,7 +40,7 @@ public class Human {
     public Hex citadel;
     public Fraction fraction;
     public Production production;
-    public Seq<Weapon> weapons;
+    public byte weapons;
 
     public String levname;
     public String hudname;
@@ -63,7 +62,7 @@ public class Human {
         this.levname = Strings.stripGlyphs(hudname).toLowerCase().replace(" ", "");
 
         this.player.unit(fraction.spawn(player.team(), citadel.pos()));
-        this.weapons = Seq.with(Weapons.standart);
+        this.weapons = 0x00000000;
 
         units.put(player, player.unit()); // saves the player's unit
     }
@@ -115,9 +114,8 @@ public class Human {
         humans.remove(this);
     }
 
-    public void unlock(Weapon weapon) {
-        if (!weapons.contains(weapon)) weapons.add(weapon);
-        weapons.sort(w -> w.chance);
+    public void unlock(byte unlock) {
+        weapons |= unlock;
     }
 
     public CoreBuild core() {

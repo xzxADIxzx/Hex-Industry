@@ -7,10 +7,17 @@ import static hex.components.Bundle.format;
 
 public class Weapon {
 
-    public String name;
-    public float chance;
+    protected static int _id;
 
+    public byte id;
+    public String name;
+
+    public float chance;
     public Production cons;
+
+    public Weapon() {
+        id = (byte) _id++;
+    }
 
     public float chance(Fraction fract, HexBuild build) {
         return chance;

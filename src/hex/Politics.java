@@ -27,7 +27,8 @@ public class Politics {
         if (hexes.count(Hex::isClosed) == 0) return;
 
         Locale loc = findLocale(player);
-        MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc), Fractions.names(loc), option -> Fractions.desc(loc, option));
+        MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc),
+                Fractions.names(loc, true), option -> Fractions.desc(loc, option));
     }
 
     public static void leave(Player player) {
@@ -53,12 +54,8 @@ public class Politics {
 
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
-        if (attack(human))
-            MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale), new String[][] {
-                    {get("weapon.standart", human.locale)},
-                    {get("weapon.crawler", human.locale)},
-                    {get("weapon.atomic", human.locale)}
-            }, option -> get(Weapons.from(option).name + ".desc", human.locale));
+        if (attack(human)) MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale),
+                Weapons.names(human.locale, human.weapons), option -> Weapons.desc(human.locale, option));
     }
 
     public static void peace(String arg, Player player) {
@@ -70,11 +67,8 @@ public class Politics {
             human.leader = leader;
             if (offers.contains(of -> of.equals(leader, null, 2))) return;
             offers.add(new Offer(leader, null, 2));
-            MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.leader", locale1), new String[][] {
-                    {get("fract.horde", locale1)},
-                    {get("fract.engineer", locale1)},
-                    {get("fract.militant", locale1)}
-            }, option -> Fractions.desc(locale1, option));
+            MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.leader", locale1),
+                    Fractions.names(locale1, false), option -> Fractions.desc(locale1, option));
         });
     }
 

@@ -55,6 +55,8 @@ public class MenuListener {
             });
 
             offers.remove(of -> of.equals(leader, null, 2));
+
+            // TODO вооружение рассинхронизируется среди игроков, нана пофиксить
         });
 
         menus.put(weaponChoose = 2, (player, option) -> {
@@ -65,6 +67,7 @@ public class MenuListener {
         menus.put(weaponUnlockChoose = 3, (player, option) -> {
             Human human = Human.from(player);
             Weapon weapon = Weapons.from((byte) ~human.weapons).get(option);
+            human.production.unlock(human, weapon);
         });
 
         guide = Menus.registerMenu(Guide::choose);

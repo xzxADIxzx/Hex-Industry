@@ -8,6 +8,8 @@ import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 
 import java.util.Locale;
 
+import static hex.components.Bundle.get;
+
 // TODO: go through all the hexes when the amount of liquid changes and turn on/off plants that require liquid
 public class Production {
 
@@ -111,6 +113,11 @@ public class Production {
 
     public void crawler(int amount) {
         crawler += amount * fract.creature;
+    }
+
+    public void unlock(Human human, Weapon weapon) {
+        if (human.production.crawler >= weapon.cost) human.unlock(weapon.id);
+        else human.player.sendMessage(get("enough", human.locale));
     }
 
     public class Resource {

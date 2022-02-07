@@ -85,7 +85,7 @@ public class Main extends Plugin {
 
         handler.<Player>register("join", "<player>", "Offer the player to team up.", (args, player) -> Politics.join(args[0], player));
 
-        handler.<Player>register("research", "Unlock new technology.", (args, player) -> player.sendMessage("coming soon"));
+        handler.<Player>register("research", "Unlock new technology.", (args, player) -> Politics.research(player));
         
         handler.<Player>register("spectate", "Watching the game is fun too!", (args, player) -> Politics.spectate(player));
 

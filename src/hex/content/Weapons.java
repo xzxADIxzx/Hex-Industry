@@ -8,6 +8,7 @@ import hex.types.Weapon;
 import java.util.Locale;
 
 import static hex.components.Bundle.get;
+import static hex.components.Bundle.format;
 
 public class Weapons {
 
@@ -18,6 +19,7 @@ public class Weapons {
             name = "weapon.standart";
             chance = .3f;
 
+            cost = 0;
             cons = new Production() {{
                 titanium = 20;
             }};
@@ -27,6 +29,7 @@ public class Weapons {
             name = "weapon.crawler";
             chance = .6f;
 
+            cost = 1;
             cons = new Production() {{
                 spore = 20;
             }};
@@ -36,6 +39,7 @@ public class Weapons {
             name = "weapon.atomic";
             chance = 1f;
 
+            cost = 2;
             cons = new Production() {{
                 thorium = 20;
             }};
@@ -63,9 +67,8 @@ public class Weapons {
         return names;
     }
 
-    public static String desc(Locale loc, int id) {
-        Weapon weapon = from(id);
-        String desc = get(weapon.name + ".desc", loc);
-        return desc;
+    public static String desc(Locale loc, byte id, int option, boolean stats) {
+        Weapon weapon = from(id).get(option);
+        return get(weapon.name + ".desc", loc) + (stats ? format("weapons.stats", loc, weapon.chance) : format("research.stats", loc, weapon.cost));
     }
 }

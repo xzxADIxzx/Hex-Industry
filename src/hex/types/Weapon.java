@@ -1,6 +1,7 @@
 package hex.types;
 
 import arc.math.Mathf;
+import mindustry.gen.Call;
 
 import static hex.components.Bundle.get;
 import static hex.components.Bundle.format;
@@ -13,6 +14,7 @@ public class Weapon {
     public String name;
 
     public float chance;
+    public int cost;
     public Production cons;
 
     public Weapon() {
@@ -24,6 +26,7 @@ public class Weapon {
     }
 
     public void attack(Human human, Hex hex) {
+        Call.sendMessage(name); // debuging
         if (cons.sour.enough(human.production)) {
             cons.sour.consume(human.production);
             if (Mathf.chance(chance(human.fraction, hex.build))) {

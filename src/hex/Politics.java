@@ -55,7 +55,7 @@ public class Politics {
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
         if (attack(human)) MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale),
-                Weapons.names(human.locale, human.weapons), option -> Weapons.desc(human.locale, option));
+                Weapons.names(human.locale, human.weapons), option -> Weapons.desc(human.locale, human.weapons, option, true));
     }
 
     public static void peace(String arg, Player player) {
@@ -67,14 +67,15 @@ public class Politics {
             human.leader = leader;
             if (offers.contains(of -> of.equals(leader, null, 2))) return;
             offers.add(new Offer(leader, null, 2));
-            MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.leader", locale1),
+            MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.texxt", locale1),
                     Fractions.names(locale1, false), option -> Fractions.desc(locale1, option));
         });
     }
 
     public static void research(Player player) {
-        // MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.leader", locale1),
-                    // Fractions.names(locale1, false), option -> Fractions.desc(locale1, option));
+        Human human = Human.from(player);
+        MenuListener.menu(player, weaponUnlockChoose, get("research.title", human.locale), get("research.text", human.locale),
+                Weapons.names(human.locale, (byte) ~human.weapons), option -> Weapons.desc(human.locale, (byte) ~human.weapons, option, false));
     }
 
     private static void find(Player player, Cons2<Human, Locale> cons) {

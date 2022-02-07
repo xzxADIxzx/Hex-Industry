@@ -63,7 +63,7 @@ public class Weapons {
     public static String[][] names(Locale loc, byte id) {
         Seq<Weapon> weapons = from(id);
         String[][] names = new String[weapons.size][1];
-        weapons.each(w -> names[w.id][0] = get(w.name + ".name", loc));
+        for (int i = 0; i < names.length; i++) names[i][0] = get(weapons.get(i).name + ".name", loc);
         return names;
     }
 

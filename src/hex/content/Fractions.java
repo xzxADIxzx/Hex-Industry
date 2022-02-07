@@ -62,7 +62,7 @@ public class Fractions {
 
     public static String desc(Locale loc, int id) {
         Fraction fract = from(id);
-        String desc = get(fract.name + "desc", loc);
+        String desc = get(fract.name + ".desc", loc);
         if (fract != spectator) desc += format("fract.stats", loc, fract.damage, fract.production, fract.creature, fract.distance);
         return desc;
     }

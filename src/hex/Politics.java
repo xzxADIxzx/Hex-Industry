@@ -74,8 +74,9 @@ public class Politics {
 
     public static void research(Player player) {
         Human human = Human.from(player);
-        MenuListener.menu(player, weaponUnlockChoose, get("research.title", human.locale), get("research.text", human.locale),
-                Weapons.names(human.locale, (byte) ~human.weapons), option -> Weapons.desc(human.locale, (byte) ~human.weapons, option, false));
+        if (human.weapons == 0x7) human.player.sendMessage(get("search", human.locale));
+        else MenuListener.menu(player, weaponUnlockChoose, get("research.title", human.locale), get("research.text", human.locale),
+                    Weapons.names(human.locale, human.locked()), option -> Weapons.desc(human.locale, human.locked(), option, false));
     }
 
     private static void find(Player player, Cons2<Human, Locale> cons) {

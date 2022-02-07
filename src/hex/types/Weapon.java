@@ -18,7 +18,7 @@ public class Weapon {
     public Production cons;
 
     public Weapon() {
-        id = (byte) _id++;
+        id = (byte) (1 << _id++);
     }
 
     public float chance(Fraction fract, HexBuild build) {

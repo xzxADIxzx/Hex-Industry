@@ -67,7 +67,7 @@ public class MenuListener {
         menus.put(weaponUnlockChoose = 3, (player, option) -> {
             Human human = Human.from(player);
             Weapon weapon = Weapons.from((byte) ~human.weapons).get(option);
-            human.production.unlock(human, weapon);
+            if (option != -1) human.production.unlock(human, weapon);
         });
 
         guide = Menus.registerMenu(Guide::choose);

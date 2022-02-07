@@ -62,7 +62,7 @@ public class Human {
         this.levname = Strings.stripGlyphs(hudname).toLowerCase().replace(" ", "");
 
         this.player.unit(fraction.spawn(player.team(), citadel.pos()));
-        this.weapons = 0x00000000;
+        this.weapons = 0x1;
 
         units.put(player, player.unit()); // saves the player's unit
     }
@@ -80,7 +80,7 @@ public class Human {
         if (leader == this) production.update();
         Hex hex = location();
 
-        Call.setHudText(player.con, format("ui.hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "hex.closed" : "hex.nobody", locale) : hex.owner.hudname, production.human(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "hex.closed" : "hex.nobody", locale) : hex.owner.hudname, production.human(), production.crawler(), production.liquids()));
         hex.neighbours().each(h -> h.buttons.each(b -> b.update(this)));
     }
 
@@ -116,6 +116,10 @@ public class Human {
 
     public void unlock(byte unlock) {
         weapons |= unlock;
+    }
+
+    public byte locked() {
+        return (byte) (~weapons & 0xFF);
     }
 
     public CoreBuild core() {

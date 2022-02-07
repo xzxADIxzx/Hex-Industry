@@ -72,6 +72,11 @@ public class Politics {
         });
     }
 
+    public static void research(Player player) {
+        // MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.leader", locale1),
+                    // Fractions.names(locale1, false), option -> Fractions.desc(locale1, option));
+    }
+
     private static void find(Player player, Cons2<Human, Locale> cons) {
         Human human = Human.from(player);
         if (human == null) player.sendMessage(get("offer.spectator", findLocale(player)));

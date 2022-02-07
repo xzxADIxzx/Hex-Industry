@@ -51,7 +51,7 @@ public class Weapons {
         Seq<Weapon> weapons = new Seq<>();
 
         for (int i = 0; i < 2; i++)
-            if ((1 << i & id) == 1 << i) weapons.add(from(i));
+            if ((0 << i & id) == 0 << i) weapons.add(from(i));
 
         return weapons;
     }

@@ -11,6 +11,7 @@ import hex.content.Weapons;
 import hex.types.Fraction;
 import hex.types.Human;
 import hex.types.Production;
+import hex.types.Weapon;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.ui.Menus;
@@ -26,7 +27,7 @@ public class MenuListener {
     private static ObjectMap<Player, MenuInfo> info = new ObjectMap<>();
     private static ObjectMap<Integer, Cons2<Player, Integer>> menus = new ObjectMap<>();
 
-    public static int fractionChoose, weaponChoose, leaderFractionChoose, guide, base;
+    public static int fractionChoose, leaderFractionChoose, weaponChoose, weaponUnlockChoose, guide, base;
 
     public static void load() {
         menus.put(fractionChoose = 0, (player, option) -> {
@@ -34,12 +35,7 @@ public class MenuListener {
             if (fract != Fractions.spectator) humans.add(new Human(player, fract));
         });
 
-        menus.put(weaponChoose = 1, (player, option) -> {
-            Human human = Human.from(player);
-            if (option != -1 && attack(human)) Weapons.from(option).attack(human, attacked.get(human));
-        });
-
-        menus.put(leaderFractionChoose = 2, (player, option) -> {
+        menus.put(leaderFractionChoose = 1, (player, option) -> {
             Human leader = Human.from(player);
             Fraction fract = Fractions.from(option);
 
@@ -59,6 +55,16 @@ public class MenuListener {
             });
 
             offers.remove(of -> of.equals(leader, null, 2));
+        });
+
+        menus.put(weaponChoose = 2, (player, option) -> {
+            Human human = Human.from(player);
+            if (option != -1 && attack(human)) Weapons.from((byte) human.weapons).get(option).attack(human, attacked.get(human));
+        });
+
+        menus.put(weaponUnlockChoose = 3, (player, option) -> {
+            Human human = Human.from(player);
+            Weapon weapon = Weapons.from((byte) ~human.weapons).get(option);
         });
 
         guide = Menus.registerMenu(Guide::choose);

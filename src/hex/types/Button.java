@@ -7,6 +7,7 @@ import hex.content.Buttons;
 import hex.content.HexSchematics;
 import mindustry.content.Blocks;
 import mindustry.world.Tile;
+import mindustry.world.blocks.storage.CoreBlock;
 
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
@@ -39,7 +40,7 @@ public class Button {
     }
 
     public void terrain() {
-        if (world.tile(x, y).block() != Blocks.coreNucleus) {
+        if (!hex.base) {
             HexSchematics.button.floorNet(x, y);
             HexSchematics.button.airNet(x, y);
         } else Geometry.circle(x, y, 3, (x, y) -> Generator.set(x, y, Blocks.darkPanel3, null));

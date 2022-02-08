@@ -78,7 +78,7 @@ public class Generator {
 
     // Queue functions
     public static void update(){
-        for (int i = 0; i < Math.min(30, calls.size); i++) calls.removeFirst().set();
+        for (int i = 0; i < Math.min(50, calls.size); i++) calls.removeFirst().set();
     }
     public static void set(int x, int y, Block block) {
         set(x, y, null, block, null);

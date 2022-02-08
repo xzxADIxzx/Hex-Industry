@@ -44,7 +44,7 @@ public class HexSchematic {
     }
 
     public void floorNet(int x, int y) {
-        each(st -> Generator.set(st.x + x, st.y + y, st.block, Blocks.air));
+        each(st -> Generator.set(st.x + x, st.y + y, st.block, null));
     }
 
     public void air(int x, int y) {

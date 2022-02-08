@@ -86,8 +86,9 @@ public class Generator {
         set(x, y, null, block, null, Team.derelict);
     }
 
+    /** used to host cores */
     public static void setc(int x, int y, Block block, Team team) {
-        set(x, y, null, block, null, team); // used to host cores
+        world.tile(x, y).setNet(block, team, 0);
     }
 
     public static void set(int x, int y, Block floor, Block overlay) {

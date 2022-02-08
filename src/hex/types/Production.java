@@ -17,6 +17,7 @@ public class Production {
     private final Fraction fract;
 
     public Resource sour;
+
     // production per sec
     protected int plastanium;
     protected int titanium;
@@ -116,8 +117,10 @@ public class Production {
     }
 
     public void unlock(Human human, Weapon weapon) {
-        if (human.production.crawler >= weapon.cost) human.unlock(weapon.id);
-        else human.player.sendMessage(get("enough", human.locale));
+        if (crawler >= weapon.cost) {
+            crawler -= weapon.cost;
+            human.unlock(weapon.id);
+        } else human.player.sendMessage(get("enough", human.locale));
     }
 
     public class Resource {

@@ -2,13 +2,16 @@ package hex;
 
 import arc.math.Mathf;
 import arc.math.geom.Point2;
+import arc.struct.Queue;
 import arc.struct.Seq;
 import arc.struct.StringMap;
 import hex.types.Hex;
 import mindustry.content.Blocks;
 import mindustry.game.Team;
+import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.maps.Map;
+import mindustry.world.Block;
 import mindustry.world.Tile;
 
 import static hex.Main.hexes;
@@ -20,7 +23,8 @@ import static mindustry.Vars.world;
 
 public class Generator {
 
-    protected static int last;
+    private static int last;
+    private static Queue<Set> calls = new Queue<>();
 
     public static void generate(int size) {
         MapSize m = MapSize.values()[size];
@@ -54,7 +58,7 @@ public class Generator {
         hex.base = true;
 
         player.team(team());
-        world.tile(hex.cx, hex.cy).setNet(Blocks.coreNucleus, player.team(), 0);
+        setc(hex.cx, hex.cy, Blocks.coreNucleus, player.team());
 
         return hex;
     }
@@ -71,6 +75,29 @@ public class Generator {
         return Team.all[++last];
     }
 
+
+    // Queue functions
+    public static void update(){
+        for (int i = 0; i < 5; i++)
+            if (calls.isEmpty()) return;
+            else calls.removeFirst().set();
+    }
+    public static void set(int x, int y, Block block) {
+        set(x, y, null, block, null, Team.derelict);
+    }
+
+    public static void setc(int x, int y, Block block, Team team) {
+        set(x, y, null, block, null, team); // used to host cores
+    }
+
+    public static void set(int x, int y, Block floor, Block overlay) {
+        set(x, y, floor, null, overlay, Team.derelict);
+    }
+
+    public static void set(int x, int y, Block floor, Block block, Block overlay, Team team) {
+        calls.addLast(new Set(world.tile(x, y), floor, block, overlay, team));
+    }
+
     public enum MapSize {
         small(198, 201), medium(369, 366), big(540, 542);
 
@@ -80,6 +107,34 @@ public class Generator {
         MapSize(int width, int height) {
             this.width = width;
             this.height = height;
+        }
+    }
+
+    public static class Set {
+
+        public final Tile tile;
+
+        public Block floor;
+        public Block block;
+        public Block overlay;
+        public Team team;
+
+        public Set(Tile tile, Block floor, Block block, Block overlay, Team team) {
+            this.tile = tile;
+            this.floor = floor;
+            this.block = block;
+            this.overlay = overlay;
+            this.team = team;
+        }
+
+        public boolean equals(Set set){
+            return set.tile == tile;
+        }
+
+        public void set() {
+            boolean f = floor != null, o = overlay != null;
+            if (f || o) Call.setFloor(tile, f ? floor : tile.floor(), o ? overlay : tile.overlay());
+            if (block != null) Call.setTile(tile, block, team, 0);
         }
     }
 }

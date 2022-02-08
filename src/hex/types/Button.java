@@ -2,6 +2,7 @@ package hex.types;
 
 import arc.func.Cons2;
 import arc.math.geom.Geometry;
+import hex.Generator;
 import hex.content.Buttons;
 import hex.content.HexSchematics;
 import mindustry.content.Blocks;
@@ -41,7 +42,7 @@ public class Button {
         if (world.tile(x, y).block() != Blocks.coreNucleus) {
             HexSchematics.button.floorNet(x, y);
             HexSchematics.button.airNet(x, y);
-        } else Geometry.circle(x, y, 3, (x, y) -> world.tile(x, y).setFloorNet(Blocks.darkPanel3));
+        } else Geometry.circle(x, y, 3, (x, y) -> Generator.setc(x, y, Blocks.darkPanel3, null));
     }
 
     public void check(Tile tile, Human human) {

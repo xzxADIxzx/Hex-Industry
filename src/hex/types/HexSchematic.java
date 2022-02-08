@@ -2,10 +2,10 @@ package hex.types;
 
 import arc.func.Cons;
 import arc.struct.Seq;
+import hex.Generator;
 import mindustry.content.Blocks;
 import mindustry.game.Schematic.Stile;
 import mindustry.game.Schematics;
-import mindustry.world.Tile;
 
 import static mindustry.Vars.schematicBaseStart;
 import static mindustry.Vars.world;
@@ -36,8 +36,7 @@ public class HexSchematic {
     }
 
     public void each(Cons<? super Stile> cons) {
-        for (Stile st : tiles)
-            cons.get(st);
+        for (Stile st : tiles) cons.get(st);
     }
 
     public void floor(int x, int y) {
@@ -45,14 +44,7 @@ public class HexSchematic {
     }
 
     public void floorNet(int x, int y) {
-        each(st -> world.tile(st.x + x, st.y + y).setFloorNet(st.block));
-    }
-
-    public void floorFix(int x, int y) {
-        each(st -> {
-            Tile tile = world.tile(st.x + x, st.y + y);
-            tile.setFloorNet(st.block, tile.overlay());
-        });
+        each(st -> Generator.set(st.x + x, st.y + y, st.block, Blocks.air));
     }
 
     public void air(int x, int y) {
@@ -60,6 +52,6 @@ public class HexSchematic {
     }
 
     public void airNet(int x, int y) {
-        each(st -> world.tile(st.x + x, st.y + y).setNet(Blocks.air));
+        each(st -> Generator.set(st.x + x, st.y + y, Blocks.air));
     }
 }

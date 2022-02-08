@@ -8,11 +8,11 @@ import arc.math.geom.Position;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
+import hex.Generator;
 import hex.content.Buttons;
 import hex.content.HexBuilds;
 import hex.content.HexSchematics;
 import mindustry.content.Blocks;
-import mindustry.world.Tile;
 import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
@@ -76,6 +76,8 @@ public class Hex {
 
         building = true; // cooldown
         Time.runTask(300f, () -> building = false);
+
+        if (base && world.build(cx, cy) == null) Generator.setc(cx, cy, Blocks.coreShard, owner.player.team());
     }
 
     public void open() {
@@ -89,10 +91,12 @@ public class Hex {
 
     public void clear() {
         build.explode(this);
-        clearButtons(true);
+        env.build(this);
 
         build = null;
         owner = null;
+
+        if (base) world.build(cx, cy).kill();
     }
 
     public void clearButtons(boolean full) {
@@ -100,7 +104,7 @@ public class Hex {
         buttons.clear();
 
         if (full) env.build(this);
-        else if (build == null || build.next == null) env.terrain(this);
+        else env.terrain(this);
     }
 
     public Seq<Hex> neighbours() {
@@ -206,9 +210,8 @@ public class Hex {
             Lr1.airNet(hex.x, hex.y);
 
             Lr2.each(st -> {
-                Tile tile = world.tile(st.x + hex.x, st.y + hex.y);
-                if (st.block instanceof Floor) tile.setFloorNet(tile.floor(), st.block.asFloor());
-                else tile.setNet(st.block);
+                if (st.block instanceof Floor) Generator.set(st.x + hex.x, st.y + hex.y, null, st.block);
+                else Generator.set(st.x + hex.x, st.y + hex.y, st.block);
             });
         }
 

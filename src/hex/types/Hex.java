@@ -77,16 +77,16 @@ public class Hex {
         building = true; // cooldown
         Time.runTask(300f, () -> building = false);
 
-        if (base && world.build(cx, cy) == null) Generator.setc(cx, cy, Blocks.coreShard, owner.player.team());
+        if (base) Generator.setc(cx, cy, Blocks.coreShard, owner.player.team());
     }
 
     public void open() {
         HexSchematics.door(door).airNet(x, y);
         env.build(this);
 
-        openedNeighbours().each(bour -> {
+        Time.runTask(300f, () -> openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
-        });
+        }));
     }
 
     public void clear() {

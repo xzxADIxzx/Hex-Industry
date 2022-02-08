@@ -78,25 +78,23 @@ public class Generator {
 
     // Queue functions
     public static void update(){
-        for (int i = 0; i < 5; i++)
-            if (calls.isEmpty()) return;
-            else calls.removeFirst().set();
+        for (int i = 0; i < Math.min(30, calls.size); i++) calls.removeFirst().set();
     }
     public static void set(int x, int y, Block block) {
-        set(x, y, null, block, null, Team.derelict);
-    }
-
-    /** used to host cores */
-    public static void setc(int x, int y, Block block, Team team) {
-        world.tile(x, y).setNet(block, team, 0);
+        set(x, y, null, block, null);
     }
 
     public static void set(int x, int y, Block floor, Block overlay) {
-        set(x, y, floor, null, overlay, Team.derelict);
+        set(x, y, floor, null, overlay);
     }
 
-    public static void set(int x, int y, Block floor, Block block, Block overlay, Team team) {
-        calls.addLast(new Set(world.tile(x, y), floor, block, overlay, team));
+    public static void set(int x, int y, Block floor, Block block, Block overlay) {
+        calls.addLast(new Set(world.tile(x, y), floor, block, overlay));
+    }
+
+    /** Used to host cores */
+    public static void setc(int x, int y, Block block, Team team) {
+        world.tile(x, y).setNet(block, team, 0);
     }
 
     public enum MapSize {
@@ -118,14 +116,12 @@ public class Generator {
         public Block floor;
         public Block block;
         public Block overlay;
-        public Team team;
 
-        public Set(Tile tile, Block floor, Block block, Block overlay, Team team) {
+        public Set(Tile tile, Block floor, Block block, Block overlay) {
             this.tile = tile;
             this.floor = floor;
             this.block = block;
             this.overlay = overlay;
-            this.team = team;
         }
 
         public boolean equals(Set set){
@@ -135,7 +131,7 @@ public class Generator {
         public void set() {
             boolean f = floor != null, o = overlay != null;
             if (f || o) Call.setFloor(tile, f ? floor : tile.floor(), o ? overlay : tile.overlay());
-            if (block != null) Call.setTile(tile, block, team, 0);
+            if (block != null) Call.setTile(tile, block, Team.derelict, 0);
         }
     }
 }

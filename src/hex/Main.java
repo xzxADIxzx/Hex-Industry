@@ -62,6 +62,7 @@ public class Main extends Plugin {
         rules.enemyCoreBuildRadius = 0f;
         rules.unitCap = 16;
         rules.infiniteResources = true;
+        rules.damageExplosions = false;
         rules.fire = false;
         rules.waves = false;
         rules.canGameOver = false;

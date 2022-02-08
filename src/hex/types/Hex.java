@@ -75,9 +75,9 @@ public class Hex {
         this.build = build;
 
         building = true; // cooldown
-        Time.runTask(100f, () -> building = false);
+        Time.runTask(80f, () -> building = false);
 
-        if (base && build.parent != HexBuilds.citadel) Generator.setc(cx, cy, Blocks.coreShard, owner.player.team());
+        if (base && !isCitadel()) Generator.setc(cx, cy, Blocks.coreShard, owner.player.team());
     }
 
     public void open() {
@@ -96,7 +96,7 @@ public class Hex {
         build = null;
         owner = null;
 
-        if (base) world.build(cx, cy).kill();
+        if (base && !isCitadel()) world.build(cx, cy).kill();
     }
 
     public void clearButtons(boolean full) {
@@ -133,6 +133,10 @@ public class Hex {
 
     public boolean isCaptured(Human owner) {
         return hexes.contains(hex -> hex.base && pos().within(hex.pos(), basedst * Mathf.sqrt(owner.fraction.distance)) && hex.owner == owner.leader);
+    }
+
+    public boolean isCitadel() {
+        return owner != null && owner.citadel == this;
     }
 
     public enum HexEnv {

@@ -4,7 +4,6 @@ import arc.math.Mathf;
 
 import static hex.components.Bundle.get;
 import static hex.components.Bundle.format;
-import static mindustry.Vars.world;
 
 public class Weapon {
 
@@ -32,8 +31,6 @@ public class Weapon {
                 hex.owner.player.sendMessage(format("hex.attacked", hex.owner.locale, human.player.coloredName(), hex.cx, hex.cy));
                 hex.build.destroy(hex.owner.production);
                 hex.clear();
-
-                if (hex.base && !hex.isCitadel()) world.build(hex.cx, hex.cy).kill();
             }
         } else human.player.sendMessage(get("enough", human.locale));
     }

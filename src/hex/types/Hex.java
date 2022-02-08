@@ -75,7 +75,7 @@ public class Hex {
         this.build = build;
 
         building = true; // cooldown
-        Time.runTask(80f, () -> building = false);
+        Time.runTask(300f, () -> building = false);
 
         if (base && !isCitadel()) Generator.setc(cx, cy, Blocks.coreShard, owner.player.team());
     }
@@ -84,7 +84,7 @@ public class Hex {
         HexSchematics.door(door).airNet(x, y);
         env.build(this);
 
-        Time.runTask(300f, () -> openedNeighbours().each(bour -> {
+        Time.runTask(100f, () -> openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
         }));
     }
@@ -95,8 +95,6 @@ public class Hex {
 
         build = null;
         owner = null;
-
-        if (base && !isCitadel()) world.build(cx, cy).kill();
     }
 
     public void clearButtons(boolean full) {

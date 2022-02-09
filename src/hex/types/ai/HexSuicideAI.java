@@ -19,7 +19,7 @@ import static mindustry.Vars.world;
 
 public class HexSuicideAI extends AIController {
 
-    public int state = 5;
+    public int state;
 
     public Hex hex;
     public Seq<Vec2> marks;
@@ -33,6 +33,7 @@ public class HexSuicideAI extends AIController {
 
     @Override
     public void updateMovement() {
+        if (marks == null) return;
         if (state < marks.size) {
             Vec2 pos = marks.get(state);
             moveTo(pos, 0f);

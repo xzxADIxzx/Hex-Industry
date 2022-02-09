@@ -77,7 +77,7 @@ public class Hex {
         building = true; // cooldown
         Time.runTask(300f, () -> building = false);
 
-        if (base && !isCitadel()) Generator.setc(cx, cy, Blocks.coreShard, owner.player.team());
+        if (base && !isCitadel()) Time.runTask(60f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
     }
 
     public void open() {

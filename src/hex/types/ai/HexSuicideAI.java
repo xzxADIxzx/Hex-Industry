@@ -1,6 +1,7 @@
 package hex.types.ai;
 
 import arc.graphics.Color;
+import arc.math.geom.Vec2;
 import hex.types.Hex;
 import mindustry.ai.Pathfinder;
 import mindustry.ai.Pathfinder.PositionTarget;
@@ -26,15 +27,13 @@ public class HexSuicideAI extends AIController {
     public HexSuicideAI() {
         app.post(() -> {
             hex = hexes.min(h -> h.pos().dst(unit));
-            cultivator = new PositionTarget(hex.pos());
-            target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
+            cultivator = new PositionTarget(new Vec2(hex.fx + 16f, hex.fy + 8f));
             state = 1;
         });
     }
 
     @Override
     public void updateMovement() {
-        // TEMP TODO: сделать сложный ии с самообучением для перетаскивания предметов
         if (state == 1) {
             Tile tile = pathfinder.getTargetTile(unit.tileOn(), cultivator);
             unit.movePref(vec.trns(unit.angleTo(tile.worldx(), tile.worldy()), unit.speed()));
@@ -46,7 +45,7 @@ public class HexSuicideAI extends AIController {
         } else if (state == 3) {
             pathfind(Pathfinder.fieldRally);
 
-            if (unit.within(target, 10f)) {
+            if (unit.within(targetFlag(unit.x, unit.y, BlockFlag.rally, false), 10f)) {
                 unit.controlWeapons(true);
                 Call.effect(Fx.spawn, unit.x, unit.y, 0, Color.white);
             }

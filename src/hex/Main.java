@@ -57,6 +57,7 @@ public class Main extends Plugin {
         UnitTypes.poly.defaultController = HexBuilderAI::new;
         UnitTypes.poly.weapons.clear();
 
+        Blocks.groundFactory.solid = false;
         ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
 
         rules.enemyCoreBuildRadius = 0f;
@@ -88,7 +89,7 @@ public class Main extends Plugin {
         handler.<Player>register("join", "<player>", "Offer the player to team up.", (args, player) -> Politics.join(args[0], player));
 
         handler.<Player>register("research", "Unlock new technology.", (args, player) -> Politics.research(player));
-        
+
         handler.<Player>register("spectate", "Watching the game is fun too!", (args, player) -> Politics.spectate(player));
 
         handler.<Player>register("author", "Plugin creators.", (args, player) -> player.sendMessage(get("author", findLocale(player))));

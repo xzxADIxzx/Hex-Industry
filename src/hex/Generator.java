@@ -98,7 +98,7 @@ public class Generator {
     /** Used to host cores */
     public static void setc(int x, int y, Block block, Team team) {
         world.tile(x, y).setNet(block, team, 0);
-        Call.effect(Fx.spawn, x * tilesize, y * tilesize, 0, Color.white);
+        Call.effect(Fx.instBomb, x * tilesize, y * tilesize, 0, Color.white);
     }
 
     public enum MapSize {

@@ -46,8 +46,6 @@ public class Main extends Plugin {
         MenuListener.load();
         Icons.load();
 
-        Administration.Config.strict.set(false);
-
         netServer.admins.actionFilters.clear();
         netServer.admins.addActionFilter(action -> false);
         netServer.assigner = (player, players) -> Team.derelict;
@@ -115,6 +113,13 @@ public class Main extends Plugin {
 
             logic.play();
             netServer.openServer();
+        });
+
+        handler.register("heck", "DO NOT USE THIS ONLY FOR TESTING!", args -> {
+            humans.each(h -> h.production.all(1000));
+            Human.units.clear();
+            netServer.admins.actionFilters.clear();
+            Administration.Config.strict.set(false);
         });
     }
 }

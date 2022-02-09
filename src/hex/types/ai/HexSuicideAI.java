@@ -35,7 +35,7 @@ public class HexSuicideAI extends AIController {
     public void updateMovement() {
         if (state < marks.size) {
             Vec2 pos = marks.get(state);
-            unit.movePref(vec.trns(unit.angleTo(pos.getX(), pos.getY()), unit.speed()));
+            moveTo(pos, 0f);
 
             if (unit.within(pos, 2f)) state++;
         } else if (state == 3) {

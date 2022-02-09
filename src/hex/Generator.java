@@ -1,5 +1,6 @@
 package hex;
 
+import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
 import arc.struct.Queue;
@@ -7,6 +8,7 @@ import arc.struct.Seq;
 import arc.struct.StringMap;
 import hex.types.Hex;
 import mindustry.content.Blocks;
+import mindustry.content.Fx;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
@@ -20,6 +22,7 @@ import static hex.components.Bundle.defaultLocale;
 import static hex.components.Bundle.get;
 import static mindustry.Vars.state;
 import static mindustry.Vars.world;
+import static mindustry.Vars.tilesize;
 
 public class Generator {
 
@@ -75,11 +78,11 @@ public class Generator {
         return Team.all[++last];
     }
 
-
     // Queue functions
-    public static void update(){
+    public static void update() {
         for (int i = 0; i < Math.min(50, calls.size); i++) calls.removeFirst().set();
     }
+
     public static void set(int x, int y, Block block) {
         set(x, y, null, block, null);
     }
@@ -95,6 +98,7 @@ public class Generator {
     /** Used to host cores */
     public static void setc(int x, int y, Block block, Team team) {
         world.tile(x, y).setNet(block, team, 0);
+        Call.effect(Fx.spawn, x * tilesize, y * tilesize, 0, Color.white);
     }
 
     public enum MapSize {
@@ -124,7 +128,7 @@ public class Generator {
             this.overlay = overlay;
         }
 
-        public boolean equals(Set set){
+        public boolean equals(Set set) {
             return set.tile == tile;
         }
 

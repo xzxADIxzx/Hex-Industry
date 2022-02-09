@@ -38,7 +38,7 @@ public class Button {
     }
 
     public void terrain() {
-        if (!hex.base || hex.isClosed()) {
+        if (!hex.isCitadel()) {
             HexSchematics.button.floorNet(x, y);
             HexSchematics.button.airNet(x, y);
         } else Geometry.circle(x, y, 3, (x, y) -> Generator.set(x, y, Blocks.darkPanel3, null));

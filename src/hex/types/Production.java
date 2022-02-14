@@ -17,6 +17,7 @@ public class Production {
     private final Fraction fract;
 
     public Resource sour;
+    public boolean checking;
 
     // production per sec
     protected int plastanium;
@@ -124,9 +125,14 @@ public class Production {
     }
 
     public void check(Human human) {
+        if (checking) return;
+        checking = true;
+
         if (oil <= 0) check(human, prod -> prod.oil == 0);
         if (water <= 0) check(human, prod -> prod.water == 0);
         if (cryo <= 0) check(human, prod -> prod.cryo == 0);
+
+        checking = false;
     }
 
     public void check(Human human, Boolf<Production> pred) {

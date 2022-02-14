@@ -55,6 +55,7 @@ public class Main extends Plugin {
         UnitTypes.poly.defaultController = HexBuilderAI::new;
         UnitTypes.poly.weapons.clear();
 
+        Blocks.unloader.solid = false; // why?
         Blocks.groundFactory.solid = false;
         ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
 

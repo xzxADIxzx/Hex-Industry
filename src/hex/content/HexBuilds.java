@@ -255,6 +255,7 @@ public class HexBuilds {
             prod = new Production();
             cons = new Production() {{
                 plastanium = 20;
+                cryo = 1;
                 human = 5;
             }};
         }};

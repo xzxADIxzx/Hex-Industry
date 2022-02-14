@@ -1,5 +1,6 @@
 package hex.types;
 
+import arc.func.Boolf;
 import arc.math.Mathf;
 import hex.components.Bundle;
 import hex.components.Icons;
@@ -10,7 +11,6 @@ import java.util.Locale;
 
 import static hex.components.Bundle.get;
 
-// TODO: go through all the hexes when the amount of liquid changes and turn on/off plants that require liquid
 public class Production {
 
     private final CoreBuild core;
@@ -123,6 +123,16 @@ public class Production {
         } else human.player.sendMessage(get("enough", human.locale));
     }
 
+    public void check(Human human) {
+        if (oil <= 0) check(human, prod -> prod.oil == 0);
+        if (water <= 0) check(human, prod -> prod.water == 0);
+        if (cryo <= 0) check(human, prod -> prod.cryo == 0);
+    }
+
+    public void check(Human human, Boolf<Production> pred) {
+        human.captured().each(hex -> pred.get(hex.build.cons), hex -> hex.lose(null));
+    }
+
     public class Resource {
 
         public void produce(Production prod, boolean add) {
@@ -150,8 +160,7 @@ public class Production {
         }
 
         public void human(Production prod, boolean add) {
-            if (add) prod.human(human);
-            else prod.human -= human;
+            prod.human += human * Mathf.sign(add);
         }
 
         public boolean enough(Production prod) {

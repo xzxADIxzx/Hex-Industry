@@ -16,6 +16,7 @@ import mindustry.content.Blocks;
 import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
+import static hex.components.Bundle.format;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
@@ -78,6 +79,12 @@ public class Hex {
         Time.runTask(300f, () -> building = false);
 
         if (base && !isCitadel()) Time.runTask(180f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
+    }
+
+    public void lose(String attacker) {
+        if (attacker != null) owner.player.sendMessage(format("hex.attacked", owner.locale, attacker, cx, cy));
+        build.destroy(owner.production);
+        clear();
     }
 
     public void open() {

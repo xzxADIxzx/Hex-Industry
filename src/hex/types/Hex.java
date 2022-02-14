@@ -83,8 +83,8 @@ public class Hex {
 
     public void lose(String attacker) {
         owner.player.sendMessage(format("hex.attacked", owner.locale, attacker, cx, cy));
-        owner.production.check(owner);
         lose();
+        owner.production.check(owner);
     }
 
     public void lose() {

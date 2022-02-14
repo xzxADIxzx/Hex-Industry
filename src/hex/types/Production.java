@@ -130,7 +130,7 @@ public class Production {
     }
 
     public void check(Human human, Boolf<Production> pred) {
-        human.captured().each(hex -> pred.get(hex.build.cons), Hex::lose);
+        human.captured().each(hex -> pred.get(hex.build.cons), hex -> hex.lose(null));
     }
 
     public class Resource {

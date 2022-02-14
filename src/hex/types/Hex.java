@@ -84,6 +84,7 @@ public class Hex {
     public void lose(String attacker) {
         if (attacker != null) owner.player.sendMessage(format("hex.attacked", owner.locale, attacker, cx, cy));
         build.destroy(owner.production);
+        owner.production.check(owner);
         clear();
     }
 

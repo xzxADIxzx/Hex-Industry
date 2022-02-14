@@ -82,9 +82,12 @@ public class Hex {
     }
 
     public void lose(String attacker) {
-        if (attacker != null) owner.player.sendMessage(format("hex.attacked", owner.locale, attacker, cx, cy));
-        build.destroy(owner.production);
+        owner.player.sendMessage(format("hex.attacked", owner.locale, attacker, cx, cy));
         owner.production.check(owner);
+    }
+
+    public void lose() {
+        build.destroy(owner.production);
         clear();
     }
 

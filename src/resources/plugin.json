@@ -1,9 +1,9 @@
 {
-	"name": "hex",
+	"name": "industry",
 	"displayName": "Hex Industry",
-	"description": "Some schizophrenia with bad code. It doesn't even work.",
+	"description": "Some schizophrenia with bad code. It will work soon, I promise.",
 	"author": "xzxADIxzx, Darkness6030",
-	"version": "0.1-alpha",
+	"version": "1.0-beta",
 	"minGameVersion": "135",
 	"hidden": true,
 	"main": "hex.Main"

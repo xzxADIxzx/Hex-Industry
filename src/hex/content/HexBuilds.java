@@ -1,7 +1,9 @@
 package hex.content;
 
+import hex.types.Hex;
 import hex.types.HexBuild;
 import hex.types.Production;
+import hex.types.buttons.ShopButton;
 import mindustry.content.Fx;
 
 public class HexBuilds {
@@ -258,6 +260,11 @@ public class HexBuilds {
                 cryo = 1;
                 human = 5;
             }};
+        }
+
+        @Override
+        public void build(Hex hex) {
+            hex.buttons.add(new ShopButton(hex));
         }};
     }
 }

@@ -1,10 +1,12 @@
-package hex.types;
+package hex.types.buttons;
 
 import arc.func.Cons2;
 import arc.math.geom.Geometry;
 import hex.Generator;
 import hex.content.Buttons;
 import hex.content.HexSchematics;
+import hex.types.Hex;
+import hex.types.Human;
 import mindustry.content.Blocks;
 import mindustry.world.Tile;
 

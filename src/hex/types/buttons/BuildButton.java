@@ -1,8 +1,12 @@
-package hex.types;
+package hex.types.buttons;
 
 import mindustry.gen.Call;
 
 import static hex.components.Bundle.get;
+
+import hex.types.Hex;
+import hex.types.HexBuild;
+import hex.types.Human;
 
 public class BuildButton extends Button {
 

@@ -3,6 +3,7 @@ package hex.types;
 import arc.func.Cons2;
 import arc.graphics.Color;
 import hex.types.Production.Resource;
+import hex.types.buttons.BuildButton;
 import mindustry.content.UnitTypes;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;

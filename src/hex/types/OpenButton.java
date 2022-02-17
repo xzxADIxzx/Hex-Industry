@@ -1,6 +1,7 @@
 package hex.types;
 
 import arc.math.Mathf;
+import hex.types.buttons.Button;
 import mindustry.gen.Call;
 
 import static hex.components.Bundle.format;

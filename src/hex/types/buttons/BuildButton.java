@@ -25,7 +25,7 @@ public class BuildButton extends Button {
                     hex1.owner = human.leader;
                     hex1.build(build);
                 } else human.player.sendMessage(get("hex.toofar", human.locale));
-            } else human.player.sendMessage(get("enough", human.locale));
+            } else human.enough();
         }, hex, x, y);
 
         this.build = build;

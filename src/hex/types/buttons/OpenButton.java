@@ -1,7 +1,8 @@
-package hex.types;
+package hex.types.buttons;
 
 import arc.math.Mathf;
-import hex.types.buttons.Button;
+import hex.types.Hex;
+import hex.types.Human;
 import mindustry.gen.Call;
 
 import static hex.components.Bundle.format;
@@ -11,10 +12,7 @@ public class OpenButton extends Button {
 
     public OpenButton(Hex hex) {
         super((human, hex1) -> {
-            if (human.production.human >= cost(human.citadel, hex)) {
-                human.production.human -= cost(human.citadel, hex);
-                hex.open();
-            } else human.player.sendMessage(get("enough", human.locale));
+            if (human.production.unlock(human, cost(human.citadel, hex))) hex.open();
         }, hex);
     }
 

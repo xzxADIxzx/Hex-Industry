@@ -2,8 +2,6 @@ package hex.types;
 
 import arc.math.Mathf;
 
-import static hex.components.Bundle.get;
-
 public class Weapon {
 
     protected static int _id;
@@ -27,6 +25,6 @@ public class Weapon {
         if (cons.sour.enough(human.production)) {
             cons.sour.consume(human.production);
             if (Mathf.chance(chance(human.fraction, hex.build))) hex.lose(human.player.coloredName());
-        } else human.player.sendMessage(get("enough", human.locale));
+        } else human.enough();
     }
 }

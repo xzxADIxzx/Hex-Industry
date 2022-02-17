@@ -9,8 +9,6 @@ import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 
 import java.util.Locale;
 
-import static hex.components.Bundle.get;
-
 public class Production {
 
     private final CoreBuild core;
@@ -120,7 +118,15 @@ public class Production {
         if (crawler >= weapon.cost) {
             crawler -= weapon.cost;
             human.unlock(weapon.id);
-        } else human.player.sendMessage(get("enough", human.locale));
+        } else human.enough();
+    }
+
+    public boolean unlock(Human human, int amount) {
+        if (this.human >= amount) {
+            this.human -= amount;
+            return true;
+        } else human.enough();
+        return false;
     }
 
     public void check(Human human) {

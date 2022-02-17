@@ -14,6 +14,7 @@ import hex.content.HexBuilds;
 import hex.content.HexSchematics;
 import hex.types.buttons.BuildButton;
 import hex.types.buttons.Button;
+import hex.types.buttons.OpenButton;
 import mindustry.content.Blocks;
 import mindustry.world.blocks.environment.Floor;
 

@@ -114,6 +114,10 @@ public class Human {
         humans.remove(this);
     }
 
+    public void enough() {
+        player.sendMessage(get("enough", locale));
+    }
+
     public void unlock(int id) {
         weapons |= id;
     }

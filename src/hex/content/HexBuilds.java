@@ -264,6 +264,7 @@ public class HexBuilds {
 
         @Override
         public void build(Hex hex) {
+            super.build(hex);
             hex.buttons.add(new ShopButton(hex));
         }};
     }

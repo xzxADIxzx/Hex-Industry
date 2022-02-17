@@ -46,7 +46,7 @@ public class HexSuicideAI extends AIController {
             pathfind(Pathfinder.fieldRally);
             target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
 
-            if (unit.within(target, 10f)) {
+            if (unit.within(target, 20f)) {
                 Call.effect(Fx.spawn, unit.x, unit.y, 0, Color.white);
                 unit.controlWeapons(true);
             }

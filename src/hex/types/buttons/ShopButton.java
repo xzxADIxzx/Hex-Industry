@@ -16,7 +16,7 @@ public class ShopButton extends Button {
         super((human, hex1) -> {
             MenuListener.menu(human.player, weaponChoose, get("shop.title", human.locale), get("shop.text", human.locale),
                     new String[][] {{"crawlers package"}, {"may be weapons"}}, option -> "no description provided");
-        }, hex, -7, -2);
+        }, hex, hex.cx - 7, hex.cy - 2);
     }
 
     @Override

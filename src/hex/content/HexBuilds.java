@@ -260,6 +260,11 @@ public class HexBuilds {
                 cryo = 1;
                 human = 5;
             }};
+        }
+
+        @Override
+        public void build(Hex hex) {
+            super.build(hex);
         }};
     }
 }

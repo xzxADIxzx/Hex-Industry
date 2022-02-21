@@ -98,6 +98,7 @@ public class Hex {
         build.build(this);
         this.build = build;
         health = build.health;
+        damage(0); // update color
 
         busy = true; // cooldown
         Time.runTask(300f, () -> busy = false);

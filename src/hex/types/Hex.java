@@ -99,7 +99,7 @@ public class Hex {
         this.build = build;
 
         health = build.health;
-        step = 360f * health;
+        step = 360f / health;
         damage(0); // update color
 
         busy = true; // cooldown

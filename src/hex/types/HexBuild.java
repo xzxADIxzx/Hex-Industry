@@ -15,13 +15,16 @@ import mindustry.gen.Unit;
 public class HexBuild {
 
     public String name;
-    public HexBuild parent;
-    public HexBuild next;
+    public int health;
+
     public HexSchematic scheme;
     public Effect boom;
 
     public Production prod;
     public Production cons;
+
+    public HexBuild parent;
+    public HexBuild next;
 
     public void build(Hex hex) {
         if (!hex.isEmpty()) explode(hex); // cleanup old build

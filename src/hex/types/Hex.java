@@ -1,6 +1,7 @@
 package hex.types;
 
 import arc.func.Cons3;
+import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.Rand;
 import arc.math.geom.Point2;
@@ -16,6 +17,9 @@ import hex.types.buttons.BuildButton;
 import hex.types.buttons.Button;
 import hex.types.buttons.OpenButton;
 import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.gen.Call;
+import mindustry.graphics.Pal;
 import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
@@ -27,6 +31,7 @@ public class Hex {
 
     public static final int width = 27;
     public static final int height = 25;
+    public static final int radius = 52;
     public static final Rand random = new Rand();
     public static final float basedst = 600f;
 
@@ -39,6 +44,10 @@ public class Hex {
 
     public float fx;
     public float fy;
+
+    public float health;
+    public float step;
+    public Color color;
 
     public Human owner;
     public int id;
@@ -70,6 +79,16 @@ public class Hex {
         HexSchematics.closed.floor(x, y);
     }
 
+    public void update(Human human){
+        buttons.each(b -> b.update(human));
+
+        for (int deg = 0; deg < health; deg++) {
+            float dx = fx + Mathf.cosDeg(deg * step) * radius;
+            float dy = fy + Mathf.sinDeg(deg * step) * radius;
+            Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
+        }
+    }
+
     public static boolean bounds(int x, int y) {
         return x + width > world.width() || y + height > world.height();
     }
@@ -82,6 +101,12 @@ public class Hex {
         Time.runTask(300f, () -> building = false);
 
         if (base && !isCitadel()) Time.runTask(180f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
+    }
+
+    public boolean damage(int damage) {
+        health -= damage;
+        color = Pal.health.cpy().lerp(Pal.plastanium, health / build.health);
+        return health == 0;
     }
 
     public void lose(String attacker) {

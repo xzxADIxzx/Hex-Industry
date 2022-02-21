@@ -81,7 +81,7 @@ public class Human {
         Hex hex = location();
 
         Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "hex.closed" : "hex.nobody", locale) : hex.owner.hudname, production.human(), production.crawler(), production.liquids()));
-        hex.neighbours().each(h -> h.buttons.each(b -> b.update(this)));
+        hex.neighbours().each(h -> h.update(this));
     }
 
     public void team(Team team) {

@@ -55,7 +55,7 @@ public class Politics {
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
         if (attack(human)) MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale),
-                Weapons.names(human.locale, human.weapons), option -> Weapons.desc(human.locale, human.weapons, option, true));
+                Weapons.names(human.locale, human.weapons), option -> Weapons.desc(human.locale, human.weapons, option, human, true));
     }
 
     public static void peace(String arg, Player player) {
@@ -76,7 +76,7 @@ public class Politics {
         Human human = Human.from(player);
         if (human.weapons == 0x7) human.player.sendMessage(get("search", human.locale));
         else MenuListener.menu(player, weaponUnlockChoose, get("research.title", human.locale), get("research.text", human.locale),
-                    Weapons.names(human.locale, human.locked()), option -> Weapons.desc(human.locale, human.locked(), option, false));
+                    Weapons.names(human.locale, human.locked()), option -> Weapons.desc(human.locale, human.locked(), option, human, false));
     }
 
     private static void find(Player player, Cons2<Human, Locale> cons) {

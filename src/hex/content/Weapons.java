@@ -2,6 +2,7 @@ package hex.content;
 
 import arc.math.Mathf;
 import arc.struct.Seq;
+import hex.types.Human;
 import hex.types.Production;
 import hex.types.Weapon;
 
@@ -17,7 +18,7 @@ public class Weapons {
     public static void load() {
         standart = new Weapon() {{
             name = "weapon.standart";
-            chance = .3f;
+            damage = 9;
 
             cost = 0;
             cons = new Production() {{
@@ -27,7 +28,7 @@ public class Weapons {
 
         crawler = new Weapon() {{
             name = "weapon.crawler";
-            chance = .6f;
+            damage = 18;
 
             cost = 1;
             cons = new Production() {{
@@ -37,7 +38,7 @@ public class Weapons {
 
         atomic = new Weapon() {{
             name = "weapon.atomic";
-            chance = 1f;
+            damage = 36;
 
             cost = 2;
             cons = new Production() {{
@@ -67,8 +68,8 @@ public class Weapons {
         return names;
     }
 
-    public static String desc(Locale loc, byte id, int option, boolean stats) {
+    public static String desc(Locale loc, byte id, int option, Human human, boolean stats) {
         Weapon weapon = from(id).get(option);
-        return get(weapon.name + ".desc", loc) + (stats ? format("weapon.stats", loc, weapon.chance * 100) : format("research.stats", loc, weapon.cost));
+        return get(weapon.name + ".desc", loc) + (stats ? format("weapon.stats", loc, weapon.format(human)) : format("research.stats", loc, weapon.cost));
     }
 }

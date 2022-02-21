@@ -1,7 +1,5 @@
 package hex.types;
 
-import arc.math.Mathf;
-
 public class Weapon {
 
     protected static int _id;
@@ -9,7 +7,7 @@ public class Weapon {
     public int id;
     public String name;
 
-    public float chance;
+    public int damage;
     public int cost;
     public Production cons;
 
@@ -17,14 +15,14 @@ public class Weapon {
         id = 1 << _id++;
     }
 
-    public float chance(Fraction fract, HexBuild build) {
-        return chance;
+    public int format(Human human) {
+        return damage * human.fraction.damage;
     }
 
     public void attack(Human human, Hex hex) {
         if (cons.sour.enough(human.production)) {
             cons.sour.consume(human.production);
-            if (Mathf.chance(chance(human.fraction, hex.build))) hex.lose(human.player.coloredName());
+            if (hex.damage(format(human))) hex.lose(human.player.coloredName());
         } else human.enough();
     }
 }

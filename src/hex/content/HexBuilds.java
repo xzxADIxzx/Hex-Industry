@@ -13,7 +13,8 @@ public class HexBuilds {
     public static void load() {
         citadel = new HexBuild() {{
             name = "Citadel Mk1";
-            parent = citadel;
+            health = 18;
+
             scheme = HexSchematics.citadelMk1;
             boom = Fx.impactReactorExplosion;
 
@@ -22,9 +23,11 @@ public class HexBuilds {
             }};
             cons = new Production();
 
+            parent = citadel;
             next = new HexBuild() {{
                 name = "Citadel Mk2";
-                parent = citadel;
+                health = 18;
+
                 scheme = HexSchematics.citadelMk2;
                 boom = Fx.impactReactorExplosion;
 
@@ -35,9 +38,11 @@ public class HexBuilds {
                     plastanium = 20;
                 }};
 
+                parent = citadel;
                 next = new HexBuild() {{
                     name = "Citadel Mk3";
-                    parent = citadel;
+                    health = 18;
+
                     scheme = HexSchematics.citadelMk3;
                     boom = Fx.impactReactorExplosion;
 
@@ -47,13 +52,17 @@ public class HexBuilds {
                     cons = new Production() {{
                         spore = 20;
                     }};
+
+                    parent = citadel;
+                    next = null;
                 }};
             }};
         }};
 
         base = new HexBuild() {{
             name = "Base Mk1";
-            parent = base;
+            health = 18;
+
             scheme = HexSchematics.baseMk1;
             boom = Fx.impactReactorExplosion;
 
@@ -62,37 +71,45 @@ public class HexBuilds {
                 titanium = 20;
                 human = 1;
             }};
-            
+
+            parent = base;
             next = new HexBuild() {{
                 name = "Base Mk2";
-                parent = base;
+                health = 18;
+
                 scheme = HexSchematics.baseMk2;
                 boom = Fx.impactReactorExplosion;
-                
+
                 prod = new Production();
                 cons = new Production() {{
                     plastanium = 20;
                     human = 1;
                 }};
                 
+                parent = base;
                 next = new HexBuild() {{
                     name = "Base Mk3";
-                    parent = base;
+                    health = 18;
+
                     scheme = HexSchematics.baseMk3;
                     boom = Fx.impactReactorExplosion;
-                    
+
                     prod = new Production();
                     cons = new Production() {{
                         spore = 20;
                         human = 1;
                     }};
+
+                    parent = base;
+                    next = null;
                 }};
             }};
         }};
 
         miner = new HexBuild() {{
             name = "Miner Mk1";
-            parent = miner;
+            health = 18;
+
             scheme = HexSchematics.minerMk1;
             boom = Fx.reactorExplosion;
 
@@ -103,9 +120,11 @@ public class HexBuilds {
                 human = 1;
             }};
 
+            parent = miner;
             next = new HexBuild() {{
                 name = "Miner Mk2";
-                parent = miner;
+                health = 18;
+
                 scheme = HexSchematics.minerMk2;
                 boom = Fx.reactorExplosion;
 
@@ -117,9 +136,11 @@ public class HexBuilds {
                     human = 2;
                 }};
 
+                parent = miner;
                 next = new HexBuild() {{
                     name = "Miner Mk3";
-                    parent = miner;
+                    health = 18;
+
                     scheme = HexSchematics.minerMk3;
                     boom = Fx.reactorExplosion;
 
@@ -130,13 +151,17 @@ public class HexBuilds {
                         spore = 20;
                         human = 3;
                     }};
+
+                    parent = miner;
+                    next = null;
                 }};
             }};
         }};
 
         thory = new HexBuild() {{
             name = "Miner Mk1";
-            parent = thory;
+            health = 18;
+
             scheme = HexSchematics.thoryMk1;
             boom = Fx.reactorExplosion;
 
@@ -148,9 +173,11 @@ public class HexBuilds {
                 human = 1;
             }};
 
+            parent = thory;
             next = new HexBuild() {{
                 name = "Miner Mk2";
-                parent = thory;
+                health = 18;
+
                 scheme = HexSchematics.thoryMk2;
                 boom = Fx.reactorExplosion;
 
@@ -161,11 +188,16 @@ public class HexBuilds {
                     plastanium = 20;
                     human = 2;
                 }};
+
+                parent = thory;
+                next = null;
             }};
         }};
 
         spore = new HexBuild() {{
             name = "Cultivator";
+            health = 18;
+
             // scheme = HexSchematics.;
             boom = Fx.reactorExplosion;
 
@@ -180,6 +212,8 @@ public class HexBuilds {
 
         oil = new HexBuild() {{
             name = "Oil Pump";
+            health = 18;
+
             scheme = HexSchematics.oil;
             boom = Fx.impactcloud;
 
@@ -194,6 +228,8 @@ public class HexBuilds {
 
         water = new HexBuild() {{
             name = "Water Pump";
+            health = 18;
+
             scheme = HexSchematics.water;
             boom = Fx.impactcloud;
 
@@ -208,6 +244,8 @@ public class HexBuilds {
 
         cryo = new HexBuild() {{
             name = "Cryo Pump";
+            health = 18;
+
             scheme = HexSchematics.cryo;
             boom = Fx.impactcloud;
 
@@ -222,6 +260,8 @@ public class HexBuilds {
 
         compressor = new HexBuild() {{
             name = "Compressor";
+            health = 18;
+
             scheme = HexSchematics.compressor;
             boom = Fx.impactcloud;
 
@@ -237,6 +277,8 @@ public class HexBuilds {
 
         city = new HexBuild() {{
             name = "Mono City";
+            health = 18;
+
             scheme = HexSchematics.city;
             boom = Fx.reactorExplosion;
 
@@ -250,7 +292,9 @@ public class HexBuilds {
         }};
 
         maze = new HexBuild() {{
-            name = "Crawler Maze";
+            name = "Maze Shop";
+            health = 18;
+
             scheme = HexSchematics.maze;
             boom = Fx.reactorExplosion;
 
@@ -265,6 +309,7 @@ public class HexBuilds {
         @Override
         public void build(Hex hex) {
             super.build(hex);
+            hex.buttons.add(new ShopButton(hex));
         }};
     }
 }

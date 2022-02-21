@@ -111,7 +111,7 @@ public class Hex {
     public boolean damage(int damage) {
         health -= damage;
         color = Pal.health.cpy().lerp(Pal.plastanium, health / build.health);
-        return health == 0;
+        return health <= 0;
     }
 
     public void lose(String attacker) {

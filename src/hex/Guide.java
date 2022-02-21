@@ -20,7 +20,6 @@ public class Guide {
         int page = pages.get(player);
 
         Locale loc = findLocale(player);
-        Call.sound(player.con, Sounds.click, 1f, 1f, 1f);
         Call.menu(player.con, guide, format("guide.name", loc, page), get("guide.page." + page, loc), new String[][] {
                 {get("guide.prev", loc), get("guide.next", loc)},
                 {get("guide.exit", loc)}
@@ -28,6 +27,7 @@ public class Guide {
     }
 
     public static void choose(Player player, int option) {
+        Call.soundAt(player.con, Sounds.click, player.x, player.y, 1f, 1f);
         if (option != -1 && option != 2) {
             option = pages.get(player) + (option == 0 ? -1 : 1);
             pages.put(player, option > max ? max : option < 0 ? 0 : option);

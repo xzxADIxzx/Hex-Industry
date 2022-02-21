@@ -97,7 +97,9 @@ public class Hex {
     public void build(HexBuild build) {
         build.build(this);
         this.build = build;
+
         health = build.health;
+        step = 360f * health;
         damage(0); // update color
 
         busy = true; // cooldown

@@ -65,6 +65,7 @@ public class Human {
         this.weapons = 0x1;
 
         units.put(player, player.unit()); // saves the player's unit
+        player.sendMessage(get("welcome", locale)); // some info
     }
 
     public static Human from(Player player) {
@@ -120,6 +121,7 @@ public class Human {
 
     public void unlock(int id) {
         weapons |= id;
+        slaves().each(h -> h.unlock(id));
     }
 
     public byte locked() {

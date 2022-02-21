@@ -52,12 +52,13 @@ public class MenuListener {
             Time.runTask(300f, () -> {
                 leader.production = new Production(leader);
                 leader.captured().each(hex -> hex.build.create(leader.production));
-                leader.slaves().each(human -> human.production = leader.production);
+                leader.slaves().each(human -> {
+                    human.production = leader.production;
+                    leader.unlock(human.weapons);
+                });
             });
 
             offers.remove(of -> of.equals(leader, null, 2));
-
-            // TODO вооружение рассинхронизируется среди игроков, нана пофиксить
         });
 
         menus.put(weaponChoose = 2, (player, option) -> {
@@ -76,7 +77,7 @@ public class MenuListener {
 
         base = Menus.registerMenu((player, option) -> {
             MenuInfo menu = info.get(player);
-            Call.soundAt(player.con, Sounds.click, player.x, player.y, 1f, 1f);
+            Call.sound(player.con, Sounds.click, 100f, 1f, 0f);
             if (last.get(player) == option || option == -1) menus.get(menu.id).get(player, option);
             else {
                 Call.menu(player.con, base, menu.title, menu.text.get(option), menu.buttons);

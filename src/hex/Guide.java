@@ -27,7 +27,7 @@ public class Guide {
     }
 
     public static void choose(Player player, int option) {
-        Call.soundAt(player.con, Sounds.click, player.x, player.y, 1f, 1f);
+        Call.sound(player.con, Sounds.click, 100f, 1f, 0f);
         if (option != -1 && option != 2) {
             option = pages.get(player) + (option == 0 ? -1 : 1);
             pages.put(player, option > max ? max : option < 0 ? 0 : option);

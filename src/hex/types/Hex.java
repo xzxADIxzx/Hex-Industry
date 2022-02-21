@@ -82,6 +82,7 @@ public class Hex {
     public void update(Human human){
         buttons.each(b -> b.update(human));
 
+        // if (busy) 
         for (int deg = 0; deg < health; deg++) {
             float dx = fx + Mathf.cosDeg(deg * step) * radius;
             float dy = fy + Mathf.sinDeg(deg * step) * radius;
@@ -117,6 +118,9 @@ public class Hex {
             owner.production.check(owner);
         }
         clear();
+
+        busy = true; // cooldown
+        Time.runTask(3600f, () -> busy = false);
     }
 
     public void open() {

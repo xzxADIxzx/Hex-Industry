@@ -44,7 +44,7 @@ public class Politics {
 
     public static boolean attack(Human human) {
         Hex hex = attacked.get(human);
-        boolean team = hex.isEmpty() || hex.owner == human.leader || hex.building;
+        boolean team = hex.isEmpty() || hex.owner == human.leader || hex.busy;
         boolean zone = hex.isCaptured(human);
 
         if (!zone) human.player.sendMessage(get("hex.toofar", human.locale));

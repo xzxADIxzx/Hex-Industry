@@ -14,6 +14,7 @@ import hex.types.Production;
 import hex.types.Weapon;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
+import mindustry.gen.Sounds;
 import mindustry.ui.Menus;
 
 import static hex.Main.humans;
@@ -78,6 +79,7 @@ public class MenuListener {
             if (last.get(player) == option || option == -1) menus.get(menu.id).get(player, option);
             else {
                 Call.menu(player.con, base, menu.title, menu.text.get(option), menu.buttons);
+                Call.sound(player.con, Sounds.click, 1f, 1f, 1f);
                 last.put(player, option);
             }
         });

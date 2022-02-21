@@ -51,6 +51,7 @@ public class Main extends Plugin {
         netServer.assigner = (player, players) -> Team.derelict;
 
         UnitTypes.crawler.defaultController = HexSuicideAI::new;
+        UnitTypes.crawler.weapons.clear();
         UnitTypes.mono.defaultController = HexMinerAI::new;
         UnitTypes.poly.defaultController = HexBuilderAI::new;
         UnitTypes.poly.weapons.clear();

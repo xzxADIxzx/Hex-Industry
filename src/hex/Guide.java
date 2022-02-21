@@ -3,6 +3,7 @@ package hex;
 import arc.struct.ObjectMap;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
+import mindustry.gen.Sounds;
 
 import java.util.Locale;
 
@@ -19,6 +20,7 @@ public class Guide {
         int page = pages.get(player);
 
         Locale loc = findLocale(player);
+        Call.sound(player.con, Sounds.click, 1f, 1f, 1f);
         Call.menu(player.con, guide, format("guide.name", loc, page), get("guide.page." + page, loc), new String[][] {
                 {get("guide.prev", loc), get("guide.next", loc)},
                 {get("guide.exit", loc)}

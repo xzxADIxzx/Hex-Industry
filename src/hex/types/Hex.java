@@ -54,8 +54,8 @@ public class Hex {
 
     public Seq<Button> buttons = new Seq<>();
     public HexBuild build;
-    public boolean building;
 
+    public boolean busy;
     public boolean base;
     public HexEnv env;
     public byte door;
@@ -96,9 +96,10 @@ public class Hex {
     public void build(HexBuild build) {
         build.build(this);
         this.build = build;
+        health = build.health;
 
-        building = true; // cooldown
-        Time.runTask(300f, () -> building = false);
+        busy = true; // cooldown
+        Time.runTask(300f, () -> busy = false);
 
         if (base && !isCitadel()) Time.runTask(180f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
     }

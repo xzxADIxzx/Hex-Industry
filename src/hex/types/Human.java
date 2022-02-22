@@ -90,6 +90,8 @@ public class Human {
         Call.setTeam(core(), team);
 
         captured().each(hex -> Time.runTask(Mathf.random(300f), () -> hex.build.build(hex)));
+
+        // TODO: сделать что-то с несколькими цитаделями *сносить или ещё что...*
     }
 
     public void unit(Fraction fract, boolean leader) {
@@ -121,7 +123,7 @@ public class Human {
 
     public void unlock(int id) {
         weapons |= id;
-        slaves().each(h -> h.unlock(id));
+        leader.slaves().each(h -> h.unlock(id));
     }
 
     public byte locked() {

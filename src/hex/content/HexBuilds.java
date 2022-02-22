@@ -198,7 +198,7 @@ public class HexBuilds {
             name = "Cultivator";
             health = 18;
 
-            // scheme = HexSchematics.;
+            scheme = HexSchematics.cultivator;
             boom = Fx.reactorExplosion;
 
             prod = new Production() {{

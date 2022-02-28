@@ -25,7 +25,7 @@ public class HexSuicideAI extends AIController {
     public Seq<Vec2> marks;
 
     public HexSuicideAI() {
-        Time.runTask(60f, () -> {
+        Time.run(60f, () -> {
             hex = hexes.min(h -> h.pos().dst(unit));
             marks = Seq.with(from(7, -3), from(3, -3), from(3, 1));
         });

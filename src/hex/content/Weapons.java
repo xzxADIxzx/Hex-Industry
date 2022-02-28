@@ -2,14 +2,12 @@ package hex.content;
 
 import arc.math.Mathf;
 import arc.struct.Seq;
-import hex.types.Human;
 import hex.types.Production;
 import hex.types.Weapon;
 
 import java.util.Locale;
 
 import static hex.components.Bundle.get;
-import static hex.components.Bundle.format;
 
 public class Weapons {
 
@@ -66,10 +64,5 @@ public class Weapons {
         String[][] names = new String[weapons.size][1];
         for (int i = 0; i < names.length; i++) names[i][0] = get(weapons.get(i).name + ".name", loc);
         return names;
-    }
-
-    public static String desc(Locale loc, byte id, int option, Human human, boolean stats) {
-        Weapon weapon = from(id).get(option);
-        return get(weapon.name + ".desc", loc) + (stats ? format("weapon.stats", loc, weapon.format(human)) : format("research.stats", loc, weapon.cost));
     }
 }

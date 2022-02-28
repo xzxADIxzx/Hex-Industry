@@ -89,7 +89,7 @@ public class Human {
         player.team(team);
         Call.setTeam(core(), team);
 
-        captured().each(hex -> Time.runTask(Mathf.random(300f), () -> hex.build.build(hex)));
+        captured().each(hex -> Time.run(Mathf.random(300f), () -> hex.build.build(hex)));
 
         // TODO: сделать что-то с несколькими цитаделями *сносить или ещё что...*
     }
@@ -111,7 +111,7 @@ public class Human {
         player.team(Team.derelict);
         core().kill();
 
-        if (leader == this) captured().each(hex -> Time.runTask(Mathf.random(300f), hex::clear));
+        if (leader == this) captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
         else citadel.clear();
 
         humans.remove(this);
@@ -119,6 +119,10 @@ public class Human {
 
     public void enough() {
         player.sendMessage(get("enough", locale));
+    }
+
+    public int shops() {
+        return leader.captured().sum(h -> Mathf.sign(h.build == HexBuilds.maze));
     }
 
     public void unlock(int id) {

@@ -103,9 +103,9 @@ public class Hex {
         damage(0); // update color
 
         busy = true; // cooldown
-        Time.runTask(300f, () -> busy = false);
+        Time.run(300f, () -> busy = false);
 
-        if (base && !isCitadel()) Time.runTask(180f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
+        if (base && !isCitadel()) Time.run(180f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
     }
 
     public boolean damage(int damage) {
@@ -123,14 +123,14 @@ public class Hex {
         clear();
 
         busy = true; // cooldown
-        Time.runTask(3600f, () -> busy = false);
+        Time.run(3600f, () -> busy = false);
     }
 
     public void open() {
         HexSchematics.door(door).airNet(x, y);
         env.build(this);
 
-        Time.runTask(60f, () -> openedNeighbours().each(bour -> {
+        Time.run(60f, () -> openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
         }));
     }

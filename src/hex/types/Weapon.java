@@ -1,5 +1,7 @@
 package hex.types;
 
+import static hex.components.Bundle.format;
+
 public class Weapon {
 
     protected static int _id;
@@ -15,14 +17,18 @@ public class Weapon {
         id = 1 << _id++;
     }
 
-    public int format(Human human) {
+    public int damage(Human human) {
         return damage * human.fraction.damage;
+    }
+
+    public String desc(Human human) {
+        return format(name + ".name", human.locale, damage(human));
     }
 
     public void attack(Human human, Hex hex) {
         if (cons.sour.enough(human.production)) {
             cons.sour.consume(human.production);
-            if (hex.damage(format(human))) hex.lose(human.player.coloredName());
+            if (hex.damage(damage(human))) hex.lose(human.player.coloredName());
         } else human.enough();
     }
 }

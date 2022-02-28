@@ -99,7 +99,7 @@ public class Production {
     }
 
     public String human() {
-        return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human + "\uE86D[]";
+        return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human;
     }
 
     public void human(int amount) {
@@ -107,7 +107,7 @@ public class Production {
     }
 
     public String crawler() {
-        return (crawler > 0 ? "[green]" : "[scarlet]") + crawler + "[]\uF7FA";
+        return (crawler <= 5 ? "[scarlet]" : crawler <= 10 ? "[orange]" : "[green]") + crawler;
     }
 
     public void crawler(int amount) {
@@ -121,12 +121,24 @@ public class Production {
         } else human.enough();
     }
 
-    public boolean unlock(Human human, int amount) {
-        if (this.human >= amount) {
-            this.human -= amount;
+    public boolean enough(Human human, int amount, Integer resource) {
+        if (resource >= amount) {
+            resource -= amount;
             return true;
         } else human.enough();
         return false;
+    }
+
+    public boolean human(Human human, int amount) {
+        return enough(human, amount, this.human);
+    }
+
+    public boolean crawler(Human human, int amount) {
+        return enough(human, amount, this.crawler);
+    }
+
+    public boolean spore(Human human, int amount) {
+        return enough(human, amount, this.spore);
     }
 
     public void check(Human human) {

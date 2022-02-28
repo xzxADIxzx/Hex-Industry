@@ -28,7 +28,7 @@ public class MenuListener {
     private static ObjectMap<Player, MenuInfo> info = new ObjectMap<>();
     private static ObjectMap<Integer, Cons2<Player, Integer>> menus = new ObjectMap<>();
 
-    public static int fractionChoose, leaderFractionChoose, weaponChoose, weaponUnlockChoose, guide, base;
+    public static int fractionChoose, leaderFractionChoose, weaponChoose, shop, guide, base;
 
     public static void load() {
         menus.put(fractionChoose = 0, (player, option) -> {
@@ -49,7 +49,7 @@ public class MenuListener {
             });
 
             // recalculate production
-            Time.runTask(300f, () -> {
+            Time.run(300f, () -> {
                 leader.production = new Production(leader);
                 leader.captured().each(hex -> hex.build.create(leader.production));
                 leader.slaves().each(human -> {
@@ -66,12 +66,19 @@ public class MenuListener {
             if (option != -1 && attack(human)) Weapons.from((byte) human.weapons).get(option).attack(human, attacked.get(human));
         });
 
-        menus.put(weaponUnlockChoose = 3, (player, option) -> {
+        menus.put(shop = 3, (player, option) -> {
             if (option == -1) return;
             Human human = Human.from(player);
             Weapon weapon = Weapons.from(human.locked()).get(option);
             human.production.unlock(human, weapon);
         });
+
+        // menus.put(shop = 3, (player, option) -> {
+        //     if (option == -1) return;
+        //     Human human = Human.from(player);
+        //     Weapon weapon = Weapons.from(human.locked()).get(option);
+        //     human.production.unlock(human, weapon);
+        // });
 
         guide = Menus.registerMenu(Guide::choose);
 

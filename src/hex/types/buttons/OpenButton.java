@@ -12,7 +12,7 @@ public class OpenButton extends Button {
 
     public OpenButton(Hex hex) {
         super((human, hex1) -> {
-            if (human.production.unlock(human, cost(human.citadel, hex))) hex.open();
+            if (human.production.human(human, cost(human.citadel, hex))) hex.open();
         }, hex);
     }
 

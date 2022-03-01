@@ -4,6 +4,7 @@ import hex.types.Human;
 import hex.types.Package;
 import arc.struct.Seq;
 
+import static hex.components.Bundle.get;
 import static hex.components.Bundle.format;
 
 public class Packages {
@@ -26,6 +27,7 @@ public class Packages {
 
             cont = human -> human.production.unit(human.cities());
             desc = human -> format(name + ".desc", human.locale, human.cities() * human.fraction.creature, cost);
+            pred = human -> human.cities() > 0;
         }};
 
         atomic = new Package(){{
@@ -34,7 +36,7 @@ public class Packages {
 
             cont = human -> human.unlock(Weapons.atomic.id);
             desc = human -> format(name + ".desc", human.locale, Weapons.atomic.desc(human), cost);
-            pred = human -> (Weapons.atomic.id & human.weapons) == Weapons.atomic.id;
+            pred = human -> (Weapons.atomic.id & human.weapons) != Weapons.atomic.id;
         }};
     }
 
@@ -49,7 +51,7 @@ public class Packages {
     public static String[][] names(Human human) {
         Seq<Package> packages = from(human);
         String[][] names = new String[packages.size][1];
-        for (int i = 0; i < names.length; i++) names[i][0] = packages.get(i).desc.get(human);
+        for (int i = 0; i < names.length; i++) names[i][0] = get(packages.get(i).name + ".name", human.locale);
         return names;
     }
 }

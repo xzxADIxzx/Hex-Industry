@@ -143,12 +143,9 @@ public class Hex {
         owner = null;
     }
 
-    public void clearButtons(boolean full) {
+    public void clearButtons() {
         buttons.each(Buttons::unregister);
         buttons.clear();
-
-        if (full) env.build(this);
-        else env.terrain(this);
     }
 
     public Seq<Hex> neighbours() {
@@ -247,13 +244,11 @@ public class Hex {
             return null; // never happen because the last one has a 100% drop chance
         }
 
+        /** build terrain from schematics & spawn buttons */
         public void build(Hex hex) {
-            hex.clearButtons(false);
+            hex.clearButtons();
             addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
-        }
 
-        /** build terrain from schematics */
-        public void terrain(Hex hex) {
             Lr1.floorNet(hex.x, hex.y);
             Lr1.airNet(hex.x, hex.y);
 

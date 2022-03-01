@@ -16,7 +16,7 @@ public class ShopButton extends Button {
         super((human, hex1) -> {
             MenuListener.menu(human.player, shop, get("shop.title", human.locale), get("shop.text", human.locale),
                     Packages.names(human), option -> Packages.from(human, option).desc.get(human));
-        }, hex, hex.cx - 7, hex.cy - 2);
+        }, hex, hex.cx - 9, hex.cy);
     }
 
     @Override

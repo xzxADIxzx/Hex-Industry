@@ -206,6 +206,7 @@ public class HexBuilds {
             }};
             cons = new Production() {{
                 plastanium = 20;
+                water = 1;
                 unit = 1;
             }};
         }};

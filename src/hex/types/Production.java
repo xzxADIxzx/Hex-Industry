@@ -123,24 +123,24 @@ public class Production {
 
     // I'am sorry ,_,
     public boolean unit(Human human, int amount) {
-        if (this.unit >= amount) {
-            this.unit -= amount;
+        if (unit >= amount) {
+            unit -= amount;
             return true;
         } else human.enough();
         return false;
     }
 
     public boolean crawler(Human human, int amount) {
-        if (this.crawler >= amount) {
-            this.crawler -= amount;
+        if (crawler >= amount) {
+            crawler(-amount);
             return true;
         } else human.enough();
         return false;
     }
 
     public boolean spore(Human human, int amount) {
-        if (this.spore >= amount) {
-            this.spore -= amount;
+        if (spore() >= amount) {
+            spore(-amount);
             return true;
         } else human.enough();
         return false;
@@ -197,6 +197,7 @@ public class Production {
                     (unit <= 0 || prod.unit >= unit);
         }
 
+        // TODO: сделать форматирование красивее
         public String format(Locale loc, Fraction fract) {
             return format(loc, new String[] {"prod.item", "prod.liquid", "prod.creature"}, fract.production, fract.creature);
         }

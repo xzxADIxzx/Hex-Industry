@@ -35,7 +35,7 @@ public class HexBuild {
         prod.sour.produce(hex.owner.production, true);
         cons.sour.consume(hex.owner.production);
 
-        hex.clearButtons(false);
+        hex.clearButtons();
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
     }
 

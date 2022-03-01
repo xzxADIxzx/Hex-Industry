@@ -82,7 +82,7 @@ public class Hex {
     public void update(Human human){
         buttons.each(b -> b.update(human));
 
-        // if (busy) 
+        // TODO if (busy)
         for (int deg = 0; deg < health; deg++) {
             float dx = fx + Mathf.cosDeg(deg * step) * radius;
             float dy = fy + Mathf.sinDeg(deg * step) * radius;

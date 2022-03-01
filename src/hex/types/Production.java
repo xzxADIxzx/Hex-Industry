@@ -28,7 +28,7 @@ public class Production {
     protected int cryo;
 
     // little creatures
-    protected int human;
+    protected int unit;
     protected int crawler;
 
     public Production() {
@@ -57,7 +57,7 @@ public class Production {
     }
 
     public void all(int amount) {
-        titanium = plastanium = thorium = spore = oil = water = cryo = human = crawler = amount;
+        titanium = plastanium = thorium = spore = oil = water = cryo = unit = crawler = amount;
     }
 
     public int plastanium() {
@@ -98,12 +98,12 @@ public class Production {
                 (cryo > 0 ? "[lime]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("cryofluid");
     }
 
-    public String human() {
-        return (human <= 5 ? "[scarlet]" : human <= 10 ? "[orange]" : "[green]") + human;
+    public String unit() {
+        return (unit <= 5 ? "[scarlet]" : unit <= 10 ? "[orange]" : "[green]") + unit;
     }
 
-    public void human(int amount) {
-        human += amount * fract.creature;
+    public void unit(int amount) {
+        unit += amount * fract.creature;
     }
 
     public String crawler() {
@@ -121,24 +121,29 @@ public class Production {
         } else human.enough();
     }
 
-    public boolean enough(Human human, int amount, Integer resource) {
-        if (resource >= amount) {
-            resource -= amount;
+    // I'am sorry ,_,
+    public boolean unit(Human human, int amount) {
+        if (this.unit >= amount) {
+            this.unit -= amount;
             return true;
         } else human.enough();
         return false;
     }
 
-    public boolean human(Human human, int amount) {
-        return enough(human, amount, this.human);
-    }
-
     public boolean crawler(Human human, int amount) {
-        return enough(human, amount, this.crawler);
+        if (this.crawler >= amount) {
+            this.crawler -= amount;
+            return true;
+        } else human.enough();
+        return false;
     }
 
     public boolean spore(Human human, int amount) {
-        return enough(human, amount, this.spore);
+        if (this.spore >= amount) {
+            this.spore -= amount;
+            return true;
+        } else human.enough();
+        return false;
     }
 
     public void check(Human human) {
@@ -165,7 +170,7 @@ public class Production {
             prod.water += water * base;
             prod.cryo += cryo * base;
 
-            prod.human(human * base);
+            prod.unit(unit * base);
         }
 
         public void consume(Production prod) {
@@ -174,11 +179,11 @@ public class Production {
             prod.thorium(-thorium);
             prod.spore(-spore);
 
-            prod.human -= human;
+            prod.unit -= unit;
         }
 
-        public void human(Production prod, boolean add) {
-            prod.human += human * Mathf.sign(add);
+        public void unit(Production prod, boolean add) {
+            prod.unit += unit * Mathf.sign(add);
         }
 
         public boolean enough(Production prod) {
@@ -189,7 +194,7 @@ public class Production {
                     (oil <= 0 || prod.oil >= oil) &&
                     (water <= 0 || prod.water >= water) &&
                     (cryo <= 0 || prod.cryo >= cryo) &&
-                    (human <= 0 || prod.human >= human);
+                    (unit <= 0 || prod.unit >= unit);
         }
 
         public String format(Locale loc, Fraction fract) {
@@ -212,7 +217,7 @@ public class Production {
             if (water != 0) result += Bundle.format(base[1], loc, Icons.get("water"));
             if (cryo != 0) result += Bundle.format(base[1], loc, Icons.get("cryofluid"));
 
-            if (human != 0) result += Bundle.format(base[2], loc, human * h);
+            if (unit != 0) result += Bundle.format(base[2], loc, unit * h);
 
             return result;
         }

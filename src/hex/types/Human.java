@@ -81,7 +81,7 @@ public class Human {
         if (leader == this) production.update();
         Hex hex = location();
 
-        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "hex.closed" : "hex.nobody", locale) : hex.owner.hudname, production.human(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "hex.closed" : "hex.nobody", locale) : hex.owner.hudname, production.unit(), production.crawler(), production.liquids()));
         hex.neighbours().each(h -> h.update(this));
     }
 
@@ -121,10 +121,6 @@ public class Human {
         player.sendMessage(get("enough", locale));
     }
 
-    public int shops() {
-        return leader.captured().sum(h -> Mathf.sign(h.build == HexBuilds.maze));
-    }
-
     public void unlock(int id) {
         weapons |= id;
         leader.slaves().each(h -> h.unlock(id));
@@ -148,5 +144,17 @@ public class Human {
 
     public Seq<Human> slaves() {
         return humans.copy().filter(human -> human.leader == this && human != this);
+    }
+
+    public int builds(HexBuild build) {
+        return leader.captured().sum(h -> h.build.parent == build ? 1 : 0);
+    }
+
+    public int shops() {
+        return builds(HexBuilds.maze);
+    }
+
+    public int cities() {
+        return builds(HexBuilds.city);
     }
 }

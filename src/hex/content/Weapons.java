@@ -1,6 +1,5 @@
 package hex.content;
 
-import arc.math.Mathf;
 import arc.struct.Seq;
 import hex.types.Production;
 import hex.types.Weapon;
@@ -46,7 +45,6 @@ public class Weapons {
     }
 
     public static Weapon from(int id) {
-        if (id == -1) id = Mathf.random(2);
         return new Weapon[] {standart, crawler, atomic}[id];
     }
 

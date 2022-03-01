@@ -23,7 +23,7 @@ public class HexBuild {
     public Production prod;
     public Production cons;
 
-    public HexBuild parent;
+    public HexBuild parent = this;
     public HexBuild next;
 
     public void build(Hex hex) {
@@ -42,21 +42,21 @@ public class HexBuild {
     public void create(Production production) {
         family((prod, cons) -> {
             prod.produce(production, true);
-            cons.human(production, false);
+            cons.unit(production, false);
         });
     }
 
     public void destroy(Production production) {
         family((prod, cons) -> {
             prod.produce(production, false);
-            cons.human(production, true);
+            cons.unit(production, true);
         });
     }
 
     public void family(Cons2<Resource, Resource> cons) {
         cons.get(prod.sour, this.cons.sour);
         HexBuild cur = parent;
-        while (cur != null && cur != this) {
+        while (cur != this) {
             cons.get(cur.prod.sour, cur.cons.sour);
             cur = cur.next;
         }

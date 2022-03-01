@@ -41,6 +41,7 @@ public class Main extends Plugin {
         HexSchematics.load();
         Fractions.load();
         HexBuilds.load();
+        Packages.load();
         Weapons.load();
         Buttons.load();
         MenuListener.load();

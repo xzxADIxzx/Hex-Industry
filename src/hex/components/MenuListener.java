@@ -7,20 +7,18 @@ import arc.util.Time;
 import hex.Generator;
 import hex.Guide;
 import hex.content.Fractions;
+import hex.content.Packages;
 import hex.content.Weapons;
 import hex.types.Fraction;
 import hex.types.Human;
 import hex.types.Production;
-import hex.types.Weapon;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Sounds;
 import mindustry.ui.Menus;
 
 import static hex.Main.humans;
-import static hex.Politics.attack;
 import static hex.Politics.offers;
-import static hex.Politics.attacked;
 
 public class MenuListener {
 
@@ -63,22 +61,12 @@ public class MenuListener {
 
         menus.put(weaponChoose = 2, (player, option) -> {
             Human human = Human.from(player);
-            if (option != -1 && attack(human)) Weapons.from((byte) human.weapons).get(option).attack(human, attacked.get(human));
+            if (option != -1) Weapons.from((byte) human.weapons).get(option).attack(human);
         });
 
         menus.put(shop = 3, (player, option) -> {
-            if (option == -1) return;
-            Human human = Human.from(player);
-            Weapon weapon = Weapons.from(human.locked()).get(option);
-            human.production.unlock(human, weapon);
+            if (option != -1) Packages.from(option).send(Human.from(player));
         });
-
-        // menus.put(shop = 3, (player, option) -> {
-        //     if (option == -1) return;
-        //     Human human = Human.from(player);
-        //     Weapon weapon = Weapons.from(human.locked()).get(option);
-        //     human.production.unlock(human, weapon);
-        // });
 
         guide = Menus.registerMenu(Guide::choose);
 

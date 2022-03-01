@@ -9,6 +9,7 @@ import hex.content.Fractions;
 import hex.content.Weapons;
 import hex.types.Hex;
 import hex.types.Human;
+import hex.types.Weapon;
 import mindustry.gen.Player;
 
 import java.util.Locale;
@@ -42,19 +43,9 @@ public class Politics {
         else human.lose();
     }
 
-    public static boolean attack(Human human) {
-        Hex hex = attacked.get(human);
-        boolean team = hex.isEmpty() || hex.owner == human.leader || hex.busy;
-        boolean zone = hex.isCaptured(human);
-
-        if (!zone) human.player.sendMessage(get("hex.toofar", human.locale));
-        else if (team) human.player.sendMessage(get("hex.attack", human.locale));
-        return !team && zone;
-    }
-
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
-        if (attack(human)) MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale),
+        if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale),
                 Weapons.names(human.locale, human.weapons), option -> Weapons.from(human.weapons).get(option).desc(human));
     }
 

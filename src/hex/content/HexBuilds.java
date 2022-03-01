@@ -19,7 +19,7 @@ public class HexBuilds {
             boom = Fx.impactReactorExplosion;
 
             prod = new Production() {{
-                human = 20;
+                unit = 20;
             }};
             cons = new Production();
 
@@ -32,7 +32,7 @@ public class HexBuilds {
                 boom = Fx.impactReactorExplosion;
 
                 prod = new Production() {{
-                    human = 20;
+                    unit = 20;
                 }};
                 cons = new Production() {{
                     plastanium = 20;
@@ -47,7 +47,7 @@ public class HexBuilds {
                     boom = Fx.impactReactorExplosion;
 
                     prod = new Production() {{
-                        human = 20;
+                        unit = 20;
                     }};
                     cons = new Production() {{
                         spore = 20;
@@ -69,7 +69,7 @@ public class HexBuilds {
             prod = new Production();
             cons = new Production() {{
                 titanium = 20;
-                human = 1;
+                unit = 1;
             }};
 
             parent = base;
@@ -83,7 +83,7 @@ public class HexBuilds {
                 prod = new Production();
                 cons = new Production() {{
                     plastanium = 20;
-                    human = 1;
+                    unit = 1;
                 }};
                 
                 parent = base;
@@ -97,7 +97,7 @@ public class HexBuilds {
                     prod = new Production();
                     cons = new Production() {{
                         spore = 20;
-                        human = 1;
+                        unit = 1;
                     }};
 
                     parent = base;
@@ -117,7 +117,7 @@ public class HexBuilds {
                 titanium = 1;
             }};
             cons = new Production() {{
-                human = 1;
+                unit = 1;
             }};
 
             parent = miner;
@@ -133,7 +133,7 @@ public class HexBuilds {
                 }};
                 cons = new Production() {{
                     plastanium = 20;
-                    human = 2;
+                    unit = 2;
                 }};
 
                 parent = miner;
@@ -149,7 +149,7 @@ public class HexBuilds {
                     }};
                     cons = new Production() {{
                         spore = 20;
-                        human = 3;
+                        unit = 3;
                     }};
 
                     parent = miner;
@@ -170,7 +170,7 @@ public class HexBuilds {
             }};
             cons = new Production() {{
                 titanium = 20;
-                human = 1;
+                unit = 1;
             }};
 
             parent = thory;
@@ -186,7 +186,7 @@ public class HexBuilds {
                 }};
                 cons = new Production() {{
                     plastanium = 20;
-                    human = 2;
+                    unit = 2;
                 }};
 
                 parent = thory;
@@ -206,7 +206,7 @@ public class HexBuilds {
             }};
             cons = new Production() {{
                 plastanium = 20;
-                human = 1;
+                unit = 1;
             }};
         }};
 
@@ -222,7 +222,7 @@ public class HexBuilds {
             }};
             cons = new Production() {{
                 thorium = 20;
-                human = 1;
+                unit = 1;
             }};
         }};
 
@@ -238,7 +238,7 @@ public class HexBuilds {
             }};
             cons = new Production() {{
                 thorium = 20;
-                human = 1;
+                unit = 1;
             }};
         }};
 
@@ -254,7 +254,7 @@ public class HexBuilds {
             }};
             cons = new Production() {{
                 thorium = 20;
-                human = 1;
+                unit = 1;
             }};
         }};
 
@@ -271,7 +271,7 @@ public class HexBuilds {
             cons = new Production() {{
                 titanium = 20;
                 oil = 1;
-                human = 1;
+                unit = 1;
             }};
         }};
 
@@ -283,7 +283,7 @@ public class HexBuilds {
             boom = Fx.reactorExplosion;
 
             prod = new Production() {{
-                human = 10;
+                unit = 10;
             }};
             cons = new Production() {{
                 titanium = 20;
@@ -302,7 +302,7 @@ public class HexBuilds {
             cons = new Production() {{
                 plastanium = 20;
                 cryo = 1;
-                human = 5;
+                unit = 5;
             }};
         }
 

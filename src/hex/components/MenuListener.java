@@ -65,7 +65,8 @@ public class MenuListener {
         });
 
         menus.put(shop = 3, (player, option) -> {
-            if (option != -1) Packages.from(option).send(Human.from(player));
+            Human human = Human.from(player);
+            if (option != -1) Packages.from(human, option).send(human);
         });
 
         guide = Menus.registerMenu(Guide::choose);

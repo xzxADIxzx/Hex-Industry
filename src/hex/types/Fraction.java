@@ -6,6 +6,11 @@ import mindustry.game.Team;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
 
+import java.util.Locale;
+
+import static hex.components.Bundle.get;
+import static hex.components.Bundle.format;
+
 public class Fraction {
 
     public String name;
@@ -30,5 +35,11 @@ public class Fraction {
         Unit unit = this.unit.spawn(team, pos);
         unit.apply(StatusEffects.boss);
         return unit;
+    }
+
+    public String desc(Locale loc) {
+        String desc = get(name + ".desc", loc);
+        if (unit != null) desc += format("fract.stats", loc, damage, production, creature, distance);
+        return desc;
     }
 }

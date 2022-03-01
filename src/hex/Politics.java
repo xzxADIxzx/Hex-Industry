@@ -29,7 +29,7 @@ public class Politics {
 
         Locale loc = findLocale(player);
         MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc),
-                Fractions.names(loc, true), option -> Fractions.desc(loc, option));
+                Fractions.names(loc, true), option -> Fractions.from(option).desc(loc));
     }
 
     public static void leave(Player player) {
@@ -46,7 +46,7 @@ public class Politics {
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
         if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale),
-                Weapons.names(human.locale, human.weapons), option -> Weapons.from(human.weapons).get(option).desc(human));
+                Weapons.names(human), option -> Weapons.from(human.weapons).get(option).desc(human));
     }
 
     public static void join(String arg, Player player) {
@@ -55,7 +55,7 @@ public class Politics {
             if (offers.contains(of -> of.equals(leader, null, 2))) return;
             offers.add(new Offer(leader, null, 2));
             MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.texxt", locale1),
-                    Fractions.names(locale1, false), option -> Fractions.desc(locale1, option));
+                    Fractions.names(locale1, false), option -> Fractions.from(option).desc(locale1));
         });
     }
 

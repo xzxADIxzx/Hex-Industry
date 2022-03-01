@@ -1,10 +1,9 @@
 package hex.content;
 
 import arc.struct.Seq;
+import hex.types.Human;
 import hex.types.Production;
 import hex.types.Weapon;
-
-import java.util.Locale;
 
 import static hex.components.Bundle.get;
 
@@ -57,10 +56,10 @@ public class Weapons {
         return weapons;
     }
 
-    public static String[][] names(Locale loc, byte id) {
-        Seq<Weapon> weapons = from(id);
+    public static String[][] names(Human human) {
+        Seq<Weapon> weapons = from(human.weapons);
         String[][] names = new String[weapons.size][1];
-        for (int i = 0; i < names.length; i++) names[i][0] = get(weapons.get(i).name + ".name", loc);
+        for (int i = 0; i < names.length; i++) names[i][0] = get(weapons.get(i).name + ".name", human.locale);
         return names;
     }
 }

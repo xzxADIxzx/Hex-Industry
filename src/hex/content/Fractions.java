@@ -7,7 +7,6 @@ import mindustry.content.UnitTypes;
 import java.util.Locale;
 
 import static hex.components.Bundle.get;
-import static hex.components.Bundle.format;
 
 public class Fractions {
 
@@ -59,12 +58,5 @@ public class Fractions {
         String[][] names = new String[len][1];
         for (int i = 0; i < len; i++) names[i][0] = get(from(i).name + ".name", loc);
         return names;
-    }
-
-    public static String desc(Locale loc, int id) {
-        Fraction fract = from(id);
-        String desc = get(fract.name + ".desc", loc);
-        if (fract != spectator) desc += format("fract.stats", loc, fract.damage, fract.production, fract.creature, fract.distance);
-        return desc;
     }
 }

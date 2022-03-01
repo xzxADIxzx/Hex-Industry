@@ -17,6 +17,7 @@ public class Package {
     public Cons<Human> cont;
     public Func<Human, String> desc;
     public Func<Human, Boolean> cons = human -> human.production.crawler(human, cost);
+    public Func<Human, Boolean> pred = human -> true;
 
     public void send(Human human) {
         if (!cons.get(human)) return;

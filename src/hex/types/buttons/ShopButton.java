@@ -1,6 +1,7 @@
 package hex.types.buttons;
 
 import hex.components.MenuListener;
+import hex.content.Packages;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.gen.Call;
@@ -14,7 +15,7 @@ public class ShopButton extends Button {
     public ShopButton(Hex hex) {
         super((human, hex1) -> {
             MenuListener.menu(human.player, shop, get("shop.title", human.locale), get("shop.text", human.locale),
-                    new String[][] {{"crawlers package"}, {"may be weapons"}}, option -> "no description provided");
+                    Packages.names(human), option -> Packages.from(human, option).desc.get(human));
         }, hex, hex.cx - 7, hex.cy - 2);
     }
 

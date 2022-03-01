@@ -23,7 +23,7 @@ public class HexBuild {
     public Production prod;
     public Production cons;
 
-    public HexBuild parent = this;
+    public HexBuilp parent = () -> this;
     public HexBuild next;
 
     public void build(Hex hex) {
@@ -55,7 +55,7 @@ public class HexBuild {
 
     public void family(Cons2<Resource, Resource> cons) {
         cons.get(prod.sour, this.cons.sour);
-        HexBuild cur = parent;
+        HexBuild cur = parent.get();
         while (cur != this) {
             cons.get(cur.prod.sour, cur.cons.sour);
             cur = cur.next;
@@ -67,5 +67,9 @@ public class HexBuild {
         Call.soundAt(Sounds.explosionbig, hex.fx, hex.fy, 1, 1);
 
         Damage.damage(null, hex.fx, hex.fy, 13 * 8, 1000000, false, true);
+    }
+
+    public interface HexBuilp {
+        HexBuild get();
     }
 }

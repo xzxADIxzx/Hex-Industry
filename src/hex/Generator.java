@@ -128,10 +128,6 @@ public class Generator {
             this.overlay = overlay;
         }
 
-        public boolean equals(Set set) {
-            return set.tile == tile;
-        }
-
         public void set() {
             boolean f = floor != null, o = overlay != null;
             if (f || o) Call.setFloor(tile, f ? floor : tile.floor(), o ? overlay : tile.overlay());

@@ -23,7 +23,7 @@ public class HexBuilds {
             }};
             cons = new Production();
 
-            parent = citadel;
+            parent = () -> citadel;
             next = new HexBuild() {{
                 name = "Citadel Mk2";
                 health = 18;
@@ -38,7 +38,7 @@ public class HexBuilds {
                     plastanium = 20;
                 }};
 
-                parent = citadel;
+                parent = () -> citadel;
                 next = new HexBuild() {{
                     name = "Citadel Mk3";
                     health = 18;
@@ -53,7 +53,7 @@ public class HexBuilds {
                         spore = 20;
                     }};
 
-                    parent = citadel;
+                    parent = () -> citadel;
                     next = null;
                 }};
             }};
@@ -72,7 +72,7 @@ public class HexBuilds {
                 unit = 1;
             }};
 
-            parent = base;
+            parent = () -> base;
             next = new HexBuild() {{
                 name = "Base Mk2";
                 health = 18;
@@ -86,7 +86,7 @@ public class HexBuilds {
                     unit = 1;
                 }};
                 
-                parent = base;
+                parent = () -> base;
                 next = new HexBuild() {{
                     name = "Base Mk3";
                     health = 18;
@@ -100,7 +100,7 @@ public class HexBuilds {
                         unit = 1;
                     }};
 
-                    parent = base;
+                    parent = () -> base;
                     next = null;
                 }};
             }};
@@ -120,7 +120,7 @@ public class HexBuilds {
                 unit = 1;
             }};
 
-            parent = miner;
+            parent = () -> miner;
             next = new HexBuild() {{
                 name = "Miner Mk2";
                 health = 18;
@@ -136,7 +136,7 @@ public class HexBuilds {
                     unit = 2;
                 }};
 
-                parent = miner;
+                parent = () -> miner;
                 next = new HexBuild() {{
                     name = "Miner Mk3";
                     health = 18;
@@ -152,7 +152,7 @@ public class HexBuilds {
                         unit = 3;
                     }};
 
-                    parent = miner;
+                    parent = () -> miner;
                     next = null;
                 }};
             }};
@@ -173,7 +173,7 @@ public class HexBuilds {
                 unit = 1;
             }};
 
-            parent = thory;
+            parent = () -> thory;
             next = new HexBuild() {{
                 name = "Miner Mk2";
                 health = 18;
@@ -189,7 +189,7 @@ public class HexBuilds {
                     unit = 2;
                 }};
 
-                parent = thory;
+                parent = () -> thory;
                 next = null;
             }};
         }};

@@ -146,6 +146,7 @@ public class Hex {
     public void clearButtons() {
         buttons.each(Buttons::unregister);
         buttons.clear();
+        env.terrain(this);
     }
 
     public Seq<Hex> neighbours() {
@@ -190,13 +191,13 @@ public class Hex {
                 add.get(HexBuilds.base, 0, 0);
             }
         },
-        titanium(.3f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
+        titanium(.25f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.compressor, 4, 4);
                 add.get(HexBuilds.miner, -6, -3);
             }
         },
-        thorium(.4f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
+        thorium(.35f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.thory, 0, 0);
             }
@@ -207,7 +208,7 @@ public class Hex {
                 add.get(HexBuilds.maze, 4, -6);
             }
         },
-        oil(.3f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
+        oil(.25f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.oil, 7, 2);
             }
@@ -244,8 +245,12 @@ public class Hex {
             return null; // never happen because the last one has a 100% drop chance
         }
 
-        /** build terrain from schematics & spawn buttons */
         public void build(Hex hex) {
+            hex.clearButtons();
+            addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
+        }
+
+        public void terrain(Hex hex) {
             Lr1.floorNet(hex.x, hex.y);
             Lr1.airNet(hex.x, hex.y);
 
@@ -253,9 +258,6 @@ public class Hex {
                 if (st.block instanceof Floor) Generator.set(st.x + hex.x, st.y + hex.y, null, st.block);
                 else Generator.set(st.x + hex.x, st.y + hex.y, st.block);
             });
-
-            hex.clearButtons();
-            addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
         }
 
         public abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);

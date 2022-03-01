@@ -9,7 +9,7 @@ import static hex.components.Bundle.format;
 
 public class Packages {
 
-    public static Package crawler, unit, atomic;
+    public static Package crawler, unit, ai, atomic;
 
     public static void load() {
         crawler = new Package(){{
@@ -30,6 +30,15 @@ public class Packages {
             pred = human -> human.cities() > 0;
         }};
 
+        ai = new Package(){{
+            name = "shop.pack.ai";
+            cost = 10;
+
+            cont = human -> human.unlock(Weapons.crawler.id);
+            desc = human -> format(name + ".desc", human.locale, Weapons.crawler.desc(human), cost);
+            pred = human -> (Weapons.crawler.id & human.weapons) != Weapons.crawler.id;
+        }};
+
         atomic = new Package(){{
             name = "shop.pack.atomic";
             cost = 10;
@@ -45,7 +54,7 @@ public class Packages {
     }
 
     public static Seq<Package> from(Human human) {
-        return Seq.with(crawler, unit, atomic).filter(p -> p.pred.get(human));
+        return Seq.with(crawler, unit, ai, atomic).filter(p -> p.pred.get(human));
     }
 
     public static String[][] names(Human human) {

@@ -19,6 +19,7 @@ import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
 import static hex.components.MenuListener.*;
 
+// TODO: разобраться с Offer.type ибо возможно он уже не нужен
 public class Politics {
 
     public static Seq<Offer> offers = new Seq<>();

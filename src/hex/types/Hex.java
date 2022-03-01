@@ -246,9 +246,6 @@ public class Hex {
 
         /** build terrain from schematics & spawn buttons */
         public void build(Hex hex) {
-            hex.clearButtons();
-            addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
-
             Lr1.floorNet(hex.x, hex.y);
             Lr1.airNet(hex.x, hex.y);
 
@@ -256,6 +253,9 @@ public class Hex {
                 if (st.block instanceof Floor) Generator.set(st.x + hex.x, st.y + hex.y, null, st.block);
                 else Generator.set(st.x + hex.x, st.y + hex.y, st.block);
             });
+
+            hex.clearButtons();
+            addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
         }
 
         public abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);

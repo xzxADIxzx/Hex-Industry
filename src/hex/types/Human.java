@@ -7,6 +7,7 @@ import arc.struct.Seq;
 import arc.util.Strings;
 import arc.util.Time;
 import hex.Generator;
+import hex.Politics;
 import hex.content.HexBuilds;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
@@ -19,6 +20,7 @@ import java.util.Locale;
 
 import static hex.Main.hexes;
 import static hex.Main.humans;
+import static hex.Politics.slaves;
 import static hex.components.Bundle.*;
 import static mindustry.Vars.world;
 
@@ -65,6 +67,7 @@ public class Human {
         this.weapons = 0x1;
 
         units.put(player, player.unit()); // saves the player's unit
+        slaves.put(this, new Seq<>()); // initially the player has no allies
         player.sendMessage(get("welcome", locale)); // some info
     }
 
@@ -90,8 +93,6 @@ public class Human {
         Call.setTeam(core(), team);
 
         captured().each(hex -> Time.run(Mathf.random(300f), () -> hex.build.build(hex)));
-
-        // TODO: сделать что-то с несколькими цитаделями *сносить или ещё что...*
     }
 
     public void unit(Fraction fract, boolean leader) {
@@ -143,11 +144,11 @@ public class Human {
     }
 
     public Seq<Human> slaves() {
-        return humans.copy().filter(human -> human.leader == this && human != this);
+        return slaves.get(this);
     }
 
     public int builds(HexBuild build) {
-        return leader.captured().sum(h -> h.build.parent == build ? 1 : 0);
+        return leader.captured().sum(h -> h.build.parent == build.parent ? 1 : 0);
     }
 
     public int shops() {
@@ -157,4 +158,7 @@ public class Human {
     public int cities() {
         return builds(HexBuilds.city);
     }
+
+    public Seq<Politics.Offer> tmp(){return Politics.offers;}
+    public ObjectMap<Human, Seq<Human>> tmp2(){return Politics.slaves;}
 }

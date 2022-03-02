@@ -1,7 +1,5 @@
 package hex;
 
-import arc.func.Cons2;
-import arc.func.Cons4;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import hex.components.MenuListener;
@@ -15,14 +13,14 @@ import mindustry.gen.Player;
 import java.util.Locale;
 
 import static hex.Main.hexes;
-import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
+import static hex.components.Bundle.findLocale;
 import static hex.components.MenuListener.*;
 
-// TODO: разобраться с Offer.type ибо возможно он уже не нужен
 public class Politics {
 
     public static Seq<Offer> offers = new Seq<>();
+    public static ObjectMap<Human, Seq<Human>> slaves = new ObjectMap<>();
     public static ObjectMap<Human, Hex> attacked = new ObjectMap<>();
 
     public static void join(Player player) {
@@ -51,61 +49,42 @@ public class Politics {
     }
 
     public static void join(String arg, Player player) {
-        offer(arg, "offer.join", 1, player, (human, locale, leader, locale1) -> {
-            human.leader = leader;
-            if (offers.contains(of -> of.equals(leader, null, 2))) return;
-            offers.add(new Offer(leader, null, 2));
-            MenuListener.menu(leader.player, leaderFractionChoose, get("fract.title", locale1), get("fract.texxt", locale1),
-                    Fractions.names(locale1, false), option -> Fractions.from(option).desc(locale1));
-        });
-    }
+        Human from = Human.from(player);
+        Human to = Human.from(arg);
 
-    private static void find(Player player, Cons2<Human, Locale> cons) {
-        Human human = Human.from(player);
-        if (human == null) player.sendMessage(get("offer.spectator", findLocale(player)));
-        else cons.get(human, human.locale);
-    }
+        if (from == null) player.sendMessage(get("offer.spectator", findLocale(player)));
+        else if (to == null || from == to) player.sendMessage(get("offer.notfound", from.locale));
+        else if (to.leader != to) player.sendMessage(to.player.coloredName() + get("offer.notleader", from.locale));
+        else if (contains(to, from)) { // a bit of code that is hard to understand but I don't care :D
+            player.sendMessage(get("offer.accepted", from.locale));
+            to.player.sendMessage(player.coloredName() + get("offer.accept", to.locale));
 
-    private static void offer(String arg, String msg, int type, Player player, Cons4<Human, Locale, Human, Locale> cons) {
-        find(player, (human, locale) -> {
-            Human target = Human.from(arg);
-            if (target == null || target == human) player.sendMessage(get("offer.notfound", locale));
-            else if (target.leader != target) player.sendMessage(player.coloredName() + get("offer.notleader", locale));
+            slaves.get(to).add(from);
+            if (offers.count(offer -> offer.from == to) == 1)
+                MenuListener.menu(to.player, leaderChoose, get("fract.title", to.locale), get("fract.text", to.locale),
+                        Fractions.names(to.locale, false), option -> Fractions.from(option).desc(to.locale));
+        } else {
+            if (contains(from, to)) player.sendMessage(get("offer.already", from.locale));
             else {
-                if (offers.contains(of -> of.equals(target, human, type))) {
-                    player.sendMessage(get("offer.accepted", locale));
-                    target.player.sendMessage(player.coloredName() + get("offer.accept", target.locale));
-
-                    cons.get(human, locale, target, target.locale);
-                    offers.remove(of -> of.equals(target, human, type));
-                } else {
-                    if (offers.contains(of -> of.equals(human, target, type)))
-                        player.sendMessage(get("offer.already", locale));
-                    else {
-                        player.sendMessage(get("offer.sent", locale));
-                        target.player.sendMessage(player.coloredName() + get(msg, target.locale));
-                        offers.add(new Offer(human, target, type));
-                    }
-
-                }
+                player.sendMessage(get("offer.sent", from.locale));
+                to.player.sendMessage(player.coloredName() + get("offer.join", to.locale));
+                offers.add(new Offer(from, to));
             }
-        });
+        }
+    }
+
+    public static boolean contains(Human from, Human to) {
+        return offers.contains(offer -> offer.from == from && offer.to == to);
     }
 
     public static class Offer {
-        public Human offerer;
-        public Human target;
 
-        public int type;
+        public Human from;
+        public Human to;
 
-        public Offer(Human offerer, Human target, int type) {
-            this.offerer = offerer;
-            this.target = target;
-            this.type = type;
-        }
-
-        public boolean equals(Human offerer, Human target, int type) {
-            return this.offerer == offerer && this.target == target && this.type == type;
+        public Offer(Human from, Human to) {
+            this.from = from;
+            this.to = to;
         }
     }
 }

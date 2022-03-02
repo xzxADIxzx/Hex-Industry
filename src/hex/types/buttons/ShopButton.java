@@ -14,8 +14,9 @@ public class ShopButton extends Button {
 
     public ShopButton(Hex hex) {
         super((human, hex1) -> {
-            MenuListener.menu(human.player, shop, get("shop.title", human.locale), get("shop.text", human.locale),
-                    Packages.names(human), option -> Packages.from(human, option).desc.get(human));
+            if (human.shops() == 0) human.player.sendMessage(get("noshop", human.locale));
+            else MenuListener.menu(human.player, shop, get("shop.title", human.locale), get("shop.text", human.locale),
+                        Packages.names(human), option -> Packages.from(human, option).desc.get(human));
         }, hex, hex.cx - 9, hex.cy);
     }
 

@@ -79,15 +79,23 @@ public class Hex {
         HexSchematics.closed.floor(x, y);
     }
 
-    public void update(Human human){
+    public void update(Human human) {
         buttons.each(b -> b.update(human));
 
-        // TODO if (busy)
-        for (int deg = 0; deg < health; deg++) {
-            float dx = fx + Mathf.cosDeg(deg * step) * radius;
-            float dy = fy + Mathf.sinDeg(deg * step) * radius;
-            Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
-        }
+        if (busy) for (int i = 0; i < 5; i++) Time.run(i * 12f, () -> smoke(human));
+        else for (int deg = 0; deg < health; deg++) {
+                float dx = fx + Mathf.cosDeg(deg * step) * radius;
+                float dy = fy + Mathf.sinDeg(deg * step) * radius;
+                Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
+            }
+    }
+
+    public void smoke(Human human) {
+        float deg = Mathf.random(360f);
+        float dst = Mathf.random(110f);
+        float dx = fx + Mathf.cosDeg(deg * step) * dst;
+        float dy = fy + Mathf.sinDeg(deg * step) * dst;
+        Call.effect(human.player.con, Fx.smokeCloud, dx, dy, 0, color);
     }
 
     public static boolean bounds(int x, int y) {
@@ -178,7 +186,7 @@ public class Hex {
     }
 
     public boolean isCitadel() {
-        return owner != null && owner.citadel == this;
+        return owner != null && (owner.citadel == this || owner.slaves().contains(h -> h.citadel == this));
     }
 
     public enum HexEnv {

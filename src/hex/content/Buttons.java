@@ -48,6 +48,7 @@ public class Buttons {
     }
 
     public static class Click {
+
         public float time;
         public Tile tile;
 

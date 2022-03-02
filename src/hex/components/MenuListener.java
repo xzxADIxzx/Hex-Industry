@@ -26,7 +26,7 @@ public class MenuListener {
     private static ObjectMap<Player, MenuInfo> info = new ObjectMap<>();
     private static ObjectMap<Integer, Cons2<Player, Integer>> menus = new ObjectMap<>();
 
-    public static int fractionChoose, leaderFractionChoose, weaponChoose, shop, guide, base;
+    public static int fractionChoose, leaderChoose, weaponChoose, shop, guide, base;
 
     public static void load() {
         menus.put(fractionChoose = 0, (player, option) -> {
@@ -34,7 +34,7 @@ public class MenuListener {
             if (fract != Fractions.spectator) humans.add(new Human(player, fract));
         });
 
-        menus.put(leaderFractionChoose = 1, (player, option) -> {
+        menus.put(leaderChoose = 1, (player, option) -> {
             Human leader = Human.from(player);
             Fraction fract = Fractions.from(option);
 
@@ -56,7 +56,7 @@ public class MenuListener {
                 });
             });
 
-            offers.remove(of -> of.equals(leader, null, 2));
+            offers.filter(offer -> offer.from != leader);
         });
 
         menus.put(weaponChoose = 2, (player, option) -> {
@@ -89,6 +89,7 @@ public class MenuListener {
     }
 
     public static class MenuInfo {
+
         public final int id;
         public final String title;
         public final String[][] buttons;

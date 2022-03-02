@@ -13,6 +13,7 @@ import mindustry.gen.Player;
 import java.util.Locale;
 
 import static hex.Main.hexes;
+import static hex.Main.humans;
 import static hex.components.Bundle.get;
 import static hex.components.Bundle.findLocale;
 import static hex.components.MenuListener.*;
@@ -33,7 +34,7 @@ public class Politics {
 
     public static void leave(Player player) {
         Human human = Human.from(player);
-        if (human != null) human.lose(); // TODO: не сразу убивать а дать время на перезаход и использовать Offer что бы возвращять опрос
+        if (human != null) human.lose(); // TODO: не сразу убивать а дать время на перезаход и использовать Offer что бы отменять присоединение к команде
     }
 
     public static void spectate(Player player) {
@@ -54,13 +55,13 @@ public class Politics {
 
         if (from == null) player.sendMessage(get("offer.spectator", findLocale(player)));
         else if (to == null || from == to) player.sendMessage(get("offer.notfound", from.locale));
-        else if (to.leader != to) player.sendMessage(to.player.coloredName() + get("offer.notleader", from.locale));
+        else if (humans.contains(h -> h.slaves().contains(to))) player.sendMessage(to.player.coloredName() + get("offer.notleader", from.locale));
         else if (contains(to, from)) { // a bit of code that is hard to understand but I don't care :D
             player.sendMessage(get("offer.accepted", from.locale));
             to.player.sendMessage(player.coloredName() + get("offer.accept", to.locale));
 
             slaves.get(to).add(from);
-            if (offers.count(offer -> offer.from == to) == 1)
+            if (offers.count(offer -> offer.from == to) < 2)
                 MenuListener.menu(to.player, leaderChoose, get("fract.title", to.locale), get("fract.text", to.locale),
                         Fractions.names(to.locale, false), option -> Fractions.from(option).desc(to.locale));
         } else {

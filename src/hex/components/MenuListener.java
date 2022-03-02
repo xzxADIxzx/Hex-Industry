@@ -44,6 +44,7 @@ public class MenuListener {
                 human.team(leader.player.team());
                 human.unit(fract, false);
                 human.captured().each(hex -> hex.owner = leader);
+                human.leader = leader;
             });
 
             // recalculate production

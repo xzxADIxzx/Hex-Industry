@@ -7,7 +7,6 @@ import arc.struct.Seq;
 import arc.util.Strings;
 import arc.util.Time;
 import hex.Generator;
-import hex.Politics;
 import hex.content.HexBuilds;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
@@ -158,7 +157,4 @@ public class Human {
     public int cities() {
         return builds(HexBuilds.city);
     }
-
-    public Seq<Politics.Offer> tmp(){return Politics.offers;}
-    public ObjectMap<Human, Seq<Human>> tmp2(){return Politics.slaves;}
 }

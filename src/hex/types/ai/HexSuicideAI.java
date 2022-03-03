@@ -1,23 +1,19 @@
 package hex.types.ai;
 
-import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
 import hex.types.Hex;
 import mindustry.ai.Pathfinder;
-import mindustry.content.Fx;
 import mindustry.content.Items;
-import mindustry.entities.units.AIController;
 import mindustry.gen.Call;
-import mindustry.world.meta.BlockFlag;
 
 import static hex.Main.hexes;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
-public class HexSuicideAI extends AIController {
+public class HexSuicideAI extends HexAI {
 
     public int state;
 
@@ -44,12 +40,9 @@ public class HexSuicideAI extends AIController {
             state = 4;
         } else if (state == 4) {
             pathfind(Pathfinder.fieldRally);
-            target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
+            target();
 
-            if (unit.within(target, 20f)) {
-                Call.unitDespawn(unit);
-                Call.effect(Fx.spawn, unit.x, unit.y, 0, Color.white);
-            }
+            if (unit.within(target, 20f)) despawn();
         }
     }
 

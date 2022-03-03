@@ -112,8 +112,9 @@ public class Human {
         core().kill();
 
         if (leader == this) captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
-        else citadel.clear();
+        else citadel.lose(null);
 
+        player.team().data().units.each(Call::unitDespawn);
         humans.remove(this);
     }
 

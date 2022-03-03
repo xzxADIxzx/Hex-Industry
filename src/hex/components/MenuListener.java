@@ -44,6 +44,7 @@ public class MenuListener {
                 human.team(leader.player.team());
                 human.unit(fract, false);
                 human.captured().each(hex -> hex.owner = leader);
+                human.unlock(human.weapons);
                 human.leader = leader;
             });
 
@@ -51,10 +52,7 @@ public class MenuListener {
             Time.run(300f, () -> {
                 leader.production = new Production(leader);
                 leader.captured().each(hex -> hex.build.create(leader.production));
-                leader.slaves().each(human -> {
-                    human.production = leader.production;
-                    leader.unlock(human.weapons);
-                });
+                leader.slaves().each(human -> human.production = leader.production);
             });
 
             offers.filter(offer -> offer.from != leader);

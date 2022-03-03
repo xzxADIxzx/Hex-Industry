@@ -122,8 +122,8 @@ public class Human {
     }
 
     public void unlock(int id) {
-        weapons |= id;
-        leader.slaves().each(h -> h.unlock(id));
+        leader.weapons |= id;
+        leader.slaves().each(h -> h.weapons |= id);
     }
 
     public byte locked() {

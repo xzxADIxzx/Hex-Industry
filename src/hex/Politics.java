@@ -2,6 +2,7 @@ package hex;
 
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
+import arc.util.Time;
 import hex.components.MenuListener;
 import hex.content.Fractions;
 import hex.content.Weapons;
@@ -23,9 +24,17 @@ public class Politics {
     public static Seq<Offer> offers = new Seq<>();
     public static ObjectMap<Human, Seq<Human>> slaves = new ObjectMap<>();
     public static ObjectMap<Human, Hex> attacked = new ObjectMap<>();
+    public static ObjectMap<String, Human> left = new ObjectMap<>();
 
     public static void join(Player player) {
-        if (hexes.count(Hex::isClosed) == 0) return;
+        Human human = left.get(player.con.uuid);
+        if (human != null) {
+            human.player = player;
+            human.lose.cancel(); // oh yes
+            left.remove(player.con.uuid);
+
+            return;
+        } else if (hexes.count(Hex::isClosed) == 0) return;
 
         Locale loc = findLocale(player);
         MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc),
@@ -34,7 +43,15 @@ public class Politics {
 
     public static void leave(Player player) {
         Human human = Human.from(player);
-        if (human != null) human.lose(); // TODO: не сразу убивать а дать время на перезаход и использовать Offer что бы отменять присоединение к команде
+        if (human == null) return;
+
+        slaves.get(human).filter(h -> h.leader == human);
+        offers.filter(o -> o.from != human && o.to != human);
+        left.put(player.con.uuid, human);
+        human.lose = Time.runTask(7200f, () -> {
+            human.lose();
+            left.remove(player.con.uuid);
+        });
     }
 
     public static void spectate(Player player) {

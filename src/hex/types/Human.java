@@ -6,6 +6,7 @@ import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import arc.util.Strings;
 import arc.util.Time;
+import arc.util.Timer.Task;
 import hex.Generator;
 import hex.content.HexBuilds;
 import mindustry.game.EventType.UnitChangeEvent;
@@ -42,6 +43,7 @@ public class Human {
     public Fraction fraction;
     public Production production;
     public byte weapons;
+    public Task lose; // oh no
 
     public String levname;
     public String hudname;

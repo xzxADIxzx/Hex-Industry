@@ -1,9 +1,9 @@
 {
 	"name": "industry",
 	"displayName": "Hex Industry",
-	"description": "Some schizophrenia with bad code. It will work soon, I promise.",
+	"description": "It will work soon, I promise.",
 	"author": "xzxADIxzx, Darkness6030",
-	"version": "1.0-beta",
+	"version": "1.0-gamma",
 	"minGameVersion": "135",
 	"hidden": true,
 	"main": "hex.Main"

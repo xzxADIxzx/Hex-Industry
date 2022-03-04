@@ -10,7 +10,8 @@ import static hex.Main.humans;
 
 public class HexAI extends AIController {
 
-    {
+    @Override
+    public void init() {
         if (!humans.contains(h -> h.player.team() == unit.team())) despawn();
     }
 

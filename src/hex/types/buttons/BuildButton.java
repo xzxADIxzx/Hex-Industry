@@ -31,7 +31,7 @@ public class BuildButton extends Button {
     }
 
     public String format(Human human) {
-        return build.name + "\n" + build.prod.sour.format(human.locale, human.fraction) + build.cons.sour.format(human.locale);
+        return build.name + "\n" + build.prod.sour.formatP(human) + "\n" + build.cons.sour.formatC(human);
     }
 
     @Override

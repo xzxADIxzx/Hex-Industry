@@ -26,6 +26,6 @@ public class OpenButton extends Button {
 
     @Override
     public void update(Human human) {
-        Call.label(human.player.con, get("hex.open", human.locale) + "\n" + format("cons.creature", human.locale, cost(human)), 1f, fx, fy);
+        Call.label(human.player.con, get("hex.open", human.locale) + "\n" + format("cons.unit", human.locale, cost(human)), 1f, fx, fy);
     }
 }

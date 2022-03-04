@@ -2,12 +2,13 @@ package hex.types;
 
 import arc.func.Boolf;
 import arc.math.Mathf;
-import hex.components.Bundle;
 import hex.components.Icons;
 import mindustry.content.Items;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 
 import java.util.Locale;
+
+import static hex.components.Bundle.format;
 
 public class Production {
 
@@ -158,6 +159,8 @@ public class Production {
 
     public class Resource {
 
+        private String format;
+
         public void produce(Production prod, boolean add) {
             int base = Mathf.sign(add);
 
@@ -197,30 +200,31 @@ public class Production {
                     (unit <= 0 || prod.unit >= unit);
         }
 
-        // TODO: сделать форматирование красивее
-        public String format(Locale loc, Fraction fract) {
-            return format(loc, new String[] {"prod.item", "prod.liquid", "prod.creature"}, fract.production, fract.creature);
+        public String formatP(Human human) {
+            return formatB(human.locale, new String[] {"prod.unit", "prod.item", "prod.liquid"}, human.fraction.creature, human.fraction.production);
+        }
+        
+        public String formatC(Human human) {
+            return formatB(human.locale, new String[] {"cons.unit", "cons.item", "cons.liquid"}, 1, 1);
         }
 
-        public String format(Locale loc) {
-            return format(loc, new String[] {"cons.item", "cons.liquid", "cons.creature"}, 1, 1);
+        private String formatB(Locale loc, String[] base, int c, int i) {
+            format = "";
+            add(base[0], loc, unit * c, "");
+            add(base[1], loc, titanium * i, "titanium");
+            add(base[1], loc, thorium * i, "thorium");
+            add(base[1], loc, plastanium * i, "plastanium");
+            add(base[1], loc, spore * i, "spore-pod");
+            if (oil > 0 || water > 0 || cryo > 0) format += "\n";
+            add(base[2], loc, oil, "oil");
+            add(base[2], loc, water, "water");
+            add(base[2], loc, cryo, "cryofluid");
+
+            return format;
         }
 
-        private String format(Locale loc, String[] base, int r, int h) {
-            String result = "";
-
-            if (plastanium != 0) result += Bundle.format(base[0], loc, plastanium * r, Icons.get("plastanium"));
-            if (titanium != 0) result += Bundle.format(base[0], loc, titanium * r, Icons.get("titanium"));
-            if (thorium != 0) result += Bundle.format(base[0], loc, thorium * r, Icons.get("thorium"));
-            if (spore != 0) result += Bundle.format(base[0], loc, spore * r, Icons.get("spore-pod"));
-
-            if (oil != 0) result += Bundle.format(base[1], loc, Icons.get("oil"));
-            if (water != 0) result += Bundle.format(base[1], loc, Icons.get("water"));
-            if (cryo != 0) result += Bundle.format(base[1], loc, Icons.get("cryofluid"));
-
-            if (unit != 0) result += Bundle.format(base[2], loc, unit * h);
-
-            return result;
+        private void add(String key, Locale loc, int amount, String icon) {
+            if (amount != 0) format += format(key, loc, amount, Icons.get(icon));
         }
     }
 }

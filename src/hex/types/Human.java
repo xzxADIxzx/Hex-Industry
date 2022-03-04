@@ -106,6 +106,14 @@ public class Human {
         } else if (player.name().startsWith(prefix)) player.name(player.name().substring(prefix.length()));
     }
 
+    public void player(Player player) {
+        Unit unit = units.remove(this.player);
+        units.put(player, unit);
+        player.team(unit.team());
+        player.unit(unit);
+        this.player = player;
+    }
+
     public void lose() {
         Call.unitDespawn(units.remove(player));
         Call.hideHudText(player.con);

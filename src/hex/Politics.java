@@ -29,7 +29,7 @@ public class Politics {
     public static void join(Player player) {
         Human human = left.get(player.con.uuid);
         if (human != null) {
-            human.player = player;
+            human.player(player);
             human.lose.cancel(); // oh yes
             left.remove(player.con.uuid);
 

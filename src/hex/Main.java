@@ -3,7 +3,6 @@ package hex;
 import arc.Events;
 import arc.struct.Seq;
 import arc.util.CommandHandler;
-import arc.util.Strings;
 import arc.util.Timer;
 import hex.components.Icons;
 import hex.components.MenuListener;
@@ -19,8 +18,6 @@ import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
 import mindustry.game.Rules;
 import mindustry.game.Team;
-import mindustry.gen.Call;
-import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration;
@@ -71,6 +68,8 @@ public class Main extends Plugin {
         rules.revealedBlocks.add(Blocks.duct);
         rules.modeName = "Hex Industry";
 
+        for (Team team : Team.all) rules.teams.get(team).cheat = true;
+
         Timer.schedule(() -> {
             humans.each(Human::update);
             Buttons.update();
@@ -94,21 +93,9 @@ public class Main extends Plugin {
 
     @Override
     public void registerServerCommands(CommandHandler handler) {
-        handler.register("host", "[size]", "Initialize new game.", args -> {
-            // generate hex-map
-            Generator.generate(args.length > 0 ? Strings.parseInt(args[0], 0) : 0);
-
-            // change rules
+        handler.register("host", "Initialize new game.", args -> {
+            Generator.play();
             state.rules = rules;
-
-            for (Team team : Team.all) state.rules.teams.get(team).cheat = true;
-
-            // synchronize the world
-            Call.worldDataBegin();
-            Groups.player.each(netServer::sendWorldData);
-
-            // handle all players
-            Groups.player.each(Politics::join);
 
             logic.play();
             netServer.openServer();

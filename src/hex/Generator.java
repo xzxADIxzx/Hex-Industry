@@ -11,6 +11,7 @@ import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.game.Team;
 import mindustry.gen.Call;
+import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.maps.Map;
 import mindustry.world.Block;
@@ -20,18 +21,22 @@ import static hex.Main.hexes;
 import static hex.Main.humans;
 import static hex.components.Bundle.defaultLocale;
 import static hex.components.Bundle.get;
-import static mindustry.Vars.state;
-import static mindustry.Vars.world;
-import static mindustry.Vars.tilesize;
+import static mindustry.Vars.*;
 
 public class Generator {
 
     private static int last;
     private static Queue<Set> calls = new Queue<>();
 
-    public static void generate(int size) {
-        MapSize m = MapSize.values()[size];
-        world.loadGenerator(m.width, m.height, tiles -> tiles.each((x, y) -> tiles.set(x, y, new Tile(x, y, Blocks.air, Blocks.air, Blocks.darkMetal))));
+    public static void play() {
+        generate(MapSize.get()); // generate hex map
+        Call.worldDataBegin(); // synchronize the world
+        Groups.player.each(netServer::sendWorldData);
+        Groups.player.each(Politics::join); // handle all players
+    }
+
+    public static void generate(MapSize s) {
+        world.loadGenerator(s.width, s.height, tiles -> tiles.each((x, y) -> tiles.set(x, y, new Tile(x, y, Blocks.air, Blocks.air, Blocks.darkMetal))));
 
         Point2 start = new Point2();
         Point2 point = new Point2();
@@ -110,6 +115,11 @@ public class Generator {
         MapSize(int width, int height) {
             this.width = width;
             this.height = height;
+        }
+
+        public static MapSize get() {
+            int amount = Groups.player.size();
+            return amount < 5 ? small : amount < 10 ? medium : big;
         }
     }
 

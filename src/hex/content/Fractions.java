@@ -19,28 +19,25 @@ public class Fractions {
 
             damage = 2;
             production = 1;
-            creature = 4;
-            distance = 1;
+            creature = 3;
         }};
 
         engineer = new Fraction() {{
             name = "fract.engineer";
             unit(UnitTypes.beta);
 
-            damage = 1;
+            damage = 2;
             production = 3;
             creature = 1;
-            distance = 3;
         }};
 
         militant = new Fraction() {{
             name = "fract.militant";
             unit(UnitTypes.gamma);
 
-            damage = 4;
+            damage = 3;
             production = 1;
-            creature = 1;
-            distance = 2;
+            creature = 2;
         }};
 
         spectator = new Fraction() {{

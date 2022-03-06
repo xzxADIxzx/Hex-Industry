@@ -182,7 +182,7 @@ public class Hex {
     }
 
     public boolean isCaptured(Human owner) {
-        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), basedst * Mathf.sqrt(owner.fraction.distance)) && hex.owner == owner.leader);
+        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), basedst) && hex.owner == owner.leader);
     }
 
     public boolean isCitadel() {
@@ -216,7 +216,7 @@ public class Hex {
                 add.get(HexBuilds.maze, 4, -6);
             }
         },
-        oil(.25f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
+        oil(.35f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.oil, 7, 2);
             }

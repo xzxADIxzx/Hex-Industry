@@ -19,7 +19,6 @@ public class Fraction {
     public int damage;
     public int production;
     public int creature;
-    public int distance;
 
     public static void leader(Unit unit) {
         unit.apply(StatusEffects.overdrive);
@@ -39,7 +38,7 @@ public class Fraction {
 
     public String desc(Locale loc) {
         String desc = get(name + ".desc", loc);
-        if (unit != null) desc += format("fract.stats", loc, damage, production, creature, distance);
+        if (unit != null) desc += format("fract.stats", loc, damage, production, creature);
         return desc;
     }
 }

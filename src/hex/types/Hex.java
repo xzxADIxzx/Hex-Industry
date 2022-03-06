@@ -109,17 +109,22 @@ public class Hex {
         health = build.health;
         step = 360f / health;
         damage(0); // update color
-
-        busy = true; // cooldown
-        Time.run(300f, () -> busy = false);
+        cooldown(300f);
 
         if (base && !isCitadel()) Time.run(180f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
     }
 
     public boolean damage(int damage) {
-        health -= damage;
         color = Pal.health.cpy().lerp(Pal.plastanium, health / build.health);
+        if (damage != 0) cooldown(3600f);
+
+        health -= damage;
         return health <= 0;
+    }
+
+    public void cooldown(float time) {
+        busy = true;
+        Time.run(time, () -> busy = false);
     }
 
     public void lose(String attacker) {
@@ -129,9 +134,7 @@ public class Hex {
             owner.production.check(owner);
         }
         clear();
-
-        busy = true; // cooldown
-        Time.run(3600f, () -> busy = false);
+        cooldown(3600f);
     }
 
     public void open() {

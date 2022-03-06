@@ -29,6 +29,12 @@ public class Generator {
     private static Queue<Set> calls = new Queue<>();
 
     public static void play() {
+        humans.each(human -> {
+            if (human.lose != null) human.lose.cancel();
+        }); // cancel all lose tasks
+        hexes.clear();
+        humans.clear();
+
         generate(MapSize.get()); // generate hex map
         Call.worldDataBegin(); // synchronize the world
         Groups.player.each(netServer::sendWorldData);

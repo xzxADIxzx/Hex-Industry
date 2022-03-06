@@ -20,14 +20,14 @@ import java.util.Locale;
 
 import static hex.Main.hexes;
 import static hex.Main.humans;
-import static hex.Politics.slaves;
+import static hex.Politics.*;
 import static hex.components.Bundle.*;
 import static mindustry.Vars.world;
 
 public class Human {
 
     public static ObjectMap<Player, Unit> units = new ObjectMap<>();
-    public static String prefix = "[accent]<[white]\uE872[]> ";
+    public static String prefix = "[accent]<[white]\uE872[]>[] ";
 
     static {
         Events.on(UnitChangeEvent.class, event -> {
@@ -68,7 +68,6 @@ public class Human {
         this.weapons = 0x1;
 
         units.put(player, player.unit()); // saves the player's unit
-        slaves.put(this, new Seq<>()); // initially the player has no allies
         player.sendMessage(get("welcome", locale)); // some info
     }
 
@@ -89,26 +88,42 @@ public class Human {
         hex.neighbours().each(h -> h.update(this));
     }
 
-    public void team(Team team) {
+    public void teamup(Human leader) {
+        Team team = leader.player.team();
+        Fraction fract = leader.fraction;
+
         player.team(team);
         Call.setTeam(core(), team);
 
-        captured().each(hex -> Time.run(Mathf.random(300f), () -> hex.build.build(hex)));
-    }
-
-    public void unit(Fraction fract, boolean leader) {
         fraction = fract;
         Call.unitDespawn(units.put(player, fract.spawn(player.team(), player)));
 
-        if (leader) {
-            if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
-            Fraction.leader(units.get(player));
-        } else if (player.name().startsWith(prefix)) player.name(player.name().substring(prefix.length()));
+        unoffer();
+        unlock(leader.weapons);
+        captured().each(hex -> {
+            hex.owner = leader;
+            Time.run(Mathf.random(300f), () -> hex.build.build(hex));
+        });
+
+        this.leader = leader;
+    }
+
+    public void lead() {
+        if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
+        Fraction.leader(units.get(player)); // 
+
+        Time.run(300f, () -> { // recalculate production
+            production = new Production(this);
+            captured().each(hex -> hex.build.create(production));
+            slaves().each(human -> human.production = production);
+        });
     }
 
     public void player(Player player) {
         Unit unit = units.remove(this.player);
         units.put(player, unit);
+        lose.cancel(); // oh yes
+
         player.team(unit.team());
         player.unit(unit);
         this.player = player;
@@ -137,6 +152,10 @@ public class Human {
         leader.slaves().each(h -> h.weapons |= id);
     }
 
+    public void unoffer() {
+        offers.filter(offer -> offer.from != this && offer.to != this);
+    }
+
     public byte locked() {
         return (byte) (~weapons & 0xFF);
     }
@@ -154,7 +173,7 @@ public class Human {
     }
 
     public Seq<Human> slaves() {
-        return slaves.get(this);
+        return humans.copy().filter(human -> human.leader == this && human != this);
     }
 
     public int builds(HexBuild build) {

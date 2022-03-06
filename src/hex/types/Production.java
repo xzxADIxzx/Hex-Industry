@@ -43,8 +43,8 @@ public class Production {
         core = human.player.team().core();
         fract = human.fraction;
 
-        // makes core invisible for 5 hours
-        core.iframes = 1000000;
+        // makes core immortal for many years
+        core.iframes = Float.MAX_VALUE;
         core.items.clear();
     }
 

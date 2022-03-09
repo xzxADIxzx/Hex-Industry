@@ -135,6 +135,9 @@ public class Hex {
         }
         clear();
         cooldown(3600f);
+
+        Human human = Human.from(this);
+        if (base && human != null) human.lose();
     }
 
     public void open() {

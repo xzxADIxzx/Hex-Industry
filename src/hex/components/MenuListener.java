@@ -22,7 +22,7 @@ public class MenuListener {
     private static ObjectMap<Player, MenuInfo> info = new ObjectMap<>();
     private static ObjectMap<Integer, Cons2<Player, Integer>> menus = new ObjectMap<>();
 
-    public static int fractionChoose, weaponChoose, shop, guide, base;
+    public static int fractionChoose, weaponChoose, shop, statistics, guide, base;
 
     public static void load() {
         menus.put(fractionChoose = 0, (player, option) -> {
@@ -39,6 +39,8 @@ public class MenuListener {
             Human human = Human.from(player);
             if (option != -1) Packages.from(human, option).send(human);
         });
+
+        statistics = Menus.registerMenu((player, option) -> {});
 
         guide = Menus.registerMenu(Guide::choose);
 

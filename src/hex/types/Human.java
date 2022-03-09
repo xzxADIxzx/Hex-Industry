@@ -8,6 +8,7 @@ import arc.util.Strings;
 import arc.util.Time;
 import arc.util.Timer.Task;
 import hex.Generator;
+import hex.components.MenuListener;
 import hex.content.HexBuilds;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
@@ -22,6 +23,7 @@ import static hex.Main.hexes;
 import static hex.Main.humans;
 import static hex.Politics.*;
 import static hex.components.Bundle.*;
+import static hex.components.MenuListener.statistics;
 import static mindustry.Vars.world;
 
 public class Human {
@@ -80,6 +82,10 @@ public class Human {
         return humans.min(human -> human.levname.contains(striped) && Strings.levenshtein(human.levname, name) < 6, human -> Strings.levenshtein(human.levname, striped));
     }
 
+    public static Human from(Hex citadel) {
+        return humans.find(human -> human.citadel == citadel);
+    }
+
     public void update() {
         if (leader == this) production.update();
         Hex hex = location();
@@ -133,12 +139,17 @@ public class Human {
         Call.unitDespawn(units.remove(player));
         Call.hideHudText(player.con);
 
+        if (citadel.owner != null) core().kill(); // if lose is called from Politics.spectate no need to call lose msg
+        else MenuListener.menu(player, statistics, get("over.lose.title", locale), get("over.lose.text", locale),
+                new String[][] {{"over.stats.title"}}, option -> get("over.stats.text", locale));
+
+        if (leader == this) { // just saving resources 
+            captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
+            slaves().each(human -> human.citadel.lose(null));
+            player.team().data().units.each(Call::unitDespawn);
+        }
+
         player.team(Team.derelict);
-        core().kill();
-
-        if (leader == this) captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
-
-        player.team().data().units.each(Call::unitDespawn);
         humans.remove(this);
     }
 

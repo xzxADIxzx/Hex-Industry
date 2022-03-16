@@ -26,6 +26,7 @@ import static hex.components.Bundle.*;
 import static hex.components.MenuListener.statistics;
 import static mindustry.Vars.world;
 
+// TODO: добавить статистику +по статистике считать кол-во людей при присоединении к команде
 public class Human {
 
     public static ObjectMap<Player, Unit> units = new ObjectMap<>();
@@ -139,13 +140,15 @@ public class Human {
         Call.unitDespawn(units.remove(player));
         Call.hideHudText(player.con);
 
-        if (citadel.owner != null) core().kill(); // if lose is called from Politics.spectate no need to call lose msg
-        else MenuListener.menu(player, statistics, get("over.lose.title", locale), get("over.lose.text", locale),
-                new String[][] {{"over.stats.title"}}, option -> get("over.stats.text", locale));
+        if (citadel.owner == null) { // if lose is called from Politics.spectate no need to call lose msg
+            core().kill();
+            MenuListener.menu(player, statistics, get("over.lose.title", locale), get("over.lose.text", locale),
+                    new String[][] {{"over.stats.title"}}, option -> get("over.stats.text", locale));
+        }
 
         if (leader == this) { // just saving resources 
-            captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
             slaves().each(human -> human.citadel.lose(null));
+            captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
             player.team().data().units.each(Call::unitDespawn);
         }
 
@@ -184,6 +187,10 @@ public class Human {
 
     public Seq<Human> slaves() {
         return humans.copy().filter(human -> human.leader == this && human != this);
+    }
+
+    public int cost(Hex hex) {
+        return Mathf.round(leader.citadel.point().dst(hex.point()) / 140) + 1;
     }
 
     public int builds(HexBuild build) {

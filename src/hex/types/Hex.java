@@ -27,6 +27,7 @@ import static hex.components.Bundle.format;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
+// TODO: закрепить ядра за хексом а не хьюманом
 public class Hex {
 
     public static final int width = 27;
@@ -55,6 +56,7 @@ public class Hex {
     public Seq<Button> buttons = new Seq<>();
     public HexBuild build;
 
+    public boolean open;
     public boolean busy;
     public boolean base;
     public HexEnv env;
@@ -143,6 +145,7 @@ public class Hex {
     public void open() {
         HexSchematics.door(door).airNet(x, y);
         env.build(this);
+        open = true;
 
         Time.run(60f, () -> openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
@@ -184,7 +187,7 @@ public class Hex {
     }
 
     public boolean isClosed() {
-        return world.tile(cx, cy + 3).block() == Blocks.darkMetal;
+        return !open;
     }
 
     public boolean isCaptured(Human owner) {

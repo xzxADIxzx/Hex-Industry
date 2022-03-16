@@ -27,7 +27,6 @@ import static hex.components.Bundle.format;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
-// TODO: закрепить ядра за хексом а не хьюманом
 public class Hex {
 
     public static final int width = 27;
@@ -113,7 +112,10 @@ public class Hex {
         damage(0); // update color
         cooldown(300f);
 
-        if (base && !isCitadel()) Time.run(180f, () -> Generator.setc(cx, cy, Blocks.coreShard, owner.player.team()));
+        if (base) Time.run(180f, () -> {
+            Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team());
+            owner.updateModule();
+        });
     }
 
     public boolean damage(int damage) {
@@ -180,10 +182,6 @@ public class Hex {
 
     public Point2 point() {
         return new Point2(cx, cy);
-    }
-
-    public boolean isEmpty() {
-        return build == null;
     }
 
     public boolean isClosed() {

@@ -38,7 +38,7 @@ public class Weapon {
 
     public static boolean attackable(Human human) {
         Hex hex = attacked.get(human);
-        boolean zone = !hex.isCaptured(human), busy = hex.isEmpty() || hex.busy;
+        boolean zone = !hex.isCaptured(human), busy = hex.build == null|| hex.busy;
         if (hex.owner == human.leader) return false;
         else if (zone) human.player.sendMessage(get("hex.toofar", human.locale));
         else if (busy) human.player.sendMessage(get("hex.attack", human.locale));

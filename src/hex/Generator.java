@@ -32,6 +32,7 @@ public class Generator {
         humans.each(human -> human.lose != null, human -> human.lose.cancel()); // cancel all lose tasks
         hexes.clear();
         humans.clear();
+        last = 0;
 
         generate(MapSize.get()); // generate hex map
         Call.worldDataBegin(); // synchronize the world
@@ -70,8 +71,6 @@ public class Generator {
         hex.base = true;
 
         player.team(team());
-        setc(hex.cx, hex.cy, Blocks.coreNucleus, player.team());
-
         return hex;
     }
 

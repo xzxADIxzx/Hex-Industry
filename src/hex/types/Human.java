@@ -15,7 +15,6 @@ import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
-import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 
 import java.util.Locale;
 
@@ -24,7 +23,6 @@ import static hex.Main.humans;
 import static hex.Politics.*;
 import static hex.components.Bundle.*;
 import static hex.components.MenuListener.statistics;
-import static mindustry.Vars.world;
 
 // TODO: добавить статистику +по статистике считать кол-во людей при присоединении к команде
 public class Human {
@@ -96,20 +94,15 @@ public class Human {
     }
 
     public void teamup(Human leader) {
-        Team team = leader.player.team();
-        Fraction fract = leader.fraction;
-
-        player.team(team);
-        Call.setTeam(core(), team);
-
-        fraction = fract;
-        Call.unitDespawn(units.put(player, fract.spawn(player.team(), player)));
+        player.team(leader.player.team());
+        fraction = leader.fraction;
+        Call.unitDespawn(units.put(player, fraction.spawn(player.team(), player)));
 
         unoffer();
         unlock(leader.weapons);
         captured().each(hex -> {
             hex.owner = leader;
-            Time.run(Mathf.random(300f), () -> hex.build.build(hex));
+            Time.run(Mathf.random(300f), () -> hex.build(hex.build));
         });
 
         this.leader = leader;
@@ -117,10 +110,11 @@ public class Human {
 
     public void lead() {
         if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
-        Fraction.leader(units.get(player)); // 
+        Fraction.leader(player.unit());
 
         Time.run(300f, () -> { // recalculate production
             production = new Production(this);
+            updateModule();
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> human.production = production);
         });
@@ -140,11 +134,9 @@ public class Human {
         Call.unitDespawn(units.remove(player));
         Call.hideHudText(player.con);
 
-        if (citadel.owner == null) { // if lose is called from Politics.spectate no need to call lose msg
-            core().kill();
+        if (citadel.owner == null) // if lose is called from Politics.spectate no need to call lose msg
             MenuListener.menu(player, statistics, get("over.lose.title", locale), get("over.lose.text", locale),
                     new String[][] {{"over.stats.title"}}, option -> get("over.stats.text", locale));
-        }
 
         if (leader == this) { // just saving resources 
             slaves().each(human -> human.citadel.lose(null));
@@ -169,12 +161,12 @@ public class Human {
         offers.filter(offer -> offer.from != this && offer.to != this);
     }
 
+    public void updateModule() {
+        player.team().core().items = production.items;
+    } // update ItemModule so player can see resources in CoreItemsDisplay
+
     public byte locked() {
         return (byte) (~weapons & 0xFF);
-    }
-
-    public CoreBuild core() {
-        return (CoreBuild) world.build(citadel.cx, citadel.cy);
     }
 
     public Hex location() {

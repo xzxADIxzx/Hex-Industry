@@ -27,7 +27,7 @@ public class HexBuild {
     public HexBuild next;
 
     public void build(Hex hex) {
-        if (!hex.isEmpty()) explode(hex); // cleanup old build
+        if (hex.build != null) explode(hex); // cleanup old build
 
         Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
         scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));

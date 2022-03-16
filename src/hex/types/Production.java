@@ -4,7 +4,7 @@ import arc.func.Boolf;
 import arc.math.Mathf;
 import hex.components.Icons;
 import mindustry.content.Items;
-import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
+import mindustry.world.modules.ItemModule;
 
 import java.util.Locale;
 
@@ -12,8 +12,8 @@ import static hex.components.Bundle.format;
 
 public class Production {
 
-    private final CoreBuild core;
-    private final Fraction fract;
+    public final ItemModule items;
+    public final Fraction fract;
 
     public Resource sour;
 
@@ -33,28 +33,24 @@ public class Production {
     protected int crawler;
 
     public Production() {
-        core = null;
+        items = null;
         fract = null;
 
         sour = new Resource();
     }
 
     public Production(Human human) {
-        core = human.player.team().core();
+        items = new ItemModule();
         fract = human.fraction;
-
-        // makes core immortal for many years
-        core.iframes = Float.MAX_VALUE;
-        core.items.clear();
     }
 
     public void update() {
         float speed = fract.production + (water > 0 ? .2f : 0f) + (cryo > 0 ? .4f : 0f);
 
-        core.items.add(Items.plastanium, (int) (plastanium * speed));
-        core.items.add(Items.titanium, (int) (titanium * speed));
-        core.items.add(Items.thorium, (int) (thorium * speed));
-        core.items.add(Items.sporePod, (int) (spore * speed));
+        items.add(Items.plastanium, (int) (plastanium * speed));
+        items.add(Items.titanium, (int) (titanium * speed));
+        items.add(Items.thorium, (int) (thorium * speed));
+        items.add(Items.sporePod, (int) (spore * speed));
     }
 
     public void all(int amount) {
@@ -62,35 +58,35 @@ public class Production {
     }
 
     public int plastanium() {
-        return core.items.get(Items.plastanium);
+        return items.get(Items.plastanium);
     }
 
     public void plastanium(int amount) {
-        core.items.add(Items.plastanium, amount);
+        items.add(Items.plastanium, amount);
     }
 
     public int titanium() {
-        return core.items.get(Items.titanium);
+        return items.get(Items.titanium);
     }
 
     public void titanium(int amount) {
-        core.items.add(Items.titanium, amount);
+        items.add(Items.titanium, amount);
     }
 
     public int thorium() {
-        return core.items.get(Items.thorium);
+        return items.get(Items.thorium);
     }
 
     public void thorium(int amount) {
-        core.items.add(Items.thorium, amount);
+        items.add(Items.thorium, amount);
     }
 
     public int spore() {
-        return core.items.get(Items.sporePod);
+        return items.get(Items.sporePod);
     }
 
     public void spore(int amount) {
-        core.items.add(Items.sporePod, amount);
+        items.add(Items.sporePod, amount);
     }
 
     public String liquids() {

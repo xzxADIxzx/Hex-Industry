@@ -29,9 +29,7 @@ public class Generator {
     private static Queue<Set> calls = new Queue<>();
 
     public static void play() {
-        humans.each(human -> {
-            if (human.lose != null) human.lose.cancel();
-        }); // cancel all lose tasks
+        humans.each(human -> human.lose != null, human -> human.lose.cancel()); // cancel all lose tasks
         hexes.clear();
         humans.clear();
 

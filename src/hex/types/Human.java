@@ -10,6 +10,7 @@ import arc.util.Timer.Task;
 import hex.Generator;
 import hex.components.MenuListener;
 import hex.content.HexBuilds;
+import hex.content.Packages;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
 import mindustry.gen.Call;
@@ -24,7 +25,6 @@ import static hex.Politics.*;
 import static hex.components.Bundle.*;
 import static hex.components.MenuListener.statistics;
 
-// TODO: добавить статистику +по статистике считать кол-во людей при присоединении к команде
 public class Human {
 
     public static ObjectMap<Player, Unit> units = new ObjectMap<>();
@@ -40,11 +40,14 @@ public class Human {
     public Human leader;
     public Player player;
     public Locale locale;
-    public Hex citadel;
+
     public Fraction fraction;
     public Production production;
+
+    public Hex citadel;
     public byte weapons;
     public Task lose; // oh no
+    public Statistics stats = new Statistics(this);
 
     public String levname;
     public String hudname;
@@ -136,9 +139,9 @@ public class Human {
 
         if (citadel.owner == null) // if lose is called from Politics.spectate no need to call lose msg
             MenuListener.menu(player, statistics, get("over.lose.title", locale), get("over.lose.text", locale),
-                    new String[][] {{"over.stats.title"}}, option -> get("over.stats.text", locale));
+                    new String[][] {{get("over.stats.title", locale)}}, option -> stats.toString());
 
-        if (leader == this) { // just saving resources 
+        if (leader == this) { // just saving resources
             slaves().each(human -> human.citadel.lose(null));
             captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
             player.team().data().units.each(Call::unitDespawn);
@@ -198,7 +201,24 @@ public class Human {
     }
 
     public class Statistics {
-    
+
+        public Human parent;
+
         public int opened;
+        public int builded;
+        public int destroyed;
+        public int shops;
+
+        public Statistics(Human parent) {
+            this.parent = parent;
+        }
+
+        public String toString() {
+            return format("over.stats.text", locale, opened, shops, builded, destroyed, locked(Packages.ai), locked(Packages.atomic));
+        }
+
+        public String locked(Package pack) {
+            return pack.pred.get(parent) ? get("over.stats.lock", locale) : get("over.stats.open", locale);
+        }
     }
 }

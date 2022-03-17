@@ -23,6 +23,7 @@ public class BuildButton extends Button {
                 if (hex1.isCaptured(human)) {
                     hex1.owner = human.leader;
                     hex1.build(build);
+                    human.stats.builded++;
                 } else human.player.sendMessage(get("hex.toofar", human.locale));
             } else human.enough();
         }, hex, x, y);

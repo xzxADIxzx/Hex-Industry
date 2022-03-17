@@ -11,7 +11,10 @@ public class OpenButton extends Button {
 
     public OpenButton(Hex hex) {
         super((human, hex1) -> {
-            if (human.production.unit(human, human.cost(hex))) hex.open();
+            if (human.production.unit(human, human.cost(hex))) {
+                hex.open();
+                human.stats.opened++;
+            }
         }, hex);
     }
 

@@ -103,7 +103,6 @@ public class Main extends Plugin {
 
         handler.register("heck", "DO NOT USE THIS ONLY FOR TESTING!", args -> {
             humans.each(h -> h.production.all(1000));
-            Human.units.clear();
             netServer.admins.actionFilters.clear();
             Administration.Config.strict.set(false);
         });

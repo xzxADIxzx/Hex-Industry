@@ -9,7 +9,7 @@ import static hex.components.Bundle.format;
 
 public class Package {
 
-    public static final float delay = 2f * Time.toMinutes;
+    public static final float delay = Time.toMinutes;
 
     public String name;
     public int cost;

@@ -129,7 +129,7 @@ public class Production {
 
     public boolean crawler(Human human, int amount) {
         if (crawler >= amount) {
-            crawler(-amount);
+            crawler -= amount;
             return true;
         } else human.enough();
         return false;

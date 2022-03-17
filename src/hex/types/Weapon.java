@@ -32,7 +32,7 @@ public class Weapon {
         Hex hex = attacked.get(human);
         if (cons.sour.enough(human.production)) {
             cons.sour.consume(human.production);
-            if (hex.damage(damage(human))) hex.lose(human.player.coloredName());
+            if (hex.damage(damage(human))) hex.lose(human);
         } else human.enough();
     }
 

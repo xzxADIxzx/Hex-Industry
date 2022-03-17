@@ -40,7 +40,7 @@ public class MenuListener {
             if (option != -1) Packages.from(human, option).send(human);
         });
 
-        statistics = Menus.registerMenu((player, option) -> {});
+        menus.put(statistics = 3, (player, option) -> {});
 
         guide = Menus.registerMenu(Guide::choose);
 

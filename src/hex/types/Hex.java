@@ -131,12 +131,14 @@ public class Hex {
         Time.run(time, () -> busy = false);
     }
 
-    public void lose(String attacker) {
+    public void lose(Human attacker) {
         build.destroy(owner.production);
         if (attacker != null) {
-            owner.player.sendMessage(format("hex.attacked", owner.locale, attacker, cx, cy));
+            owner.player.sendMessage(format("hex.attacked", owner.locale, attacker.player.coloredName(), cx, cy));
             owner.production.check(owner);
+            attacker.stats.destroyed++;
         }
+
         clear();
         cooldown(3600f);
 

@@ -196,4 +196,9 @@ public class Human {
     public int cities() {
         return builds(HexBuilds.city);
     }
+
+    public class Statistics {
+    
+        public int opened;
+    }
 }

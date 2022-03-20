@@ -1,5 +1,7 @@
 package hex.types;
 
+import arc.func.Cons2;
+
 import static hex.Politics.attacked;
 import static hex.components.Bundle.get;
 import static hex.components.Bundle.format;
@@ -14,6 +16,7 @@ public class Weapon {
     public int damage;
     public int cost;
     public Production cons;
+    public Cons2<Human, Hex> destroy;
 
     public Weapon() {
         id = 1 << _id++;
@@ -32,7 +35,7 @@ public class Weapon {
         Hex hex = attacked.get(human);
         if (cons.sour.enough(human.production)) {
             cons.sour.consume(human.production);
-            if (hex.damage(damage(human))) hex.lose(human);
+            if (hex.damage(damage(human))) destroy.get(human, hex);
         } else human.enough();
     }
 

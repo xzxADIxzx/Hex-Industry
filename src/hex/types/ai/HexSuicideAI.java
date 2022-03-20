@@ -9,7 +9,6 @@ import mindustry.ai.Pathfinder;
 import mindustry.content.Items;
 import mindustry.gen.Call;
 
-import static hex.Main.hexes;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
@@ -22,7 +21,7 @@ public class HexSuicideAI extends HexAI {
 
     public HexSuicideAI() {
         Time.run(60f, () -> {
-            hex = hexes.min(h -> h.pos().dst(unit));
+            hex = hexOn();
             marks = Seq.with(from(7, -3), from(3, -3), from(3, 1));
         });
     }

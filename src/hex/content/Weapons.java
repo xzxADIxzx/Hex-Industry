@@ -1,9 +1,11 @@
 package hex.content;
 
+import arc.math.Mathf;
 import arc.struct.Seq;
 import hex.types.Human;
 import hex.types.Production;
 import hex.types.Weapon;
+import mindustry.content.UnitTypes;
 
 import static hex.components.Bundle.get;
 
@@ -20,6 +22,7 @@ public class Weapons {
             cons = new Production() {{
                 titanium = 20;
             }};
+            destroy = (human, hex) -> hex.lose(human, UnitTypes.flare, Mathf.random(12, 18));
         }};
 
         crawler = new Weapon() {{
@@ -30,6 +33,7 @@ public class Weapons {
             cons = new Production() {{
                 spore = 20;
             }};
+            destroy = (human, hex) -> hex.lose(human);
         }};
 
         atomic = new Weapon() {{
@@ -40,6 +44,7 @@ public class Weapons {
             cons = new Production() {{
                 thorium = 20;
             }};
+            destroy = (human, hex) -> hex.lose(human);
         }};
     }
 

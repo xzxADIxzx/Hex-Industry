@@ -10,6 +10,7 @@ import hex.content.*;
 import hex.types.Hex;
 import hex.types.Human;
 import hex.types.ai.HexBuilderAI;
+import hex.types.ai.HexFlyingAI;
 import hex.types.ai.HexMinerAI;
 import hex.types.ai.HexSuicideAI;
 import mindustry.game.EventType.PlayerJoin;
@@ -48,15 +49,18 @@ public class Main extends Plugin {
         netServer.admins.addActionFilter(action -> false);
         netServer.assigner = (player, players) -> Team.derelict;
 
+        Blocks.unloader.solid = false; // why?
+        Blocks.groundFactory.solid = false;
+        ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
+
         UnitTypes.crawler.defaultController = HexSuicideAI::new;
         UnitTypes.crawler.weapons.clear();
         UnitTypes.mono.defaultController = HexMinerAI::new;
         UnitTypes.poly.defaultController = HexBuilderAI::new;
         UnitTypes.poly.weapons.clear();
-
-        Blocks.unloader.solid = false; // why?
-        Blocks.groundFactory.solid = false;
-        ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
+        UnitTypes.flare.defaultController = HexFlyingAI::new;
+        UnitTypes.horizon.defaultController = HexFlyingAI::new;
+        UnitTypes.zenith.defaultController = HexFlyingAI::new;
 
         rules.enemyCoreBuildRadius = 0f;
         rules.unitCap = 16;

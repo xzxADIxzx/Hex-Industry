@@ -20,6 +20,7 @@ import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.gen.Call;
 import mindustry.graphics.Pal;
+import mindustry.type.UnitType;
 import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
@@ -94,8 +95,8 @@ public class Hex {
     public void smoke(Human human) {
         float deg = Mathf.random(360f);
         float dst = Mathf.random(110f);
-        float dx = fx + Mathf.cosDeg(deg * step) * dst;
-        float dy = fy + Mathf.sinDeg(deg * step) * dst;
+        float dx = fx + Mathf.cosDeg(deg) * dst;
+        float dy = fy + Mathf.sinDeg(deg) * dst;
         Call.effect(human.player.con, Fx.smokeCloud, dx, dy, 0, color);
     }
 
@@ -138,12 +139,21 @@ public class Hex {
             owner.production.check(owner);
             attacker.stats.destroyed++;
         }
-
         clear();
-        cooldown(3600f);
 
         Human human = Human.from(this);
         if (base && human != null) human.lose();
+    }
+
+    public void lose(Human attacker, UnitType unit, int amount) {
+        Time.run(600f, () -> lose(attacker));
+        for (int i = 0; i < amount; i++) {
+            float deg = Mathf.random(360f);
+            float dst = Mathf.random(20f, 80f);
+            float dx = fx + Mathf.cosDeg(deg) * dst;
+            float dy = fy + Mathf.sinDeg(deg) * dst;
+            unit.spawn(attacker.player.team(), dx, dy);
+        }
     }
 
     public void open() {

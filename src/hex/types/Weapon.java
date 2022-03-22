@@ -27,7 +27,7 @@ public class Weapon {
     }
 
     public String desc(Human human) {
-        return format(name + ".desc", human.locale, damage(human));
+        return format(name + ".desc", human.locale, damage(human), cons.sour.formatC(human));
     }
 
     public void attack(Human human) {

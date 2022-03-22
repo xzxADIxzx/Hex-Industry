@@ -11,18 +11,40 @@ import static hex.components.Bundle.get;
 
 public class Weapons {
 
-    public static Weapon standart, crawler, atomic;
+    public static Weapon flare, horizon, zenith, crawler, atomic;
 
     public static void load() {
-        standart = new Weapon() {{
-            name = "weapon.standart";
-            damage = 9;
+        flare = new Weapon() {{
+            name = "weapon.flare";
+            damage = 3;
 
             cost = 0;
             cons = new Production() {{
                 titanium = 20;
             }};
             destroy = (human, hex) -> hex.lose(human, UnitTypes.flare, Mathf.random(12, 18));
+        }};
+
+        horizon = new Weapon() {{
+            name = "weapon.horizon";
+            damage = 6;
+
+            cost = 0;
+            cons = new Production() {{
+                thorium = 20;
+            }};
+            destroy = (human, hex) -> hex.lose(human, UnitTypes.horizon, Mathf.random(8, 14));
+        }};
+
+        zenith = new Weapon() {{
+            name = "weapon.zenith";
+            damage = 9;
+
+            cost = 0;
+            cons = new Production() {{
+                plastanium = 20;
+            }};
+            destroy = (human, hex) -> hex.lose(human, UnitTypes.zenith, Mathf.random(4, 10));
         }};
 
         crawler = new Weapon() {{
@@ -49,7 +71,7 @@ public class Weapons {
     }
 
     public static Weapon from(int id) {
-        return new Weapon[] {standart, crawler, atomic}[id];
+        return new Weapon[] {flare, horizon, zenith, crawler, atomic}[id];
     }
 
     public static Seq<Weapon> from(byte id) {

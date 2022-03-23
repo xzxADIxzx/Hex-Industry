@@ -112,7 +112,7 @@ public class HexBuilds {
 
         miner = new HexBuild() {{
             name = "Miner Mk1";
-            health = 18;
+            health = 3;
 
             scheme = HexSchematics.minerMk1;
             boom = Fx.reactorExplosion;
@@ -127,7 +127,7 @@ public class HexBuilds {
             parent = () -> miner;
             next = new HexBuild() {{
                 name = "Miner Mk2";
-                health = 18;
+                health = 9;
 
                 scheme = HexSchematics.minerMk2;
                 boom = Fx.reactorExplosion;
@@ -166,7 +166,7 @@ public class HexBuilds {
 
         thory = new HexBuild() {{
             name = "Miner Mk1";
-            health = 18;
+            health = 9;
 
             scheme = HexSchematics.thoryMk1;
             boom = Fx.reactorExplosion;

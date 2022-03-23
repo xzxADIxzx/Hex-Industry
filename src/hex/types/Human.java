@@ -69,7 +69,7 @@ public class Human {
         this.levname = Strings.stripGlyphs(hudname).toLowerCase().replace(" ", "");
 
         this.player.unit(fraction.spawn(player.team(), citadel.pos()));
-        this.weapons = 0x1;
+        this.weapons = 0x7;
 
         units.put(player, player.unit()); // saves the player's unit
         player.sendMessage(get("welcome", locale)); // some info
@@ -112,7 +112,7 @@ public class Human {
     }
 
     public void lead() {
-        if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
+        updateName();
         Fraction.leader(player.unit());
 
         Time.run(300f, () -> { // recalculate production
@@ -130,6 +130,7 @@ public class Human {
 
         player.team(unit.team());
         player.unit(unit);
+        if (!slaves().isEmpty()) updateName();
         this.player = player;
     }
 
@@ -167,6 +168,10 @@ public class Human {
     public void updateModule() {
         player.team().core().items = production.items;
     } // update ItemModule so player can see resources in CoreItemsDisplay
+
+    public void updateName() {
+        if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
+    }
 
     public byte locked() {
         return (byte) (~weapons & 0xFF);

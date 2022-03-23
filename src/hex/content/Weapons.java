@@ -77,7 +77,7 @@ public class Weapons {
     public static Seq<Weapon> from(byte id) {
         Seq<Weapon> weapons = new Seq<>();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
             if ((1 << i & id) == 1 << i) weapons.add(from(i));
 
         return weapons;

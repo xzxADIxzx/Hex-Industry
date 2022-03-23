@@ -111,7 +111,6 @@ public class Hex {
         health = build.health;
         step = 360f / health;
         damage(0); // update color
-        cooldown(600f);
 
         if (base) Time.run(180f, () -> {
             Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team());
@@ -121,7 +120,7 @@ public class Hex {
 
     public boolean damage(int damage) {
         color = Pal.health.cpy().lerp(Pal.plastanium, health / build.health);
-        if (damage != 0) cooldown(3600f);
+        cooldown(damage == 0 ? 600f : 3600f);
 
         health -= damage;
         return health <= 0;

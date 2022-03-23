@@ -23,7 +23,7 @@ public class Weapon {
     }
 
     public int damage(Human human) {
-        return damage * human.fraction.damage;
+        return (int) (damage * human.fraction.damage);
     }
 
     public String desc(Human human) {

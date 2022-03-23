@@ -111,7 +111,7 @@ public class Hex {
         health = build.health;
         step = 360f / health;
         damage(0); // update color
-        cooldown(300f);
+        cooldown(600f);
 
         if (base) Time.run(180f, () -> {
             Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team());
@@ -172,6 +172,7 @@ public class Hex {
 
         build = null;
         owner = null;
+        health = 0;
     }
 
     public void clearButtons() {
@@ -181,7 +182,7 @@ public class Hex {
     }
 
     public Seq<Hex> neighbours() {
-        return hexes.copy().select(hex -> pos().within(hex.pos(), 210f));
+        return hexes.select(hex -> pos().within(hex.pos(), 210f));
     }
 
     public Seq<Hex> openedNeighbours() {

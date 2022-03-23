@@ -17,27 +17,27 @@ public class Fractions {
             name = "fract.horde";
             unit(UnitTypes.alpha);
 
-            damage = 2;
-            production = 1;
-            creature = 3;
+            damage = 1.5f;
+            production = 1f;
+            creature = 2f;
         }};
 
         engineer = new Fraction() {{
             name = "fract.engineer";
             unit(UnitTypes.beta);
 
-            damage = 2;
-            production = 3;
-            creature = 1;
+            damage = 1.5f;
+            production = 2f;
+            creature = 1f;
         }};
 
         militant = new Fraction() {{
             name = "fract.militant";
             unit(UnitTypes.gamma);
 
-            damage = 3;
-            production = 1;
-            creature = 2;
+            damage = 2f;
+            production = 1f;
+            creature = 1.5f;
         }};
 
         spectator = new Fraction() {{

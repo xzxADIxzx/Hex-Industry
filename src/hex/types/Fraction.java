@@ -16,9 +16,9 @@ public class Fraction {
     public String name;
     public UnitType unit;
 
-    public int damage;
-    public int production;
-    public int creature;
+    public float damage;
+    public float production;
+    public float creature;
 
     public static void leader(Unit unit) {
         unit.apply(StatusEffects.overdrive);

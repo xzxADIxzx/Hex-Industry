@@ -45,7 +45,7 @@ public class Production {
     }
 
     public void update() {
-        float speed = fract.production + (water > 0 ? .2f : 0f) + (cryo > 0 ? .4f : 0f);
+        float speed = fract.production + (water > 0 ? .1f : 0f) + (cryo > 0 ? .2f : 0f);
 
         items.add(Items.plastanium, (int) (plastanium * speed));
         items.add(Items.titanium, (int) (titanium * speed));
@@ -204,7 +204,7 @@ public class Production {
             return formatB(human.locale, new String[] {"cons.unit", "cons.item", "cons.liquid"}, 1, 1);
         }
 
-        private String formatB(Locale loc, String[] base, int c, int i) {
+        private String formatB(Locale loc, String[] base, float c, float i) {
             format = "";
             add(base[0], loc, unit * c, "");
             add(base[1], loc, titanium * i, "titanium");
@@ -219,8 +219,8 @@ public class Production {
             return format;
         }
 
-        private void add(String key, Locale loc, int amount, String icon) {
-            if (amount != 0) format += format(key, loc, amount, Icons.get(icon));
+        private void add(String key, Locale loc, float amount, String icon) {
+            if (amount != 0) format += format(key, loc, (int) amount, Icons.get(icon));
         }
     }
 }

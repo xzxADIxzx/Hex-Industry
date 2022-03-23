@@ -26,7 +26,7 @@ public class HexBuilds {
             parent = () -> citadel;
             next = new HexBuild() {{
                 name = "Citadel Mk2";
-                health = 18;
+                health = 36;
 
                 scheme = HexSchematics.citadelMk2;
                 boom = Fx.impactReactorExplosion;
@@ -35,13 +35,15 @@ public class HexBuilds {
                     unit = 20;
                 }};
                 cons = new Production() {{
-                    plastanium = 20;
+                    titanium = 1000;
+                    thorium = 1000;
+                    plastanium = 500;
                 }};
 
                 parent = () -> citadel;
                 next = new HexBuild() {{
                     name = "Citadel Mk3";
-                    health = 18;
+                    health = 48;
 
                     scheme = HexSchematics.citadelMk3;
                     boom = Fx.impactReactorExplosion;
@@ -50,7 +52,9 @@ public class HexBuilds {
                         unit = 20;
                     }};
                     cons = new Production() {{
-                        spore = 20;
+                        titanium = 2000;
+                        thorium = 2000;
+                        spore = 500;
                     }};
 
                     parent = () -> citadel;
@@ -61,14 +65,14 @@ public class HexBuilds {
 
         base = new HexBuild() {{
             name = "Base Mk1";
-            health = 18;
+            health = 9;
 
             scheme = HexSchematics.baseMk1;
             boom = Fx.impactReactorExplosion;
 
             prod = new Production();
             cons = new Production() {{
-                titanium = 20;
+                titanium = 500;
                 unit = 1;
             }};
 
@@ -82,21 +86,21 @@ public class HexBuilds {
 
                 prod = new Production();
                 cons = new Production() {{
-                    plastanium = 20;
+                    plastanium = 500;
                     unit = 1;
                 }};
                 
                 parent = () -> base;
                 next = new HexBuild() {{
                     name = "Base Mk3";
-                    health = 18;
+                    health = 36;
 
                     scheme = HexSchematics.baseMk3;
                     boom = Fx.impactReactorExplosion;
 
                     prod = new Production();
                     cons = new Production() {{
-                        spore = 20;
+                        spore = 500;
                         unit = 1;
                     }};
 
@@ -132,7 +136,8 @@ public class HexBuilds {
                     titanium = 2;
                 }};
                 cons = new Production() {{
-                    plastanium = 20;
+                    thorium = 200;
+                    plastanium = 100;
                     unit = 2;
                 }};
 
@@ -148,7 +153,8 @@ public class HexBuilds {
                         titanium = 3;
                     }};
                     cons = new Production() {{
-                        spore = 20;
+                        thorium = 500;
+                        spore = 100;
                         unit = 3;
                     }};
 
@@ -169,7 +175,7 @@ public class HexBuilds {
                 thorium = 1;
             }};
             cons = new Production() {{
-                titanium = 20;
+                titanium = 200;
                 unit = 1;
             }};
 
@@ -185,7 +191,8 @@ public class HexBuilds {
                     thorium = 2;
                 }};
                 cons = new Production() {{
-                    plastanium = 20;
+                    titanium = 500;
+                    plastanium = 100;
                     unit = 2;
                 }};
 
@@ -205,7 +212,8 @@ public class HexBuilds {
                 spore = 1;
             }};
             cons = new Production() {{
-                plastanium = 20;
+                thorium = 3000;
+                plastanium = 1000;
                 water = 1;
                 unit = 1;
             }};
@@ -222,8 +230,8 @@ public class HexBuilds {
                 oil = 1;
             }};
             cons = new Production() {{
-                thorium = 20;
-                unit = 1;
+                thorium = 500;
+                unit = 2;
             }};
         }};
 
@@ -238,8 +246,8 @@ public class HexBuilds {
                 water = 1;
             }};
             cons = new Production() {{
-                thorium = 20;
-                unit = 1;
+                thorium = 500;
+                unit = 2;
             }};
         }};
 
@@ -254,8 +262,9 @@ public class HexBuilds {
                 cryo = 1;
             }};
             cons = new Production() {{
-                thorium = 20;
-                unit = 1;
+                thorium = 500;
+                plastanium = 500;
+                unit = 2;
             }};
         }};
 
@@ -270,7 +279,7 @@ public class HexBuilds {
                 plastanium = 1;
             }};
             cons = new Production() {{
-                titanium = 20;
+                titanium = 200;
                 oil = 1;
                 unit = 1;
             }};
@@ -287,8 +296,8 @@ public class HexBuilds {
                 unit = 10;
             }};
             cons = new Production() {{
-                titanium = 20;
-                thorium = 20;
+                titanium = 200;
+                thorium = 200;
             }};
         }};
 
@@ -301,7 +310,9 @@ public class HexBuilds {
 
             prod = new Production();
             cons = new Production() {{
-                plastanium = 20;
+                titanium = 3000;
+                thorium = 5000;
+                plastanium = 1000;
                 cryo = 1;
                 unit = 5;
             }};

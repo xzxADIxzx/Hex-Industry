@@ -2,7 +2,9 @@ package hex.types;
 
 import arc.func.Boolf;
 import arc.math.Mathf;
+import arc.util.Time;
 import hex.components.Icons;
+import hex.content.Packages;
 import mindustry.content.Items;
 import mindustry.world.modules.ItemModule;
 
@@ -16,6 +18,7 @@ public class Production {
     public final Fraction fract;
 
     public Resource sour;
+    public boolean sending;
 
     // production per sec
     protected int plastanium;
@@ -44,13 +47,19 @@ public class Production {
         fract = human.fraction;
     }
 
-    public void update() {
+    public void update(Human human) {
         float speed = fract.production + (water > 0 ? .1f : 0f) + (cryo > 0 ? .2f : 0f);
 
         items.add(Items.plastanium, (int) (plastanium * speed));
         items.add(Items.titanium, (int) (titanium * speed));
         items.add(Items.thorium, (int) (thorium * speed));
         items.add(Items.sporePod, (int) (spore * speed));
+
+        if(unit <= 5 && !sending) {
+            sending = true;
+            Time.run(5f * Time.toMinutes, () -> sending = false);
+            Packages.free.send(human);
+        }
     }
 
     public void all(int amount) {

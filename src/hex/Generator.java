@@ -122,7 +122,7 @@ public class Generator {
 
         public static MapSize get() {
             int amount = Groups.player.size();
-            return amount < 5 ? small : amount < 10 ? medium : big;
+            return amount < 3 ? small : amount < 5 ? medium : big;
         }
     }
 

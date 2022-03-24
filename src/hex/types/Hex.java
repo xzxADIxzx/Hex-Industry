@@ -120,7 +120,7 @@ public class Hex {
 
     public boolean damage(int damage) {
         color = Pal.health.cpy().lerp(Pal.plastanium, health / build.health);
-        cooldown(damage == 0 ? 600f : 3600f);
+        cooldown(damage == 0 ? 600f : Time.toMinutes);
 
         health -= damage;
         return health <= 0;

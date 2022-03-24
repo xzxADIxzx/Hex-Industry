@@ -24,6 +24,7 @@ public class HexAI extends AIController {
 
     protected void target() {
         target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
+        if (target == null) despawn();
     }
 
     protected Hex hexOn() {

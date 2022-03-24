@@ -44,7 +44,7 @@ public class Weapons {
             cost = 0;
             cons = new Production() {{
                 titanium = 500;
-                plastanium = 100;
+                plastanium = 200;
             }};
             destroy = (human, hex) -> hex.lose(human, UnitTypes.zenith, Mathf.random(4, 10));
         }};

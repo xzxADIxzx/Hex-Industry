@@ -2,19 +2,29 @@ package hex.types.ai;
 
 import arc.graphics.Color;
 import hex.types.Hex;
+import hex.types.Human;
 import mindustry.content.Fx;
+import mindustry.content.UnitTypes;
 import mindustry.entities.units.AIController;
 import mindustry.gen.Call;
 import mindustry.world.meta.BlockFlag;
 
 import static hex.Main.hexes;
-import static hex.Main.humans;
 
 public class HexAI extends AIController {
 
+    /** blocks the updateUnit call */
+    public boolean withdrawn;
+
     @Override
     public void init() {
-        if (!humans.contains(h -> h.player.team() == unit.team())) despawn();
+        if (unit.type != UnitTypes.poly && Human.from(unit.team()) == null) withdrawn = true;
+    }
+
+    @Override
+    public void updateUnit() {
+        if (withdrawn) despawn();
+        else super.updateUnit();
     }
 
     public void despawn() {

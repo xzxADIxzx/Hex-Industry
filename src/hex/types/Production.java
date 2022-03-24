@@ -57,7 +57,7 @@ public class Production {
 
         if(unit <= 5 && !sending) {
             sending = true;
-            Time.run(5f * Time.toMinutes, () -> sending = false);
+            Time.run(3f * Time.toMinutes, () -> sending = false);
             Packages.free.send(human);
         }
     }

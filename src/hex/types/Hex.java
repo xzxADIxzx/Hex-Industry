@@ -83,7 +83,7 @@ public class Hex {
     }
 
     public void update(Human human) {
-        buttons.each(b -> b.update(human));
+        if (owner == null || owner == human) buttons.each(b -> b.update(human));
 
         if (busy) for (int i = 0; i < 5; i++) Time.run(i * 12f, () -> smoke(human));
         else for (int deg = 0; deg < health; deg++) {
@@ -133,6 +133,7 @@ public class Hex {
     }
 
     public void lose(Human attacker) {
+        if (owner == null) return; // this happens some times
         build.destroy(owner.production);
         if (attacker != null) {
             owner.player.sendMessage(format("hex.attacked", owner.locale, attacker.player.coloredName(), cx, cy));

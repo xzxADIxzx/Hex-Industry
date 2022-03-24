@@ -29,14 +29,14 @@ public class HexBuild {
     public void build(Hex hex) {
         if (hex.build != null) explode(hex); // cleanup old build
 
-        Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
-        scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
-
         prod.sour.produce(hex.owner.production, true);
         cons.sour.consume(hex.owner.production);
 
         hex.clearButtons();
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
+
+        Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
+        scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
     }
 
     public void create(Production production) {

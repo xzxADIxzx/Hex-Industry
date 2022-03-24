@@ -41,7 +41,7 @@ public class HexSuicideAI extends HexAI {
             pathfind(Pathfinder.fieldRally);
             target();
 
-            if (unit.within(target, 10f)) despawn();
+            if (unit.within(target, 20f)) despawn();
         }
     }
 

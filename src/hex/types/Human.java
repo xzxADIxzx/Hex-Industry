@@ -89,6 +89,10 @@ public class Human {
         return humans.find(human -> human.citadel == citadel);
     }
 
+    public static Human from(Team team) {
+        return humans.find(human -> human.player.team() == team);
+    }
+
     public void update() {
         if (leader == this) production.update(this);
         Hex hex = location();
@@ -117,12 +121,12 @@ public class Human {
         updateName();
         Fraction.leader(player.unit());
 
-        onEmpty(() -> { // recalculate production
+        Time.run(300f, () -> onEmpty(() -> { // recalculate production
             production = new Production(this);
+            updateModule();
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> human.production = production);
-            onEmpty(() -> updateModule()); // need to update item module after set new core
-        });
+        }));
     }
 
     public void player(Player player) {

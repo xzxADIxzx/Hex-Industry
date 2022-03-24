@@ -20,7 +20,7 @@ public class Weapons {
 
             cost = 0;
             cons = new Production() {{
-                titanium = 20;
+                titanium = 100;
             }};
             destroy = (human, hex) -> hex.lose(human, UnitTypes.flare, Mathf.random(12, 18));
         }};
@@ -31,7 +31,8 @@ public class Weapons {
 
             cost = 0;
             cons = new Production() {{
-                thorium = 20;
+                titanium = 500;
+                thorium = 100;
             }};
             destroy = (human, hex) -> hex.lose(human, UnitTypes.horizon, Mathf.random(8, 14));
         }};
@@ -42,7 +43,8 @@ public class Weapons {
 
             cost = 0;
             cons = new Production() {{
-                plastanium = 20;
+                titanium = 500;
+                plastanium = 100;
             }};
             destroy = (human, hex) -> hex.lose(human, UnitTypes.zenith, Mathf.random(4, 10));
         }};
@@ -53,7 +55,8 @@ public class Weapons {
 
             cost = 1;
             cons = new Production() {{
-                spore = 20;
+                plastanium = 500;
+                spore = 100;
             }};
             destroy = (human, hex) -> hex.lose(human);
         }};
@@ -64,7 +67,9 @@ public class Weapons {
 
             cost = 2;
             cons = new Production() {{
-                thorium = 20;
+                thorium = 3000;
+                plastanium = 500;
+                spore = 200;
             }};
             destroy = (human, hex) -> hex.lose(human);
         }};

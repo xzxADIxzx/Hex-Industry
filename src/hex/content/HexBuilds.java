@@ -175,7 +175,7 @@ public class HexBuilds {
                 thorium = 1;
             }};
             cons = new Production() {{
-                titanium = 200;
+                titanium = 100;
                 unit = 1;
             }};
 
@@ -230,7 +230,7 @@ public class HexBuilds {
                 oil = 1;
             }};
             cons = new Production() {{
-                thorium = 500;
+                thorium = 300;
                 unit = 2;
             }};
         }};

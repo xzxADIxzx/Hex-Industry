@@ -92,7 +92,7 @@ public class Human {
         if (leader == this) production.update();
         Hex hex = location();
 
-        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.isClosed() ? "hex.closed" : "hex.nobody", locale) : hex.owner.hudname, production.unit(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname, production.unit(), production.crawler(), production.liquids()));
         hex.neighbours().each(h -> h.update(this));
     }
 
@@ -130,8 +130,8 @@ public class Human {
 
         player.team(unit.team());
         player.unit(unit);
-        if (!slaves().isEmpty()) updateName();
         this.player = player;
+        if (!slaves().isEmpty()) updateName();
     }
 
     public void lose() {
@@ -182,11 +182,11 @@ public class Human {
     }
 
     public Seq<Hex> captured() {
-        return hexes.copy().filter(hex -> hex.owner == this);
+        return hexes.select(hex -> hex.owner == this);
     }
 
     public Seq<Human> slaves() {
-        return humans.copy().filter(human -> human.leader == this && human != this);
+        return humans.select(human -> human.leader == this && human != this);
     }
 
     public int cost(Hex hex) {

@@ -75,7 +75,7 @@ public class Generator {
     }
 
     public static Hex citadel() {
-        Seq<Hex> closed = hexes.copy().filter(Hex::isClosed);
+        Seq<Hex> closed = hexes.select(Hex::isClosed);
         return closed.sort(h -> humans.sumf(human -> {
             float dst = h.point().dst(human.citadel.point());
             return dst > 100f ? -dst : Mathf.sqr(100f - dst);

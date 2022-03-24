@@ -24,12 +24,6 @@ public class Fraction {
         unit.apply(StatusEffects.overdrive);
     }
 
-    public void unit(UnitType unit) {
-        unit.weapons.clear();
-        unit.buildSpeed = 0f;
-        this.unit = unit;
-    }
-
     public Unit spawn(Team team, Position pos) {
         Unit unit = this.unit.spawn(team, pos);
         unit.apply(StatusEffects.boss);

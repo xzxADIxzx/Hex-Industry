@@ -15,7 +15,7 @@ public class Fractions {
     public static void load() {
         horde = new Fraction() {{
             name = "fract.horde";
-            unit(UnitTypes.alpha);
+            unit = UnitTypes.alpha;
 
             damage = 1.5f;
             production = 1f;
@@ -24,7 +24,7 @@ public class Fractions {
 
         engineer = new Fraction() {{
             name = "fract.engineer";
-            unit(UnitTypes.beta);
+            unit = UnitTypes.beta;
 
             damage = 1.5f;
             production = 2f;
@@ -33,7 +33,7 @@ public class Fractions {
 
         militant = new Fraction() {{
             name = "fract.militant";
-            unit(UnitTypes.gamma);
+            unit = UnitTypes.gamma;
 
             damage = 2f;
             production = 1f;

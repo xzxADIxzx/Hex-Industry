@@ -15,6 +15,7 @@ import hex.types.ai.HexMinerAI;
 import hex.types.ai.HexSuicideAI;
 import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
+import mindustry.game.Rules.TeamRule;
 import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
 import mindustry.game.Rules;
@@ -22,7 +23,6 @@ import mindustry.game.Team;
 import mindustry.gen.Player;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration;
-import mindustry.world.blocks.distribution.MassDriver;
 
 import static hex.components.Bundle.findLocale;
 import static hex.components.Bundle.get;
@@ -51,13 +51,10 @@ public class Main extends Plugin {
 
         Blocks.unloader.solid = false; // why?
         Blocks.groundFactory.solid = false;
-        ((MassDriver) Blocks.massDriver).bullet.damage = 0f;
 
         UnitTypes.crawler.defaultController = HexSuicideAI::new;
-        UnitTypes.crawler.weapons.clear();
         UnitTypes.mono.defaultController = HexMinerAI::new;
         UnitTypes.poly.defaultController = HexBuilderAI::new;
-        UnitTypes.poly.weapons.clear();
         UnitTypes.flare.defaultController = HexFlyingAI::new;
         UnitTypes.horizon.defaultController = HexFlyingAI::new;
         UnitTypes.zenith.defaultController = HexFlyingAI::new;
@@ -72,7 +69,12 @@ public class Main extends Plugin {
         rules.revealedBlocks.add(Blocks.duct);
         rules.modeName = "Hex Industry";
 
-        for (Team team : Team.all) rules.teams.get(team).cheat = true;
+        for (Team team : Team.all) {
+            TeamRule rule = rules.teams.get(team);
+            rule.cheat = true;
+            rule.unitDamageMultiplier = 0f;
+            rule.blockDamageMultiplier = 0f;
+        }
 
         Timer.schedule(() -> {
             humans.each(Human::update);

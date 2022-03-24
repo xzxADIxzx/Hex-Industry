@@ -157,8 +157,8 @@ public class Hex {
 
     public void open() {
         HexSchematics.door(door).airNet(x, y);
-        env.build(this);
         open = true;
+        env.build(this);
 
         Time.run(60f, () -> openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));

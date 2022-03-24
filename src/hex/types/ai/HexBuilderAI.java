@@ -1,17 +1,17 @@
 package hex.types.ai;
 
+import arc.util.Time;
+
+import static hex.Generator.onEmpty;
+
 public class HexBuilderAI extends HexAI {
 
-    public boolean start;
-
     public HexBuilderAI() {
-        timer.get(3, 180f); // reset
+        Time.run(180f, () -> onEmpty(() -> unit.updateBuilding = true));
     }
 
     @Override
     public void updateMovement() {
-        if (!start) unit.updateBuilding = start = timer.get(3, 180f);
-
         if (unit.buildPlan() != null) moveTo(unit.buildPlan().tile(), 180f);
         else despawn();
     }

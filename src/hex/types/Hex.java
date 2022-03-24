@@ -24,6 +24,7 @@ import mindustry.type.UnitType;
 import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
+import static hex.Generator.onEmpty;
 import static hex.components.Bundle.format;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
@@ -86,10 +87,10 @@ public class Hex {
 
         if (busy) for (int i = 0; i < 5; i++) Time.run(i * 12f, () -> smoke(human));
         else for (int deg = 0; deg < health; deg++) {
-                float dx = fx + Mathf.cosDeg(deg * step) * radius;
-                float dy = fy + Mathf.sinDeg(deg * step) * radius;
-                Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
-            }
+            float dx = fx + Mathf.cosDeg(deg * step) * radius;
+            float dy = fy + Mathf.sinDeg(deg * step) * radius;
+            Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
+        }
     }
 
     public void smoke(Human human) {
@@ -112,7 +113,7 @@ public class Hex {
         step = 360f / health;
         damage(0); // update color
 
-        if (base) Time.run(180f, () -> {
+        if (base) onEmpty(() -> {
             Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team());
             owner.updateModule();
         });
@@ -160,7 +161,7 @@ public class Hex {
         open = true;
         env.build(this);
 
-        Time.run(60f, () -> openedNeighbours().each(bour -> {
+        onEmpty(() -> openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
         }));
     }

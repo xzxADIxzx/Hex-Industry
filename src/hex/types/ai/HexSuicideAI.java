@@ -38,10 +38,9 @@ public class HexSuicideAI extends HexAI {
             Call.takeItems(world.build(hex.cx, hex.cy + 1), Items.sporePod, 10, unit);
             state = 4;
         } else if (state == 4) {
-            target();
-            if (target == null) return;
-
             pathfind(Pathfinder.fieldRally);
+            target();
+
             if (unit.within(target, 10f)) despawn();
         }
     }

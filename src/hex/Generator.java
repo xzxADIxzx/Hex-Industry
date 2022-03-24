@@ -27,6 +27,7 @@ public class Generator {
 
     private static int last;
     private static Queue<Set> calls = new Queue<>();
+    private static Seq<Runnable> tasks = new Seq<>();
 
     public static void play() {
         humans.each(human -> human.lose != null, human -> human.lose.cancel()); // cancel all lose tasks
@@ -88,7 +89,10 @@ public class Generator {
 
     // Queue functions
     public static void update() {
-        for (int i = 0; i < Math.min(50, calls.size); i++) calls.removeFirst().set();
+        if (calls.isEmpty()) {
+            tasks.each(Runnable::run);
+            tasks.clear();
+        } else for (int i = 0; i < Math.min(100, calls.size); i++) calls.removeFirst().set();
     }
 
     public static void set(int x, int y, Block block) {
@@ -107,6 +111,10 @@ public class Generator {
     public static void setc(int x, int y, Block block, Team team) {
         world.tile(x, y).setNet(block, team, 0);
         Call.effect(Fx.instBomb, x * tilesize, y * tilesize, 0, Color.white);
+    }
+
+    public static void onEmpty(Runnable todo) {
+        tasks.add(todo);
     }
 
     public enum MapSize {

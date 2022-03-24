@@ -22,6 +22,7 @@ import java.util.Locale;
 import static hex.Main.hexes;
 import static hex.Main.humans;
 import static hex.Politics.*;
+import static hex.Generator.onEmpty;
 import static hex.components.Bundle.*;
 import static hex.components.MenuListener.statistics;
 
@@ -97,9 +98,10 @@ public class Human {
     }
 
     public void teamup(Human leader) {
+        updateUnits();
         player.team(leader.player.team());
         fraction = leader.fraction;
-        Call.unitDespawn(units.put(player, fraction.spawn(player.team(), player)));
+        units.put(player, fraction.spawn(player.team(), player));
 
         unoffer();
         unlock(leader.weapons);
@@ -115,11 +117,11 @@ public class Human {
         updateName();
         Fraction.leader(player.unit());
 
-        Time.run(300f, () -> { // recalculate production
+        onEmpty(() -> { // recalculate production
             production = new Production(this);
-            updateModule();
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> human.production = production);
+            onEmpty(() -> updateModule()); // need to update item module after set new core
         });
     }
 
@@ -145,7 +147,7 @@ public class Human {
         if (leader == this) { // just saving resources
             slaves().each(human -> human.citadel.lose(null));
             captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
-            player.team().data().units.each(Call::unitDespawn);
+            updateUnits();
         }
 
         player.team(Team.derelict);
@@ -171,6 +173,10 @@ public class Human {
 
     public void updateName() {
         if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
+    }
+
+    public void updateUnits() {
+        player.team().data().units.each(Call::unitDespawn);
     }
 
     public byte locked() {

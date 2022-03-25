@@ -99,7 +99,7 @@ public class Main extends Plugin {
 
     @Override
     public void registerServerCommands(CommandHandler handler) {
-        handler.register("host", "Initialize new game.", args -> {
+        handler.register("host", "[size]", "Initialize new game.", args -> {
             Generator.play();
             state.rules = rules;
 

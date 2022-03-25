@@ -9,7 +9,7 @@ public class HexFlyingAI extends HexAI {
     public float lenght;
 
     public HexFlyingAI() {
-        Time.run(600f, () -> despawn());
+        Time.run(600f, this::despawn);
         Time.run(540f, () -> lenght = 0);
         Time.run(60f, () -> {
             hex = hexOn();

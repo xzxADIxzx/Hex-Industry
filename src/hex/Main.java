@@ -3,6 +3,7 @@ package hex;
 import arc.Events;
 import arc.struct.Seq;
 import arc.util.CommandHandler;
+import arc.util.Log;
 import arc.util.Timer;
 import hex.components.Icons;
 import hex.components.MenuListener;
@@ -13,6 +14,7 @@ import hex.types.ai.HexBuilderAI;
 import hex.types.ai.HexFlyingAI;
 import hex.types.ai.HexMinerAI;
 import hex.types.ai.HexSuicideAI;
+import hex.Generator.MapSize;
 import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
 import mindustry.game.Rules.TeamRule;
@@ -99,8 +101,14 @@ public class Main extends Plugin {
 
     @Override
     public void registerServerCommands(CommandHandler handler) {
-        handler.register("host", "Initialize new game.", args -> {
-            Generator.play();
+        handler.register("host", "<size>", "Initialize new game.", args -> {
+            MapSize size = MapSize.get(args[0]);
+            if (size == null) {
+                Log.err("Can't find a MapSize with provided name.");
+                return;
+            }
+
+            Generator.play(size);
             state.rules = rules;
 
             logic.play();

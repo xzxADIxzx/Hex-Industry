@@ -26,16 +26,16 @@ import static mindustry.Vars.*;
 public class Generator {
 
     private static int last;
-    private static Queue<Set> calls = new Queue<>();
-    private static Seq<Runnable> tasks = new Seq<>();
+    private static final Queue<Set> calls = new Queue<>();
+    private static final Seq<Runnable> tasks = new Seq<>();
 
-    public static void play() {
+    public static void play(MapSize size) {
         humans.each(human -> human.lose != null, human -> human.lose.cancel()); // cancel all lose tasks
         hexes.clear();
         humans.clear();
         last = 0;
 
-        generate(MapSize.get()); // generate hex map
+        generate(size); // generate hex map
         Call.worldDataBegin(); // synchronize the world
         Groups.player.each(netServer::sendWorldData);
         Groups.player.each(Politics::join); // handle all players
@@ -128,14 +128,17 @@ public class Generator {
             this.height = height;
         }
 
-        public static MapSize get() {
-            int amount = Groups.player.size();
-            return amount < 3 ? small : amount < 5 ? medium : big;
+        public static MapSize get(String name) {
+            return switch (name.toLowerCase()) {
+                case "small", "1" -> small;
+                case "medium", "2" -> medium;
+                case "big", "3" -> big;
+                default -> null;
+            };
         }
     }
 
     public static class Set {
-
         public final Tile tile;
 
         public Block floor;

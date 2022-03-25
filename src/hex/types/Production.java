@@ -14,8 +14,8 @@ import static hex.components.Bundle.format;
 
 public class Production {
 
-    public final ItemModule items;
-    public final Fraction fract;
+    public ItemModule items = null;
+    public Fraction fract = null;
 
     public Resource sour;
     public boolean sending;
@@ -36,9 +36,6 @@ public class Production {
     protected int crawler;
 
     public Production() {
-        items = null;
-        fract = null;
-
         sour = new Resource();
     }
 

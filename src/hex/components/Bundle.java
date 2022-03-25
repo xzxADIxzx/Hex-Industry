@@ -92,12 +92,4 @@ public class Bundle {
         }
         return properties;
     }
-
-    public static void bundled(Player player, String key, Object... values) {
-        player.sendMessage(format(key, findLocale(player), values));
-    }
-
-    public static void sendToChat(String key, Object... values) {
-        Groups.player.each(player -> bundled(player, key, values));
-    }
 }

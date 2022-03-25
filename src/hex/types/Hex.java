@@ -50,6 +50,7 @@ public class Hex {
     public float health;
     public float step;
     public Color color;
+    public float instdeg;
 
     public Human owner;
     public int id;
@@ -83,14 +84,15 @@ public class Hex {
     }
 
     public void update(Human human) {
-        if (owner == null || owner == human) buttons.each(b -> b.update(human));
-
-        if (busy) for (int i = 0; i < 5; i++) Time.run(i * 12f, () -> smoke(human));
+        if (busy) for (float i = 0; i < 60; i += 12f) Time.run(i, () -> smoke(human));
         else for (int deg = 0; deg < health; deg++) {
             float dx = fx + Mathf.cosDeg(deg * step) * radius;
             float dy = fy + Mathf.sinDeg(deg * step) * radius;
             Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
         }
+        
+        if (owner == null || owner == human) buttons.each(b -> b.update(human));
+        if (base && open) for (float i = 0; i < 60; i += 2f) Time.run(i, () -> inst(human));
     }
 
     public void smoke(Human human) {
@@ -98,7 +100,13 @@ public class Hex {
         float dst = Mathf.random(110f);
         float dx = fx + Mathf.cosDeg(deg) * dst;
         float dy = fy + Mathf.sinDeg(deg) * dst;
-        Call.effect(human.player.con, Fx.smokeCloud, dx, dy, 0, color);
+        Call.effect(human.player.con, Fx.smokeCloud, dx, dy, 0, Color.white);
+    }
+
+    public void inst(Human human) {
+        float dx = fx + Mathf.cosDeg(instdeg += 12f) * basedst;
+        float dy = fy + Mathf.sinDeg(instdeg) * basedst;
+        Call.effect(human.player.con, Fx.instShoot, dx, dy, instdeg, Color.white);
     }
 
     public static boolean bounds(int x, int y) {

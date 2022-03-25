@@ -18,9 +18,9 @@ import static hex.Main.humans;
 
 public class MenuListener {
 
-    private static ObjectMap<Player, Integer> last = new ObjectMap<>();
-    private static ObjectMap<Player, MenuInfo> info = new ObjectMap<>();
-    private static ObjectMap<Integer, Cons2<Player, Integer>> menus = new ObjectMap<>();
+    private static final ObjectMap<Player, Integer> last = new ObjectMap<>();
+    private static final ObjectMap<Player, MenuInfo> info = new ObjectMap<>();
+    private static final ObjectMap<Integer, Cons2<Player, Integer>> menus = new ObjectMap<>();
 
     public static int fractionChoose, weaponChoose, shop, statistics, guide, base;
 
@@ -32,7 +32,7 @@ public class MenuListener {
 
         menus.put(weaponChoose = 1, (player, option) -> {
             Human human = Human.from(player);
-            if (option != -1) Weapons.from((byte) human.weapons).get(option).attack(human);
+            if (option != -1) Weapons.from(human.weapons).get(option).attack(human);
         });
 
         menus.put(shop = 2, (player, option) -> {
@@ -61,18 +61,5 @@ public class MenuListener {
         Call.menu(player.con, base, title, text, buttons);
     }
 
-    public static class MenuInfo {
-
-        public final int id;
-        public final String title;
-        public final String[][] buttons;
-        public final Func<Integer, String> text;
-
-        public MenuInfo(int id, String title, String[][] buttons, Func<Integer, String> text) {
-            this.id = id;
-            this.title = title;
-            this.buttons = buttons;
-            this.text = text;
-        }
-    }
+    public record MenuInfo(int id, String title, String[][] buttons, Func<Integer, String> text) {}
 }

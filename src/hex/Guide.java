@@ -30,7 +30,7 @@ public class Guide {
         Call.sound(player.con, Sounds.click, 100f, 1f, 0f);
         if (option != -1 && option != 2) {
             option = pages.get(player) + (option == 0 ? -1 : 1);
-            pages.put(player, option > max ? max : option < 0 ? 0 : option);
+            pages.put(player, option > max ? max : Math.max(option, 0));
             show(player);
         }
     }

@@ -47,7 +47,7 @@ public class Human {
 
     public Hex citadel;
     public byte weapons;
-    public Task lose; // oh no
+    public Task lose; // oh, no
     public Statistics stats = new Statistics(this);
 
     public String levname;
@@ -132,7 +132,7 @@ public class Human {
     public void player(Player player) {
         Unit unit = units.remove(this.player);
         units.put(player, unit);
-        lose.cancel(); // oh yes
+        lose.cancel(); // oh, yes
 
         player.team(unit.team());
         player.unit(unit);
@@ -216,7 +216,6 @@ public class Human {
     }
 
     public class Statistics {
-
         public Human parent;
 
         public int opened;

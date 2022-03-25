@@ -47,10 +47,6 @@ public class HexSchematic {
         each(st -> Generator.set(st.x + x, st.y + y, st.block, Blocks.air));
     }
 
-    public void air(int x, int y) {
-        each(st -> world.tile(st.x + x, st.y + y).setAir());
-    }
-
     public void airNet(int x, int y) {
         each(st -> Generator.set(st.x + x, st.y + y, Blocks.air));
     }

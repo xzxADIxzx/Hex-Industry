@@ -68,7 +68,7 @@ public class Politics {
 
         if (from == null) player.sendMessage(get("offer.spectator", findLocale(player)));
         else if (to == null || from == to) player.sendMessage(get("offer.notfound", from.locale));
-        else if (contains(to, from)) { // a bit of code that is hard to understand but I don't care :D
+        else if (contains(to, from)) { // a bit of code that is hard to understand, but I don't care :D
             player.sendMessage(get("offer.accepted", from.locale));
             to.player.sendMessage(player.coloredName() + get("offer.accept", to.locale));
 
@@ -91,7 +91,6 @@ public class Politics {
     }
 
     public static class Offer {
-
         public Human from;
         public Human to;
 

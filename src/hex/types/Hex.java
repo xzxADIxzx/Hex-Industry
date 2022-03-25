@@ -133,7 +133,7 @@ public class Hex {
     }
 
     public void lose(Human attacker) {
-        if (owner == null) return; // this happens some times
+        if (owner == null) return; // this happens sometimes
         build.destroy(owner.production);
         if (attacker != null) {
             owner.player.sendMessage(format("hex.attacked", owner.locale, attacker.player.coloredName(), cx, cy));

@@ -24,6 +24,12 @@ public class Politics {
     public static ObjectMap<Human, Hex> attacked = new ObjectMap<>();
     public static ObjectMap<String, Human> left = new ObjectMap<>();
 
+    public static void clear() {
+        offers.clear();
+        attacked.clear();
+        left.clear();
+    }
+
     public static void join(Player player) {
         Human human = left.get(player.con.uuid);
         if (human != null) {

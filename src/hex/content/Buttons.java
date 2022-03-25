@@ -20,6 +20,12 @@ public class Buttons {
 
     private static final ObjectMap<Player, Click> clicks = new ObjectMap<>();
 
+    public static void clear() {
+        buttons.clear();
+        awaiting.clear();
+        clicks.clear();
+    }
+
     public static void load() {
         Events.on(TapEvent.class, event -> {
             Human human = Human.from(event.player);

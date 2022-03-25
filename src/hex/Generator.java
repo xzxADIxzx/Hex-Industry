@@ -6,6 +6,8 @@ import arc.math.geom.Point2;
 import arc.struct.Queue;
 import arc.struct.Seq;
 import arc.struct.StringMap;
+import arc.util.Time;
+import hex.content.Buttons;
 import hex.types.Hex;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
@@ -19,6 +21,7 @@ import mindustry.world.Tile;
 
 import static hex.Main.hexes;
 import static hex.Main.humans;
+import static hex.types.Human.units;
 import static hex.components.Bundle.defaultLocale;
 import static hex.components.Bundle.get;
 import static mindustry.Vars.*;
@@ -29,14 +32,21 @@ public class Generator {
     private static final Queue<Set> calls = new Queue<>();
     private static final Seq<Runnable> tasks = new Seq<>();
 
+    public static void restart() {
+        play(MapSize.get(Groups.player.size()));
+    }
+
     public static void play(MapSize size) {
-        humans.each(human -> human.lose != null, human -> human.lose.cancel()); // cancel all lose tasks
+        Politics.clear();
+        Buttons.clear();
+        Time.clear();
+        units.clear();
         hexes.clear();
-        humans.clear();
         last = 0;
 
         generate(size); // generate hex map
         Call.worldDataBegin(); // synchronize the world
+        Groups.unit.each(Call::unitDespawn);
         Groups.player.each(netServer::sendWorldData);
         Groups.player.each(Politics::join); // handle all players
     }
@@ -135,6 +145,10 @@ public class Generator {
                 case "big", "3" -> big;
                 default -> null;
             };
+        }
+
+        public static MapSize get(int players) {
+            return players < 4 ? small : players < 7 ? medium : big;
         }
     }
 

@@ -140,6 +140,13 @@ public class Human {
         if (!slaves().isEmpty()) updateName();
     }
 
+    public void win() {
+        if (lose != null) lose.cancel();
+        player.name(player.name.replace(prefix, ""));
+        MenuListener.menu(player, statistics, get("over.win.title", locale), get("over.win.text", locale),
+                new String[][] {{get("over.stats.title", locale)}}, option -> stats.toString());
+    }
+
     public void lose() {
         Call.unitDespawn(units.remove(player));
         Call.hideHudText(player.con);
@@ -155,7 +162,15 @@ public class Human {
         }
 
         player.team(Team.derelict);
+        leader.slaves().remove(this);
         humans.remove(this);
+
+        if (humans.count(h -> h.leader == h) == 1) {
+            // restarts the game after 12 seconds
+            Time.run(720f, Generator::restart);
+            humans.each(Human::win);
+            humans.clear(); // no one should stay alive
+        }
     }
 
     public void enough() {

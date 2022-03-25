@@ -103,16 +103,14 @@ public class Main extends Plugin {
     public void registerServerCommands(CommandHandler handler) {
         handler.register("host", "<size>", "Initialize new game.", args -> {
             MapSize size = MapSize.get(args[0]);
-            if (size == null) {
-                Log.err("Can't find a MapSize with provided name.");
-                return;
+            if (size == null) Log.err("Can't find a MapSize with provided name.");
+            else {
+                Generator.play(size);
+                state.rules = rules;
+
+                logic.play();
+                netServer.openServer();
             }
-
-            Generator.play(size);
-            state.rules = rules;
-
-            logic.play();
-            netServer.openServer();
         });
 
         handler.register("heck", "DO NOT USE THIS ONLY FOR TESTING!", args -> {

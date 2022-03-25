@@ -128,6 +128,15 @@ public class Generator {
             this.height = height;
         }
 
+        public static MapSize get(String name) {
+            return switch (name.toLowerCase()) {
+                case "small" -> small;
+                case "medium" -> medium;
+                case "big" -> big;
+                default -> null;
+            }
+        }
+
         public static MapSize get() {
             int amount = Groups.player.size();
             return amount < 3 ? small : amount < 5 ? medium : big;

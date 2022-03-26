@@ -18,7 +18,7 @@ public class BuildButton extends Button {
 
     public BuildButton(HexBuild build, Hex hex, int x, int y) {
         super((human, hex1) -> {
-            if ((hex1.owner != null && hex1.owner != human.leader) || !human.location().neighbours().contains(hex1) || hex1.busy) return;
+            if ((hex1.owner != null && hex1.owner != human.leader) || hex1.busy) return;
             if (build.cons.sour.enough(human.production)) {
                 if (hex1.isCaptured(human)) {
                     hex1.owner = human.leader;

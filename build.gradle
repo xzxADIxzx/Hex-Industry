@@ -2,14 +2,11 @@ apply plugin: "java"
 
 version '1.0'
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 sourceSets.main {
-    java.srcDirs = ['src']
+    java.srcDirs = ['src/hex']
     resources.srcDirs = ['src/resources']
 }
 

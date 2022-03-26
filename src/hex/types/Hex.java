@@ -25,6 +25,7 @@ import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
 import static hex.Generator.onEmpty;
+import static hex.components.Bundle.get;
 import static hex.components.Bundle.format;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
@@ -47,10 +48,10 @@ public class Hex {
     public float fx;
     public float fy;
 
-    public float health;
+    public int health;
     public float step;
     public Color color;
-    public float instdeg;
+    public int instdeg;
 
     public Human owner;
     public int id;
@@ -128,10 +129,9 @@ public class Hex {
     }
 
     public boolean damage(int damage) {
-        color = Pal.health.cpy().lerp(Pal.plastanium, health / build.health);
-        cooldown(damage == 0 ? 600f : Time.toMinutes);
-
         health -= damage;
+        color = Color.valueOf("38d667").lerp(Pal.health, 1 - (float) health / build.health);
+        cooldown(damage == 0 ? 600f : Time.toMinutes);
         return health <= 0;
     }
 
@@ -188,6 +188,10 @@ public class Hex {
         buttons.each(Buttons::unregister);
         buttons.clear();
         env.terrain(this);
+    }
+
+    public String health(Human human) {
+        return health == 0 ? get("hex.zerohp", human.locale) : format("hex.health", human.locale, color, health, build.health);
     }
 
     public Seq<Hex> neighbours() {

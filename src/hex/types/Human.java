@@ -97,7 +97,8 @@ public class Human {
         if (leader == this) production.update(this);
         Hex hex = location();
 
-        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname, production.unit(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
+                hex.health(this), production.unit(), production.crawler(), production.liquids()));
         hex.neighbours().each(h -> h.update(this));
     }
 

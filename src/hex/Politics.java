@@ -31,6 +31,7 @@ public class Politics {
     }
 
     public static void join(Player player) {
+        player.name(player.name.replace(Human.prefix, ""));
         Human human = left.get(player.con.uuid);
         if (human != null) {
             human.player(player);

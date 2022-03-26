@@ -143,7 +143,6 @@ public class Human {
 
     public void win() {
         if (lose != null) lose.cancel();
-        player.name(player.name.replace(prefix, ""));
         MenuListener.menu(player, statistics, get("over.win.title", locale), get("over.win.text", locale),
                 new String[][] {{get("over.stats.title", locale)}}, option -> stats.toString());
     }

@@ -42,6 +42,7 @@ public class Generator {
         Time.clear();
         units.clear();
         hexes.clear();
+        humans.clear(); // someone could enter while the game was over
         last = 0;
 
         generate(size); // generate hex map

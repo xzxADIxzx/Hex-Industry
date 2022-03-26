@@ -27,7 +27,8 @@ public class MenuListener {
     public static void load() {
         menus.put(fractionChoose = 0, (player, option) -> {
             Fraction fract = Fractions.from(option);
-            if (fract != Fractions.spectator) humans.add(new Human(player, fract));
+            Human human = Human.from(player); // if the stars converge in the sky, the player can have two faction selection menus
+            if (fract != Fractions.spectator && human == null) humans.add(new Human(player, fract));
         });
 
         menus.put(weaponChoose = 1, (player, option) -> {

@@ -113,8 +113,13 @@ public class Main extends Plugin {
             }
         });
 
-        handler.register("heck", "DO NOT USE THIS ONLY FOR TESTING!", args -> {
-            humans.each(h -> h.production.all(1000));
+        handler.register("hack", "<human>", "Cheating is bad, but sometimes.", args -> {
+            Human human = Human.from(args[0]);
+            if (human == null) Log.err("Can't find a Human with provided name.");
+            else human.production.all(1000);
+        });
+
+        handler.register("strictoff", "DO NOT USE THIS ONLY FOR TESTING!", args -> {
             netServer.admins.actionFilters.clear();
             Administration.Config.strict.set(false);
         });

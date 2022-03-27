@@ -160,8 +160,10 @@ public class Human {
 
         if (leader == this) { // just saving resources
             slaves().each(human -> human.citadel.lose(null));
-            onEmpty(() -> captured().each(hex -> Time.run(Mathf.random(300f), hex::clear)));
             despawnUnits();
+            captured().each(hex -> Time.run(Mathf.random(300f), () -> {
+                if (hex.owner == this) hex.clear();
+            }));
         }
 
         player.team(Team.derelict);

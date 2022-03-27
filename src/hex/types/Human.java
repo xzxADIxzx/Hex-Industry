@@ -16,6 +16,7 @@ import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
+import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 
 import java.util.Locale;
 
@@ -97,7 +98,9 @@ public class Human {
         if (leader == this) production.update(this);
         Hex hex = location();
 
-        player.team().core().items = production.items; // update ItemModule so player can see resources in CoreItemsDisplay
+        CoreBuild core = player.team().core();// update ItemModule so player can see resources in CoreItemsDisplay
+        if (core != null) core.items = production.items;
+
         hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
         Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
                 hex.health(this), production.unit(), production.crawler(), production.liquids()));

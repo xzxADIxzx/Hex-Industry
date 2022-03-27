@@ -1,12 +1,11 @@
 package hex.types.buttons;
 
-import mindustry.gen.Call;
-
-import static hex.components.Bundle.get;
-
 import hex.types.Hex;
 import hex.types.HexBuild;
 import hex.types.Human;
+import mindustry.gen.Call;
+
+import static hex.components.Bundle.get;
 
 public class BuildButton extends Button {
 
@@ -32,7 +31,7 @@ public class BuildButton extends Button {
     }
 
     public String format(Human human) {
-        return build.name + "\n" + build.prod.sour.formatP(human) + "\n" + build.cons.sour.formatC(human);
+        return get(build.name, human.locale) + "\n" + build.prod.sour.formatP(human) + "\n" + build.cons.sour.formatC(human);
     }
 
     @Override

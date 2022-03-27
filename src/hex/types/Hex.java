@@ -230,7 +230,7 @@ public class Hex {
         },
         spore(.2f, HexSchematics.sporeLr1, HexSchematics.sporeLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.spore, -7, -2);
+                add.get(HexBuilds.cultivator, -7, -2);
                 add.get(HexBuilds.maze, 4, -6);
             }
         },

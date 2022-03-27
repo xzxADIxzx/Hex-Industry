@@ -20,7 +20,6 @@ import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.gen.Call;
 import mindustry.graphics.Pal;
-import mindustry.type.UnitType;
 import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
@@ -122,14 +121,11 @@ public class Hex {
         step = 360f / health;
         damage(0); // update color
 
-        if (base) onEmpty(() -> {
-            Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team());
-            owner.updateModule();
-        });
+        if (base) onEmpty(() -> Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team()));
     }
 
     public boolean damage(int damage) {
-        health -= damage;
+        health = Math.max(health - damage, 0);
         color = Color.valueOf("38d667").lerp(Pal.health, 1 - (float) health / build.health);
         cooldown(damage == 0 ? 600f : Time.toMinutes);
         return health <= 0;
@@ -144,7 +140,7 @@ public class Hex {
         if (owner == null) return; // this happens sometimes
         build.destroy(owner.production);
         if (attacker != null) {
-            owner.player.sendMessage(format("hex.attacked", owner.locale, attacker.player.coloredName(), cx, cy));
+            owner.player.sendMessage(format("hex.attack", owner.locale, attacker.player.coloredName(), cx, cy));
             owner.production.check(owner);
             attacker.stats.destroyed++;
         }
@@ -152,17 +148,6 @@ public class Hex {
 
         Human human = Human.from(this);
         if (base && human != null) human.lose();
-    }
-
-    public void lose(Human attacker, UnitType unit, int amount) {
-        Time.run(600f, () -> lose(attacker));
-        for (int i = 0; i < amount; i++) {
-            float deg = Mathf.random(360f);
-            float dst = Mathf.random(20f, 80f);
-            float dx = fx + Mathf.cosDeg(deg) * dst;
-            float dy = fy + Mathf.sinDeg(deg) * dst;
-            unit.spawn(attacker.player.team(), dx, dy);
-        }
     }
 
     public void open() {

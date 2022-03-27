@@ -96,9 +96,9 @@ public class Production {
     }
 
     public String liquids() {
-        return (oil > 0 ? "[lime]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("oil") +
-                (water > 0 ? "[lime]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("water") +
-                (cryo > 0 ? "[lime]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("cryofluid");
+        return (oil > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("oil") +
+                (water > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("water") +
+                (cryo > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("cryofluid");
     }
 
     public String unit() {

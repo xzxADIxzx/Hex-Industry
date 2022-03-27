@@ -1,27 +1,27 @@
 package hex.types.ai;
 
+import arc.math.geom.Position;
 import arc.util.Time;
-import hex.types.Hex;
 
 public class HexFlyingAI extends HexAI {
 
-    public Hex hex;
+    public Position pos;
     public float lenght;
 
     public HexFlyingAI() {
         Time.run(600f, this::despawn);
         Time.run(540f, () -> lenght = 0);
         Time.run(60f, () -> {
-            hex = hexOn();
-            lenght = unit.dst(hex.pos()) * 2f;
+            pos = hexOn().pos();
+            lenght = unit.dst(pos) * 2f;
         });
     }
 
     @Override
     public void updateMovement() {
-        if (hex == null) return;
+        if (pos == null) return;
 
-        circle(hex.pos(), lenght);
+        circle(pos, lenght);
         unit.controlWeapons(true, true);
     }
 }

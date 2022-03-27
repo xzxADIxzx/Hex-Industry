@@ -97,13 +97,14 @@ public class Human {
         if (leader == this) production.update(this);
         Hex hex = location();
 
+        player.team().core().items = production.items; // update ItemModule so player can see resources in CoreItemsDisplay
+        hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
         Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
                 hex.health(this), production.unit(), production.crawler(), production.liquids()));
-        hex.neighbours().each(h -> h.update(this));
     }
 
     public void teamup(Human leader) {
-        updateUnits();
+        despawnUnits();
         player.team(leader.player.team());
         fraction = leader.fraction;
         units.put(player, fraction.spawn(player.team(), player));
@@ -124,7 +125,6 @@ public class Human {
 
         Time.run(300f, () -> onEmpty(() -> { // recalculate production
             production = new Production(this);
-            updateModule();
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> human.production = production);
         }));
@@ -157,8 +157,8 @@ public class Human {
 
         if (leader == this) { // just saving resources
             slaves().each(human -> human.citadel.lose(null));
-            captured().each(hex -> Time.run(Mathf.random(300f), hex::clear));
-            updateUnits();
+            onEmpty(() -> captured().each(hex -> Time.run(Mathf.random(300f), hex::clear)));
+            despawnUnits();
         }
 
         player.team(Team.derelict);
@@ -186,15 +186,11 @@ public class Human {
         offers.filter(offer -> offer.from != this && offer.to != this);
     }
 
-    public void updateModule() {
-        player.team().core().items = production.items;
-    } // update ItemModule so player can see resources in CoreItemsDisplay
-
     public void updateName() {
         if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
     }
 
-    public void updateUnits() {
+    public void despawnUnits() {
         player.team().data().units.each(Call::unitDespawn);
     }
 

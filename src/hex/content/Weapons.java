@@ -1,7 +1,7 @@
 package hex.content;
 
-import arc.math.Mathf;
 import arc.struct.Seq;
+import arc.util.Time;
 import hex.types.Human;
 import hex.types.Production;
 import hex.types.Weapon;
@@ -22,7 +22,7 @@ public class Weapons {
             cons = new Production() {{
                 titanium = 100;
             }};
-            destroy = (human, hex) -> hex.lose(human, UnitTypes.flare, Mathf.random(12, 18));
+            todo = attack(UnitTypes.flare, 12, 18);
         }};
 
         horizon = new Weapon() {{
@@ -34,7 +34,7 @@ public class Weapons {
                 titanium = 500;
                 thorium = 100;
             }};
-            destroy = (human, hex) -> hex.lose(human, UnitTypes.horizon, Mathf.random(8, 14));
+            todo = attack(UnitTypes.horizon, 8, 14);
         }};
 
         zenith = new Weapon() {{
@@ -46,7 +46,7 @@ public class Weapons {
                 titanium = 500;
                 plastanium = 200;
             }};
-            destroy = (human, hex) -> hex.lose(human, UnitTypes.zenith, Mathf.random(4, 10));
+            todo = attack(UnitTypes.zenith, 4, 10);
         }};
 
         crawler = new Weapon() {{
@@ -58,7 +58,9 @@ public class Weapons {
                 plastanium = 500;
                 spore = 100;
             }};
-            destroy = (human, hex) -> hex.lose(human);
+            todo = (human, hex, dmg) -> {
+                if (hex.damage(dmg)) hex.lose(human);
+            };
         }};
 
         atomic = new Weapon() {{
@@ -71,7 +73,12 @@ public class Weapons {
                 plastanium = 500;
                 spore = 200;
             }};
-            destroy = (human, hex) -> hex.lose(human);
+            todo = (human, hex, dmg) -> {
+                UnitTypes.quad.spawn(human.player.team(), hex.fx - 200f, hex.fy - 200f);
+                hex.neighbours().each(hex1 -> {
+                    if (hex1.build != null && hex1.damage(dmg)) Time.run(360f, () -> hex1.lose(human));
+                });
+            };
         }};
     }
 

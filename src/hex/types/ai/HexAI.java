@@ -28,8 +28,8 @@ public class HexAI extends AIController {
     }
 
     public void despawn() {
-        Call.unitDespawn(unit);
         Call.effect(Fx.spawn, unit.x, unit.y, 0, Color.white);
+        Call.unitDespawn(unit);
     }
 
     protected void target() {

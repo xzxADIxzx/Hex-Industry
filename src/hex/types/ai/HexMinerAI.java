@@ -7,6 +7,6 @@ public class HexMinerAI extends HexAI {
         target();
         moveTo(target, 0f);
 
-        if (unit.within(target, 10f)) despawn();
+        if (unit.within(target, 5f)) despawn();
     }
 }

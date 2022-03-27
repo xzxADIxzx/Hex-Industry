@@ -45,6 +45,9 @@ public class Generator {
         humans.clear(); // someone could enter while the game was over
         last = 0;
 
+        // it's looks bad
+        for (Team team : Team.all) team.data().blocks.clear();
+
         generate(size); // generate hex map
         Call.worldDataBegin(); // synchronize the world
         Groups.unit.each(Call::unitDespawn);

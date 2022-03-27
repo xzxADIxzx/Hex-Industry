@@ -17,7 +17,7 @@ public class Fractions {
             name = "fract.horde";
             unit = UnitTypes.alpha;
 
-            damage = 1.5f;
+            damage = 1f;
             production = 1f;
             creature = 2f;
         }};
@@ -26,7 +26,7 @@ public class Fractions {
             name = "fract.engineer";
             unit = UnitTypes.beta;
 
-            damage = 1.5f;
+            damage = 1f;
             production = 2f;
             creature = 1f;
         }};
@@ -37,7 +37,7 @@ public class Fractions {
 
             damage = 2f;
             production = 1f;
-            creature = 1.5f;
+            creature = 1f;
         }};
 
         spectator = new Fraction() {{

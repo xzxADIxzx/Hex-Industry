@@ -140,7 +140,6 @@ public class Hex {
         if (owner == null) return; // this happens sometimes
         build.destroy(owner.production);
         if (attacker != null) {
-            owner.player.sendMessage(format("hex.attack", owner.locale, attacker.player.coloredName(), cx, cy));
             owner.production.check(owner);
             attacker.stats.destroyed++;
         }

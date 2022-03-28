@@ -69,9 +69,9 @@ public class Politics {
                 Weapons.names(human), option -> Weapons.from(human.weapons).get(option).desc(human));
     }
 
-    public static void join(String arg, Player player) {
-        Human from = Human.from(player);
-        Human to = Human.from(arg);
+    public static void join(String[] args, Player player) {
+        Human from = Human.from(player); // you can accept last offer without a nickname
+        Human to = args.length == 0 ? findLast(from) : Human.from(args[0]);
 
         if (from == null) player.sendMessage(get("offer.spectator", findLocale(player)));
         else if (to == null || from == to) player.sendMessage(get("offer.notfound", from.locale));
@@ -95,6 +95,12 @@ public class Politics {
 
     public static boolean contains(Human from, Human to) {
         return offers.contains(offer -> offer.from == from && offer.to == to);
+    }
+
+    public static Human findLast(Human to) {
+        Offer last = offers.reverse().find(offer -> offer.to == to);
+        offers.reverse();
+        return last == null ? null : last.from;
     }
 
     public static class Offer {

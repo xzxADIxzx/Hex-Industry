@@ -6,7 +6,7 @@ compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 sourceSets.main {
-    java.srcDirs = ['src/hex']
+    java.srcDirs = ['src/java']
     resources.srcDirs = ['src/resources']
 }
 

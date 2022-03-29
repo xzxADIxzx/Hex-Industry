@@ -58,6 +58,9 @@ public class Main extends Plugin {
         UnitTypes.flare.defaultController = HexFlyingAI::new;
         UnitTypes.horizon.defaultController = HexFlyingAI::new;
         UnitTypes.zenith.defaultController = HexFlyingAI::new;
+        UnitTypes.alpha.defaultController = HexEmptyAI::new;
+        UnitTypes.beta.defaultController = HexEmptyAI::new;
+        UnitTypes.gamma.defaultController = HexEmptyAI::new;
 
         rules.enemyCoreBuildRadius = 0f;
         rules.unitCap = 16;

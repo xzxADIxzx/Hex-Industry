@@ -69,7 +69,7 @@ public class Weapons {
 
             cost = 2;
             cons = new Production() {{
-                thorium = 3000;
+                thorium = 5000;
                 plastanium = 500;
                 spore = 200;
             }};

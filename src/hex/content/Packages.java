@@ -14,38 +14,40 @@ public class Packages {
     public static void load() {
         crawler = new Package(){{
             name = "shop.pack.crawler";
-            cost = 20;
+            cost = 500;
 
             cont = human -> human.production.crawler(human.shops());
-            desc = human -> format(name + ".desc", human.locale, human.shops() * human.fraction.creature, cost);
+            desc = human -> format(name + ".desc", human.locale, (int) human.shops() * human.fraction.creature, cost);
             cons = human -> human.production.spore(human, cost);
         }};
 
         unit = new Package(){{
             name = "shop.pack.unit";
-            cost = 8;
+            cost = 12;
 
             cont = human -> human.production.unit(human.cities());
-            desc = human -> format(name + ".desc", human.locale, human.cities() * human.fraction.creature, cost);
+            desc = human -> format(name + ".desc", human.locale, (int) human.cities() * human.fraction.creature, cost);
             pred = human -> human.cities() > 0;
         }};
 
         ai = new Package(){{
             name = "shop.pack.ai";
-            cost = 8;
+            cost = 16;
 
+            post = human -> human.leader.stats.ai = true;
             cont = human -> human.unlock(Weapons.crawler.id);
             desc = human -> format(name + ".desc", human.locale, Weapons.crawler.desc(human), cost);
-            pred = human -> (Weapons.crawler.id & human.weapons) != Weapons.crawler.id;
+            pred = human -> !human.leader.stats.ai;
         }};
 
         atomic = new Package(){{
             name = "shop.pack.atomic";
-            cost = 10;
+            cost = 20;
 
+            post = human -> human.leader.stats.atomic = true;
             cont = human -> human.unlock(Weapons.atomic.id);
             desc = human -> format(name + ".desc", human.locale, Weapons.atomic.desc(human), cost);
-            pred = human -> (Weapons.atomic.id & human.weapons) != Weapons.atomic.id;
+            pred = human -> !human.leader.stats.atomic;
         }};
 
         free = new Package(){{
@@ -53,8 +55,6 @@ public class Packages {
             cost = 0;
 
             cont = human -> human.production.unit(20);
-            desc = human -> "";
-            cons = human -> true;
         }};
     }
 

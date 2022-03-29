@@ -91,7 +91,7 @@ public class Hex {
             Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
         }
         
-        if (owner == null || owner == human) buttons.each(b -> b.update(human));
+        if (owner == null || owner == human.leader) buttons.each(b -> b.update(human));
         if (base && open) for (float i = 0; i < 60; i += 2f) Time.run(i, () -> inst(human));
     }
 

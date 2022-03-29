@@ -166,6 +166,8 @@ public class Human {
             }));
         }
 
+        if (lose != null) lose.cancel(); // for safety
+
         player.team(Team.derelict);
         leader.slaves().remove(this);
         humans.remove(this);
@@ -239,6 +241,9 @@ public class Human {
         public int destroyed;
         public int shops;
 
+        public boolean ai;
+        public boolean atomic;
+
         public Statistics(Human parent) {
             this.parent = parent;
         }
@@ -248,7 +253,7 @@ public class Human {
         }
 
         public String locked(Package pack) {
-            return pack.pred.get(parent) ? get("over.stats.lock", locale) : get("over.stats.open", locale);
+            return get(pack.pred.get(parent) ? "over.stats.lock" : "over.stats.open", locale);
         }
     }
 }

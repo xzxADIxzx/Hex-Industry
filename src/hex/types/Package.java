@@ -15,6 +15,7 @@ public class Package {
     public int cost;
 
     public Cons<Human> cont;
+    public Cons<Human> post = human -> {};
     public Func<Human, String> desc;
     public Func<Human, Boolean> cons = human -> human.production.crawler(human, cost);
     public Func<Human, Boolean> pred = human -> true;
@@ -22,12 +23,17 @@ public class Package {
     public void send(Human human) {
         if (!cons.get(human)) return;
 
-        human.player.sendMessage(format("shop.pack.in", human.locale, get(name + ".name", human.locale)));
+        msg(human, "shop.pack.in");
         Time.run(delay, () -> got(human));
+        post.get(human);
     }
 
     public void got(Human human) {
-        human.player.sendMessage(format("shop.pack.got", human.locale, get(name + ".name", human.locale)));
+        msg(human, "shop.pack.got");
         cont.get(human);
+    }
+
+    public void msg(Human human, String key) {
+        human.player.sendMessage(format(key, human.locale, get(name + ".name", human.locale)));
     }
 }

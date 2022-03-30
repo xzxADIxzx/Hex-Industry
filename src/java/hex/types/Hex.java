@@ -12,7 +12,6 @@ import arc.util.Time;
 import hex.Generator;
 import hex.content.Buttons;
 import hex.content.HexBuilds;
-import hex.content.HexSchematics;
 import hex.types.buttons.BuildButton;
 import hex.types.buttons.Button;
 import hex.types.buttons.OpenButton;
@@ -24,6 +23,7 @@ import mindustry.world.blocks.environment.Floor;
 
 import static hex.Main.hexes;
 import static hex.Generator.onEmpty;
+import static hex.content.HexSchematics.*;
 import static hex.components.Bundle.get;
 import static hex.components.Bundle.format;
 import static mindustry.Vars.tilesize;
@@ -76,7 +76,7 @@ public class Hex {
         door = (byte) random.nextLong();
         id = _id++;
 
-        HexSchematics.closed.floor(x, y);
+        closed.floor(x, y);
     }
 
     public void update(Human human) {
@@ -146,7 +146,7 @@ public class Hex {
     }
 
     public void open() {
-        HexSchematics.door(door).airNet(x, y);
+        door(door).airNet(x, y);
         open = true;
         env.build(this);
 
@@ -203,67 +203,63 @@ public class Hex {
     }
 
     public enum HexEnv {
-        citadel(0f, HexSchematics.citadelLr1, HexSchematics.citadelLr2) {
+        citadel(citadelLr1, citadelLr2) {
             // there is nothing, because the citadel building will add the necessary buttons
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
         },
-        base(0f, HexSchematics.baseLr1, HexSchematics.baseLr2) {
+        base(baseLr1, baseLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.base, 0, 0);
             }
         },
-        titanium(.25f, HexSchematics.titaniumLr1, HexSchematics.titaniumLr2) {
+        titanium(titaniumLr1, titaniumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.compressor, 4, 4);
                 add.get(HexBuilds.miner, -6, -3);
             }
         },
-        thorium(.35f, HexSchematics.thoriumLr1, HexSchematics.thoriumLr2) {
+        thorium(thoriumLr1, thoriumLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.thory, 0, 0);
             }
         },
-        spore(.2f, HexSchematics.sporeLr1, HexSchematics.sporeLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.cultivator, -7, -2);
-                add.get(HexBuilds.maze, 4, -6);
-            }
-        },
-        oil(.35f, HexSchematics.oilLr1, HexSchematics.oilLr2) {
+        oil(oilLr1, oilLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.oil, 7, 2);
             }
         },
-        water(.4f, HexSchematics.waterLr1, HexSchematics.waterLr2) {
+        water(waterLr1, waterLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.water, 0, 0);
             }
         },
-        cryo(.4f, HexSchematics.cryoLr1, HexSchematics.cryoLr2) {
+        cryo(cryoLr1, cryoLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.cryo, -3, -6);
             }
         },
-        forest(1f, HexSchematics.forestLr1, HexSchematics.forestLr2) {
+        forest(forestLr1, forestLr2) {
             public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
                 add.get(HexBuilds.city, -1, 1);
             }
+        },
+        spore(sporeLr1, sporeLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
+                add.get(HexBuilds.cultivator, -7, -2);
+                add.get(HexBuilds.maze, 4, -6);
+            }
         };
 
-        protected final float frq;
-        protected final HexSchematic Lr1;
-        protected final HexSchematic Lr2;
+        private final HexSchematic Lr1;
+        private final HexSchematic Lr2;
 
-        HexEnv(float chance, HexSchematic floor, HexSchematic block) {
-            frq = chance;
+        HexEnv(HexSchematic floor, HexSchematic block) {
             Lr1 = floor;
             Lr2 = block;
         }
 
         public static HexEnv get() {
-            for (HexEnv env : values())
-                if (Mathf.chance(env.frq)) return env;
-            return null; // never happen because the last one has a 100% drop chance
+            return Mathf.chance(.6f) ? HexEnv.titanium : HexEnv.thorium;
         }
 
         public void build(Hex hex) {

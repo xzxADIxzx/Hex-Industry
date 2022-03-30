@@ -9,6 +9,7 @@ import arc.struct.StringMap;
 import arc.util.Time;
 import hex.content.Buttons;
 import hex.types.Hex;
+import hex.types.Hex.HexEnv;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.game.Team;
@@ -73,14 +74,20 @@ public class Generator {
             }
         }
 
-        // Создаем карту с нужным названием
+        Generator.spray(HexEnv.oil, .4f);
+        Generator.spray(HexEnv.water, .25f);
+        Generator.spray(HexEnv.cryo, .1f);
+        Generator.spray(HexEnv.forest, .5f);
+        Generator.spray(HexEnv.spore, .15f);
+
+        // create a map with the necessary tags
         state.map = new Map(StringMap.of("name", "Industry", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-industry gamemode."));
     }
 
     public static Hex citadel(Player player) {
         Hex hex = citadel();
 
-        hex.env = Hex.HexEnv.citadel;
+        hex.env = HexEnv.citadel;
         hex.door = (byte) 0x00FFFFFF;
         hex.open();
         hex.base = true;
@@ -91,17 +98,32 @@ public class Generator {
 
     public static Hex citadel() {
         Seq<Hex> closed = hexes.select(Hex::isClosed);
-        return closed.sort(h -> humans.sumf(human -> {
-            float dst = h.point().dst(human.citadel.point());
+        return closed.sort(hex -> humans.sumf(human -> {
+            float dst = hex.point().dst(human.citadel.point());
             return dst > 100f ? -dst : Mathf.sqr(100f - dst);
         })).get(Mathf.random(humans.isEmpty() ? closed.size - 1 : closed.size / (humans.size + 2)));
+    }
+
+    // methods to generate
+    private static void spray(HexEnv env, float amount) {
+        Seq<Hex> base = hexes.select(hex -> hex.base);
+        for (float i = 0; i < base.size; i += 1 / amount + rand(1f))
+            closest(base.get((int) i).point().add((int) rand(70f), (int) rand(70f))).env = env;
+    }
+
+    private static float rand(float range) {
+        return Mathf.random(range) - range / 2f;
+    }
+
+    private static Hex closest(Point2 pos) {
+        return hexes.select(hex -> hex.env == HexEnv.titanium || hex.env == HexEnv.thorium).min(hex -> hex.point().dst(pos));
     }
 
     public static Team team() {
         return Team.all[++last];
     }
 
-    // Queue functions
+    // queue functions
     public static void update() {
         if (calls.isEmpty()) {
             tasks.each(Runnable::run);
@@ -132,17 +154,14 @@ public class Generator {
     }
 
     public enum MapSize {
-        small(198, 201, 6), medium(369, 366, 12), big(540, 542, 24);
+        small(198, 201), medium(369, 366), big(540, 542);
 
         public final int width;
         public final int height;
-        /** The number of hexes with liquids & etc. depends on it. */
-        public final int amount;
 
-        MapSize(int width, int height, int amount) {
+        MapSize(int width, int height) {
             this.width = width;
             this.height = height;
-            this.amount = amount;
         }
 
         public static MapSize get(String name) {

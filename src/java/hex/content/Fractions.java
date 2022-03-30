@@ -19,7 +19,7 @@ public class Fractions {
 
             damage = 1f;
             production = 1.5f;
-            creature = 2f;
+            creature = 1.9f;
         }};
 
         engineer = new Fraction() {{
@@ -35,7 +35,7 @@ public class Fractions {
             name = "fract.militant";
             unit = UnitTypes.gamma;
 
-            damage = 2f;
+            damage = 2.1f;
             production = 1f;
             creature = 1.5f;
         }};

@@ -93,11 +93,11 @@ public class Politics {
         }
     }
 
-    public static boolean contains(Human from, Human to) {
+    private static boolean contains(Human from, Human to) {
         return offers.contains(offer -> offer.from == from && offer.to == to);
     }
 
-    public static Human findLast(Human to) {
+    private static Human findLast(Human to) {
         Offer last = offers.reverse().find(offer -> offer.to == to);
         offers.reverse();
         return last == null ? null : last.from;

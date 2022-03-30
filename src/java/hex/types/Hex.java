@@ -43,7 +43,6 @@ public class Hex {
     public int y;
     public int cx;
     public int cy;
-
     public float fx;
     public float fy;
 
@@ -64,13 +63,11 @@ public class Hex {
     public HexEnv env;
     public byte door;
 
-    public Hex(int x, int y) {
-        this.x = x;
-        this.y = y;
-
+    public Hex(Point2 pos) {
+        x = pos.x;
+        y = pos.y;
         cx = x + width / 2;
         cy = y + height / 2;
-
         fx = cx * tilesize;
         fy = cy * tilesize;
 
@@ -79,7 +76,6 @@ public class Hex {
         door = (byte) random.nextLong();
         id = _id++;
 
-        HexSchematics.hex.floor(x, y);
         HexSchematics.closed.floor(x, y);
     }
 
@@ -109,8 +105,8 @@ public class Hex {
         Call.effect(human.player.con, Fx.instShoot, dx, dy, instdeg, Color.white);
     }
 
-    public static boolean bounds(int x, int y) {
-        return x + width > world.width() || y + height > world.height();
+    public static boolean bounds(Point2 pos) {
+        return pos.x + width > world.width() || pos.y + height > world.height();
     }
 
     public void build(HexBuild build) {

@@ -120,6 +120,8 @@ public class Main extends Plugin {
             else human.production.all(1000);
         });
 
+        handler.register("openall", "Open all hexes.", args -> hexes.each(Hex::isClosed, Hex::open));
+
         handler.register("strictoff", "DO NOT USE THIS ONLY FOR TESTING!", args -> {
             netServer.admins.actionFilters.clear();
             Administration.Config.strict.set(false);

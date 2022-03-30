@@ -7,11 +7,10 @@ import mindustry.game.Schematic.Stile;
 public class HexSchematics {
 
     public static HexSchematic closed;
-    public static HexSchematic hex, button, citadelMk1, citadelMk2, citadelMk3, baseMk1, baseMk2, baseMk3, minerMk1, minerMk2, minerMk3, thoryMk1, thoryMk2, citadelLr1, citadelLr2, baseLr1, baseLr2, titaniumLr1, titaniumLr2, thoriumLr1, thoriumLr2, sporeLr1, sporeLr2, oilLr1, oilLr2, waterLr1, waterLr2, cryoLr1, cryoLr2, forestLr1, forestLr2, cultivator, compressor, oil, water, cryo, city, maze;
+    public static HexSchematic button, citadelMk1, citadelMk2, citadelMk3, baseMk1, baseMk2, baseMk3, minerMk1, minerMk2, minerMk3, thoryMk1, thoryMk2, citadelLr1, citadelLr2, baseLr1, baseLr2, titaniumLr1, titaniumLr2, thoriumLr1, thoriumLr2, sporeLr1, sporeLr2, oilLr1, oilLr2, waterLr1, waterLr2, cryoLr1, cryoLr2, forestLr1, forestLr2, cultivator, compressor, oil, water, cryo, city, maze;
     private static HexSchematic[] doors;
 
     public static void load() {
-        hex = new HexSchematic("DWQzQrCMBCEJwm0oq2H9M/GV7AnH0c8VOzJIqLvD+5kaEn5OrvfUrI4Y3Qo1vmxrD/4292hes7f1/SZ38s6XQFc7MUegTggP5VSrXSEg53cs3F4IvcK+/ZET5RWDoRXCkodx8tNGVjc2awnnJKnsjMlp0HpRESZUWaUGWVGmVFmI6WhTgSlTr1exfz3Vkqr4mgX80Ql1ETSQpJ6SQtJW88W8gc2DQx5");
         button = new HexSchematic(-2, -2, "C2OQQ7CQAhFP9C6mNilx5iV8TTGxRinG9Ga6v0jDATIC+FBwIyZcNB27/oFX2+M5dV/Teuq27bXC46Ptj/rp7271jOAkxWogJyclEHLAiZQNASGOMTCMJWxkhL7wMGBIXFKkpLEJQlJQpKUJn9DnJy0N+QPLwMNbg==");
         citadelMk1 = new HexSchematic(8, 7, "CWNwQ7DIAxDH6AiUA/dj+yLph0YY1IrBBPr/n8kUw52HNthZTX4mh6lfrC3u2N79ZHL9T36UfLZBzH3dqa9lUH4ttrTczK4gJmDQPxzhxPwOItlWWBzohr0GBAVK7qyoEwC6vDiYJbpFiRoJ2iPEUF9Ub79AB8YEbM=");
         citadelMk2 = new HexSchematic(5, 4, "FVRQW6DMBAcr8GAoSH5QT+QS79T9eBSV01FISIkVX7bh1RKd+xLI2RmmZ3d8S7YYWfgxvAaxxPk+aVBNVyHcZ4i6vM0zuEtLtgcP8Ip7od5usTrvKB/n5ch7o/L/BmHVYnyEs7jikYVazhMWtLlku8YLvrVHqaBdKDYfcVxVRJ4AgxKiNG4gohCXd1utx8N1sQ2elTTQiwENWwBPkpZuBLohZFPERMdtF8BBysKqdkvW1iyDSzttItThTYxFNLXofjv61QFQpuT3X3yAWCDHtZqswKG0MFUCoDUCiZDDyG5hbg0iiH0vIbPxv7e2Gdjn439vbGnMUcsOGTLu3MzasavBoY5XYDoq65ALSc3WpZWpY4bDk8ibQw8JRK09N3qX9DybS5/pG9iG8gfHutGbQ==");
@@ -51,9 +50,9 @@ public class HexSchematics {
         maze = new HexSchematic(5, 3, "E2QP2gUQRTG3+xedi+7t7vJKYLVRW1icSIpjSBRixReEYuASAiT2bm7MbM7m/2jd0TwyDUpJCAH4cCUamNhmoggqKSzkWAhCFqISFAICrHVy9uAkuLxm/e9N+99M1CGYwQMSRe4TEC7OVcGW4RMhDymqYrBTiIV82oU8yTBREkaVyMacgnFLJSK+jwGl6kgoKFfZTxM8zySNOWYqtDPRAoei9uqLjPhVwPRwgYnatKE/69bLJOpuH24z4kyeaRkJHdEyprgBZw1aSgYldUoCyIwAzREGxw8qRqCoUHFUMEJXiBYrI4I5r9hdsADFbfRppTgNmKVoec6Zbi3DQAnMMAFnQBBEA0MKIOmgwlDQAoIw8tVEyzQhxA2EAMxApqJKJuDweABxpZWhCL2kGEEDrDwrFmE2EhMS3gPCgRAd/IJLu5cbW3U1qbc7fOlgmO6o3+68533V35eXPH6C2PjW93e6qVf8y/WT1+dWr6xtzb7EjrL9be3pruzZ/v3k3Dp6akLtdbEk+3nk70xe+9M5ZW/O/fs+rWvnwrfu5szM4u7O6+/ncume18WH1fuPep//Dx+/PfDdzW1vvm3crKy8+bHvrh7eV/7MDy5orloSc8t2a0N5nc0yB0TD9XDh5QALKKPIHXQPASqNjg5RvEfSvgqIPoBxtmm6w==");
 
         String[] base = {
-                "C2OQQ4CIQxFf4vDjBM9gWdgZTyNcYERN1bHjN4/9hch4f08aAu2SIJs9drsAz1fFPtn+1Yrd1uWtZywu9X1Ud711awcARzANUPFIawGFIm529g8lFC/TpH5RqEzeuxgtcOtpw07JFL+1OAQXpzCAUM0RaZ1k1lKxLyxdx5jvkPjT1O3U3zOQfsDVV4NqA==",
-                "C2LTQ5CIQyEpy2gIbrzGqyMpzEuMOJG9Jmn949MkYZ+zfwgYStIvV5b/0DPF8XuVtdHeddX6+WI/bN9ay/3vixrOQE4jI8EfxtAxoQMIWOGUnFX6GIINhEoqWfI5B2D/KnetZk2pjEXIewGz5CWqcTpRt4/nxoNUQ==",
-                "EWLQQrCMBBFXzJJlKI7r5GVeBpxETFujFZq708zSanD8B9vmE9gbwgl3XP5Ya83y+GRplf8pk8u8czxnedU4rOM4xQvwIn/mC0UpocdsEoZkGqYlXqnrui3xSmkm6jVBr51hdA6DrfSt64j6Ldjp/DdvNoClHINWQ=="
+                "C3LSwqAMBCD4czUZ8WjdOlpxEWFuhopqPfHpjSbD34IZjjBYPFM9kL3Q7De6YsWLsv5CRuABZyHAtJUqGd0tMSO3VFparVvfaBlI3v5T9UfdCgI2A==",
+                "D2IQQqAIBAAZ9VEhJ7isddEhwI7bQjV/2mRCoYZGCJJiLpuVS/cvAjjUe9Vy66tnWUCEgghm4wh4zC+xv498tb1H/56+w+ltQip",
+                "C3IQQqAIBQA0flqIkJHcdlpooWCrX4I1f0py9UbBk8QvOZS9cKsmzAf9c6adm3tTAsQQDAR07URy5sy/L9lGvrvO9yw/welXQix"
         };
 
         doors = new HexSchematic[] {

@@ -35,21 +35,19 @@ public class Generator {
     private static final Seq<Runnable> tasks = new Seq<>();
 
     public static void restart() {
-        play(MapSize.get(Groups.player.size()));
-    }
-
-    public static void play(MapSize size) {
         Politics.clear();
         Buttons.clear();
         Time.clear();
         units.clear();
         hexes.clear();
         humans.clear(); // someone could enter while the game was over
-        last = 0;
+        last = 0; // sooner or later an OutOfBoundsException will pop up
 
-        // it's looks bad
-        for (Team team : Team.all) team.data().blocks.clear();
+        for (Team team : Team.all) team.data().blocks.clear(); // it's looks bad
+        play(MapSize.get(Groups.player.size())); // map size depends on players amount
+    }
 
+    public static void play(MapSize size) {
         generate(size); // generate hex map
         Call.worldDataBegin(); // synchronize the world
         Groups.unit.each(Call::unitDespawn);

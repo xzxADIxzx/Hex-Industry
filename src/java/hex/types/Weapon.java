@@ -39,7 +39,7 @@ public class Weapon {
         if (cons.sour.enough(human.production)) {
             cons.sour.consume(human.production);
             todo.get(human, hex, damage(human));
-            hex.owner.player.sendMessage(format("hex.attack", hex.owner.locale, human.player.coloredName(), hex.cx, hex.cy, hex.health(hex.owner)));
+            hex.attacked(human);
         } else human.enough();
     }
 

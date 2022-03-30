@@ -14,6 +14,7 @@ import hex.content.Packages;
 import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
 import mindustry.gen.Call;
+import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
@@ -177,6 +178,7 @@ public class Human {
             Time.run(720f, Generator::restart);
             humans.each(Human::win);
             humans.clear(); // no one should stay alive
+            Groups.player.each(player -> player.sendMessage(get("over.new", findLocale(player))));
         }
     }
 

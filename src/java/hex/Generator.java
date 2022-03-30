@@ -1,5 +1,6 @@
 package hex;
 
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
@@ -74,11 +75,12 @@ public class Generator {
             }
         }
 
-        Generator.spray(HexEnv.oil, .4f);
-        Generator.spray(HexEnv.water, .25f);
-        Generator.spray(HexEnv.cryo, .1f);
-        Generator.spray(HexEnv.forest, .5f);
-        Generator.spray(HexEnv.spore, .15f);
+        spray(HexEnv.oil, .4f);
+        spray(HexEnv.water, .25f);
+        spray(HexEnv.cryo, .11f);
+        spray(HexEnv.forest, .5f);
+        spray(HexEnv.spore, .15f);
+        pile(HexEnv.canyon, .08f);
 
         // create a map with the necessary tags
         state.map = new Map(StringMap.of("name", "Industry", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-industry gamemode."));
@@ -105,10 +107,24 @@ public class Generator {
     }
 
     // methods to generate
-    private static void spray(HexEnv env, float amount) {
+    private static void template(float amount, Cons<Hex> cons) {
         Seq<Hex> base = hexes.select(hex -> hex.base);
-        for (float i = 0; i < base.size; i += 1 / amount + rand(1f))
-            closest(base.get((int) i).point().add((int) rand(70f), (int) rand(70f))).env = env;
+        for (float i = 0; i < base.size; i += 1 / amount + rand(1.3f))
+            cons.get(closest(base.get((int) i).point().add((int) rand(70f), (int) rand(70f))));
+    }
+
+    private static void spray(HexEnv env, float amount) {
+        template(amount, hex -> hex.env = env);
+    }
+
+    private static void pile(HexEnv env, float amount) {
+        template(amount, hex -> {
+            hex.env = HexEnv.canyon;
+            for (int q = 0; q < Mathf.random(2, 4); q++) {
+                hex = closest(hex.point().add((int) rand(20f), (int) rand(20f)));
+                hex.env = HexEnv.canyon;
+            }
+        });
     }
 
     private static float rand(float range) {
@@ -116,7 +132,11 @@ public class Generator {
     }
 
     private static Hex closest(Point2 pos) {
-        return hexes.select(hex -> hex.env == HexEnv.titanium || hex.env == HexEnv.thorium).min(hex -> hex.point().dst(pos));
+        return common().min(hex -> hex.point().dst(pos));
+    }
+
+    private static Seq<Hex> common() {
+        return hexes.select(hex -> hex.env == HexEnv.titanium || hex.env == HexEnv.thorium);
     }
 
     public static Team team() {

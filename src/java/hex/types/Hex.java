@@ -248,6 +248,9 @@ public class Hex {
                 add.get(HexBuilds.cultivator, -7, -2);
                 add.get(HexBuilds.maze, 4, -6);
             }
+        },
+        canyon(canyonLr1, canyonLr2) {
+            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
         };
 
         private final HexSchematic Lr1;

@@ -50,9 +50,9 @@ public class HexSchematics {
         maze = new HexSchematic(5, 3, "E2QP2gUQRTG3+xedi+7t7vJKYLVRW1icSIpjSBRixReEYuASAiT2bm7MbM7m/2jd0TwyDUpJCAH4cCUamNhmoggqKSzkWAhCFqISFAICrHVy9uAkuLxm/e9N+99M1CGYwQMSRe4TEC7OVcGW4RMhDymqYrBTiIV82oU8yTBREkaVyMacgnFLJSK+jwGl6kgoKFfZTxM8zySNOWYqtDPRAoei9uqLjPhVwPRwgYnatKE/69bLJOpuH24z4kyeaRkJHdEyprgBZw1aSgYldUoCyIwAzREGxw8qRqCoUHFUMEJXiBYrI4I5r9hdsADFbfRppTgNmKVoec6Zbi3DQAnMMAFnQBBEA0MKIOmgwlDQAoIw8tVEyzQhxA2EAMxApqJKJuDweABxpZWhCL2kGEEDrDwrFmE2EhMS3gPCgRAd/IJLu5cbW3U1qbc7fOlgmO6o3+68533V35eXPH6C2PjW93e6qVf8y/WT1+dWr6xtzb7EjrL9be3pruzZ/v3k3Dp6akLtdbEk+3nk70xe+9M5ZW/O/fs+rWvnwrfu5szM4u7O6+/ncume18WH1fuPep//Dx+/PfDdzW1vvm3crKy8+bHvrh7eV/7MDy5orloSc8t2a0N5nc0yB0TD9XDh5QALKKPIHXQPASqNjg5RvEfSvgqIPoBxtmm6w==");
 
         String[] base = {
-                "C3LSwqAMBCD4czUZ8WjdOlpxEWFuhopqPfHpjSbD34IZjjBYPFM9kL3Q7De6YsWLsv5CRuABZyHAtJUqGd0tMSO3VFparVvfaBlI3v5T9UfdCgI2A==",
-                "D2IQQqAIBAAZ9VEhJ7isddEhwI7bQjV/2mRCoYZGCJJiLpuVS/cvAjjUe9Vy66tnWUCEgghm4wh4zC+xv498tb1H/56+w+ltQip",
-                "C3IQQqAIBQA0flqIkJHcdlpooWCrX4I1f0py9UbBk8QvOZS9cKsmzAf9c6adm3tTAsQQDAR07URy5sy/L9lGvrvO9yw/welXQix"
+                "C2OQQ4CIQxFf4vDjBM9gWdgZTyNcYERN1bHjN4/9hch4f08aAu2SIJs9drsAz1fFPtn+1Yrd1uWtZywu9X1Ud711awcARzANUPFIawGFIm529g8lFC/TpH5RqEzeuxgtcOtpw07JFL+1OAQXpzCAUM0RaZ1k1lKxLyxdx5jvkPjT1O3U3zOQfsDVV4NqA==",
+                "C2LTQ5CIQyEpy2gIbrzGqyMpzEuMOJG9Jmn949MkYZ+zfwgYStIvV5b/0DPF8XuVtdHeddX6+WI/bN9ay/3vixrOQE4jI8EfxtAxoQMIWOGUnFX6GIINhEoqWfI5B2D/KnetZk2pjEXIewGz5CWqcTpRt4/nxoNUQ==",
+                "EWLQQrCMBBFXzJJlKI7r5GVeBpxETFujFZq708zSanD8B9vmE9gbwgl3XP5Ya83y+GRplf8pk8u8czxnedU4rOM4xQvwIn/mC0UpocdsEoZkGqYlXqnrui3xSmkm6jVBr51hdA6DrfSt64j6Ldjp/DdvNoClHINWQ=="
         };
 
         doors = new HexSchematic[] {

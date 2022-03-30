@@ -56,20 +56,20 @@ public class Generator {
     }
 
     public static void generate(MapSize s) {
-        world.loadGenerator(s.width, s.height, tiles -> tiles.each((x, y) -> tiles.set(x, y, new Tile(x, y, Blocks.air, Blocks.air, Blocks.darkMetal))));
+        world.loadGenerator(s.width, s.height, tiles -> tiles.each((x, y) -> tiles.set(x, y, new Tile(x, y, Blocks.darkPanel3, Blocks.air, Blocks.darkMetal))));
 
         Point2 start = new Point2();
         Point2 point = new Point2();
 
         while (true) {
-            hexes.add(new Hex(point.x, point.y));
+            hexes.add(new Hex(point));
             point.add(38, 0);
 
-            if (Hex.bounds(point.x, point.y)) {
+            if (Hex.bounds(point)) {
                 start.add(19 * (start.x == 0 ? 1 : -1), 11);
                 point.set(start);
 
-                if (Hex.bounds(start.x, start.y)) break;
+                if (Hex.bounds(start)) break;
             }
         }
 
@@ -132,14 +132,17 @@ public class Generator {
     }
 
     public enum MapSize {
-        small(198, 201), medium(369, 366), big(540, 542);
+        small(198, 201, 6), medium(369, 366, 12), big(540, 542, 24);
 
         public final int width;
         public final int height;
+        /** The number of hexes with liquids & etc. depends on it. */
+        public final int amount;
 
-        MapSize(int width, int height) {
+        MapSize(int width, int height, int amount) {
             this.width = width;
             this.height = height;
+            this.amount = amount;
         }
 
         public static MapSize get(String name) {

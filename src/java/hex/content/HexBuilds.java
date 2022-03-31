@@ -86,6 +86,7 @@ public class HexBuilds {
 
                 prod = new Production();
                 cons = new Production() {{
+                    titanium = 500;
                     plastanium = 500;
                     unit = 1;
                 }};
@@ -100,6 +101,7 @@ public class HexBuilds {
 
                     prod = new Production();
                     cons = new Production() {{
+                        titanium = 500;
                         spore = 500;
                         unit = 1;
                     }};

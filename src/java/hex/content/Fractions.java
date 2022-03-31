@@ -28,7 +28,7 @@ public class Fractions {
 
             damage = 1.5f;
             production = 2f;
-            creature = 1f;
+            creature = 1.2f;
         }};
 
         militant = new Fraction() {{

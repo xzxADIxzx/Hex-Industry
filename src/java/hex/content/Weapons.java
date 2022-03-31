@@ -20,7 +20,7 @@ public class Weapons {
 
             cost = 0;
             cons = new Production() {{
-                titanium = 100;
+                titanium = 150;
             }};
             todo = attack(UnitTypes.flare, 12, 18);
         }};
@@ -43,7 +43,7 @@ public class Weapons {
 
             cost = 0;
             cons = new Production() {{
-                titanium = 500;
+                titanium = 700;
                 plastanium = 200;
             }};
             todo = attack(UnitTypes.zenith, 4, 10);
@@ -70,7 +70,7 @@ public class Weapons {
             cost = 2;
             cons = new Production() {{
                 thorium = 5000;
-                plastanium = 500;
+                plastanium = 1000;
                 spore = 200;
             }};
             todo = (human, hex, dmg) -> {

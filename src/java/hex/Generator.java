@@ -81,7 +81,7 @@ public class Generator {
         pile(HexEnv.canyon, .08f);
 
         // create a map with the necessary tags
-        state.map = new Map(StringMap.of("name", "Industry", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-industry gamemode."));
+        state.map = new Map(StringMap.of("name", "Helindo", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-industry gamemode."));
     }
 
     public static Hex citadel(Player player) {

@@ -156,6 +156,7 @@ public class Hex {
     }
 
     public void clear() {
+        if (owner == null) return; // this happens sometimes
         build.explode(this);
         env.build(this);
 

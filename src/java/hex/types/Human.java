@@ -162,9 +162,7 @@ public class Human {
         if (leader == this) { // just saving resources
             slaves().each(human -> human.citadel.lose(null));
             despawnUnits();
-            captured().each(hex -> Time.run(Mathf.random(300f), () -> {
-                if (hex.owner == this) hex.clear();
-            }));
+            captured().each(hex -> Time.run(Mathf.random(300f), () -> hex.clear()));
         }
 
         if (lose != null) lose.cancel(); // for safety

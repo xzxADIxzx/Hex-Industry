@@ -17,7 +17,7 @@ public class Packages {
             cost = 500;
 
             cont = human -> human.production.crawler(human.shops());
-            desc = human -> format(name + ".desc", human.locale, (int) human.shops() * human.fraction.creature, cost);
+            desc = human -> format(name + ".desc", human.locale, (int) (human.shops() * human.fraction.creature), cost);
             cons = human -> human.production.spore(human, cost);
         }};
 
@@ -26,7 +26,7 @@ public class Packages {
             cost = 12;
 
             cont = human -> human.production.unit(human.cities());
-            desc = human -> format(name + ".desc", human.locale, (int) human.cities() * human.fraction.creature, cost);
+            desc = human -> format(name + ".desc", human.locale, (int) (human.cities() * human.fraction.creature), cost);
             pred = human -> human.cities() > 0;
         }};
 

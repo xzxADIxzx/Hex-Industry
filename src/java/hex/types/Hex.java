@@ -174,8 +174,8 @@ public class Hex {
         return health == 0 ? get("hex.zerohp", human.locale) : format("hex.health", human.locale, color, health, build.health);
     }
 
-    public void attacked(Human human) {
-        owner.player.sendMessage(format("hex.attack", owner.locale, human.player.coloredName(), cx, cy, get(build.name, owner.locale), health(owner)));
+    public void attacked(Human human, String weapon) {
+        owner.player.sendMessage(format("hex.attack", owner.locale, human.player.coloredName(), cx, cy, get(build.name, owner.locale), health(owner), weapon));
     }
 
     public Seq<Hex> neighbours() {

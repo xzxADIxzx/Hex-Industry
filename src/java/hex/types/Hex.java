@@ -175,8 +175,13 @@ public class Hex {
         return health == 0 ? get("hex.zerohp", human.locale) : format("hex.health", human.locale, color, health, build.health);
     }
 
-    public void attacked(Human human, String weapon) {
-        owner.player.sendMessage(format("hex.attack", owner.locale, human.player.coloredName(), cx, cy, get(build.name, owner.locale), health(owner), weapon));
+    public void attacked(Human human, Weapon weapon) {
+        owner.player.sendMessage(attacked(owner, human, weapon));
+        owner.slaves().each(slave -> slave.player.sendMessage(attacked(slave, human, weapon)));
+    }
+
+    private String attacked(Human to, Human from, Weapon weapon) {
+        return format("hex.attack", to.locale, from.player.coloredName(), cx, cy, get(build.name, to.locale), health(to), get(weapon.name + ".name", to.locale));
     }
 
     public Seq<Hex> neighbours() {

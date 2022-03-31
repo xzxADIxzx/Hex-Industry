@@ -1,6 +1,7 @@
 package hex.types;
 
 import arc.func.Cons2;
+import arc.func.Prov;
 import arc.graphics.Color;
 import hex.types.Production.Resource;
 import hex.types.buttons.BuildButton;
@@ -23,7 +24,7 @@ public class HexBuild {
     public Production prod;
     public Production cons;
 
-    public HexBuilp parent = () -> this;
+    public Prov<HexBuild> parent = () -> this;
     public HexBuild next;
 
     public void build(Hex hex) {
@@ -67,9 +68,5 @@ public class HexBuild {
         Call.soundAt(Sounds.explosionbig, hex.fx, hex.fy, 1, 1);
 
         Damage.damage(null, hex.fx, hex.fy, 13 * 8, 1000000, false, true);
-    }
-
-    public interface HexBuilp {
-        HexBuild get();
     }
 }

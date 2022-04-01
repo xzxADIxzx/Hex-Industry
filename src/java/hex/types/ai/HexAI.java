@@ -18,6 +18,7 @@ public class HexAI extends AIController {
 
     @Override
     public void init() {
+        unit.updateBuilding = false;
         if (unit.type != UnitTypes.poly && Human.from(unit.team()) == null) withdrawn = true;
     }
 

@@ -5,13 +5,12 @@ import arc.func.Prov;
 import arc.graphics.Color;
 import hex.types.Production.Resource;
 import hex.types.buttons.BuildButton;
-import mindustry.content.UnitTypes;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
-import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Call;
 import mindustry.gen.Sounds;
-import mindustry.gen.Unit;
+
+import static hex.Generator.onEmpty;
 
 public class HexBuild {
 
@@ -36,8 +35,7 @@ public class HexBuild {
         hex.clearButtons();
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
 
-        Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
-        scheme.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
+        onEmpty(() -> scheme.build(hex));
     }
 
     public void create(Production production) {

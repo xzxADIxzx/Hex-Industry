@@ -4,7 +4,10 @@ import arc.func.Cons;
 import arc.struct.Seq;
 import hex.Generator;
 import mindustry.content.Blocks;
+import mindustry.content.UnitTypes;
+import mindustry.entities.units.BuildPlan;
 import mindustry.game.Schematic.Stile;
+import mindustry.gen.Unit;
 import mindustry.game.Schematics;
 
 import static mindustry.Vars.schematicBaseStart;
@@ -49,5 +52,10 @@ public class HexSchematic {
 
     public void airNet(int x, int y) {
         each(st -> Generator.set(st.x + x, st.y + y, Blocks.air));
+    }
+
+    public void build(Hex hex) {
+        Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
+        each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
     }
 }

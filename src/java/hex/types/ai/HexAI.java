@@ -4,7 +4,6 @@ import arc.graphics.Color;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.content.Fx;
-import mindustry.content.UnitTypes;
 import mindustry.entities.units.AIController;
 import mindustry.gen.Call;
 import mindustry.world.meta.BlockFlag;
@@ -18,8 +17,7 @@ public class HexAI extends AIController {
 
     @Override
     public void init() {
-        unit.updateBuilding = false;
-        if (unit.type != UnitTypes.poly && Human.from(unit.team()) == null) withdrawn = true;
+        if (Human.from(unit.team()) == null) withdrawn = true;
     }
 
     @Override

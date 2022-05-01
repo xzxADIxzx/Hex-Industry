@@ -41,6 +41,7 @@ public class Politics {
         } else if (hexes.count(Hex::isClosed) == 0) return;
 
         Locale loc = findLocale(player);
+        MenuListener.menu(player, disclaimer, get("disc.title", loc), get("disc.text", loc), new String[][] {{"OK"}}, option -> get("disc.start", loc));
         MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc),
                 Fractions.names(loc, true), option -> Fractions.from(option).desc(loc));
     }

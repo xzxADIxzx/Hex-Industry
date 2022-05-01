@@ -7,8 +7,6 @@ import mindustry.game.Schematics;
 import mindustry.game.Schematic.Stile;
 import mindustry.world.Block;
 
-import java.nio.charset.StandardCharsets;
-
 import static mindustry.Vars.*;
 
 /**

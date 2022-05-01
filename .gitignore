@@ -8,6 +8,5 @@ build/*
 
 *.classpath
 *.project
-
 *.bat
 *.xml

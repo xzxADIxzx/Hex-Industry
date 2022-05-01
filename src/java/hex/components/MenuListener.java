@@ -43,7 +43,7 @@ public class MenuListener {
 
         menus.put(statistics = 3, (player, option) -> {});
 
-        menus.put(disclaimer = 4, (player, option) -> {});
+        disclaimer = Menus.registerMenu((player, option) -> {});
 
         guide = Menus.registerMenu(Guide::choose);
 

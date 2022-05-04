@@ -52,8 +52,8 @@ public class HexBuilds {
                         unit = 20;
                     }};
                     cons = new Production() {{
-                        titanium = 2000;
-                        thorium = 2000;
+                        titanium = 3000;
+                        thorium = 3000;
                         spore = 500;
                     }};
 
@@ -72,7 +72,7 @@ public class HexBuilds {
 
             prod = new Production();
             cons = new Production() {{
-                titanium = 500;
+                titanium = 400;
                 unit = 1;
             }};
 
@@ -86,7 +86,7 @@ public class HexBuilds {
 
                 prod = new Production();
                 cons = new Production() {{
-                    titanium = 500;
+                    titanium = 1000;
                     plastanium = 500;
                     unit = 1;
                 }};
@@ -101,8 +101,8 @@ public class HexBuilds {
 
                     prod = new Production();
                     cons = new Production() {{
-                        titanium = 500;
-                        spore = 500;
+                        titanium = 1000;
+                        spore = 300;
                         unit = 1;
                     }};
 
@@ -156,7 +156,7 @@ public class HexBuilds {
                     }};
                     cons = new Production() {{
                         thorium = 500;
-                        spore = 100;
+                        spore = 50;
                         unit = 3;
                     }};
 
@@ -214,7 +214,7 @@ public class HexBuilds {
                 plastanium = 1;
             }};
             cons = new Production() {{
-                titanium = 300;
+                titanium = 350;
                 oil = 1;
                 unit = 2;
             }};
@@ -232,9 +232,9 @@ public class HexBuilds {
             }};
             cons = new Production() {{
                 thorium = 3000;
-                plastanium = 1000;
+                plastanium = 1500;
                 water = 1;
-                unit = 2;
+                unit = 5;
             }};
         }};
 
@@ -265,7 +265,7 @@ public class HexBuilds {
                 water = 1;
             }};
             cons = new Production() {{
-                thorium = 500;
+                thorium = 1000;
                 unit = 2;
             }};
         }};
@@ -281,7 +281,7 @@ public class HexBuilds {
                 cryo = 1;
             }};
             cons = new Production() {{
-                thorium = 500;
+                thorium = 1000;
                 plastanium = 500;
                 unit = 2;
             }};

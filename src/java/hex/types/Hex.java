@@ -110,6 +110,7 @@ public class Hex {
     }
 
     public void build(HexBuild build) {
+        if (build == null) return; // this happens sometimes
         build.build(this);
         this.build = build;
 

@@ -14,7 +14,7 @@ public class Packages {
     public static void load() {
         crawler = new Package(){{
             name = "shop.pack.crawler";
-            cost = 250;
+            cost = 150;
 
             cont = human -> human.production.crawler(human.shops());
             desc = human -> format(name + ".desc", human.locale, (int) (human.shops() * human.fraction.creature), cost);
@@ -23,7 +23,7 @@ public class Packages {
 
         unit = new Package(){{
             name = "shop.pack.unit";
-            cost = 2;
+            cost = 1;
 
             cont = human -> human.production.unit(human.cities());
             desc = human -> format(name + ".desc", human.locale, (int) (human.cities() * human.fraction.creature), cost);
@@ -32,7 +32,7 @@ public class Packages {
 
         ai = new Package(){{
             name = "shop.pack.ai";
-            cost = 7;
+            cost = 6;
 
             post = human -> human.leader.stats.ai = true;
             cont = human -> human.unlock(Weapons.crawler.id);

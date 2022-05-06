@@ -8,7 +8,6 @@ import arc.struct.Queue;
 import arc.struct.Seq;
 import arc.struct.StringMap;
 import arc.util.Time;
-import hex.content.Buttons;
 import hex.types.Hex;
 import hex.types.Hex.HexEnv;
 import mindustry.content.Blocks;
@@ -21,9 +20,10 @@ import mindustry.maps.Map;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 
-import static hex.Main.hexes;
-import static hex.Main.humans;
+import static hex.Main.*;
+import static hex.Politics.*;
 import static hex.types.Human.units;
+import static hex.content.Buttons.*;
 import static hex.components.Bundle.defaultLocale;
 import static hex.components.Bundle.get;
 import static mindustry.Vars.*;
@@ -35,22 +35,31 @@ public class Generator {
     private static final Seq<Runnable> tasks = new Seq<>();
 
     public static void restart() {
-        Politics.clear();
-        Buttons.clear();
-        Time.clear();
-        units.clear();
-        hexes.clear();
-        humans.clear(); // someone could enter while the game was over
+        clear(); // someone could enter while the game was over
         last = 0; // sooner or later an OutOfBoundsException will pop up
 
-        for (Team team : Team.all) team.data().blocks.clear(); // it's looks bad
+        Groups.unit.each(Call::unitDespawn); // units and blocks can stay on the new map
+        for (Team team : Team.all) team.data().blocks.clear(); // ghost blocks looks bad
         play(MapSize.get(Groups.player.size())); // map size depends on players amount
+    }
+
+    public static void clear() {
+        Time.clear(); // cancel tasks for safety
+        units.clear(); // remove the dependence of the player on the unit
+
+        buttons.clear();
+        awaiting.clear();
+
+        offers.clear();
+        left.clear();
+
+        hexes.clear();
+        humans.clear(); // no one should stay alive
     }
 
     public static void play(MapSize size) {
         generate(size); // generate hex map
         Call.worldDataBegin(); // synchronize the world
-        Groups.unit.each(Call::unitDespawn);
         Groups.player.each(netServer::sendWorldData);
         Groups.player.each(Politics::join); // handle all players
     }
@@ -81,7 +90,7 @@ public class Generator {
         pile(HexEnv.canyon, .08f);
 
         // create a map with the necessary tags
-        state.map = new Map(StringMap.of("name", "Helindo", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-industry gamemode."));
+        state.map = new Map(StringMap.of("name", "Helindo", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-Industry gamemode."));
     }
 
     public static Hex citadel(Player player) {
@@ -96,8 +105,8 @@ public class Generator {
         return hex;
     }
 
-    public static Hex citadel() {
-        Seq<Hex> closed = hexes.select(Hex::isClosed);
+    private static Hex citadel() {
+        Seq<Hex> closed = common().select(Hex::isClosed);
         return closed.sort(hex -> humans.sumf(human -> {
             float dst = hex.point().dst(human.citadel.point());
             return dst > 100f ? -dst : Mathf.sqr(100f - dst);

@@ -15,16 +15,10 @@ import static hex.Main.hexes;
 
 public class Buttons {
 
-    private static final Seq<Button> buttons = new Seq<>();
-    private static final Seq<Button> awaiting = new Seq<>();
+    public static final Seq<Button> buttons = new Seq<>();
+    public static final Seq<Button> awaiting = new Seq<>();
 
-    private static final ObjectMap<Player, Click> clicks = new ObjectMap<>();
-
-    public static void clear() {
-        buttons.clear();
-        awaiting.clear();
-        clicks.clear();
-    }
+    public static final ObjectMap<Player, Click> clicks = new ObjectMap<>();
 
     public static void load() {
         Events.on(TapEvent.class, event -> {

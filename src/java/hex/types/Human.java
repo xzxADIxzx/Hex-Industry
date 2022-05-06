@@ -24,7 +24,6 @@ import java.util.Locale;
 import static hex.Main.hexes;
 import static hex.Main.humans;
 import static hex.Politics.*;
-import static hex.Generator.onEmpty;
 import static hex.components.Bundle.*;
 import static hex.components.MenuListener.statistics;
 
@@ -99,7 +98,7 @@ public class Human {
         if (leader == this) production.update(this);
         Hex hex = location();
 
-        CoreBuild core = player.team().core();// update ItemModule so player can see resources in CoreItemsDisplay
+        CoreBuild core = player.team().core(); // update ItemModule so player can see resources in CoreItemsDisplay
         if (core != null) core.items = production.items;
 
         hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
@@ -127,7 +126,7 @@ public class Human {
         updateName();
         Fraction.leader(player.unit());
 
-        Time.run(300f, () -> onEmpty(() -> { // recalculate production
+        Time.run(300f, () -> Generator.onEmpty(() -> { // recalculate production
             production = new Production(this);
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> human.production = production);
@@ -159,7 +158,7 @@ public class Human {
             MenuListener.menu(player, statistics, get("over.lose.title", locale), get("over.lose.text", locale),
                     new String[][] {{get("over.stats.title", locale)}}, option -> stats.toString());
 
-        if (leader == this) { // just saving resources
+        if (leader == this) { // just saving server resources
             slaves().each(human -> human.citadel.lose(null));
             despawnUnits();
             captured().each(hex -> Time.run(Mathf.random(300f), () -> hex.clear()));
@@ -172,11 +171,9 @@ public class Human {
         humans.remove(this);
 
         if (humans.count(h -> h.leader == h) == 1) {
-            // restarts the game after 12 seconds
-            Time.run(720f, Generator::restart);
-            humans.each(Human::win);
-            humans.clear(); // no one should stay alive
+            humans.each(Human::win); // call win msg
             Groups.player.each(player -> player.sendMessage(get("over.new", findLocale(player))));
+            Time.run(720f, Generator::restart); // restarts the game after 12 seconds
         }
     }
 

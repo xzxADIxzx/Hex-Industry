@@ -29,9 +29,9 @@ import static mindustry.Vars.*;
 
 public class Main extends Plugin {
 
-    public static Seq<Hex> hexes = new Seq<>();
-    public static Seq<Human> humans = new Seq<>();
-    public static Rules rules = new Rules();
+    public static final Seq<Hex> hexes = new Seq<>();
+    public static final Seq<Human> humans = new Seq<>();
+    public static final Rules rules = new Rules();
 
     @Override
     public void init() {

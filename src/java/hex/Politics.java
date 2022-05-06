@@ -21,15 +21,9 @@ import static hex.components.MenuListener.*;
 
 public class Politics {
 
-    public static Seq<Offer> offers = new Seq<>();
-    public static ObjectMap<Human, Hex> attacked = new ObjectMap<>();
-    public static ObjectMap<String, Human> left = new ObjectMap<>();
-
-    public static void clear() {
-        offers.clear();
-        attacked.clear();
-        left.clear();
-    }
+    public static final Seq<Offer> offers = new Seq<>();
+    public static final ObjectMap<Human, Hex> attacked = new ObjectMap<>();
+    public static final ObjectMap<String, Human> left = new ObjectMap<>();
 
     public static void join(Player player) {
         player.name(player.name.replace(Human.prefix, ""));

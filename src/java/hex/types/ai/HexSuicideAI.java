@@ -22,7 +22,7 @@ public class HexSuicideAI extends HexAI {
     public HexSuicideAI() {
         Time.run(60f, () -> {
             hex = hexOn();
-            if (hex.owner.player.team() != unit.team()) return;
+            if (hex.owner == null || hex.owner.player.team() != unit.team()) return;
             marks = Seq.with(from(7, -3), from(3, -3), from(3, 1));
         });
     }

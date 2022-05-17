@@ -59,18 +59,17 @@ public class Weapons {
 
             cost = 1;
             cons = new Production() {{
-                plastanium = 500;
+                plastanium = 1000;
                 spore = 100;
             }};
             todo = (human, hex, dmg) -> {
                 Vec2 cursor = hex.pos();
                 Vec2 dir = hex.owner.citadel.pos().sub(cursor).setLength(200f);
 
-                Cons3<Human, Hex, Integer> cons = attack(UnitTypes.crawler, 2, 8);
-                cons.get(human, hex, dmg);
-
+                Cons3<Human, Hex, Integer> cons = attack(UnitTypes.crawler, 10, 16);
                 for (int i = 0; i < 6; i++) {
-                    Hex attacked = hexes.min(hex1 -> hex1.pos().dst(cursor.add(dir)));
+                    Hex attacked = hexes.min(hex1 -> hex1.pos().dst(cursor));
+                    cursor.add(dir); // move the cursor in the direction of the core by a distance of ±one hex
                     if (attacked.owner == hex.owner) cons.get(human, attacked, dmg);
                 }
             };

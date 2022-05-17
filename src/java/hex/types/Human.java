@@ -174,7 +174,7 @@ public class Human {
             humans.each(Human::win); // call win msg
             Groups.player.each(player -> player.sendMessage(get("over.new", findLocale(player))));
             Time.run(720f, Generator::restart); // restarts the game after 12 seconds
-        }
+        } else if (humans.isEmpty()) Generator.restart(); // so yeah it happens rly often
     }
 
     public void enough() {

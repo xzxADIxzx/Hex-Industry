@@ -5,7 +5,6 @@ import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.Rand;
 import arc.math.geom.Point2;
-import arc.math.geom.Position;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
@@ -193,7 +192,7 @@ public class Hex {
         return neighbours().select(hex -> world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
     }
 
-    public Position pos() {
+    public Vec2 pos() {
         return new Vec2(fx, fy);
     }
 

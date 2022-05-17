@@ -1,12 +1,16 @@
 package hex.content;
 
+import arc.func.Cons3;
+import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
+import hex.types.Hex;
 import hex.types.Human;
 import hex.types.Production;
 import hex.types.Weapon;
 import mindustry.content.UnitTypes;
 
+import static hex.Main.*;
 import static hex.components.Bundle.get;
 
 public class Weapons {
@@ -59,7 +63,16 @@ public class Weapons {
                 spore = 100;
             }};
             todo = (human, hex, dmg) -> {
-                if (hex.damage(dmg)) hex.lose(human);
+                Vec2 cursor = hex.pos();
+                Vec2 dir = hex.owner.citadel.pos().sub(cursor).setLength(200f);
+
+                Cons3<Human, Hex, Integer> cons = attack(UnitTypes.crawler, 2, 8);
+                cons.get(human, hex, dmg);
+
+                for (int i = 0; i < 6; i++) {
+                    Hex attacked = hexes.min(hex1 -> hex1.pos().dst(cursor.add(dir)));
+                    if (attacked.owner == hex.owner) cons.get(human, attacked, dmg);
+                }
             };
         }};
 

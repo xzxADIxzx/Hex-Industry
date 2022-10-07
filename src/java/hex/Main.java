@@ -44,8 +44,7 @@ public class Main extends Plugin {
         MenuListener.load();
         Icons.load();
 
-        netServer.admins.actionFilters.clear();
-        netServer.admins.addActionFilter(action -> false);
+        netServer.admins.actionFilters.clear().add(action -> false);
         netServer.assigner = (player, players) -> Team.derelict;
 
         Blocks.unloader.solid = false; // why?
@@ -62,6 +61,9 @@ public class Main extends Plugin {
         UnitTypes.beta.aiController = HexEmptyAI::new;
         UnitTypes.gamma.aiController = HexEmptyAI::new;
 
+        // apply custom ai
+        content.units().each(type -> type.playerControllable = false);
+
         rules.enemyCoreBuildRadius = 0f;
         rules.unitCap = 16;
         rules.infiniteResources = true;
@@ -74,9 +76,8 @@ public class Main extends Plugin {
 
         for (Team team : Team.all) {
             TeamRule rule = rules.teams.get(team);
-            rule.cheat = true;
-            rule.unitDamageMultiplier = 0f;
-            rule.blockDamageMultiplier = 0f;
+            rule.cheat = true; // just for visual
+            rule.unitDamageMultiplier = rule.blockDamageMultiplier = 0f;
         }
 
         Timer.schedule(() -> {

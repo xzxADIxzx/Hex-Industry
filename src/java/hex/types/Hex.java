@@ -284,7 +284,7 @@ public class Hex {
             Lr1.floorNet(hex.x, hex.y);
             Lr1.airNet(hex.x, hex.y);
 
-            Lr2.each(st -> {
+            Lr2.tiles.each(st -> {
                 if (st.block instanceof Floor) Generator.set(st.x + hex.x, st.y + hex.y, null, st.block);
                 else Generator.set(st.x + hex.x, st.y + hex.y, st.block);
             });

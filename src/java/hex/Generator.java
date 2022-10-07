@@ -90,7 +90,10 @@ public class Generator {
         pile(HexEnv.canyon, .08f);
 
         // create a map with the necessary tags
-        state.map = new Map(StringMap.of("name", "Helindo", "author", get("author", defaultLocale()), "description", "A special generated map for Hex-Industry gamemode."));
+        state.map = new Map(StringMap.of(
+                "name", "Helindo",
+                "author", get("author", defaultLocale()),
+                "description", "A special generated map for Hex-Industry gamemode."));
     }
 
     public static Hex citadel(Player player) {
@@ -113,7 +116,8 @@ public class Generator {
         })).get(Mathf.random(humans.isEmpty() ? closed.size - 1 : closed.size / (humans.size + 2)));
     }
 
-    // methods to generate
+    // region methods to generate
+
     private static void template(float amount, Cons<Hex> cons) {
         Seq<Hex> base = hexes.select(hex -> hex.base);
         for (float i = 0; i < base.size; i += 1 / amount + rand(1.3f))
@@ -146,11 +150,13 @@ public class Generator {
         return hexes.select(hex -> hex.env == HexEnv.titanium || hex.env == HexEnv.thorium);
     }
 
-    public static Team team() {
+    private static Team team() {
         return Team.all[++last];
     }
 
-    // queue functions
+    // endregion
+    // region queue functions
+    
     public static void update() {
         if (calls.isEmpty()) {
             tasks.each(Runnable::run);
@@ -170,7 +176,7 @@ public class Generator {
         calls.addLast(new Set(world.tile(x, y), floor, block, overlay));
     }
 
-    /** Used to host cores */
+    /** Used to host cores. */
     public static void setc(int x, int y, Block block, Team team) {
         world.tile(x, y).setNet(block, team, 0);
         Call.effect(Fx.instBomb, x * tilesize, y * tilesize, 0, Color.white);
@@ -180,7 +186,9 @@ public class Generator {
         tasks.add(todo);
     }
 
-    public enum MapSize {
+    // endregion
+
+    public enum MapSize { // TODO wide which is bigger than big
         small(198, 201), medium(369, 366), big(540, 542);
 
         public final int width;
@@ -205,19 +213,7 @@ public class Generator {
         }
     }
 
-    public static class Set {
-        public final Tile tile;
-
-        public Block floor;
-        public Block block;
-        public Block overlay;
-
-        public Set(Tile tile, Block floor, Block block, Block overlay) {
-            this.tile = tile;
-            this.floor = floor;
-            this.block = block;
-            this.overlay = overlay;
-        }
+    public record Set(Tile tile, Block floor, Block block, Block overlay) {
 
         public void set() {
             boolean f = floor != null, o = overlay != null;

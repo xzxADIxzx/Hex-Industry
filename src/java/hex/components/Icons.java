@@ -171,7 +171,7 @@ public class Icons {
                 "kiln", Iconc.blockKiln,
                 "plastanium-compressor", Iconc.blockPlastaniumCompressor,
                 "phase-weaver", Iconc.blockPhaseWeaver,
-                "alloy-smelter", Iconc.blockAlloySmelter,
+                "surge-smelter", Iconc.blockSurgeSmelter,
                 "cryofluid-mixer", Iconc.blockCryofluidMixer,
                 "pyratite-mixer", Iconc.blockPyratiteMixer,
                 "blast-mixer", Iconc.blockBlastMixer,
@@ -230,7 +230,7 @@ public class Icons {
 
                 "mechanical-pump", Iconc.blockMechanicalPump,
                 "rotary-pump", Iconc.blockRotaryPump,
-                "thermal-pump", Iconc.blockThermalPump,
+                "impulse-pump", Iconc.blockImpulsePump,
                 "conduit", Iconc.blockConduit,
                 "pulse-conduit", Iconc.blockPulseConduit,
                 "plated-conduit", Iconc.blockPlatedConduit,

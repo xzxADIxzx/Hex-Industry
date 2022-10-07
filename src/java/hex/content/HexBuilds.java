@@ -208,7 +208,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.compressor;
-            boom = Fx.impactcloud;
+            boom = Fx.surgeCruciSmoke;
 
             prod = new Production() {{
                 plastanium = 1;
@@ -243,7 +243,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.oil;
-            boom = Fx.impactcloud;
+            boom = Fx.surgeCruciSmoke;
 
             prod = new Production() {{
                 oil = 1;
@@ -259,7 +259,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.water;
-            boom = Fx.impactcloud;
+            boom = Fx.surgeCruciSmoke;
 
             prod = new Production() {{
                 water = 1;
@@ -275,7 +275,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.cryo;
-            boom = Fx.impactcloud;
+            boom = Fx.surgeCruciSmoke;
 
             prod = new Production() {{
                 cryo = 1;

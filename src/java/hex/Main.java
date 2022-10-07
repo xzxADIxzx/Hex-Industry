@@ -51,16 +51,16 @@ public class Main extends Plugin {
         Blocks.unloader.solid = false; // why?
         Blocks.groundFactory.solid = false;
 
-        UnitTypes.crawler.defaultController = HexSuicideAI::new;
-        UnitTypes.mono.defaultController = HexMinerAI::new;
-        UnitTypes.poly.defaultController = HexBuilderAI::new;
-        UnitTypes.quad.defaultController = HexAtomicAI::new;
-        UnitTypes.flare.defaultController = HexFlyingAI::new;
-        UnitTypes.horizon.defaultController = HexFlyingAI::new;
-        UnitTypes.zenith.defaultController = HexFlyingAI::new;
-        UnitTypes.alpha.defaultController = HexEmptyAI::new;
-        UnitTypes.beta.defaultController = HexEmptyAI::new;
-        UnitTypes.gamma.defaultController = HexEmptyAI::new;
+        UnitTypes.crawler.aiController = HexSuicideAI::new;
+        UnitTypes.mono.aiController = HexMinerAI::new;
+        UnitTypes.poly.aiController = HexBuilderAI::new;
+        UnitTypes.quad.aiController = HexAtomicAI::new;
+        UnitTypes.flare.aiController = HexFlyingAI::new;
+        UnitTypes.horizon.aiController = HexFlyingAI::new;
+        UnitTypes.zenith.aiController = HexFlyingAI::new;
+        UnitTypes.alpha.aiController = HexEmptyAI::new;
+        UnitTypes.beta.aiController = HexEmptyAI::new;
+        UnitTypes.gamma.aiController = HexEmptyAI::new;
 
         rules.enemyCoreBuildRadius = 0f;
         rules.unitCap = 16;

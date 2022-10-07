@@ -5,7 +5,6 @@ import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
 import hex.types.Hex;
-import mindustry.ai.Pathfinder;
 import mindustry.content.Items;
 import mindustry.gen.Call;
 
@@ -39,10 +38,11 @@ public class HexSuicideAI extends HexAI {
             Call.takeItems(world.build(hex.cx, hex.cy + 1), Items.sporePod, 10, unit);
             state = 4;
         } else if (state == 4) {
-            pathfind(Pathfinder.fieldRally);
-            target();
+            // pathfind(Pathfinder.fieldRally);
+            // target();
 
-            if (unit.within(target, 20f)) despawn();
+            // if (unit.within(target, 20f)) despawn();
+            despawn(); // TODO command center removed
         }
     }
 

@@ -6,7 +6,6 @@ import hex.types.Human;
 import mindustry.content.Fx;
 import mindustry.entities.units.AIController;
 import mindustry.gen.Call;
-import mindustry.world.meta.BlockFlag;
 
 import static hex.Main.hexes;
 
@@ -31,8 +30,8 @@ public class HexAI extends AIController {
         Call.unitDespawn(unit);
     }
 
-    protected void target() {
-        target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
+    protected void target() { // TODO command center removed
+        // target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
     }
 
     protected Hex hexOn() {

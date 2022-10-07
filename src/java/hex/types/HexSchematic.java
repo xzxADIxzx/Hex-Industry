@@ -25,7 +25,7 @@ public class HexSchematic {
     }
 
     public HexSchematic(String base) {
-        this(base.startsWith("#") ? ShortSchematics.read(base.replaceAll(" ", "")).tiles : Schematics.readBase64(schematicBaseStart + "F4n" + base).tiles);
+        this(base.startsWith("#") ? ShortSchematics.read(base).tiles : Schematics.readBase64(schematicBaseStart + "F4n" + base).tiles);
     }
 
     public HexSchematic(int x, int y, String base) {

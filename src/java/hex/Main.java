@@ -23,8 +23,7 @@ import mindustry.gen.Player;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration;
 
-import static hex.components.Bundle.findLocale;
-import static hex.components.Bundle.get;
+import static hex.components.Bundle.*;
 import static mindustry.Vars.*;
 
 public class Main extends Plugin {

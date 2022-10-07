@@ -9,7 +9,6 @@ import hex.content.Weapons;
 import hex.types.Hex;
 import hex.types.Human;
 import hex.types.Weapon;
-import mindustry.gen.Call;
 import mindustry.gen.Player;
 
 import java.util.Locale;
@@ -38,7 +37,6 @@ public class Politics {
         Locale loc = findLocale(player);
         MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc),
                 Fractions.names(loc, true), option -> Fractions.from(option).desc(loc));
-        Call.menu(player.con, disclaimer, get("disc.title", loc), get("disc.text", loc), new String[][] {{"OK"}});
     }
 
     public static void leave(Player player) {

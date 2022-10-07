@@ -3,6 +3,7 @@ package hex.types;
 import arc.func.Boolf;
 import arc.math.Mathf;
 import arc.util.Time;
+import hex.components.Bundle;
 import hex.components.Icons;
 import hex.content.Packages;
 import mindustry.content.Items;
@@ -10,14 +11,12 @@ import mindustry.world.modules.ItemModule;
 
 import java.util.Locale;
 
-import static hex.components.Bundle.format;
-
 public class Production {
 
     public ItemModule items = null;
     public Fraction fract = null;
 
-    public Resource sour;
+    public Resource resource;
     public boolean sending;
 
     // production per sec
@@ -36,7 +35,7 @@ public class Production {
     protected int crawler;
 
     public Production() {
-        sour = new Resource();
+        resource = new Resource();
     }
 
     public Production(Human human) {
@@ -52,7 +51,7 @@ public class Production {
         items.add(Items.thorium, (int) (thorium * speed));
         items.add(Items.sporePod, (int) (spore * speed));
 
-        if(unit <= 5 && !sending) {
+        if(unit <= 5 && !sending) { // free units without sms and registration
             sending = true;
             Time.run(3f * Time.toMinutes, () -> sending = false);
             Packages.free.send(human);
@@ -226,7 +225,7 @@ public class Production {
         }
 
         private void add(String key, Locale loc, float amount, String icon) {
-            if (amount != 0) format += format(key, loc, (int) amount, Icons.get(icon));
+            if (amount != 0) format += Bundle.format(key, loc, (int) amount, Icons.get(icon));
         }
     }
 }

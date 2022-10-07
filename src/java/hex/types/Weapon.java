@@ -30,14 +30,14 @@ public class Weapon {
     }
 
     public String desc(Human human) {
-        return format(name + ".desc", human.locale, damage(human), cons.sour.formatC(human));
+        return format(name + ".desc", human.locale, damage(human), cons.resource.formatC(human));
     }
 
     public void attack(Human human) {
         if (!attackable(human)) return;
         Hex hex = attacked.get(human);
-        if (cons.sour.enough(human.production)) {
-            cons.sour.consume(human.production);
+        if (cons.resource.enough(human.production)) {
+            cons.resource.consume(human.production);
             todo.get(human, hex, damage(human));
             hex.attacked(human, this);
         } else human.enough();

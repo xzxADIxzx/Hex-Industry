@@ -29,8 +29,8 @@ public class HexBuild {
     public void build(Hex hex) {
         if (hex.build != null) explode(hex); // cleanup old build
 
-        prod.sour.produce(hex.owner.production, true);
-        cons.sour.consume(hex.owner.production);
+        prod.resource.produce(hex.owner.production, true);
+        cons.resource.consume(hex.owner.production);
 
         hex.clearButtons();
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
@@ -53,10 +53,10 @@ public class HexBuild {
     }
 
     public void family(Cons2<Resource, Resource> cons) {
-        cons.get(prod.sour, this.cons.sour);
+        cons.get(prod.resource, this.cons.resource);
         HexBuild cur = parent.get();
         while (cur != this) {
-            cons.get(cur.prod.sour, cur.cons.sour);
+            cons.get(cur.prod.resource, cur.cons.resource);
             cur = cur.next;
         }
     }

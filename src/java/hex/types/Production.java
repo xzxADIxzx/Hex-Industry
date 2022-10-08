@@ -4,9 +4,9 @@ import arc.func.Boolf;
 import arc.math.Mathf;
 import arc.util.Time;
 import hex.components.Bundle;
-import hex.components.Icons;
 import hex.content.Packages;
 import mindustry.content.Items;
+import mindustry.gen.Iconc;
 import mindustry.world.modules.ItemModule;
 
 import java.util.Locale;
@@ -95,9 +95,9 @@ public class Production {
     }
 
     public String liquids() {
-        return (oil > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("oil") +
-                (water > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("water") +
-                (cryo > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Icons.get("cryofluid");
+        return (oil > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidOil +
+                (water > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidWater +
+                (cryo > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidCryofluid;
     }
 
     public String unit() {
@@ -211,21 +211,21 @@ public class Production {
 
         private String formatB(Locale loc, String[] base, float c, float i) {
             format = "";
-            add(base[0], loc, unit * c, "");
-            add(base[1], loc, titanium * i, "titanium");
-            add(base[1], loc, thorium * i, "thorium");
-            add(base[1], loc, plastanium * i, "plastanium");
-            add(base[1], loc, spore * i, "spore-pod");
+            add(base[0], loc, unit * c, ' ');
+            add(base[1], loc, titanium * i, Iconc.itemTitanium);
+            add(base[1], loc, thorium * i, Iconc.itemThorium);
+            add(base[1], loc, plastanium * i, Iconc.itemPlastanium);
+            add(base[1], loc, spore * i, Iconc.itemSporePod);
             if (oil > 0 || water > 0 || cryo > 0) format += "\n";
-            add(base[2], loc, oil, "oil");
-            add(base[2], loc, water, "water");
-            add(base[2], loc, cryo, "cryofluid");
+            add(base[2], loc, oil, Iconc.liquidOil);
+            add(base[2], loc, water, Iconc.liquidWater);
+            add(base[2], loc, cryo, Iconc.liquidCryofluid);
 
             return format;
         }
 
-        private void add(String key, Locale loc, float amount, String icon) {
-            if (amount != 0) format += Bundle.format(key, loc, (int) amount, Icons.get(icon));
+        private void add(String key, Locale loc, float amount, char icon) {
+            if (amount != 0) format += Bundle.format(key, loc, (int) amount, icon);
         }
     }
 }

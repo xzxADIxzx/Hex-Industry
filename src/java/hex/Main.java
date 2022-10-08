@@ -5,7 +5,6 @@ import arc.struct.Seq;
 import arc.util.CommandHandler;
 import arc.util.Log;
 import arc.util.Timer;
-import hex.components.Icons;
 import hex.components.MenuListener;
 import hex.content.*;
 import hex.types.Hex;
@@ -41,7 +40,6 @@ public class Main extends Plugin {
         Weapons.load();
         Buttons.load();
         MenuListener.load();
-        Icons.load();
 
         netServer.admins.actionFilters.clear().add(action -> false);
         netServer.assigner = (player, players) -> Team.derelict;

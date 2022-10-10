@@ -24,8 +24,6 @@ import static hex.Main.*;
 import static hex.Politics.*;
 import static hex.types.Human.units;
 import static hex.content.Buttons.*;
-import static hex.components.Bundle.defaultLocale;
-import static hex.components.Bundle.get;
 import static mindustry.Vars.*;
 
 public class Generator {
@@ -92,7 +90,7 @@ public class Generator {
         // create a map with the necessary tags
         state.map = new Map(StringMap.of(
                 "name", "Helindo",
-                "author", get("author", defaultLocale()),
+                "author", "xzxADIxzx",
                 "description", "A special generated map for Hex-Industry gamemode."));
     }
 

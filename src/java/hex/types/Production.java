@@ -3,11 +3,11 @@ package hex.types;
 import arc.func.Boolf;
 import arc.math.Mathf;
 import arc.util.Time;
-import hex.components.Bundle;
 import hex.content.Packages;
 import mindustry.content.Items;
 import mindustry.gen.Iconc;
 import mindustry.world.modules.ItemModule;
+import useful.Bundle;
 
 import java.util.Locale;
 
@@ -202,11 +202,11 @@ public class Production {
         }
 
         public String formatP(Human human) {
-            return formatB(human.locale, new String[] {"prod.unit", "prod.item", "prod.liquid"}, human.fraction.creature, human.fraction.production);
+            return formatB(human.locale, new String[] { "prod.unit", "prod.item", "prod.liquid" }, human.fraction.creature, human.fraction.production);
         }
-        
+
         public String formatC(Human human) {
-            return formatB(human.locale, new String[] {"cons.unit", "cons.item", "cons.liquid"}, 1, 1);
+            return formatB(human.locale, new String[] { "cons.unit", "cons.item", "cons.liquid" }, 1, 1);
         }
 
         private String formatB(Locale loc, String[] base, float c, float i) {

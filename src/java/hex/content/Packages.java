@@ -2,10 +2,8 @@ package hex.content;
 
 import hex.types.Human;
 import hex.types.Package;
+import useful.Bundle;
 import arc.struct.Seq;
-
-import static hex.components.Bundle.get;
-import static hex.components.Bundle.format;
 
 public class Packages {
 
@@ -17,7 +15,7 @@ public class Packages {
             cost = 150;
 
             cont = human -> human.production.crawler(human.shops());
-            desc = human -> format(name + ".desc", human.locale, (int) (human.shops() * human.fraction.creature), cost);
+            desc = human -> Bundle.format(name + ".desc", human.locale, (int) (human.shops() * human.fraction.creature), cost);
             cons = human -> human.production.spore(human, cost);
         }};
 
@@ -26,7 +24,7 @@ public class Packages {
             cost = 1;
 
             cont = human -> human.production.unit(human.cities());
-            desc = human -> format(name + ".desc", human.locale, (int) (human.cities() * human.fraction.creature), cost);
+            desc = human -> Bundle.format(name + ".desc", human.locale, (int) (human.cities() * human.fraction.creature), cost);
             pred = human -> human.cities() > 0;
         }};
 
@@ -36,7 +34,7 @@ public class Packages {
 
             post = human -> human.leader.stats.ai = true;
             cont = human -> human.unlock(Weapons.crawler.id);
-            desc = human -> format(name + ".desc", human.locale, Weapons.crawler.desc(human), cost);
+            desc = human -> Bundle.format(name + ".desc", human.locale, Weapons.crawler.desc(human), cost);
             pred = human -> !human.leader.stats.ai;
         }};
 
@@ -46,7 +44,7 @@ public class Packages {
 
             post = human -> human.leader.stats.atomic = true;
             cont = human -> human.unlock(Weapons.atomic.id);
-            desc = human -> format(name + ".desc", human.locale, Weapons.atomic.desc(human), cost);
+            desc = human -> Bundle.format(name + ".desc", human.locale, Weapons.atomic.desc(human), cost);
             pred = human -> !human.leader.stats.atomic;
         }};
 
@@ -69,7 +67,7 @@ public class Packages {
     public static String[][] names(Human human) {
         Seq<Package> packages = from(human);
         String[][] names = new String[packages.size][1];
-        for (int i = 0; i < names.length; i++) names[i][0] = get(packages.get(i).name + ".name", human.locale);
+        for (int i = 0; i < names.length; i++) names[i][0] = Bundle.get(packages.get(i).name + ".name", human.locale);
         return names;
     }
 }

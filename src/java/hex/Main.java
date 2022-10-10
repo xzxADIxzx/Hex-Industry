@@ -21,8 +21,8 @@ import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration;
+import useful.Bundle;
 
-import static hex.components.Bundle.*;
 import static mindustry.Vars.*;
 
 public class Main extends Plugin {
@@ -33,6 +33,7 @@ public class Main extends Plugin {
 
     @Override
     public void init() {
+        Bundle.load(Main.class);
         HexSchematics.load();
         Fractions.load();
         HexBuilds.load();
@@ -100,7 +101,7 @@ public class Main extends Plugin {
 
         handler.<Player>register("spectate", "Watching the game is fun too!", (args, player) -> Politics.spectate(player));
 
-        handler.<Player>register("author", "Plugin creators.", (args, player) -> player.sendMessage(get("author", findLocale(player))));
+        handler.<Player>register("author", "Plugin creators.", (args, player) -> Bundle.bundled(player, "author"));
     }
 
     @Override

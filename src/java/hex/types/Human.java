@@ -12,17 +12,15 @@ import hex.content.HexBuilds;
 import hex.content.Packages;
 import mindustry.game.Team;
 import mindustry.gen.Call;
-import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
+import useful.Bundle;
 
 import java.util.Locale;
 
-import static hex.Main.hexes;
-import static hex.Main.humans;
+import static hex.Main.*;
 import static hex.Politics.*;
-import static hex.components.Bundle.*;
 import static hex.components.MenuListener.statistics;
 
 public class Human {
@@ -47,7 +45,7 @@ public class Human {
 
     public Human(Player player, Fraction fraction) {
         this.player = player;
-        this.locale = findLocale(player);
+        this.locale = Bundle.locale(player);
 
         this.leader = this; // for team mechanics
         this.fraction = fraction;
@@ -65,7 +63,7 @@ public class Human {
         this.weapons = 0x7;
 
         units.put(player, player.unit()); // saves the player's unit
-        player.sendMessage(get("welcome", locale)); // some info
+        Bundle.bundled(player, "welcome"); // some info
     }
 
     public static Human from(Player player) {
@@ -95,7 +93,7 @@ public class Human {
         if (core != null) core.items = production.items;
 
         hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
-        Call.setHudText(player.con, format("hud", locale, hex.id, hex.owner == null ? get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
+        Call.setHudText(player.con, Bundle.format("hud", locale, hex.id, hex.owner == null ? Bundle.get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
                 hex.health(this), production.unit(), production.crawler(), production.liquids()));
     }
 
@@ -139,8 +137,8 @@ public class Human {
 
     public void win() {
         if (lose != null) lose.cancel();
-        MenuListener.menu(player, statistics, get("over.win.title", locale), get("over.win.text", locale),
-                new String[][] {{get("over.stats.title", locale)}}, option -> stats.toString());
+        MenuListener.menu(player, statistics, Bundle.get("over.win.title", locale), Bundle.get("over.win.text", locale),
+                new String[][] {{Bundle.get("over.stats.title", locale)}}, option -> stats.toString());
     }
 
     public void lose() {
@@ -148,8 +146,8 @@ public class Human {
         Call.hideHudText(player.con);
 
         if (citadel.owner == null) // if lose is called from Politics.spectate no need to call lose msg
-            MenuListener.menu(player, statistics, get("over.lose.title", locale), get("over.lose.text", locale),
-                    new String[][] {{get("over.stats.title", locale)}}, option -> stats.toString());
+            MenuListener.menu(player, statistics,Bundle.get("over.lose.title", locale),Bundle.get("over.lose.text", locale),
+                    new String[][] {{Bundle.get("over.stats.title", locale)}}, option -> stats.toString());
 
         if (leader == this) { // just saving server resources
             slaves().each(human -> human.citadel.lose(null));
@@ -165,13 +163,13 @@ public class Human {
 
         if (humans.count(h -> h.leader == h) == 1) {
             humans.each(Human::win); // call win msg
-            Groups.player.each(player -> player.sendMessage(get("over.new", findLocale(player))));
+            Bundle.sendToChat("over.new");
             Time.run(720f, Generator::restart); // restarts the game after 12 seconds
         } else if (humans.isEmpty()) Generator.restart(); // so yeah it happens rly often
     }
 
     public void enough() {
-        player.sendMessage(get("enough", locale));
+        Bundle.bundled(player, "enough");
     }
 
     public void unlock(int id) {
@@ -239,11 +237,11 @@ public class Human {
         }
 
         public String toString() {
-            return format("over.stats.text", locale, opened, shops, builded, destroyed, locked(Packages.ai), locked(Packages.atomic));
+            return Bundle.format("over.stats.text", locale, opened, shops, builded, destroyed, locked(Packages.ai), locked(Packages.atomic));
         }
 
         public String locked(Package pack) {
-            return get(pack.pred.get(parent) ? "over.stats.lock" : "over.stats.open", locale);
+            return Bundle.get(pack.pred.get(parent) ? "over.stats.lock" : "over.stats.open", locale);
         }
     }
 }

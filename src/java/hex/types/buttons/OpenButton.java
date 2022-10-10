@@ -3,9 +3,7 @@ package hex.types.buttons;
 import hex.types.Hex;
 import hex.types.Human;
 import mindustry.gen.Call;
-
-import static hex.components.Bundle.format;
-import static hex.components.Bundle.get;
+import useful.Bundle;
 
 public class OpenButton extends Button {
 
@@ -20,6 +18,6 @@ public class OpenButton extends Button {
 
     @Override
     public void update(Human human) {
-        Call.label(human.player.con, get("hex.open", human.locale) + "\n" + format("cons.unit", human.locale, human.cost(hex)), 1f, fx, fy);
+        Call.label(human.player.con, Bundle.get("hex.open", human.locale) + "\n" + Bundle.format("cons.unit", human.locale, human.cost(hex)), 1f, fx, fy);
     }
 }

@@ -19,14 +19,12 @@ import mindustry.content.Fx;
 import mindustry.gen.Call;
 import mindustry.graphics.Pal;
 import mindustry.world.blocks.environment.Floor;
+import useful.Bundle;
 
-import static hex.Main.hexes;
-import static hex.Generator.onEmpty;
+import static hex.Main.*;
+import static hex.Generator.*;
 import static hex.content.HexSchematics.*;
-import static hex.components.Bundle.get;
-import static hex.components.Bundle.format;
-import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
+import static mindustry.Vars.*;
 
 public class Hex {
 
@@ -172,7 +170,7 @@ public class Hex {
     }
 
     public String health(Human human) {
-        return health == 0 ? get("hex.zerohp", human.locale) : format("hex.health", human.locale, color, health, build.health);
+        return health == 0 ? Bundle.get("hex.zerohp", human.locale) : Bundle.format("hex.health", human.locale, color, health, build.health);
     }
 
     public void attacked(Human human, Weapon weapon) {
@@ -181,7 +179,7 @@ public class Hex {
     }
 
     private String attacked(Human to, Human from, Weapon weapon) {
-        return format("hex.attack", to.locale, from.player.coloredName(), cx, cy, get(build.name, to.locale), health(to), get(weapon.name + ".name", to.locale));
+        return Bundle.format("hex.attack", to.locale, from.player.coloredName(), cx, cy, Bundle.get(build.name, to.locale), health(to), Bundle.get(weapon.name + ".name", to.locale));
     }
 
     public Seq<Hex> neighbours() {

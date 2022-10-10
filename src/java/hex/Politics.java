@@ -10,13 +10,12 @@ import hex.types.Hex;
 import hex.types.Human;
 import hex.types.Weapon;
 import mindustry.gen.Player;
+import useful.Bundle;
+
+import static hex.Main.*;
+import static hex.components.MenuListener.*;
 
 import java.util.Locale;
-
-import static hex.Main.hexes;
-import static hex.components.Bundle.get;
-import static hex.components.Bundle.findLocale;
-import static hex.components.MenuListener.*;
 
 public class Politics {
 
@@ -34,8 +33,8 @@ public class Politics {
             return;
         } else if (hexes.count(Hex::isClosed) == 0) return;
 
-        Locale loc = findLocale(player);
-        MenuListener.menu(player, fractionChoose, get("fract.title", loc), get("fract.text", loc),
+        Locale loc = Bundle.locale(player);
+        MenuListener.menu(player, fractionChoose, Bundle.get("fract.title", loc), Bundle.get("fract.text", loc),
                 Fractions.names(loc, true), option -> Fractions.from(option).desc(loc));
     }
 
@@ -59,7 +58,7 @@ public class Politics {
 
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
-        if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, get("weapon.title", human.locale), get("weapon.text", human.locale),
+        if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, Bundle.get("weapon.title", human.locale), Bundle.get("weapon.text", human.locale),
                 Weapons.names(human), option -> Weapons.from(human.weapons).get(option).desc(human));
     }
 
@@ -67,21 +66,21 @@ public class Politics {
         Human from = Human.from(player); // you can accept last offer without a nickname
         Human to = args.length == 0 ? findLast(from) : Human.from(args[0]);
 
-        if (from == null) player.sendMessage(get("offer.spectator", findLocale(player)));
-        else if (to == null || from == to) player.sendMessage(get("offer.notfound", from.locale));
+        if (from == null) Bundle.bundled(player, "offer.spectator");
+        else if (to == null || from == to) Bundle.bundled(player, "offer.notfound");
         else if (contains(to, from)) { // a bit of code that is hard to understand, but I don't care :D
-            player.sendMessage(get("offer.accepted", from.locale));
-            to.player.sendMessage(player.coloredName() + get("offer.accept", to.locale));
+            Bundle.bundled(player, "offer.accepted");
+            to.player.sendMessage(player.coloredName() + Bundle.get("offer.accept", to.locale));
 
             to.teamup(from);
             from.lead();
         } else {
-            if (from.leader != from || !from.slaves().isEmpty()) player.sendMessage(get("offer.notfree", from.locale));
-            else if (to.leader != to) player.sendMessage(to.player.coloredName() + get("offer.notleader", from.locale));
-            else if (contains(from, to)) player.sendMessage(get("offer.already", from.locale));
+            if (from.leader != from || !from.slaves().isEmpty()) Bundle.bundled(player, "offer.notfree");
+            else if (to.leader != to) player.sendMessage(to.player.coloredName() + Bundle.get("offer.notleader", from.locale));
+            else if (contains(from, to)) Bundle.bundled(player, "offer.already");
             else {
-                player.sendMessage(get("offer.sent", from.locale));
-                to.player.sendMessage(player.coloredName() + get("offer.join", to.locale));
+                Bundle.bundled(player, "offer.sent");
+                to.player.sendMessage(player.coloredName() + Bundle.get("offer.join", to.locale)); // TODO replace with bundled
                 offers.add(new Offer(from, to));
             }
         }

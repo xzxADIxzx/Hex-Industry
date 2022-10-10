@@ -5,11 +5,9 @@ import mindustry.content.StatusEffects;
 import mindustry.game.Team;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
+import useful.Bundle;
 
 import java.util.Locale;
-
-import static hex.components.Bundle.get;
-import static hex.components.Bundle.format;
 
 public class Fraction {
 
@@ -31,8 +29,8 @@ public class Fraction {
     }
 
     public String desc(Locale loc) {
-        String desc = get(name + ".desc", loc);
-        if (unit != null) desc += format("fract.stats", loc, damage, production, creature);
+        String desc = Bundle.get(name + ".desc", loc);
+        if (unit != null) desc += Bundle.format("fract.stats", loc, damage, production, creature);
         return desc;
     }
 }

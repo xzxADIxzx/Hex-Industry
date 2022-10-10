@@ -3,10 +3,9 @@ package hex.content;
 import arc.math.Mathf;
 import hex.types.Fraction;
 import mindustry.content.UnitTypes;
+import useful.Bundle;
 
 import java.util.Locale;
-
-import static hex.components.Bundle.get;
 
 public class Fractions {
 
@@ -53,7 +52,7 @@ public class Fractions {
     public static String[][] names(Locale loc, boolean spectator) {
         int len = spectator ? 4 : 3;
         String[][] names = new String[len][1];
-        for (int i = 0; i < len; i++) names[i][0] = get(from(i).name + ".name", loc);
+        for (int i = 0; i < len; i++) names[i][0] = Bundle.get(from(i).name + ".name", loc);
         return names;
     }
 }

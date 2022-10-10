@@ -3,9 +3,7 @@ package hex.types;
 import arc.func.Cons;
 import arc.func.Func;
 import arc.util.Time;
-
-import static hex.components.Bundle.get;
-import static hex.components.Bundle.format;
+import useful.Bundle;
 
 public class Package {
 
@@ -34,6 +32,6 @@ public class Package {
     }
 
     public void msg(Human human, String key) {
-        human.player.sendMessage(format(key, human.locale, get(name + ".name", human.locale)));
+        Bundle.bundled(human.player, key, Bundle.get(name + ".name", human.locale));
     }
 }

@@ -5,10 +5,10 @@ import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Sounds;
 
-import java.util.Locale;
+import static hex.components.MenuListener.*;
+import static useful.Bundle.*;
 
-import static hex.components.Bundle.*;
-import static hex.components.MenuListener.guide;
+import java.util.Locale;
 
 public class Guide {
 
@@ -19,11 +19,10 @@ public class Guide {
         if (!pages.containsKey(player)) pages.put(player, 0);
         int page = pages.get(player);
 
-        Locale loc = findLocale(player);
+        Locale loc = locale(player);
         Call.menu(player.con, guide, format("guide.name", loc, page), get("guide.page." + page, loc), new String[][] {
-                {get("guide.prev", loc), get("guide.next", loc)},
-                {get("guide.exit", loc)}
-        });
+                { get("guide.prev", loc), get("guide.next", loc) },
+                { get("guide.exit", loc) } });
     }
 
     public static void choose(Player player, int option) {

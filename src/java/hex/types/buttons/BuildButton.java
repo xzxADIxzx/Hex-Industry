@@ -4,8 +4,7 @@ import hex.types.Hex;
 import hex.types.HexBuild;
 import hex.types.Human;
 import mindustry.gen.Call;
-
-import static hex.components.Bundle.get;
+import useful.Bundle;
 
 public class BuildButton extends Button {
 
@@ -23,7 +22,7 @@ public class BuildButton extends Button {
                     hex1.owner = human.leader;
                     hex1.build(build);
                     human.stats.builded++;
-                } else human.player.sendMessage(get("hex.toofar", human.locale));
+                } else human.player.sendMessage(Bundle.get("hex.toofar", human.locale));
             } else human.enough();
         }, hex, x, y);
 
@@ -31,7 +30,7 @@ public class BuildButton extends Button {
     }
 
     public String format(Human human) {
-        return get(build.name, human.locale) + "\n" + build.prod.resource.formatP(human) + "\n" + build.cons.resource.formatC(human);
+        return Bundle.get(build.name, human.locale) + "\n" + build.prod.resource.formatP(human) + "\n" + build.cons.resource.formatC(human);
     }
 
     @Override

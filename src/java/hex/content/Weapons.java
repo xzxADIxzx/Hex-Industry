@@ -9,9 +9,9 @@ import hex.types.Human;
 import hex.types.Production;
 import hex.types.Weapon;
 import mindustry.content.UnitTypes;
+import useful.Bundle;
 
 import static hex.Main.*;
-import static hex.components.Bundle.get;
 
 public class Weapons {
 
@@ -110,7 +110,7 @@ public class Weapons {
     public static String[][] names(Human human) {
         Seq<Weapon> weapons = from(human.weapons);
         String[][] names = new String[weapons.size][1];
-        for (int i = 0; i < names.length; i++) names[i][0] = get(weapons.get(i).name + ".name", human.locale);
+        for (int i = 0; i < names.length; i++) names[i][0] = Bundle.get(weapons.get(i).name + ".name", human.locale);
         return names;
     }
 }

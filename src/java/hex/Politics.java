@@ -35,7 +35,7 @@ public class Politics {
 
         Locale loc = Bundle.locale(player);
         MenuListener.menu(player, fractionChoose, Bundle.get("fract.title", loc), Bundle.get("fract.text", loc),
-                Fractions.names(loc, true), option -> Fractions.from(option).desc(loc));
+                Fractions.names(loc), option -> Fractions.from(option).desc(loc));
     }
 
     public static void leave(Player player) {

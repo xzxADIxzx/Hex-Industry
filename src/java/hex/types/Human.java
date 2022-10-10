@@ -1,6 +1,5 @@
 package hex.types;
 
-import arc.Events;
 import arc.math.Mathf;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
@@ -11,7 +10,6 @@ import hex.Generator;
 import hex.components.MenuListener;
 import hex.content.HexBuilds;
 import hex.content.Packages;
-import mindustry.game.EventType.UnitChangeEvent;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
@@ -31,13 +29,6 @@ public class Human {
 
     public static ObjectMap<Player, Unit> units = new ObjectMap<>();
     public static String prefix = "[accent]<[white]\uE872[]>[] ";
-
-    static {
-        Events.on(UnitChangeEvent.class, event -> {
-            Unit unit = units.get(event.player);
-            if (event.unit != unit && unit != null) event.player.unit(unit);
-        });
-    }
 
     public Human leader;
     public Player player;
@@ -83,7 +74,9 @@ public class Human {
 
     public static Human from(String name) {
         String striped = Strings.stripGlyphs(Strings.stripColors(name)).toLowerCase();
-        return humans.min(human -> human.levname.contains(striped) && Strings.levenshtein(human.levname, name) < 6, human -> Strings.levenshtein(human.levname, striped));
+        return humans.min( // works pretty good but not perfect
+                human -> human.levname.contains(striped) && Strings.levenshtein(human.levname, name) < 6,
+                human -> Strings.levenshtein(human.levname, striped));
     }
 
     public static Human from(Hex citadel) {

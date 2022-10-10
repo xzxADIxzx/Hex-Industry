@@ -11,14 +11,14 @@ import hex.types.Hex;
 import hex.types.Human;
 import hex.types.ai.*;
 import hex.Generator.MapSize;
-import mindustry.game.EventType.PlayerJoin;
-import mindustry.game.EventType.PlayerLeave;
+import mindustry.game.EventType.*;
 import mindustry.game.Rules.TeamRule;
 import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
 import mindustry.game.Rules;
 import mindustry.game.Team;
 import mindustry.gen.Player;
+import mindustry.gen.Unit;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration;
 
@@ -85,6 +85,11 @@ public class Main extends Plugin {
 
         Events.on(PlayerJoin.class, event -> Politics.join(event.player));
         Events.on(PlayerLeave.class, event -> Politics.leave(event.player));
+
+        Events.on(UnitChangeEvent.class, event -> {
+            Unit unit = Human.units.get(event.player);
+            if (event.unit != unit && unit != null) event.player.unit(unit);
+        });
     }
 
     @Override

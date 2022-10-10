@@ -11,7 +11,6 @@ import hex.types.Fraction;
 import hex.types.Human;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
-import mindustry.gen.Sounds;
 import mindustry.ui.Menus;
 
 import static hex.Main.humans;
@@ -47,7 +46,6 @@ public class MenuListener {
 
         base = Menus.registerMenu((player, option) -> {
             MenuInfo menu = info.get(player);
-            Call.sound(player.con, Sounds.click, 100f, 1f, 0f);
             if (last.get(player) == option || option == -1) menus.get(menu.id).get(player, option);
             else {
                 Call.menu(player.con, base, menu.title, menu.text.get(option), menu.buttons);

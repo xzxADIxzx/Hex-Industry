@@ -70,17 +70,17 @@ public class Politics {
         else if (to == null || from == to) Bundle.bundled(player, "offer.notfound");
         else if (contains(to, from)) { // a bit of code that is hard to understand, but I don't care :D
             Bundle.bundled(player, "offer.accepted");
-            to.player.sendMessage(player.coloredName() + Bundle.get("offer.accept", to.locale));
+            Bundle.bundled(to.player, "offer.accept", player.coloredName());
 
             to.teamup(from);
             from.lead();
         } else {
             if (from.leader != from || !from.slaves().isEmpty()) Bundle.bundled(player, "offer.notfree");
-            else if (to.leader != to) player.sendMessage(to.player.coloredName() + Bundle.get("offer.notleader", from.locale));
+            else if (to.leader != to) Bundle.bundled(player, "offer.notleader", to.player.coloredName());
             else if (contains(from, to)) Bundle.bundled(player, "offer.already");
             else {
                 Bundle.bundled(player, "offer.sent");
-                to.player.sendMessage(player.coloredName() + Bundle.get("offer.join", to.locale)); // TODO replace with bundled
+                Bundle.bundled(to.player, "offer.join", player.coloredName());
                 offers.add(new Offer(from, to));
             }
         }

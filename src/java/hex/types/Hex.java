@@ -1,10 +1,10 @@
 package hex.types;
 
-import arc.func.Cons3;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.math.Mathf;
-import arc.math.Rand;
 import arc.math.geom.Point2;
+import arc.math.geom.Position;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
@@ -16,111 +16,104 @@ import hex.types.buttons.Button;
 import hex.types.buttons.OpenButton;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.gen.Call;
 import mindustry.graphics.Pal;
 import mindustry.world.blocks.environment.Floor;
 import useful.Bundle;
 
 import static hex.Main.*;
-import static hex.Generator.*;
 import static hex.content.HexSchematics.*;
 import static mindustry.Vars.*;
 
-public class Hex {
+public class Hex implements Position {
+
+    /** Radius in which the base hex allows you to do things to other hexes. */
+    public static final float basedst = 600f;
 
     public static final int width = 27;
     public static final int height = 25;
     public static final int radius = 52;
-    public static final Rand random = new Rand();
-    public static final float basedst = 600f;
 
-    protected static int _id;
+    private static int idprov;
+    public final int id;
 
-    public int x;
-    public int y;
-    public int cx;
-    public int cy;
-    public float fx;
-    public float fy;
-
-    public int health;
-    public float step;
-    public Color color;
-    public int instdeg;
+    public int x, y;
+    public int cx, cy;
+    public float fx, fy;
 
     public Human owner;
-    public int id;
-
-    public Seq<Button> buttons = new Seq<>();
     public HexBuild build;
+
+    public HexEnv env;
+    public Seq<Button> buttons = new Seq<>();
 
     public boolean open;
     public boolean busy;
     public boolean base;
-    public HexEnv env;
     public byte door;
 
+    private int health;
+    private float step;
+    private Color color;
+    private int instdeg;
+
     public Hex(Point2 pos) {
+        id = idprov++;
+
         x = pos.x;
         y = pos.y;
+
         cx = x + width / 2;
         cy = y + height / 2;
+
         fx = cx * tilesize;
         fy = cy * tilesize;
 
-        base = (cx - 13) % 57 == 0 && (cy - ((cx - 13) % 114 == 0 ? 12 : 45)) % 66 == 0;
-        env = base ? HexEnv.base : HexEnv.get();
-        door = (byte) random.nextLong();
-        id = _id++;
+        base = (cx - 13) % 57 == 0 && (cy - ((cx - 13) % 114 == 0 ? 12 : 45)) % 66 == 0; // no one knows how it works
+        door = (byte) Mathf.rand.nextLong();
 
-        closed.floor(x, y);
+        env = base ? HexEnv.base : HexEnv.standard();
+        closed.floor(x, y); // door's terrain
     }
 
     public void update(Human human) {
-        if (busy) for (float i = 0; i < 60; i += 12f) Time.run(i, () -> smoke(human));
-        else for (int deg = 0; deg < health; deg++) {
-            float dx = fx + Mathf.cosDeg(deg * step) * radius;
-            float dy = fy + Mathf.sinDeg(deg * step) * radius;
-            Call.effect(human.player.con, Fx.mineSmall, dx, dy, 0, color);
-        }
-        
+        if (busy) for (float i = 0; i < 60; i += 10f) Time.run(i, () -> smoke(human));
+        else for (int deg = 0; deg < health; deg++) health(human, deg);
+
         if (owner == null || owner == human.leader) buttons.each(b -> b.update(human));
         if (base && open) for (float i = 0; i < 60; i += 2f) Time.run(i, () -> inst(human));
     }
 
-    public void smoke(Human human) {
-        float deg = Mathf.random(360f);
-        float dst = Mathf.random(110f);
-        float dx = fx + Mathf.cosDeg(deg) * dst;
-        float dy = fy + Mathf.sinDeg(deg) * dst;
-        Call.effect(human.player.con, Fx.smokeCloud, dx, dy, 0, Color.white);
-    }
+    public void open() {
+        door(door).airNet(x, y);
+        open = true;
 
-    public void inst(Human human) {
-        float dx = fx + Mathf.cosDeg(instdeg += 12f) * basedst;
-        float dy = fy + Mathf.sinDeg(instdeg) * basedst;
-        Call.effect(human.player.con, Fx.instShoot, dx, dy, instdeg, Color.white);
-    }
+        env.terrain(this);
+        env.buttons(this);
 
-    public static boolean bounds(Point2 pos) {
-        return pos.x + width > world.width() || pos.y + height > world.height();
+        Generator.onEmpty(() -> openedNeighbours().each(bour -> {
+            if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
+        }));
     }
 
     public void build(HexBuild build) {
         if (build == null) return; // this happens sometimes
+
         build.build(this);
         this.build = build;
 
         health = build.health;
         step = 360f / health;
-        damage(0); // update color
+        damage(0); // update color and run cooldown
 
-        if (base) onEmpty(() -> Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team()));
+        if (base) Generator.onEmpty(() -> Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team()));
     }
 
     public boolean damage(int damage) {
         health = Math.max(health - damage, 0);
         color = Color.valueOf("38d667").lerp(Pal.health, 1 - (float) health / build.health);
+
         cooldown(damage == 0 ? 600f : Time.toMinutes);
         return health <= 0;
     }
@@ -130,67 +123,61 @@ public class Hex {
         Time.run(time, () -> busy = false);
     }
 
-    public void lose(Human attacker) {
+    public void kill(Human killer) {
         if (owner == null) return; // this happens sometimes
-        build.destroy(owner.production);
-        if (attacker != null) {
-            owner.production.check(owner);
-            attacker.stats.destroyed++;
-        }
-        clear();
 
-        Human human = Human.from(this);
-        if (base && human != null) human.lose();
+        owner.production.check(owner);
+        killer.stats.destroyed++;
+
+        kill();
     }
 
-    public void open() {
-        door(door).airNet(x, y);
-        open = true;
-        env.build(this);
+    public void kill() {
+        if (owner == null) return; // this happens sometimes
 
-        onEmpty(() -> openedNeighbours().each(bour -> {
-            if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
-        }));
+        build.destroy(owner.production);
+        clear();
+
+        Human human = Human.find(this);
+        if (human != null) human.lose(); // kill human if this hex is a citadel
     }
 
     public void clear() {
         if (owner == null) return; // this happens sometimes
-        build.explode(this);
-        env.build(this);
 
-        build = null;
+        clearBuild();
+        env.buttons(this);
+
         owner = null;
+        build = null;
         health = 0;
     }
 
-    public void clearButtons() {
+    public void clearBuild() {
+        if (build == null) return; // this happens sometimes
+
+        build.explode(this);
+        env.terrain(this);
+
         buttons.each(Buttons::unregister);
         buttons.clear();
-        env.terrain(this);
     }
+
+    // region getters
 
     public String health(Human human) {
         return health == 0 ? Bundle.get("hex.zerohp", human.locale) : Bundle.format("hex.health", human.locale, color, health, build.health);
     }
 
-    public void attacked(Human human, Weapon weapon) {
-        owner.player.sendMessage(attacked(owner, human, weapon));
-        owner.slaves().each(slave -> slave.player.sendMessage(attacked(slave, human, weapon)));
-    }
-
-    private String attacked(Human to, Human from, Weapon weapon) {
-        return Bundle.format("hex.attack", to.locale, from.player.coloredName(), cx, cy, Bundle.get(build.name, to.locale), health(to), Bundle.get(weapon.name + ".name", to.locale));
-    }
-
     public Seq<Hex> neighbours() {
-        return hexes.select(hex -> pos().within(hex.pos(), 210f));
+        return hexes.select(hex -> within(hex, 210f));
     }
 
     public Seq<Hex> openedNeighbours() {
-        return neighbours().select(hex -> world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block() == Blocks.air && hex != this);
+        return neighbours().select(hex -> world.tile((hex.cx + cx) / 2, (hex.cy + cy) / 2).block().isAir() && hex != this);
     }
 
-    public Vec2 pos() {
+    public Vec2 vec() {
         return new Vec2(fx, fy);
     }
 
@@ -203,91 +190,124 @@ public class Hex {
     }
 
     public boolean isCaptured(Human owner) {
-        return hexes.contains(hex -> hex.base && pos().within(hex.pos(), basedst) && hex.owner == owner.leader);
+        return hexes.contains(hex -> hex.owner == owner.leader && hex.base && within(hex, basedst));
     }
 
     public boolean isCitadel() {
         return owner != null && (owner.citadel == this || owner.slaves().contains(h -> h.citadel == this));
     }
 
+    @Override
+    public float getX() {
+        return fx;
+    }
+
+    @Override
+    public float getY() {
+        return fy;
+    }
+
+    // endregion
+    // region particles
+
+    public void smoke(Human human) {
+        particle(human, Fx.smokeCloud, Mathf.random(360f), Mathf.random(110f), 0f, Color.white);
+    }
+
+    public void health(Human human, float deg) {
+        particle(human, Fx.mineSmall, deg * step, radius, 0f, color);
+    }
+
+    public void inst(Human human) {
+        particle(human, Fx.instShoot, instdeg += 12f, basedst, instdeg, Color.white);
+    }
+
+    public void particle(Human human, Effect effect, float deg, float dst, float rotation, Color color) {
+        Call.effect(human.player.con, effect,
+                fx + Mathf.cosDeg(deg) * dst,
+                fy + Mathf.sinDeg(deg) * dst, rotation, color);
+    }
+
+    // endregion
+    // region other stuffs
+
+    public void attacked(Human human, Weapon weapon) {
+        attacked(owner, human, weapon);
+        owner.slaves().each(slave -> attacked(slave, human, weapon));
+    }
+
+    private void attacked(Human to, Human from, Weapon weapon) {
+        Bundle.bundled(to.player, "hex.attack",
+                from.player.coloredName(), cx, cy,
+                Bundle.get(build.name, to.locale), health(to), Bundle.get(weapon.name + ".name", to.locale));
+    }
+
+    public static boolean bounds(Point2 pos) {
+        return pos.x + width > world.width() || pos.y + height > world.height();
+    }
+
+    // endregion
+
     public enum HexEnv {
-        citadel(citadelLr1, citadelLr2) {
-            // there is nothing, because the citadel building will add the necessary buttons
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
-        },
-        base(baseLr1, baseLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.base, 0, 0);
-            }
-        },
-        titanium(titaniumLr1, titaniumLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.compressor, 4, 4);
-                add.get(HexBuilds.miner, -6, -3);
-            }
-        },
-        thorium(thoriumLr1, thoriumLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.thory, 0, 0);
-            }
-        },
-        oil(oilLr1, oilLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.oil, 7, 2);
-            }
-        },
-        water(waterLr1, waterLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.water, 0, 0);
-            }
-        },
-        cryo(cryoLr1, cryoLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.cryo, -3, -6);
-            }
-        },
-        forest(forestLr1, forestLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.city, -1, 1);
-            }
-        },
-        spore(sporeLr1, sporeLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {
-                add.get(HexBuilds.cultivator, -7, -2);
-                add.get(HexBuilds.maze, 4, -6);
-            }
-        },
-        canyon(canyonLr1, canyonLr2) {
-            public void addButtons(Cons3<HexBuild, Integer, Integer> add) {}
-        };
+        citadel(citadelLr1, citadelLr2, null), // there is nothing, because the citadel building will add the necessary buttons
+        base(baseLr1, baseLr2, prov -> {
+            prov.add(HexBuilds.base, 0, 0);
+        }),
+        titanium(titaniumLr1, titaniumLr2, prov -> {
+            prov.add(HexBuilds.compressor, 4, 4);
+            prov.add(HexBuilds.miner, -6, -3);
+        }),
+        thorium(thoriumLr1, thoriumLr2, prov -> {
+            prov.add(HexBuilds.thory, 0, 0);
+        }),
+        oil(oilLr1, oilLr2, prov -> {
+            prov.add(HexBuilds.oil, 7, 2);
+        }),
+        water(waterLr1, waterLr2, prov -> {
+            prov.add(HexBuilds.water, 0, 0);
+        }),
+        cryo(cryoLr1, cryoLr2, prov -> {
+            prov.add(HexBuilds.cryo, -3, -6);
+        }),
+        forest(forestLr1, forestLr2, prov -> {
+            prov.add(HexBuilds.city, -1, 1);
+        }),
+        spore(sporeLr1, sporeLr2, prov -> {
+            prov.add(HexBuilds.cultivator, -7, -2);
+            prov.add(HexBuilds.maze, 4, -6);
+        }),
+        canyon(canyonLr1, canyonLr2, null);
 
-        private final HexSchematic Lr1;
-        private final HexSchematic Lr2;
+        private final HexSchematic lr1;
+        private final HexSchematic lr2;
+        private final Cons<ButtonProv> buttons;
 
-        HexEnv(HexSchematic floor, HexSchematic block) {
-            Lr1 = floor;
-            Lr2 = block;
+        HexEnv(HexSchematic floor, HexSchematic block, Cons<ButtonProv>buttons) {
+            this.lr1 = floor;
+            this.lr2 = block;
+            this.buttons = buttons;
         }
 
-        public static HexEnv get() {
-            return Mathf.chance(.6f) ? HexEnv.titanium : HexEnv.thorium;
-        }
-
-        public void build(Hex hex) {
-            hex.clearButtons();
-            addButtons((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
+        public static HexEnv standard() {
+            return Mathf.chance(.6f) ? titanium : thorium;
         }
 
         public void terrain(Hex hex) {
-            Lr1.floorNet(hex.x, hex.y);
-            Lr1.airNet(hex.x, hex.y);
+            lr1.floorNet(hex.x, hex.y);
+            lr1.airNet(hex.x, hex.y);
 
-            Lr2.tiles.each(st -> {
+            lr2.tiles.each(st -> {
                 if (st.block instanceof Floor) Generator.set(st.x + hex.x, st.y + hex.y, null, st.block);
                 else Generator.set(st.x + hex.x, st.y + hex.y, st.block);
             });
         }
 
-        public abstract void addButtons(Cons3<HexBuild, Integer, Integer> add);
+        public void buttons(Hex hex) {
+            buttons.get((build, x, y) -> hex.buttons.add(new BuildButton(build, null, hex.cx + x, hex.cy + y))); // TODO replace null with hex
+        }
+
+        public interface ButtonProv {
+            public void add(HexBuild build, int x, int y);
+        }
     }
 }

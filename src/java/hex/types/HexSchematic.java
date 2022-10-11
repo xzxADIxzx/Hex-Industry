@@ -49,7 +49,7 @@ public class HexSchematic {
     }
 
     public void build(Hex hex) {
-        Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex.pos());
+        Unit poly = UnitTypes.poly.spawn(hex.owner.player.team(), hex);
         tiles.each(st -> poly.addBuild(new BuildPlan(st.x + hex.x, st.y + hex.y, st.rotation, st.block, st.config)));
     }
 }

@@ -63,12 +63,12 @@ public class Weapons {
                 spore = 100;
             }};
             todo = (human, hex, dmg) -> {
-                Vec2 cursor = hex.pos();
-                Vec2 dir = hex.owner.citadel.pos().sub(cursor).setLength(200f);
+                Vec2 cursor = hex.vec();
+                Vec2 dir = hex.owner.citadel.vec().sub(cursor).setLength(200f);
 
                 Cons3<Human, Hex, Integer> cons = attack(UnitTypes.crawler, 10, 16);
                 for (int i = 0; i < 6; i++) {
-                    Hex attacked = hexes.min(hex1 -> hex1.pos().dst(cursor));
+                    Hex attacked = hexes.min(hex1 -> hex1.dst(cursor));
                     cursor.add(dir); // move the cursor in the direction of the core by a distance of ±one hex
                     if (attacked.owner == hex.owner) cons.get(human, attacked, dmg);
                 }
@@ -88,7 +88,7 @@ public class Weapons {
             todo = (human, hex, dmg) -> {
                 UnitTypes.quad.spawn(human.player.team(), hex.fx - 200f, hex.fy - 200f);
                 hex.neighbours().each(hex1 -> {
-                    if (hex1.build != null && hex1.damage(dmg)) Time.run(360f, () -> hex1.lose(human));
+                    if (hex1.build != null && hex1.damage(dmg)) Time.run(360f, () -> hex1.kill(human));
                 });
             };
         }};

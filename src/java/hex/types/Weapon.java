@@ -44,7 +44,7 @@ public class Weapon {
 
     public Cons3<Human, Hex, Integer> attack(UnitType unit, int min, int max) {
         return (human, hex, dmg) -> {
-            if (hex.damage(dmg)) Time.run(600f, () -> hex.lose(human));
+            if (hex.damage(dmg)) Time.run(600f, () -> hex.kill(human));
             for (int i = 0; i < Mathf.random(min, max); i++) // the amount depends on the unit size
                 unit.spawn(human.player.team(), hex.fx + Mathf.random(-80f, 80f), hex.fy + Mathf.random(-80f, 80f));
         };

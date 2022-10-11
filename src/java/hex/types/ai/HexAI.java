@@ -16,7 +16,7 @@ public class HexAI extends AIController {
 
     @Override
     public void init() {
-        if (Human.from(unit.team()) == null) withdrawn = true;
+        if (Human.find(unit.team()) == null) withdrawn = true;
     }
 
     @Override
@@ -35,6 +35,6 @@ public class HexAI extends AIController {
     }
 
     protected Hex hexOn() {
-        return hexes.min(h -> h.pos().dst(unit));
+        return hexes.min(hex -> hex.dst(unit));
     }
 }

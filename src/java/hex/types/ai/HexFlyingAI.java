@@ -12,7 +12,7 @@ public class HexFlyingAI extends HexAI {
         Time.run(600f, this::despawn);
         Time.run(540f, () -> lenght = 0);
         Time.run(60f, () -> {
-            pos = hexOn().pos();
+            pos = hexOn();
             lenght = unit.dst(pos) * 2f;
         });
     }

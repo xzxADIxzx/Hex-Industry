@@ -27,7 +27,7 @@ public class Human {
     public static final String prefix = "[accent]<[white]\uE872[]>[] ";
 
     public Human leader;
-    public NewHex citadel;
+    public Hex citadel;
 
     public Player player;
     public Locale locale;
@@ -45,7 +45,7 @@ public class Human {
 
     public Human(Player player, Fraction fraction) {
         this.leader = this; // for team mechanics
-        this.citadel = new NewHex(null); // Generator.citadel(player)
+        this.citadel = Generator.citadel(player);
 
         setPlayer(player);
         setFraction(fraction);
@@ -55,8 +55,8 @@ public class Human {
     }
 
     public void update() {
-        // if (leader == this) production.update(this);
-        NewHex hex = location();
+        if (leader == this) production.update(this);
+        Hex hex = location();
 
         var core = player.team().core(); // update ItemModule so player can see resources in CoreItemsDisplay
         if (core != null) core.items = production.items;
@@ -116,11 +116,11 @@ public class Human {
         Fraction.leader(player.unit());
 
         Time.run(300f, () -> Generator.onEmpty(() -> { // recalculate production
-            // production = new Production(this); TODO again
+            production = new Production(this);
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> {
                 human.production = production;
-                human.weaponry = weaponry;
+                human.weaponry = weaponry; // TODO merge
             });
         }));
     }
@@ -160,19 +160,19 @@ public class Human {
     // endregion
     // region getters
 
-    public NewHex location() {
-        return nhexes.min(hex -> hex.dst(player));
+    public Hex location() {
+        return hexes.min(hex -> hex.dst(player));
     }
 
-    public Seq<NewHex> captured() {
-        return nhexes.select(hex -> hex.owner == this);
+    public Seq<Hex> captured() {
+        return hexes.select(hex -> hex.owner == this);
     }
 
     public Seq<Human> slaves() {
         return humans.select(human -> human.leader == this && human != this);
     }
 
-    public int cost(NewHex hex) {
+    public int cost(Hex hex) {
         return Mathf.round(leader.citadel.dst(hex) / 1120) + 1;
     }
 
@@ -198,7 +198,7 @@ public class Human {
                 human -> Strings.levenshtein(human.levname, stripped));
     }
 
-    public static Human find(NewHex citadel) {
+    public static Human find(Hex citadel) {
         return humans.find(human -> human.citadel == citadel);
     }
 
@@ -214,7 +214,7 @@ public class Human {
     }
 
     public void unoffer() {
-        Politics.offers.filter(offer -> offer.from != null && offer.to != null); // TODO this instand of null
+        Politics.offers.filter(offer -> offer.from != this && offer.to != this);
     }
 
     public void despawnUnits() {
@@ -227,7 +227,7 @@ public class Human {
 
     // endregion
 
-    public class Weaponry {
+    public class Weaponry { // TODO seq
 
         public byte inway;
         public byte unlocked;

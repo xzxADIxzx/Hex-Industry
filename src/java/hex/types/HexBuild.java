@@ -3,14 +3,13 @@ package hex.types;
 import arc.func.Cons2;
 import arc.func.Prov;
 import arc.graphics.Color;
+import hex.Generator;
 import hex.types.Production.Resource;
 import hex.types.buttons.BuildButton;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
 import mindustry.gen.Call;
 import mindustry.gen.Sounds;
-
-import static hex.Generator.onEmpty;
 
 public class HexBuild {
 
@@ -27,15 +26,13 @@ public class HexBuild {
     public HexBuild next;
 
     public void build(Hex hex) {
-        if (hex.build != null) explode(hex); // cleanup old build
-
         prod.resource.produce(hex.owner.production, true);
         cons.resource.consume(hex.owner.production);
 
-        hex.clearButtons();
+        hex.clearBuild(); // cleanup old build
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
 
-        onEmpty(() -> scheme.build(hex));
+        Generator.onEmpty(() -> scheme.build(hex));
     }
 
     public void create(Production production) {

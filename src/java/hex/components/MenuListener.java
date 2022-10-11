@@ -43,7 +43,9 @@ public class MenuListener {
 
         menus.put(over = 3, (player, option) -> {});
 
-        welcome = Menus.registerMenu((player, option) -> Guide.show(player));
+        welcome = Menus.registerMenu((player, option) -> {
+            if (option != -1) Guide.show(player);
+        });
 
         guide = Menus.registerMenu(Guide::choose);
 

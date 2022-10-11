@@ -186,8 +186,8 @@ public class Generator {
 
     // endregion
 
-    public enum MapSize { // TODO wide which is bigger than big
-        small(198, 201), medium(369, 366), big(540, 542);
+    public enum MapSize {
+        small(198, 201), medium(369, 366), big(540, 542), wide(711, 542);
 
         public final int width;
         public final int height;
@@ -202,12 +202,13 @@ public class Generator {
                 case "small", "1" -> small;
                 case "medium", "2" -> medium;
                 case "big", "3" -> big;
+                case "wide", "4" -> big;
                 default -> null;
             };
         }
 
         public static MapSize get(int players) {
-            return players < 4 ? small : players < 7 ? medium : big;
+            return players <= 3 ? small : players <= 6 ? medium : players <= 9 ? big : wide;
         }
     }
 

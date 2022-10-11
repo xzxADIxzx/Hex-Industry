@@ -10,7 +10,7 @@ public class Packages {
     public static Package crawler, unit, ai, atomic, free;
 
     public static void load() {
-        crawler = new Package(){{
+        crawler = new Package() {{
             name = "shop.pack.crawler";
             cost = 150;
 
@@ -19,7 +19,7 @@ public class Packages {
             cons = human -> human.production.spore(human, cost);
         }};
 
-        unit = new Package(){{
+        unit = new Package() {{
             name = "shop.pack.unit";
             cost = 1;
 
@@ -28,7 +28,7 @@ public class Packages {
             pred = human -> human.cities() > 0;
         }};
 
-        ai = new Package(){{
+        ai = new Package() {{
             name = "shop.pack.ai";
             cost = 6;
 
@@ -38,7 +38,7 @@ public class Packages {
             pred = human -> !human.leader.stats.ai;
         }};
 
-        atomic = new Package(){{
+        atomic = new Package() {{
             name = "shop.pack.atomic";
             cost = 10;
 
@@ -48,7 +48,7 @@ public class Packages {
             pred = human -> !human.leader.stats.atomic;
         }};
 
-        free = new Package(){{
+        free = new Package() {{
             name = "shop.pack.free";
             cost = 0;
 

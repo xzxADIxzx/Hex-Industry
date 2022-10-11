@@ -46,7 +46,7 @@ public class Fractions {
 
     public static Fraction from(int id) {
         if (id == -1) id = Mathf.random(2);
-        return new Fraction[] {horde, engineer, militant, spectator}[id];
+        return new Fraction[] { horde, engineer, militant, spectator }[id];
     }
 
     public static String[][] names(Locale loc) {

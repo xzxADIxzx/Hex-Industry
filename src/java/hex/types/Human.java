@@ -138,7 +138,7 @@ public class Human {
     public void win() {
         if (lose != null) lose.cancel();
         MenuListener.menu(player, statistics, "over.win.title", "over.win.text",
-                new String[][] {{Bundle.get("over.stats.title", locale)}}, option -> stats.toString());
+                new String[][] {{ Bundle.get("over.stats.title", locale) }}, option -> stats.toString());
     }
 
     public void lose() {
@@ -147,7 +147,7 @@ public class Human {
 
         if (citadel.owner == null) // if lose is called from Politics.spectate no need to call lose msg
             MenuListener.menu(player, statistics, "over.lose.title", "over.lose.text",
-                    new String[][] {{Bundle.get("over.stats.title", locale)}}, option -> stats.toString());
+                    new String[][] {{ Bundle.get("over.stats.title", locale) }}, option -> stats.toString());
 
         if (leader == this) { // just saving server resources
             slaves().each(human -> human.citadel.lose(null));

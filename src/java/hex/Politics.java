@@ -34,7 +34,7 @@ public class Politics {
         } else if (hexes.count(Hex::isClosed) == 0) return;
 
         Locale loc = Bundle.locale(player);
-        MenuListener.menu(player, fractionChoose, Bundle.get("fract.title", loc), Bundle.get("fract.text", loc),
+        MenuListener.menu(player, fractionChoose, "fract.title", "fract.text",
                 Fractions.names(loc), option -> Fractions.from(option).desc(loc));
     }
 
@@ -58,7 +58,7 @@ public class Politics {
 
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
-        if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, Bundle.get("weapon.title", human.locale), Bundle.get("weapon.text", human.locale),
+        if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, "weapon.title", "weapon.text",
                 Weapons.names(human), option -> Weapons.from(human.weapons).get(option).desc(human));
     }
 

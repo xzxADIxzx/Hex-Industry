@@ -12,6 +12,7 @@ import hex.types.Human;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.ui.Menus;
+import useful.Bundle;
 
 import static hex.Main.humans;
 
@@ -55,9 +56,9 @@ public class MenuListener {
     }
 
     public static void menu(Player player, int menu, String title, String text, String[][] buttons, Func<Integer, String> func) {
-        info.put(player, new MenuInfo(menu, title, buttons, func));
+        info.put(player, new MenuInfo(menu, Bundle.get(title, player), buttons, func));
         last.put(player, -1);
-        Call.menu(player.con, base, title, text, buttons);
+        Call.menu(player.con, base, title, Bundle.get(text, player), buttons);
     }
 
     public record MenuInfo(int id, String title, String[][] buttons, Func<Integer, String> text) {}

@@ -49,8 +49,12 @@ public class Human {
 
         setPlayer(player);
         setFraction(fraction);
+        this.production = new Production(this);
 
-        Call.menu(player.con, guide, Bundle.get("welcome.name", locale), Bundle.get("welcome.text", locale),
+        this.citadel.owner = this;
+        this.citadel.build(HexBuilds.citadel);
+
+        Call.menu(player.con, welcome, Bundle.get("welcome.name", locale), Bundle.get("welcome.text", locale),
                 new String[][] {{ Bundle.get("welcome.open", locale) }});
     }
 

@@ -87,10 +87,8 @@ public class Hex implements Position {
 
     public void open() {
         door(door).airNet(x, y);
+        clear();
         open = true;
-
-        env.terrain(this);
-        env.buttons(this);
 
         Generator.onEmpty(() -> openedNeighbours().each(bour -> {
             if (bour.isClosed()) bour.buttons.add(new OpenButton(bour));
@@ -143,8 +141,6 @@ public class Hex implements Position {
     }
 
     public void clear() {
-        if (owner == null) return; // this happens sometimes
-
         clearBuild();
         env.buttons(this);
 
@@ -154,9 +150,7 @@ public class Hex implements Position {
     }
 
     public void clearBuild() {
-        if (build == null) return; // this happens sometimes
-
-        build.explode(this);
+        if (build != null) build.explode(this);
         env.terrain(this);
 
         buttons.each(Buttons::unregister);
@@ -249,7 +243,7 @@ public class Hex implements Position {
     // endregion
 
     public enum HexEnv {
-        citadel(citadelLr1, citadelLr2, null), // there is nothing, because the citadel building will add the necessary buttons
+        citadel(citadelLr1, citadelLr2), // there is nothing, because the citadel building will add the necessary buttons
         base(baseLr1, baseLr2, prov -> {
             prov.add(HexBuilds.base, 0, 0);
         }),
@@ -276,13 +270,17 @@ public class Hex implements Position {
             prov.add(HexBuilds.cultivator, -7, -2);
             prov.add(HexBuilds.maze, 4, -6);
         }),
-        canyon(canyonLr1, canyonLr2, null);
+        canyon(canyonLr1, canyonLr2);
 
         private final HexSchematic lr1;
         private final HexSchematic lr2;
         private final Cons<ButtonProv> buttons;
 
-        HexEnv(HexSchematic floor, HexSchematic block, Cons<ButtonProv>buttons) {
+        HexEnv(HexSchematic floor, HexSchematic block) {
+            this(floor, block, prov -> {});
+        }
+
+        HexEnv(HexSchematic floor, HexSchematic block, Cons<ButtonProv> buttons) {
             this.lr1 = floor;
             this.lr2 = block;
             this.buttons = buttons;
@@ -303,7 +301,7 @@ public class Hex implements Position {
         }
 
         public void buttons(Hex hex) {
-            buttons.get((build, x, y) -> hex.buttons.add(new BuildButton(build, null, hex.cx + x, hex.cy + y))); // TODO replace null with hex
+            buttons.get((build, x, y) -> hex.buttons.add(new BuildButton(build, hex, hex.cx + x, hex.cy + y)));
         }
 
         public interface ButtonProv {

@@ -23,14 +23,14 @@ public class Buttons {
     public static void load() {
         Events.on(TapEvent.class, event -> {
             Human human = Human.from(event.player);
-            if (human != null) {
-                buttons.each(btn -> btn.check(event.tile, human));
+            if (human == null) return;
 
-                if (clicks.containsKey(event.player) && clicks.get(event.player).check(event)) {
-                    Politics.attack(hexes.min(hex -> event.tile.dst(hex.pos())), human);
-                    clicks.remove(event.player);
-                } else clicks.put(event.player, new Click(Time.time, event.tile));
-            }
+            buttons.each(btn -> btn.check(event.tile, human));
+
+            if (clicks.containsKey(event.player) && clicks.get(event.player).check(event)) {
+                Politics.attack(hexes.min(hex -> event.tile.dst(hex.pos())), human);
+                clicks.remove(event.player);
+            } else clicks.put(event.player, new Click(Time.time, event.tile));
         });
     }
 

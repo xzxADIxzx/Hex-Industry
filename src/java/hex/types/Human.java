@@ -93,7 +93,8 @@ public class Human {
         if (core != null) core.items = production.items;
 
         hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
-        Call.setHudText(player.con, Bundle.format("hud", locale, hex.id, hex.owner == null ? Bundle.get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
+        Call.setHudText(player.con, Bundle.format("hud", locale, hex.id,
+                hex.owner == null ? Bundle.get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
                 hex.health(this), production.unit(), production.crawler(), production.liquids()));
     }
 
@@ -222,6 +223,7 @@ public class Human {
     }
 
     public class Statistics {
+
         public Human parent;
 
         public int opened;
@@ -229,7 +231,7 @@ public class Human {
         public int destroyed;
         public int shops;
 
-        public boolean ai;
+        public boolean ai; // only for packages
         public boolean atomic;
 
         public Statistics(Human parent) {

@@ -11,7 +11,7 @@ import static hex.Main.hexes;
 
 public class HexAI extends AIController {
 
-    /** blocks the updateUnit call */
+    /** Blocks the updateUnit call. */
     public boolean withdrawn;
 
     @Override

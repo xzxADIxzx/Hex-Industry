@@ -3,7 +3,6 @@ package hex.types.buttons;
 import hex.types.Hex;
 import hex.types.HexBuild;
 import hex.types.Human;
-import mindustry.gen.Call;
 import useful.Bundle;
 
 public class BuildButton extends Button {
@@ -29,12 +28,8 @@ public class BuildButton extends Button {
         this.build = build;
     }
 
-    public String format(Human human) {
-        return Bundle.get(build.name, human.locale) + "\n" + build.prod.resource.formatP(human) + "\n" + build.cons.resource.formatC(human);
-    }
-
     @Override
-    public void update(Human human) {
-        Call.label(human.player.con, format(human), 1f, fx, fy);
+    public String toString(Human human) {
+        return Bundle.get(build.name, human.locale) + "\n" + build.prod.resource.formatP(human) + "\n" + build.cons.resource.formatC(human);
     }
 }

@@ -4,7 +4,6 @@ import hex.components.MenuListener;
 import hex.content.Packages;
 import hex.types.Hex;
 import hex.types.Human;
-import mindustry.gen.Call;
 import useful.Bundle;
 
 import static hex.components.MenuListener.*;
@@ -20,7 +19,7 @@ public class ShopButton extends Button {
     }
 
     @Override
-    public void update(Human human) {
-        Call.label(human.player.con, Bundle.get("shop.title", human.locale) + "\n" + Bundle.format("shop.amount", human.locale, human.shops()), 1f, fx, fy);
+    public String toString(Human human) {
+        return Bundle.get("shop.title", human.locale) + "\n" + Bundle.format("shop.amount", human.locale, human.shops());
     }
 }

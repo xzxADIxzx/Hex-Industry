@@ -27,7 +27,7 @@ public class Politics {
         player.name(player.name.replace(Human.prefix, ""));
         Human human = left.get(player.con.uuid);
         if (human != null) {
-            human.player(player);
+            human.rejoined(player);
             left.remove(player.con.uuid);
 
             return;
@@ -39,7 +39,7 @@ public class Politics {
     }
 
     public static void leave(Player player) {
-        Human human = Human.from(player);
+        Human human = Human.find(player);
         if (human == null) return;
 
         left.put(player.con.uuid, human);
@@ -51,7 +51,7 @@ public class Politics {
     }
 
     public static void spectate(Player player) {
-        Human human = Human.from(player);
+        Human human = Human.find(player);
         if (human == null) join(player);
         else human.lose();
     }
@@ -59,12 +59,12 @@ public class Politics {
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
         if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, "weapon.title", "weapon.text",
-                Weapons.names(human), option -> Weapons.from(human.weapons).get(option).desc(human));
+                Weapons.names(human), option -> Weapons.from(human).get(option).desc(human));
     }
 
     public static void join(String[] args, Player player) {
-        Human from = Human.from(player); // you can accept last offer without a nickname
-        Human to = args.length == 0 ? findLast(from) : Human.from(args[0]);
+        Human from = Human.find(player); // you can accept last offer without a nickname
+        Human to = args.length == 0 ? findLast(from) : Human.find(args[0]);
 
         if (from == null) Bundle.bundled(player, "offer.spectator");
         else if (to == null || from == to) Bundle.bundled(player, "offer.notfound");

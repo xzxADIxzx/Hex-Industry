@@ -22,7 +22,7 @@ public class Buttons {
 
     public static void load() {
         Events.on(TapEvent.class, event -> {
-            Human human = Human.from(event.player);
+            Human human = Human.find(event.player);
             if (human == null) return;
 
             buttons.each(btn -> btn.check(event.tile, human));

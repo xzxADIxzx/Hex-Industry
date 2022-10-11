@@ -7,89 +7,58 @@ import arc.util.Strings;
 import arc.util.Time;
 import arc.util.Timer.Task;
 import hex.Generator;
-import hex.components.MenuListener;
+import hex.Politics;
 import hex.content.HexBuilds;
-import hex.content.Packages;
+import hex.content.Weapons;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
-import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 import useful.Bundle;
+
+import static hex.Main.*;
+import static hex.components.MenuListener.*;
 
 import java.util.Locale;
 
-import static hex.Main.*;
-import static hex.Politics.*;
-import static hex.components.MenuListener.statistics;
-
 public class Human {
 
-    public static ObjectMap<Player, Unit> units = new ObjectMap<>();
-    public static String prefix = "[accent]<[white]\uE872[]>[] ";
+    public static final ObjectMap<Player, Unit> units = new ObjectMap<>();
+    public static final String prefix = "[accent]<[white]\uE872[]>[] ";
 
     public Human leader;
+    public NewHex citadel;
+
     public Player player;
     public Locale locale;
 
     public Fraction fraction;
     public Production production;
 
-    public Hex citadel;
-    public byte weapons;
-    public Task lose; // oh, no
-    public Statistics stats = new Statistics(this);
+    public Weaponry weaponry = new Weaponry();
+    public Statistics stats = new Statistics();
 
-    public String levname;
-    public String hudname;
+    public Task lose; // oh no
+
+    private String hudname;
+    private String levname;
 
     public Human(Player player, Fraction fraction) {
-        this.player = player;
-        this.locale = Bundle.locale(player);
-
         this.leader = this; // for team mechanics
-        this.fraction = fraction;
+        this.citadel = new NewHex(null); // Generator.citadel(player)
 
-        this.citadel = Generator.citadel(player);
-        this.production = new Production(this);
+        setPlayer(player);
+        setFraction(fraction);
 
-        this.citadel.owner = this;
-        this.citadel.build(HexBuilds.citadel);
-
-        this.hudname = Strings.stripColors(player.name());
-        this.levname = Strings.stripGlyphs(hudname).toLowerCase().replace(" ", "");
-
-        this.player.unit(fraction.spawn(player.team(), citadel.pos()));
-        this.weapons = 0x7;
-
-        units.put(player, player.unit()); // saves the player's unit
-        Bundle.bundled(player, "welcome"); // some info
-    }
-
-    public static Human from(Player player) {
-        return humans.find(human -> human.player == player);
-    }
-
-    public static Human from(String name) {
-        String striped = Strings.stripGlyphs(Strings.stripColors(name)).toLowerCase();
-        return humans.min( // works pretty good but not perfect
-                human -> human.levname.contains(striped) && Strings.levenshtein(human.levname, name) < 6,
-                human -> Strings.levenshtein(human.levname, striped));
-    }
-
-    public static Human from(Hex citadel) {
-        return humans.find(human -> human.citadel == citadel);
-    }
-
-    public static Human from(Team team) {
-        return humans.find(human -> human.player.team() == team);
+        Call.menu(player.con, guide, Bundle.get("welcome.name", locale), Bundle.get("welcome.text", locale),
+                new String[][] {{ Bundle.get("welcome.open", locale) }});
     }
 
     public void update() {
-        if (leader == this) production.update(this);
-        Hex hex = location();
+        // if (leader == this) production.update(this);
+        NewHex hex = location();
 
-        CoreBuild core = player.team().core(); // update ItemModule so player can see resources in CoreItemsDisplay
+        var core = player.team().core(); // update ItemModule so player can see resources in CoreItemsDisplay
         if (core != null) core.items = production.items;
 
         hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
@@ -98,14 +67,42 @@ public class Human {
                 hex.health(this), production.unit(), production.crawler(), production.liquids()));
     }
 
+    public void win() {
+        if (lose != null) lose.cancel();
+        menu(player, over, "over.win.title", "over.win.text", new String[][] {{ Bundle.get("over.stats.title", locale )}}, option -> stats.toString());
+    }
+
+    public void lose() {
+        Call.unitDespawn(units.remove(player));
+        Call.hideHudText(player.con);
+
+        if (lose != null) lose.cancel(); // for safety
+        if (citadel.owner == null) // if lose is called from Politics.spectate no need to call lose msg
+            menu(player, over, "over.lose.title", "over.lose.text", new String[][] {{ Bundle.get("over.stats.title", locale) }}, option -> stats.toString());
+
+        if (leader == this) { // just saving server resources
+            despawnUnits();
+            slaves().each(human -> human.citadel.kill());
+            captured().each(hex -> Time.run(Mathf.random(300f), () -> hex.clear()));
+        }
+
+        player.team(Team.derelict);
+        humans.remove(this);
+
+        if (humans.count(h -> h.leader == h) == 1) { // if only one team is alive, the game is over
+            humans.each(Human::win); // call win msg
+            Bundle.sendToChat("over.new");
+            Time.run(720f, Generator::restart); // restarts the game after 12 seconds
+        } else if (humans.isEmpty()) Generator.restart(); // so yeah it happens rly often
+    }
+
     public void teamup(Human leader) {
         despawnUnits();
-        player.team(leader.player.team());
-        fraction = leader.fraction;
-        units.put(player, fraction.spawn(player.team(), player));
-
         unoffer();
-        unlock(leader.weapons);
+
+        player.team(leader.player.team());
+        setFraction(leader.fraction);
+
         captured().each(hex -> {
             hex.owner = leader;
             Time.run(Mathf.random(300f), () -> hex.build(hex.build));
@@ -115,135 +112,160 @@ public class Human {
     }
 
     public void lead() {
-        updateName();
+        leaderPrefix();
         Fraction.leader(player.unit());
 
         Time.run(300f, () -> Generator.onEmpty(() -> { // recalculate production
-            production = new Production(this);
+            // production = new Production(this); TODO again
             captured().each(hex -> hex.build.create(production));
-            slaves().each(human -> human.production = production);
+            slaves().each(human -> {
+                human.production = production;
+                human.weaponry = weaponry;
+            });
         }));
     }
 
-    public void player(Player player) {
+    // region setters
+
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.locale = Bundle.locale(player);
+
+        this.hudname = Strings.stripColors(player.name()); // used in hud and search
+        this.levname = Strings.stripGlyphs(hudname).toLowerCase().replace(" ", "");
+    }
+
+    public void setFraction(Fraction fraction) {
+        Unit unit = fraction.spawn(player.team(), this.fraction == null ? citadel : player);
+
+        this.player.unit(unit);
+        units.put(player, unit); // saves the player's unit
+
+        this.fraction = fraction;
+    }
+
+    public void rejoined(Player player) {
         Unit unit = units.remove(this.player);
         units.put(player, unit);
-        lose.cancel(); // oh, yes
-
+        
         player.team(unit.team());
         player.unit(unit);
-        this.player = player;
-        if (!slaves().isEmpty()) updateName();
+
+        lose.cancel(); // oh yes
+        setPlayer(player);
+
+        if (slaves().any()) leaderPrefix();
     }
 
-    public void win() {
-        if (lose != null) lose.cancel();
-        MenuListener.menu(player, statistics, "over.win.title", "over.win.text",
-                new String[][] {{ Bundle.get("over.stats.title", locale) }}, option -> stats.toString());
+    // endregion
+    // region getters
+
+    public NewHex location() {
+        return nhexes.min(hex -> hex.dst(player));
     }
 
-    public void lose() {
-        Call.unitDespawn(units.remove(player));
-        Call.hideHudText(player.con);
-
-        if (citadel.owner == null) // if lose is called from Politics.spectate no need to call lose msg
-            MenuListener.menu(player, statistics, "over.lose.title", "over.lose.text",
-                    new String[][] {{ Bundle.get("over.stats.title", locale) }}, option -> stats.toString());
-
-        if (leader == this) { // just saving server resources
-            slaves().each(human -> human.citadel.lose(null));
-            despawnUnits();
-            captured().each(hex -> Time.run(Mathf.random(300f), () -> hex.clear()));
-        }
-
-        if (lose != null) lose.cancel(); // for safety
-
-        player.team(Team.derelict);
-        leader.slaves().remove(this);
-        humans.remove(this);
-
-        if (humans.count(h -> h.leader == h) == 1) {
-            humans.each(Human::win); // call win msg
-            Bundle.sendToChat("over.new");
-            Time.run(720f, Generator::restart); // restarts the game after 12 seconds
-        } else if (humans.isEmpty()) Generator.restart(); // so yeah it happens rly often
-    }
-
-    public void enough() {
-        Bundle.bundled(player, "enough");
-    }
-
-    public void unlock(int id) {
-        leader.weapons |= id;
-        leader.slaves().each(h -> h.weapons |= id);
-    }
-
-    public void unoffer() {
-        offers.filter(offer -> offer.from != this && offer.to != this);
-    }
-
-    public void updateName() {
-        if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
-    }
-
-    public void despawnUnits() {
-        player.team().data().units.each(Call::unitDespawn);
-    }
-
-    public byte locked() {
-        return (byte) (~weapons & 0xFF);
-    }
-
-    public Hex location() {
-        return hexes.min(hex -> hex.pos().dst(player));
-    }
-
-    public Seq<Hex> captured() {
-        return hexes.select(hex -> hex.owner == this);
+    public Seq<NewHex> captured() {
+        return nhexes.select(hex -> hex.owner == this);
     }
 
     public Seq<Human> slaves() {
         return humans.select(human -> human.leader == this && human != this);
     }
 
-    public int cost(Hex hex) {
-        return Mathf.round(leader.citadel.point().dst(hex.point()) / 140) + 1;
-    }
-
-    public int builds(HexBuild build) {
-        return leader.captured().sum(h -> h.build.parent == build.parent ? 1 : 0);
+    public int cost(NewHex hex) {
+        return Mathf.round(leader.citadel.dst(hex) / 1120) + 1;
     }
 
     public int shops() {
-        return builds(HexBuilds.maze);
+        return leader.captured().count(h -> h.build == HexBuilds.maze);
     }
 
     public int cities() {
-        return builds(HexBuilds.city);
+        return leader.captured().count(h -> h.build == HexBuilds.city);
+    }
+
+    // endregion
+    // region find
+
+    public static Human find(Player player) {
+        return humans.find(human -> human.player == player);
+    }
+
+    public static Human find(String name) {
+        String stripped = Strings.stripGlyphs(Strings.stripColors(name)).toLowerCase();
+        return humans.min( // works pretty good but not perfect
+                human -> human.levname.contains(stripped) && Strings.levenshtein(human.levname, stripped) < 6,
+                human -> Strings.levenshtein(human.levname, stripped));
+    }
+
+    public static Human find(NewHex citadel) {
+        return humans.find(human -> human.citadel == citadel);
+    }
+
+    public static Human find(Team team) {
+        return humans.find(human -> human.player.team() == team);
+    }
+
+    // endregion
+    // region other stuffs
+
+    public void enough() {
+        Bundle.bundled(player, "enough");
+    }
+
+    public void unoffer() {
+        Politics.offers.filter(offer -> offer.from != null && offer.to != null); // TODO this instand of null
+    }
+
+    public void despawnUnits() {
+        player.team().data().units.each(Call::unitDespawn);
+    }
+
+    public void leaderPrefix() {
+        if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
+    }
+
+    // endregion
+
+    public class Weaponry {
+
+        public byte inway;
+        public byte unlocked;
+
+        public void unlock(int id) {
+            unlocked |= id;
+        }
+
+        public boolean unlocked(int id) {
+            return (1 << id & unlocked) == 1 << id;
+        }
+
+        public void sendToWay(int id) {
+            inway |= id;
+        }
+
+        public boolean isInWay(int id) {
+            return (1 << id & unlocked) == 1 << id;
+        }
+
+        public byte locked() {
+            return (byte) (~unlocked & 0xFF);
+        }
     }
 
     public class Statistics {
-
-        public Human parent;
 
         public int opened;
         public int builded;
         public int destroyed;
         public int shops;
 
-        public boolean ai; // only for packages
-        public boolean atomic;
-
-        public Statistics(Human parent) {
-            this.parent = parent;
+        public String locked(Weapon weapon) {
+            return Bundle.get(weaponry.unlocked(weapon.id) ? "over.stats.open" : "over.stats.lock", locale);
         }
 
         public String toString() {
-            return Bundle.format("over.stats.text", locale, opened, shops, builded, destroyed, locked(Packages.ai), locked(Packages.atomic));
-        }
-
-        public String locked(Package pack) {
-            return Bundle.get(pack.pred.get(parent) ? "over.stats.lock" : "over.stats.open", locale);
+            return Bundle.format("over.stats.text", locale, opened, shops, builded, destroyed, locked(Weapons.crawler), locked(Weapons.atomic));
         }
     }
 }

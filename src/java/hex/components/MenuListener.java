@@ -27,17 +27,17 @@ public class MenuListener {
     public static void load() {
         menus.put(fractionChoose = 0, (player, option) -> {
             Fraction fract = Fractions.from(option);
-            Human human = Human.from(player); // if the stars converge in the sky, the player can have two faction selection menus
+            Human human = Human.find(player); // if the stars converge in the sky, the player can have two faction selection menus
             if (fract != Fractions.spectator && human == null) humans.add(new Human(player, fract));
         });
 
         menus.put(weaponChoose = 1, (player, option) -> {
-            Human human = Human.from(player);
-            if (option != -1) Weapons.from(human.weapons).get(option).attack(human);
+            Human human = Human.find(player);
+            if (option != -1) Weapons.from(human).get(option).attack(human);
         });
 
         menus.put(shop = 2, (player, option) -> {
-            Human human = Human.from(player);
+            Human human = Human.find(player);
             if (option != -1) Packages.from(human, option).send(human);
         });
 

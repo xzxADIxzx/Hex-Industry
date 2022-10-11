@@ -119,7 +119,7 @@ public class Production {
     public void unlock(Human human, Weapon weapon) {
         if (crawler >= weapon.cost) {
             crawler -= weapon.cost;
-            human.unlock(weapon.id);
+            human.weaponry.unlock(weapon.id);
         } else human.enough();
     }
 

@@ -98,19 +98,21 @@ public class Weapons {
         return new Weapon[] {flare, horizon, zenith, crawler, atomic}[id];
     }
 
-    public static Seq<Weapon> from(byte id) {
+    public static Seq<Weapon> from(Human human) {
         Seq<Weapon> weapons = new Seq<>();
-
         for (int i = 0; i < 5; i++)
-            if ((1 << i & id) == 1 << i) weapons.add(from(i));
+            if (human.weaponry.unlocked(i)) weapons.add(from(i));
 
         return weapons;
     }
 
     public static String[][] names(Human human) {
-        Seq<Weapon> weapons = from(human.weapons);
+        Seq<Weapon> weapons = from(human);
+
         String[][] names = new String[weapons.size][1];
-        for (int i = 0; i < names.length; i++) names[i][0] = Bundle.get(weapons.get(i).name + ".name", human.locale);
+        for (int i = 0; i < names.length; i++)
+            names[i][0] = Bundle.get(weapons.get(i).name + ".name", human.locale);
+
         return names;
     }
 }

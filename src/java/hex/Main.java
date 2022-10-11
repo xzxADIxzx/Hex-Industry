@@ -119,7 +119,7 @@ public class Main extends Plugin {
         });
 
         handler.register("hack", "<human>", "Cheating is bad, but sometimes.", args -> {
-            Human human = Human.from(args[0]);
+            Human human = Human.find(args[0]);
             if (human == null) Log.err("Can't find a Human with provided name.");
             else human.production.all(1000);
         });

@@ -2,7 +2,6 @@ package hex.content;
 
 import arc.func.Cons3;
 import arc.math.geom.Vec2;
-import arc.struct.Seq;
 import arc.util.Time;
 import hex.types.Hex;
 import hex.types.Human;
@@ -95,19 +94,11 @@ public class Weapons {
     }
 
     public static Weapon from(int id) {
-        return new Weapon[] {flare, horizon, zenith, crawler, atomic}[id];
-    }
-
-    public static Seq<Weapon> from(Human human) {
-        Seq<Weapon> weapons = new Seq<>();
-        for (int i = 0; i < 5; i++)
-            if (human.weaponry.unlocked(i)) weapons.add(from(i));
-
-        return weapons;
+        return new Weapon[] { flare, horizon, zenith, crawler, atomic }[id];
     }
 
     public static String[][] names(Human human) {
-        Seq<Weapon> weapons = from(human);
+        var weapons = human.weaponry.unlocked;
 
         String[][] names = new String[weapons.size][1];
         for (int i = 0; i < names.length; i++)

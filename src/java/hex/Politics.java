@@ -58,7 +58,7 @@ public class Politics {
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
         if (Weapon.attackable(human)) menu(human.player, weaponChoose, "weapon.name", "weapon.text",
-                Weapons.names(human), option -> Weapons.from(human).get(option).desc(human));
+                Weapons.names(human), option -> human.weaponry.unlocked.get(option).desc(human));
     }
 
     public static void join(String[] args, Player player) {

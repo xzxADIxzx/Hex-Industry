@@ -123,7 +123,7 @@ public class Human {
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> {
                 human.production = production;
-                human.weaponry = weaponry; // TODO merge
+                human.weaponry = weaponry.merge(human.weaponry);
             });
         }));
     }
@@ -230,29 +230,22 @@ public class Human {
 
     // endregion
 
-    public class Weaponry { // TODO seq
+    public class Weaponry {
 
-        public byte inway;
-        public byte unlocked = 0x7;
+        public Seq<Weapon> unlocked = Seq.with(Weapons.flare, Weapons.horizon, Weapons.zenith);
+        public Seq<Weapon> bought = new Seq<>();
 
-        public void unlock(int id) {
-            unlocked |= id;
+        public void unlock(Weapon weapon) {
+            unlocked.addUnique(weapon);
+            unlocked.sort(wp -> wp.id);
         }
 
-        public boolean unlocked(int id) {
-            return (1 << id & unlocked) == 1 << id;
-        }
+        public Weaponry merge(Weaponry slave) {
+            slave.unlocked.each(unlocked::addUnique);
+            slave.bought.each(bought::addUnique);
 
-        public void sendToWay(int id) {
-            inway |= id;
-        }
-
-        public boolean isInWay(int id) {
-            return (1 << id & unlocked) == 1 << id;
-        }
-
-        public byte locked() {
-            return (byte) (~unlocked & 0xFF);
+            unlocked.sort(wp -> wp.id);
+            return this;
         }
     }
 
@@ -264,7 +257,7 @@ public class Human {
         public int shops;
 
         public String locked(Weapon weapon) {
-            return Bundle.get(weaponry.unlocked(weapon.id) ? "over.stats.open" : "over.stats.lock", locale);
+            return Bundle.get(weaponry.unlocked.contains(weapon) ? "over.stats.open" : "over.stats.lock", locale);
         }
 
         public String toString() {

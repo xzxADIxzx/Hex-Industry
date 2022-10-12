@@ -32,20 +32,20 @@ public class Packages {
             name = "shop.pack.ai";
             cost = 6;
 
-            post = human -> human.weaponry.sendToWay(Weapons.crawler.id);
-            cont = human -> human.weaponry.unlock(Weapons.crawler.id);
+            post = human -> human.weaponry.bought.add(Weapons.crawler);
+            cont = human -> human.weaponry.unlock(Weapons.crawler);
             desc = human -> Bundle.format(name + ".desc", human.locale, Weapons.crawler.desc(human), cost);
-            pred = human -> !human.weaponry.isInWay(Weapons.crawler.id);
+            pred = human -> !human.weaponry.bought.contains(Weapons.crawler);
         }};
 
         atomic = new Package() {{
             name = "shop.pack.atomic";
             cost = 10;
 
-            post = human -> human.weaponry.sendToWay(Weapons.atomic.id);
-            cont = human -> human.weaponry.unlock(Weapons.atomic.id);
+            post = human -> human.weaponry.bought.add(Weapons.atomic);
+            cont = human -> human.weaponry.unlock(Weapons.atomic);
             desc = human -> Bundle.format(name + ".desc", human.locale, Weapons.atomic.desc(human), cost);
-            pred = human -> !human.weaponry.isInWay(Weapons.atomic.id);
+            pred = human -> !human.weaponry.bought.contains(Weapons.atomic);
         }};
 
         free = new Package() {{

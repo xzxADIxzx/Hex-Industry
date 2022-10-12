@@ -6,7 +6,6 @@ import arc.struct.ObjectMap;
 import hex.Guide;
 import hex.content.Fractions;
 import hex.content.Packages;
-import hex.content.Weapons;
 import hex.types.Fraction;
 import hex.types.Human;
 import mindustry.game.Team;
@@ -39,7 +38,7 @@ public class MenuListener {
 
         menus.put(weaponChoose = 1, (player, option) -> {
             Human human = Human.find(player);
-            if (option != -1) Weapons.from(human).get(option).attack(human);
+            if (option != -1) human.weaponry.unlocked.get(option).attack(human);
         });
 
         menus.put(shop = 2, (player, option) -> {

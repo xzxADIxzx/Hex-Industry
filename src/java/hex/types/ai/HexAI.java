@@ -30,10 +30,6 @@ public class HexAI extends AIController {
         Call.unitDespawn(unit);
     }
 
-    protected void target() { // TODO command center removed
-        // target = targetFlag(unit.x, unit.y, BlockFlag.rally, false);
-    }
-
     protected Hex hexOn() {
         return hexes.min(hex -> hex.dst(unit));
     }

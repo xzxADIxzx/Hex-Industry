@@ -1,52 +1,25 @@
 package hex.types.ai;
 
-import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
-import arc.util.Time;
-import hex.types.Hex;
 import mindustry.content.Items;
 import mindustry.gen.Call;
 
-import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
+import static mindustry.Vars.*;
 
-public class HexSuicideAI extends HexAI {
-
-    public int state;
-
-    public Hex hex;
-    public Seq<Vec2> marks;
-
-    public HexSuicideAI() {
-        Time.run(60f, () -> {
-            hex = hexOn();
-            if (hex.owner == null || hex.owner.player.team() != unit.team()) return;
-            marks = Seq.with(from(7, -3), from(3, -3), from(3, 1));
-        });
-    }
+public class HexSuicideAI extends HexPathAI {
 
     @Override
     public void updateMovement() {
-        if (marks == null) return;
-        if (state < marks.size) {
-            Vec2 pos = marks.get(state);
-            moveTo(pos, 0f);
-
-            if (unit.within(pos, 2f)) state++;
-        } else if (state == 3) {
-            Call.takeItems(world.build(hex.cx, hex.cy + 1), Items.sporePod, 10, unit);
-            state = 4;
-        } else if (state == 4) {
-            // pathfind(Pathfinder.fieldRally);
-            // target();
-
-            // if (unit.within(target, 20f)) despawn();
-            despawn(); // TODO command center removed
-        }
+        super.updateMovement();
+        if (state == 3) Call.takeItems(world.build(hex.cx, hex.cy + 1), Items.sporePod, 10, unit);
     }
 
-    public Vec2 from(int x, int y) {
-        return new Vec2(hex.fx + x * tilesize + Mathf.random(8f), hex.fy + y * tilesize + Mathf.random(8f));
+    @Override
+    public Seq<Vec2> initMarks() {
+        return Seq.with(
+                from(7, -3), from(3, -3), from(3, 1), /* take spores */
+                from(3, -3), from(7, -3), from(7, 5), /* go back */
+                from(-5, 5), from(-5, 1), from(-9, 1), from(-9, -3), from(-5, -3), from(-5, -7), from(-1, -7));
     }
 }

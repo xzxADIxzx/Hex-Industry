@@ -6,8 +6,6 @@ import arc.util.Time;
 import mindustry.type.UnitType;
 import useful.Bundle;
 
-import static hex.Politics.attacked;
-
 public class Weapon {
 
     protected static int _id;
@@ -34,11 +32,10 @@ public class Weapon {
 
     public void attack(Human human) {
         if (!attackable(human)) return;
-        Hex hex = attacked.get(human);
         if (cons.resource.enough(human.production)) {
             cons.resource.consume(human.production);
-            todo.get(human, hex, damage(human));
-            hex.attacked(human, this);
+            todo.get(human, human.attacked, damage(human));
+            human.attacked.attacked(human, this);
         } else human.enough();
     }
 
@@ -51,11 +48,13 @@ public class Weapon {
     }
 
     public static boolean attackable(Human human) {
-        Hex hex = attacked.get(human);
+        Hex hex = human.attacked;
         boolean zone = !hex.isCaptured(human), busy = hex.busy;
+
         if (hex.owner == human.leader || hex.build == null) return false;
         else if (zone) Bundle.bundled(human.player, "hex.toofar");
         else if (busy) Bundle.bundled(human.player, "hex.downed");
+
         return !zone && !busy;
     }
 }

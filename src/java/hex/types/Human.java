@@ -39,6 +39,7 @@ public class Human {
     public Statistics stats = new Statistics();
 
     public Task lose; // oh no
+    public Hex attacked;
 
     private String hudname;
     private String levname;

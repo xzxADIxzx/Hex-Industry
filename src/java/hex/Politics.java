@@ -19,7 +19,6 @@ import java.util.Locale;
 public class Politics {
 
     public static final Seq<Offer> offers = new Seq<>();
-    public static final ObjectMap<Human, Hex> attacked = new ObjectMap<>();
     public static final ObjectMap<String, Human> left = new ObjectMap<>();
 
     public static void join(Player player) {
@@ -56,7 +55,7 @@ public class Politics {
     }
 
     public static void attack(Hex hex, Human human) {
-        attacked.put(human, hex);
+        human.attacked = hex;
         if (Weapon.attackable(human)) menu(human.player, weaponChoose, "weapon.name", "weapon.text",
                 Weapons.names(human), option -> human.weaponry.unlocked.get(option).desc(human));
     }

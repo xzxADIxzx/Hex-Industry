@@ -85,6 +85,7 @@ public class Generator {
         spray(HexEnv.oil, .4f);
         spray(HexEnv.water, .25f);
         spray(HexEnv.cryo, .11f);
+        spray(HexEnv.arkycite, .08f);
         spray(HexEnv.forest, .5f);
         spray(HexEnv.spore, .15f);
         pile(HexEnv.canyon, .08f);
@@ -204,7 +205,7 @@ public class Generator {
                 case "small", "1" -> small;
                 case "medium", "2" -> medium;
                 case "big", "3" -> big;
-                case "wide", "4" -> big;
+                case "wide", "4" -> wide;
                 default -> null;
             };
         }

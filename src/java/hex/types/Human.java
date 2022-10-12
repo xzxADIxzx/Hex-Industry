@@ -72,7 +72,7 @@ public class Human {
 
     public void win() {
         if (lose != null) lose.cancel();
-        menu(player, over, "over.win.title", "over.win.text", new String[][] {{ Bundle.get("over.stats.title", locale )}}, option -> stats.toString());
+        menu(player, over, "over.win.name", "over.win.text", new String[][] {{ Bundle.get("over.stats.name", locale )}}, option -> stats.toString());
     }
 
     public void lose() {
@@ -81,7 +81,7 @@ public class Human {
 
         if (lose != null) lose.cancel(); // for safety
         if (citadel.owner == null) // if lose is called from Politics.spectate no need to call lose msg
-            menu(player, over, "over.lose.title", "over.lose.text", new String[][] {{ Bundle.get("over.stats.title", locale) }}, option -> stats.toString());
+            menu(player, over, "over.lose.name", "over.lose.text", new String[][] {{ Bundle.get("over.stats.name", locale) }}, option -> stats.toString());
 
         if (leader == this) { // just saving server resources
             despawnUnits();

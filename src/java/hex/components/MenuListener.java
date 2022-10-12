@@ -55,7 +55,7 @@ public class MenuListener {
             MenuInfo menu = info.get(player);
             if (last.get(player) == option || option == -1) menus.get(menu.id).get(player, option);
             else {
-                Call.menu(player.con, base, menu.title, menu.text.get(option), menu.buttons);
+                Call.menu(player.con, base, menu.name, menu.text.get(option), menu.buttons);
                 last.put(player, option);
             }
         });
@@ -81,5 +81,5 @@ public class MenuListener {
         Call.menu(player.con, base, title, text, buttons);
     }
 
-    public record MenuInfo(int id, String title, String[][] buttons, Func<Integer, String> text) {}
+    public record MenuInfo(int id, String name, String[][] buttons, Func<Integer, String> text) {}
 }

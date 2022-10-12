@@ -233,7 +233,7 @@ public class Human {
     public class Weaponry { // TODO seq
 
         public byte inway;
-        public byte unlocked;
+        public byte unlocked = 0x7;
 
         public void unlock(int id) {
             unlocked |= id;

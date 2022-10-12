@@ -94,13 +94,5 @@ public class Politics {
         return last == null ? null : last.from;
     }
 
-    public static class Offer {
-        public Human from;
-        public Human to;
-
-        public Offer(Human from, Human to) {
-            this.from = from;
-            this.to = to;
-        }
-    }
+    public static record Offer(Human from, Human to) {}
 }

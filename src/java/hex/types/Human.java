@@ -218,7 +218,7 @@ public class Human {
     }
 
     public void unoffer() {
-        Politics.offers.filter(offer -> offer.from != this && offer.to != this);
+        Politics.offers.filter(offer -> offer.from() != this && offer.to() != this);
     }
 
     public void despawnUnits() {

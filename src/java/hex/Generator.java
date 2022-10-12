@@ -36,7 +36,9 @@ public class Generator {
         clear(); // someone could enter while the game was over
         last = 0; // sooner or later an OutOfBoundsException will pop up
 
+        Groups.player.each(player -> player.team(Team.derelict)); // someone could spawn
         Groups.unit.each(Call::unitDespawn); // units and blocks can stay on the new map
+
         for (Team team : Team.all) team.data().plans.clear(); // ghost blocks looks bad
         play(MapSize.get(Groups.player.size())); // map size depends on players amount
     }

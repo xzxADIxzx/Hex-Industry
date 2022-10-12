@@ -9,6 +9,7 @@ import hex.content.Packages;
 import hex.content.Weapons;
 import hex.types.Fraction;
 import hex.types.Human;
+import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.ui.Menus;
@@ -28,9 +29,12 @@ public class MenuListener {
 
     public static void load() {
         menus.put(fractionChoose = 0, (player, option) -> {
+            Human human = Human.find(player);
+            if (human != null) return; // if the stars converge in the sky, the player can have two faction selection menus
+
             Fraction fract = Fractions.from(option);
-            Human human = Human.find(player); // if the stars converge in the sky, the player can have two faction selection menus
-            if (fract != Fractions.spectator && human == null) humans.add(new Human(player, fract));
+            if (fract == Fractions.spectator) player.team(Team.derelict);
+            else humans.add(new Human(player, fract));
         });
 
         menus.put(weaponChoose = 1, (player, option) -> {

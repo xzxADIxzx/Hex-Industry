@@ -14,7 +14,9 @@ import mindustry.gen.Player;
 import mindustry.ui.Menus;
 import useful.Bundle;
 
-import static hex.Main.humans;
+import static hex.Main.*;
+
+import java.util.Locale;
 
 public class MenuListener {
 
@@ -57,6 +59,16 @@ public class MenuListener {
                 last.put(player, option);
             }
         });
+    }
+
+    public static void menu(Player player, int menu, String title, String text, String[][] buttons) {
+        Locale locale = Bundle.locale(player);
+
+        for (int i = 0; i < buttons.length; i++)
+            for (int j = 0; j < buttons[i].length; j++)
+                buttons[i][j] = Bundle.get(buttons[i][j], locale);
+
+        Call.menu(player.con, menu, Bundle.get(title, locale), Bundle.get(text, locale), buttons);
     }
 
     public static void menu(Player player, int menu, String title, String text, String[][] buttons, Func<Integer, String> func) {

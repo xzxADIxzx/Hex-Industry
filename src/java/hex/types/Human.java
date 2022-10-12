@@ -54,8 +54,7 @@ public class Human {
         this.citadel.owner = this;
         this.citadel.build(HexBuilds.citadel);
 
-        Call.menu(player.con, welcome, Bundle.get("welcome.name", locale), Bundle.get("welcome.text", locale),
-                new String[][] {{ Bundle.get("welcome.open", locale) }});
+        menu(player, welcome, "welcome.name", "welcome.text", new String[][] {{ "welcome.open" }});
     }
 
     public void update() {

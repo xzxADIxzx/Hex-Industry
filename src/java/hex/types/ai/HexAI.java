@@ -7,7 +7,7 @@ import mindustry.content.Fx;
 import mindustry.entities.units.AIController;
 import mindustry.gen.Call;
 
-import static hex.Main.hexes;
+import static hex.Main.*;
 
 public class HexAI extends AIController {
 

@@ -3,7 +3,6 @@ package hex;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import arc.util.Time;
-import hex.components.MenuListener;
 import hex.content.Fractions;
 import hex.content.Weapons;
 import hex.types.Hex;
@@ -34,7 +33,7 @@ public class Politics {
         } else if (hexes.count(Hex::isClosed) == 0) return;
 
         Locale loc = Bundle.locale(player);
-        MenuListener.menu(player, fractionChoose, "fract.title", "fract.text",
+        menu(player, fractionChoose, "fract.title", "fract.text",
                 Fractions.names(loc), option -> Fractions.from(option).desc(loc));
     }
 
@@ -58,7 +57,7 @@ public class Politics {
 
     public static void attack(Hex hex, Human human) {
         attacked.put(human, hex);
-        if (Weapon.attackable(human)) MenuListener.menu(human.player, weaponChoose, "weapon.title", "weapon.text",
+        if (Weapon.attackable(human)) menu(human.player, weaponChoose, "weapon.title", "weapon.text",
                 Weapons.names(human), option -> Weapons.from(human).get(option).desc(human));
     }
 

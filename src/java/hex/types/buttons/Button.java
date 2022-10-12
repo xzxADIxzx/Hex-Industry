@@ -41,7 +41,6 @@ public abstract class Button {
             HexSchematics.button.floorNet(x, y);
             HexSchematics.button.airNet(x, y);
         }
-        // } else Geometry.circle(x, y, 3, (x, y) -> Generator.set(x, y, Blocks.darkPanel3, null)); // why?
     }
 
     public void check(Tile tile, Human human) {

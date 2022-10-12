@@ -48,19 +48,16 @@ public class Main extends Plugin {
         Blocks.unloader.solid = false; // why?
         Blocks.groundFactory.solid = false;
 
-        UnitTypes.crawler.aiController = HexSuicideAI::new;
-        UnitTypes.mono.aiController = HexMinerAI::new;
-        UnitTypes.poly.aiController = HexBuilderAI::new;
-        UnitTypes.quad.aiController = HexAtomicAI::new;
-        UnitTypes.flare.aiController = HexFlyingAI::new;
-        UnitTypes.horizon.aiController = HexFlyingAI::new;
-        UnitTypes.zenith.aiController = HexFlyingAI::new;
-        UnitTypes.alpha.aiController = HexEmptyAI::new;
-        UnitTypes.beta.aiController = HexEmptyAI::new;
-        UnitTypes.gamma.aiController = HexEmptyAI::new;
-
-        // apply custom ai
-        content.units().each(type -> type.playerControllable = false);
+        UnitTypes.crawler.controller = unit -> new HexSuicideAI();
+        UnitTypes.mono.controller = unit -> new HexMinerAI();
+        UnitTypes.poly.controller = unit -> new HexBuilderAI();
+        UnitTypes.quad.controller = unit -> new HexAtomicAI();
+        UnitTypes.flare.controller = unit -> new HexFlyingAI();
+        UnitTypes.horizon.controller = unit -> new HexFlyingAI();
+        UnitTypes.zenith.controller = unit -> new HexFlyingAI();
+        UnitTypes.alpha.controller = unit -> new HexEmptyAI();
+        UnitTypes.beta.controller = unit -> new HexEmptyAI();
+        UnitTypes.gamma.controller = unit -> new HexEmptyAI();
 
         rules.enemyCoreBuildRadius = 0f;
         rules.unitCap = 16;

@@ -107,6 +107,7 @@ public class Main extends Plugin {
             MapSize size = MapSize.get(args[0]);
             if (size == null) Log.err("Can't find a MapSize with provided name.");
             else {
+                Generator.clear();
                 Generator.play(size);
                 state.rules = rules;
 

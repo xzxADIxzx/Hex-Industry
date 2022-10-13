@@ -15,6 +15,7 @@ import mindustry.game.EventType.*;
 import mindustry.game.Rules.TeamRule;
 import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
+import mindustry.core.UI;
 import mindustry.game.Rules;
 import mindustry.game.Team;
 import mindustry.gen.Player;
@@ -44,6 +45,9 @@ public class Main extends Plugin {
 
         netServer.admins.actionFilters.clear().add(action -> false);
         netServer.assigner = (player, players) -> Team.derelict;
+
+        UI.thousands = "k";
+        UI.millions = "m";
 
         Blocks.unloader.solid = false; // why?
         Blocks.groundFactory.solid = false;

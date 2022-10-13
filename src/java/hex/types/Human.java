@@ -67,9 +67,8 @@ public class Human implements LocaleProvider {
         if (core != null) core.items = production.items;
 
         hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
-        Call.setHudText(player.con, Bundle.format("hud", locale, hex.id, // TODO resources
-                hex.owner == null ? Bundle.get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname,
-                hex.health(this), production.unit(), production.crawler(), production.liquids()));
+        Call.setHudText(player.con, Bundle.format("hud", locale, hex.id, // update hud
+                hex.owner == null ? Bundle.get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname, hex.health(this), production));
     }
 
     public void win() {

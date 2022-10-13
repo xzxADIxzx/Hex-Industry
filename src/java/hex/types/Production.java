@@ -5,6 +5,7 @@ import arc.math.Mathf;
 import arc.util.Time;
 import hex.content.Packages;
 import mindustry.content.Items;
+import mindustry.core.UI;
 import mindustry.gen.Iconc;
 import mindustry.world.modules.ItemModule;
 import useful.Bundle;
@@ -95,23 +96,8 @@ public class Production {
         items.add(Items.sporePod, amount);
     }
 
-    public String liquids() {
-        return (oil > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidOil +
-                (water > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidWater +
-                (cryo > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidCryofluid +
-                (arkycite > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidArkycite;
-    }
-
-    public String unit() {
-        return (unit <= 5 ? "[scarlet]" : unit <= 10 ? "[orange]" : "[green]") + unit;
-    }
-
     public void unit(int amount) {
         unit += amount * fract.creature;
-    }
-
-    public String crawler() {
-        return (crawler <= 5 ? "[scarlet]" : crawler <= 10 ? "[orange]" : "[green]") + crawler;
     }
 
     public void crawler(int amount) {
@@ -159,6 +145,43 @@ public class Production {
 
     public void check(Human human, Boolf<Production> pred) {
         human.captured().each(hex -> pred.get(hex.build.cons), Hex::kill);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        item(builder.append("\uF832"), titanium());
+        item(builder.append("\uF831"), thorium());
+        item(builder.append("\uF82E"), plastanium());
+        item(builder.append("\uF82B"), spore());
+
+        builder.append("\n");
+
+        creature(builder, unit).append("\uE86D[] ");
+        creature(builder, crawler).append("[]\uF7FA ");
+
+        liquid(builder, oil).append("\uF826 ");
+        liquid(builder, water).append("\uF828 ");
+        liquid(builder, cryo).append("\uF825 ");
+        liquid(builder, arkycite).append("\uF705 ");
+
+        return builder.toString();
+    }
+
+    private StringBuilder item(StringBuilder builder, int amount) {
+        builder.append(amount <= 500 ? "[scarlet]" : amount <= 1000 ? "[orange]" : "[green]").append(UI.formatAmount(amount)).append("[] ");
+        return builder;
+    }
+
+    private StringBuilder creature(StringBuilder builder, int amount) {
+        builder.append(amount <= 5 ? "[scarlet]" : amount <= 10 ? "[orange]" : "[green]").append(amount);
+        return builder;
+    }
+
+    private StringBuilder liquid(StringBuilder builder, int amount) {
+        builder.append(amount > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]");
+        return builder;
     }
 
     public class Resource {

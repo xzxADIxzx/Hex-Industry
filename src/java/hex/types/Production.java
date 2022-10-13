@@ -29,6 +29,7 @@ public class Production {
     protected int oil;
     protected int water;
     protected int cryo;
+    protected int arkycite;
 
     // little creatures
     protected int unit;
@@ -59,7 +60,7 @@ public class Production {
     }
 
     public void all(int amount) {
-        titanium = plastanium = thorium = spore = oil = water = cryo = unit = crawler = amount;
+        titanium = plastanium = thorium = spore = oil = water = cryo = arkycite = unit = crawler = amount;
     }
 
     public int plastanium() {
@@ -97,7 +98,8 @@ public class Production {
     public String liquids() {
         return (oil > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidOil +
                 (water > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidWater +
-                (cryo > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidCryofluid;
+                (cryo > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidCryofluid +
+                (arkycite > 0 ? "[green]\uE800[]" : "[scarlet]\uE815[]") + Iconc.liquidArkycite;
     }
 
     public String unit() {
@@ -152,6 +154,7 @@ public class Production {
         if (oil <= 0) check(human, prod -> prod.oil == 1);
         if (water <= 0) check(human, prod -> prod.water == 1);
         if (cryo <= 0) check(human, prod -> prod.cryo == 1);
+        if (arkycite <= 0) check(human, prod -> prod.arkycite == 1);
     }
 
     public void check(Human human, Boolf<Production> pred) {
@@ -173,6 +176,7 @@ public class Production {
             prod.oil += oil * base;
             prod.water += water * base;
             prod.cryo += cryo * base;
+            prod.arkycite += arkycite * base;
 
             prod.unit(unit * base);
         }
@@ -198,6 +202,7 @@ public class Production {
                     (oil <= 0 || prod.oil >= oil) &&
                     (water <= 0 || prod.water >= water) &&
                     (cryo <= 0 || prod.cryo >= cryo) &&
+                    (arkycite <= 0 || prod.arkycite >= arkycite) &&
                     (unit <= 0 || prod.unit >= unit);
         }
 
@@ -220,6 +225,7 @@ public class Production {
             add(base[2], loc, oil, Iconc.liquidOil);
             add(base[2], loc, water, Iconc.liquidWater);
             add(base[2], loc, cryo, Iconc.liquidCryofluid);
+            add(base[2], loc, arkycite, Iconc.liquidArkycite);
 
             return format;
         }

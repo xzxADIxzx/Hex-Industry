@@ -273,7 +273,8 @@ public class Hex implements Position {
             prov.add(HexBuilds.cultivator, -7, -2);
             prov.add(HexBuilds.maze, 4, -6);
         }),
-        canyon(canyonLr1, canyonLr2);
+        canyon(canyonLr1, canyonLr2),
+        gradient(gradientLr1, gradientLr2);
 
         private final HexSchematic lr1;
         private final HexSchematic lr2;

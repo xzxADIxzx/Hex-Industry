@@ -89,6 +89,7 @@ public class Generator {
         spray(HexEnv.forest, .5f);
         spray(HexEnv.spore, .15f);
         pile(HexEnv.canyon, .08f, 2, 4);
+        pile(HexEnv.gradient, .08f, 0, 1);
 
         // create a map with the necessary tags
         state.map = new Map(StringMap.of(
@@ -131,10 +132,10 @@ public class Generator {
 
     private static void pile(HexEnv env, float amount, int min, int max) {
         template(amount, hex -> {
-            hex.env = HexEnv.canyon;
+            hex.env = env;
             for (int q = 0; q < Mathf.random(min, max); q++) {
                 hex = closest(hex.point().add((int) rand(20f), (int) rand(20f)));
-                hex.env = HexEnv.canyon;
+                hex.env = env;
             }
         });
     }

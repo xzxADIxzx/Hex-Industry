@@ -17,7 +17,7 @@ repositories {
 
 ext {
     mindustryVersion = 'v139' // the build number that this plugin is made for
-    shortVersion = 'c3230779a0'
+    shortVersion = 'f2255d5a5f'
 }
 
 dependencies {

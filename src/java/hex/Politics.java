@@ -54,7 +54,7 @@ public class Politics {
         else human.lose();
     }
 
-    public static void attack(Hex hex, Human human) {
+    public static void attack(Hex hex, Human human) { // TODO heal
         human.attacked = hex;
         if (Weapon.attackable(human)) menu(human.player, weaponChoose, "weapon.name", "weapon.text",
                 Weapons.names(human), option -> human.weaponry.unlocked.get(option).desc(human));

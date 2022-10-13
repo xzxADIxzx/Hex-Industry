@@ -17,6 +17,6 @@ public class OpenButton extends Button {
 
     @Override
     public String toString(Human human) {
-        return Bundle.get("hex.open", human.locale) + "\n" + Bundle.format("cons.unit", human.locale, human.cost(hex));
+        return Bundle.get("hex.open", human) + "\n" + Bundle.format("cons.unit", human, human.cost(hex));
     }
 }

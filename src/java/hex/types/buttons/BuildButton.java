@@ -21,7 +21,7 @@ public class BuildButton extends Button {
                     hex1.owner = human.leader;
                     hex1.build(build);
                     human.stats.builded++;
-                } else human.player.sendMessage(Bundle.get("hex.toofar", human.locale));
+                } else human.player.sendMessage(Bundle.get("hex.toofar", human));
             } else human.enough();
         }, hex, x, y);
 
@@ -30,6 +30,6 @@ public class BuildButton extends Button {
 
     @Override
     public String toString(Human human) {
-        return Bundle.get(build.name, human.locale) + "\n" + build.prod.resource.formatP(human) + "\n" + build.cons.resource.formatC(human);
+        return Bundle.get(build.name, human) + "\n" + build.prod.resource.formatP(human) + "\n" + build.cons.resource.formatC(human);
     }
 }

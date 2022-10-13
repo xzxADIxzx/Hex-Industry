@@ -102,7 +102,7 @@ public class Weapons {
 
         String[][] names = new String[weapons.size][1];
         for (int i = 0; i < names.length; i++)
-            names[i][0] = Bundle.get(weapons.get(i).name + ".name", human.locale);
+            names[i][0] = Bundle.get(weapons.get(i).name + ".name", human);
 
         return names;
     }

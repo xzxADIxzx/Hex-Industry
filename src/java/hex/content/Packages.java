@@ -15,7 +15,7 @@ public class Packages {
             cost = 150;
 
             cont = human -> human.production.crawler(human.shops());
-            desc = human -> Bundle.format(name + ".desc", human.locale, (int) (human.shops() * human.fraction.creature), cost);
+            desc = human -> Bundle.format(name + ".desc", human, (int) (human.shops() * human.fraction.creature), cost);
             cons = human -> human.production.spore(human, cost);
         }};
 
@@ -24,7 +24,7 @@ public class Packages {
             cost = 1;
 
             cont = human -> human.production.unit(human.cities());
-            desc = human -> Bundle.format(name + ".desc", human.locale, (int) (human.cities() * human.fraction.creature), cost);
+            desc = human -> Bundle.format(name + ".desc", human, (int) (human.cities() * human.fraction.creature), cost);
             pred = human -> human.cities() > 0;
         }};
 
@@ -34,7 +34,7 @@ public class Packages {
 
             post = human -> human.weaponry.bought.add(Weapons.crawler);
             cont = human -> human.weaponry.unlock(Weapons.crawler);
-            desc = human -> Bundle.format(name + ".desc", human.locale, Weapons.crawler.desc(human), cost);
+            desc = human -> Bundle.format(name + ".desc", human, Weapons.crawler.desc(human), cost);
             pred = human -> !human.weaponry.bought.contains(Weapons.crawler);
         }};
 
@@ -44,7 +44,7 @@ public class Packages {
 
             post = human -> human.weaponry.bought.add(Weapons.atomic);
             cont = human -> human.weaponry.unlock(Weapons.atomic);
-            desc = human -> Bundle.format(name + ".desc", human.locale, Weapons.atomic.desc(human), cost);
+            desc = human -> Bundle.format(name + ".desc", human, Weapons.atomic.desc(human), cost);
             pred = human -> !human.weaponry.bought.contains(Weapons.atomic);
         }};
 
@@ -67,7 +67,7 @@ public class Packages {
     public static String[][] names(Human human) {
         Seq<Package> packages = from(human);
         String[][] names = new String[packages.size][1];
-        for (int i = 0; i < names.length; i++) names[i][0] = Bundle.get(packages.get(i).name + ".name", human.locale);
+        for (int i = 0; i < names.length; i++) names[i][0] = Bundle.get(packages.get(i).name + ".name", human);
         return names;
     }
 }

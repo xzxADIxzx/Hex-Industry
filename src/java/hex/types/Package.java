@@ -32,6 +32,6 @@ public class Package {
     }
 
     public void msg(Human human, String key) {
-        Bundle.bundled(human.player, key, Bundle.get(name + ".name", human.locale));
+        Bundle.bundled(human.player, key, Bundle.get(name + ".name", human));
     }
 }

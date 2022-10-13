@@ -15,13 +15,14 @@ import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import useful.Bundle;
+import useful.Bundle.LocaleProvider;
 
 import static hex.Main.*;
 import static hex.components.MenuListener.*;
 
 import java.util.Locale;
 
-public class Human {
+public class Human implements LocaleProvider {
 
     public static final ObjectMap<Player, Unit> units = new ObjectMap<>();
     public static final String prefix = "[accent]<[white]\uE872[]>[] ";
@@ -166,6 +167,10 @@ public class Human {
 
     public Hex location() {
         return hexes.min(hex -> hex.dst(player));
+    }
+
+    public Locale locale() {
+        return locale;
     }
 
     public Seq<Hex> captured() {

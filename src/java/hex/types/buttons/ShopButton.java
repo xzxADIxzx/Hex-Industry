@@ -20,6 +20,6 @@ public class ShopButton extends Button {
 
     @Override
     public String toString(Human human) {
-        return Bundle.get("shop.name", human.locale) + "\n" + Bundle.format("shop.amount", human.locale, human.shops());
+        return Bundle.get("shop.name", human) + "\n" + Bundle.format("shop.amount", human, human.shops());
     }
 }

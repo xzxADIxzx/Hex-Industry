@@ -160,7 +160,7 @@ public class Hex implements Position {
     // region getters
 
     public String health(Human human) {
-        return health == 0 ? Bundle.get("hex.zerohp", human.locale) : Bundle.format("hex.health", human.locale, color, health, build.health);
+        return health == 0 ? Bundle.get("hex.zerohp", human) : Bundle.format("hex.health", human, color, health, build.health);
     }
 
     public Seq<Hex> neighbours() {
@@ -233,7 +233,7 @@ public class Hex implements Position {
     private void attacked(Human to, Human from, Weapon weapon) {
         Bundle.bundled(to.player, "hex.attack",
                 from.player.coloredName(), cx, cy,
-                Bundle.get(build.name, to.locale), health(to), Bundle.get(weapon.name + ".name", to.locale));
+                Bundle.get(build.name, to), health(to), Bundle.get(weapon.name + ".name", to));
     }
 
     public static boolean bounds(Point2 pos) {

@@ -291,7 +291,7 @@ public class HexBuilds {
             name = "build.pump.arkycite";
             health = 18;
 
-            // scheme = HexSchematics.arkyciteLr1; // TODO schem
+            scheme = HexSchematics.arkycite;
             boom = Fx.surgeCruciSmoke;
 
             prod = new Production() {{

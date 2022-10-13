@@ -66,7 +66,8 @@ public class Main extends Plugin {
         rules.fire = false;
         rules.waves = false;
         rules.canGameOver = false;
-        rules.revealedBlocks.add(Blocks.duct);
+        rules.ghostBlocks = false;
+        rules.revealedBlocks.add(Blocks.radar);
         rules.modeName = "Hex Industry";
 
         for (Team team : Team.all) {

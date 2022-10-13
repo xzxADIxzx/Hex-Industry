@@ -263,7 +263,9 @@ public class Hex implements Position {
         cryo(cryoLr1, cryoLr2, prov -> {
             prov.add(HexBuilds.cryo, -3, -6);
         }),
-        arkycite(arkyciteLr1, arkyciteLr2),
+        arkycite(arkyciteLr1, arkyciteLr2, prov -> {
+            prov.add(HexBuilds.arkycite, 0, 0);
+        }),
         forest(forestLr1, forestLr2, prov -> {
             prov.add(HexBuilds.city, -1, 1);
         }),

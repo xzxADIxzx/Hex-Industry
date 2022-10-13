@@ -8,7 +8,7 @@ import mindustry.content.Fx;
 
 public class HexBuilds {
 
-    public static HexBuild citadel, base, miner, thory, compressor, cultivator, oil, water, cryo, city, maze;
+    public static HexBuild citadel, base, miner, thory, compressor, cultivator, oil, water, cryo, arkycite, city, maze;
 
     public static void load() {
         citadel = new HexBuild() {{
@@ -283,6 +283,23 @@ public class HexBuilds {
             cons = new Production() {{
                 thorium = 1000;
                 plastanium = 500;
+                unit = 2;
+            }};
+        }};
+
+        arkycite = new HexBuild() {{
+            name = "build.pump.arkycite";
+            health = 18;
+
+            // scheme = HexSchematics.arkyciteLr1; // TODO schem
+            boom = Fx.surgeCruciSmoke;
+
+            prod = new Production() {{
+                arkycite = 1;
+            }};
+            cons = new Production() {{
+                thorium = 1800;
+                plastanium = 1000;
                 unit = 2;
             }};
         }};

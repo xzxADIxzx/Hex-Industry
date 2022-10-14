@@ -8,7 +8,7 @@ import static hex.components.MenuListener.*;
 
 public class Guide {
 
-    private static final int max = 8;
+    private static final int max = 9;
     private static final ObjectMap<Player, Integer> pages = new ObjectMap<>();
 
     public static void show(Player player) {

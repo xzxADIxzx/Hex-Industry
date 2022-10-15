@@ -54,10 +54,16 @@ public class Politics {
         else human.lose();
     }
 
-    public static void attack(Hex hex, Human human) { // TODO heal
-        human.attacked = hex;
-        if (Weapon.attackable(human)) menu(human.player, weaponChoose, "weapon.name", "weapon.text",
-                Weapons.names(human), option -> human.weaponry.unlocked.get(option).desc(human));
+    public static void clicked(Hex hex, Human human) {
+        if (hex.owner == human.leader) {
+            if (hex.heal(1)) Hex.heal.resource.consume(human.production);
+        } else {
+            human.attacked = hex;
+            if (!Weapon.attackable(human)) return;
+
+            menu(human.player, weaponChoose, "weapon.name", "weapon.text",
+                    Weapons.names(human), option -> human.weaponry.unlocked.get(option).desc(human));
+        }
     }
 
     public static void join(String[] args, Player player) {

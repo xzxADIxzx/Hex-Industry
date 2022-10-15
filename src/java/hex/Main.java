@@ -55,6 +55,7 @@ public class Main extends Plugin {
         UnitTypes.crawler.controller = unit -> new HexSuicideAI();
         UnitTypes.mono.controller = unit -> new HexMinerAI();
         UnitTypes.poly.controller = unit -> new HexBuilderAI();
+        UnitTypes.mega.controller = unit -> new HexFlyingAI();
         UnitTypes.quad.controller = unit -> new HexAtomicAI();
         UnitTypes.flare.controller = unit -> new HexFlyingAI();
         UnitTypes.horizon.controller = unit -> new HexFlyingAI();

@@ -16,6 +16,7 @@ import hex.types.buttons.Button;
 import hex.types.buttons.OpenButton;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
+import mindustry.content.UnitTypes;
 import mindustry.entities.Effect;
 import mindustry.gen.Call;
 import mindustry.graphics.Pal;
@@ -27,6 +28,12 @@ import static hex.content.HexSchematics.*;
 import static mindustry.Vars.*;
 
 public class Hex implements Position {
+
+    /** Resources needed to heal hex. */
+    public static final Production heal = new Production() {{
+        titanium = 500;
+        arkycite = 1;
+    }};
 
     /** Radius in which the base hex allows you to do things to other hexes. */
     public static final float basedst = 600f;
@@ -106,6 +113,20 @@ public class Hex implements Position {
         damage(0); // update color and run cooldown
 
         if (base) Generator.onEmpty(() -> Generator.setc(cx, cy, isCitadel() ? Blocks.coreNucleus : Blocks.coreShard, owner.player.team()));
+    }
+
+    public boolean heal(int amount) {
+        if (build == null || health == build.health) return false;
+        if (!heal.resource.enough(owner.production)) {
+            owner.enough();
+            return false;
+        }
+
+        health = Math.min(health + amount, build.health);
+        color = Color.valueOf("38d667").lerp(Pal.health, 1 - (float) health / build.health);
+
+        UnitTypes.mega.spawn(owner.player.team(), fx + Mathf.random(-80f, 80f), fy + Mathf.random(-80f, 80f));
+        return true;
     }
 
     public boolean damage(int damage) {

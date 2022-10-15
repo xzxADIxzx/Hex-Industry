@@ -28,7 +28,7 @@ public class Buttons {
             buttons.each(btn -> btn.check(event.tile, human));
 
             if (clicks.containsKey(event.player) && clicks.get(event.player).check(event)) {
-                Politics.attack(hexes.min(hex -> event.tile.dst(hex)), human);
+                Politics.clicked(hexes.min(hex -> event.tile.dst(hex)), human);
                 clicks.remove(event.player);
             } else clicks.put(event.player, new Click(Time.time, event.tile));
         });

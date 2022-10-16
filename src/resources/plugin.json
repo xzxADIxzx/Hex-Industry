@@ -3,7 +3,7 @@
 	"displayName": "Hex Industry",
 	"description": "It will work soon, I promise.",
 	"author": "xzxADIxzx, Darkness6030",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"minGameVersion": "135",
 	"hidden": true,
 	"main": "hex.Main"

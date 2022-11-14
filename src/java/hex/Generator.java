@@ -90,6 +90,7 @@ public class Generator {
         spray(HexEnv.spore, .15f);
         pile(HexEnv.canyon, .08f, 2, 4);
         pile(HexEnv.gradient, .08f, 0, 1);
+        pile(HexEnv.wasteland, .08f, 0, 1);
 
         // create a map with the necessary tags
         state.map = new Map(StringMap.of(

@@ -295,7 +295,8 @@ public class Hex implements Position {
             prov.add(HexBuilds.maze, 4, -6);
         }),
         canyon(canyonLr1, canyonLr2),
-        gradient(gradientLr1, gradientLr2);
+        gradient(gradientLr1, gradientLr2),
+        wasteland(wastelandLr1, wastelandLr2);
 
         private final HexSchematic lr1;
         private final HexSchematic lr2;

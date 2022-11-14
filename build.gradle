@@ -16,16 +16,16 @@ repositories {
 }
 
 ext {
-    mindustryVersion = 'v139' // the build number that this plugin is made for
-    shortVersion = 'f2255d5a5f'
+    mindustryVersion = 'v140.4' // the build number that this plugin is made for
+    usefulVersion = '0007b6efdd'
 }
 
 dependencies {
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
 
-    implementation "com.github.xzxADIxzx.Useful-Stuffs:server-bundle:$shortVersion"
-    implementation "com.github.xzxADIxzx.Useful-Stuffs:short-schematics:$shortVersion"
+    implementation "com.github.xzxADIxzx.Useful-Stuffs:server-bundle:$usefulVersion"
+    implementation "com.github.xzxADIxzx.Useful-Stuffs:short-schematics:$usefulVersion"
 }
 
 jar {

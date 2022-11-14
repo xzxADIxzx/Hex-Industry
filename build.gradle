@@ -25,6 +25,7 @@ dependencies {
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
 
     implementation "com.github.xzxADIxzx.Useful-Stuffs:server-bundle:$usefulVersion"
+    implementation "com.github.xzxADIxzx.Useful-Stuffs:server-prefix:$usefulVersion"
     implementation "com.github.xzxADIxzx.Useful-Stuffs:short-schematics:$usefulVersion"
 }
 

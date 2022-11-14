@@ -16,6 +16,8 @@ import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import useful.Bundle;
 import useful.Bundle.LocaleProvider;
+import useful.Prefixes;
+import useful.Prefixes.Prefix;
 
 import static hex.Main.*;
 import static hex.components.MenuListener.*;
@@ -25,7 +27,7 @@ import java.util.Locale;
 public class Human implements LocaleProvider {
 
     public static final ObjectMap<Player, Unit> units = new ObjectMap<>();
-    public static final String prefix = "[accent]<[white]\uE872[]>[] ";
+    public static final Prefix prefix = new Prefix("\uE872", "ffd37f", "ffffff");
 
     public Human leader;
     public Hex citadel;
@@ -230,7 +232,8 @@ public class Human implements LocaleProvider {
     }
 
     public void leaderPrefix() {
-        if (!player.name().startsWith(prefix)) player.name(prefix + player.name());
+        var data = Prefixes.get(player);
+        if (!data.contains(prefix)) data.add(prefix).apply();
     }
 
     // endregion

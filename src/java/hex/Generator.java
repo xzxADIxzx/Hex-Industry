@@ -9,6 +9,7 @@ import arc.struct.Seq;
 import arc.struct.StringMap;
 import arc.util.Time;
 import hex.types.Hex;
+import hex.types.Human;
 import hex.types.Hex.HexEnv;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
@@ -19,6 +20,7 @@ import mindustry.gen.Player;
 import mindustry.maps.Map;
 import mindustry.world.Block;
 import mindustry.world.Tile;
+import useful.Prefixes;
 
 import static hex.Main.*;
 import static hex.Politics.*;
@@ -44,6 +46,9 @@ public class Generator {
     }
 
     public static void clear() {
+        Prefixes.removeDisconnected(); // cleanup to prevent memory lose
+        Prefixes.datas.each(data -> data.remove(Human.prefix));
+
         Time.clear(); // cancel tasks for safety
         units.clear(); // remove the dependence of the player on the unit
 

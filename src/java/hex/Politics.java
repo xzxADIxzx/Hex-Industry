@@ -22,7 +22,6 @@ public class Politics {
     public static final ObjectMap<String, Human> left = new ObjectMap<>();
 
     public static void join(Player player) {
-        player.name(player.name.replace(Human.prefix, ""));
         Human human = left.get(player.con.uuid);
         if (human != null) {
             human.rejoined(player);

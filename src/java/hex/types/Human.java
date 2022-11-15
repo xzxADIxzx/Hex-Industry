@@ -27,7 +27,7 @@ import java.util.Locale;
 public class Human implements LocaleProvider {
 
     public static final ObjectMap<Player, Unit> units = new ObjectMap<>();
-    public static final Prefix prefix = new Prefix("\uE872", "ffd37f", "ffffff");
+    public static final Prefix prefix = new Prefix("\uE872", "accent", "white");
 
     public Human leader;
     public Hex citadel;
@@ -232,8 +232,7 @@ public class Human implements LocaleProvider {
     }
 
     public void leaderPrefix() {
-        var data = Prefixes.get(player);
-        if (!data.contains(prefix)) data.add(prefix).apply();
+        Prefixes.get(player).add(prefix).apply();
     }
 
     // endregion

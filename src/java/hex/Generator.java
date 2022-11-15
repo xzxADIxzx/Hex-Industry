@@ -47,7 +47,7 @@ public class Generator {
 
     public static void clear() {
         Prefixes.removeDisconnected(); // cleanup to prevent memory lose
-        Prefixes.datas.each(data -> data.remove(Human.prefix));
+        Prefixes.each(data -> data.remove(Human.prefix).apply());
 
         Time.clear(); // cancel tasks for safety
         units.clear(); // remove the dependence of the player on the unit

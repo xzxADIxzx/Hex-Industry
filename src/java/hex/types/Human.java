@@ -65,9 +65,6 @@ public class Human implements LocaleProvider {
         if (leader == this) production.update(this);
         Hex hex = location();
 
-        var core = player.team().core(); // update ItemModule so player can see resources in CoreItemsDisplay
-        if (core != null) core.items = production.items;
-
         hex.neighbours().each(h -> h.update(this)); // shows labels of nearby buttons
         Call.setHudText(player.con, Bundle.format("hud", locale, hex.id, // update hud
                 hex.owner == null ? Bundle.get(hex.open ? "hex.nobody" : "hex.closed", locale) : hex.owner.hudname, hex.health(this), production));

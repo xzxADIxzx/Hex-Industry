@@ -55,7 +55,7 @@ public class Politics {
 
     public static void clicked(Hex hex, Human human) {
         if (hex.owner == human.leader) {
-            if (hex.heal(1)) Hex.heal.resource.consume(human.production);
+            if (hex.heal(1)) Hex.heal.consume(human.production);
         } else {
             human.attacked = hex;
             if (!Weapon.attackable(human)) return;

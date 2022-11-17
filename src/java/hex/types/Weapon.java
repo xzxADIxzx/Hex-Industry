@@ -28,13 +28,13 @@ public class Weapon {
     }
 
     public String desc(Human human) {
-        return Bundle.format(name + ".desc", human, damage(human), cons.resource.formatC(human));
+        return Bundle.format(name + ".desc", human, damage(human), cons.formatCons(human));
     }
 
     public void attack(Human human) {
         if (!attackable(human)) return;
-        if (cons.resource.enough(human.production)) {
-            cons.resource.consume(human.production);
+        if (cons.enough(human.production)) {
+            cons.consume(human.production);
             todo.get(human, human.attacked, damage(human));
             human.attacked.attacked(human, this);
         } else human.enough();

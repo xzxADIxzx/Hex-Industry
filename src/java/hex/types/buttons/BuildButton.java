@@ -16,7 +16,7 @@ public class BuildButton extends Button {
     public BuildButton(HexBuild build, Hex hex, int x, int y) {
         super((human, hex1) -> {
             if ((hex1.owner != null && hex1.owner != human.leader) || hex1.busy) return;
-            if (build.cons.resource.enough(human.production)) {
+            if (build.cons.enough(human.production)) {
                 if (hex1.isCaptured(human)) {
                     hex1.owner = human.leader;
                     hex1.build(build);
@@ -30,6 +30,6 @@ public class BuildButton extends Button {
 
     @Override
     public String toString(Human human) {
-        return Bundle.get(build.name, human) + "\n" + build.prod.resource.formatP(human) + "\n" + build.cons.resource.formatC(human);
+        return Bundle.get(build.name, human) + "\n" + build.prod.formatProd(human) + "\n" + build.cons.formatCons(human);
     }
 }

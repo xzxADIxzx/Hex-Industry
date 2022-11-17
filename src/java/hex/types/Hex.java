@@ -118,7 +118,7 @@ public class Hex implements Position {
 
     public boolean heal(int amount) {
         if (build == null || health == build.health) return false;
-        if (!heal.resource.enough(owner.production)) {
+        if (!heal.enough(owner.production)) {
             owner.enough();
             return false;
         }

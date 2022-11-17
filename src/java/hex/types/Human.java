@@ -232,6 +232,10 @@ public class Human implements LocaleProvider {
         Prefixes.get(player).add(prefix).apply();
     }
 
+    public void hack() {
+        production.production.all(1000);
+    }
+
     // endregion
 
     public class Weaponry {

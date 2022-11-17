@@ -27,12 +27,13 @@ public class Production {
     }
 
     public void builded(Resource prod, Resource cons) {
-        prod.produce(resources, 1f);
+        prod.produce(production, 1f);
         cons.consume(resources);
+        resources.units += prod.units;
     }
 
     public void destroyed(Resource prod, Resource cons) {
-        prod.produce(resources, -1f);
+        prod.produce(production, -1f);
         resources.units += cons.units; // revert units because they are not produced
     }
 
@@ -148,9 +149,10 @@ public class Production {
             sour.water += water;
             sour.cryo += cryo;
             sour.arkycite += arkycite;
+        }
 
-            sour.units += units * multiplier;
-            sour.crawlers += crawlers * multiplier;
+        public void consume(Production production) {
+            consume(production.resources);
         }
 
         public void consume(Resource sour) {
@@ -161,6 +163,10 @@ public class Production {
 
             sour.units -= units;
             sour.crawlers -= crawlers;
+        }
+
+        public boolean enough(Production production) {
+            return enough(production.resources);
         }
 
         public boolean enough(Resource sour) {

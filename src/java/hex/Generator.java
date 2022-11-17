@@ -31,7 +31,7 @@ import static mindustry.Vars.*;
 public class Generator {
 
     private static int last;
-    private static final Queue<Set> calls = new Queue<>();
+    private static final Queue<Runnable> calls = new Queue<>();
     private static final Seq<Runnable> tasks = new Seq<>();
 
     public static void restart() {
@@ -171,7 +171,7 @@ public class Generator {
         if (calls.isEmpty()) {
             tasks.each(Runnable::run);
             tasks.clear();
-        } else for (int i = 0; i < Math.min(100, calls.size); i++) calls.removeFirst().set();
+        } else for (int i = 0; i < Math.min(100, calls.size); i++) calls.removeFirst().run();
     }
 
     public static void set(int x, int y, Block block) {
@@ -183,7 +183,13 @@ public class Generator {
     }
 
     public static void set(int x, int y, Block floor, Block block, Block overlay) {
-        calls.addLast(new Set(world.tile(x, y), floor, block, overlay));
+        Tile tile = world.tile(x, y);
+        boolean f = floor != null, o = overlay != null;
+
+        calls.addLast(() -> {
+            if (f || o) Call.setFloor(tile, f ? floor : tile.floor(), o ? overlay : tile.overlay());
+            if (block != null) Call.setTile(tile, block, Team.derelict, 0);
+        });
     }
 
     /** Used to host cores. */
@@ -221,15 +227,6 @@ public class Generator {
 
         public static MapSize get(int players) {
             return players <= 3 ? small : players <= 6 ? medium : players <= 9 ? big : wide;
-        }
-    }
-
-    public record Set(Tile tile, Block floor, Block block, Block overlay) {
-
-        public void set() {
-            boolean f = floor != null, o = overlay != null;
-            if (f || o) Call.setFloor(tile, f ? floor : tile.floor(), o ? overlay : tile.overlay());
-            if (block != null) Call.setTile(tile, block, Team.derelict, 0);
         }
     }
 }

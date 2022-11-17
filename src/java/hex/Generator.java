@@ -118,6 +118,8 @@ public class Generator {
 
     private static Hex citadel() {
         Seq<Hex> closed = common().select(Hex::isClosed);
+        if (closed.isEmpty()) closed = hexes.select(Hex::isClosed);
+
         return closed.sort(hex -> humans.sumf(human -> {
             float dst = hex.point().dst(human.citadel.point());
             return dst > 100f ? -dst : Mathf.sqr(100f - dst);

@@ -14,6 +14,7 @@ import hex.types.Hex.HexEnv;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.game.Team;
+import mindustry.gen.Building;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
@@ -196,6 +197,10 @@ public class Generator {
     public static void setc(int x, int y, Block block, Team team) {
         world.tile(x, y).setNet(block, team, 0);
         Call.effect(Fx.instBomb, x * tilesize, y * tilesize, 0, Color.white);
+    }
+
+    public static void sett(Building build, Team team) {
+        calls.addLast(() -> Call.setTeam(build, team));
     }
 
     public static void onEmpty(Runnable todo) {

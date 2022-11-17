@@ -103,16 +103,14 @@ public class Human implements LocaleProvider {
         despawnUnits();
         unoffer();
 
+        player.team().data().buildings.each(build -> Generator.sett(build, leader.player.team()));
+        captured().each(hex -> hex.owner = leader);
+
         player.team(leader.player.team());
         setFraction(leader.fraction);
 
         this.production = leader.production.merge(this.production);
         this.weaponry = leader.weaponry.merge(this.weaponry);
-
-        captured().each(hex -> { // TODO team
-            hex.owner = leader;
-            Time.run(Mathf.random(300f), () -> hex.build(hex.build));
-        });
 
         this.leader = leader;
     }
@@ -223,6 +221,7 @@ public class Human implements LocaleProvider {
     }
 
     public void hack() {
+        production.resources.all(1000);
         production.production.all(1000);
     }
 

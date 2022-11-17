@@ -27,8 +27,8 @@ public class Production {
     }
 
     public Production merge(Production production) {
-        this.resources.produce(production.resources, 1f);
-        this.production.produce(production.production, 1f);
+        production.resources.produce(this.resources, 1f);
+        production.production.produce(this.production, 1f);
 
         this.resources.units += production.resources.units;
         this.resources.crawlers += production.resources.crawlers;

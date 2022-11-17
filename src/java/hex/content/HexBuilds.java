@@ -117,7 +117,7 @@ public class HexBuilds {
             health = 3;
 
             scheme = HexSchematics.minerMk1;
-            boom = Fx.reactorExplosion;
+            boom = Fx.scatheExplosion;
 
             prod = new Resource() {{
                 titanium = 1;
@@ -132,7 +132,7 @@ public class HexBuilds {
                 health = 9;
 
                 scheme = HexSchematics.minerMk2;
-                boom = Fx.reactorExplosion;
+                boom = Fx.scatheExplosion;
 
                 prod = new Resource() {{
                     titanium = 2;
@@ -149,7 +149,7 @@ public class HexBuilds {
                     health = 18;
 
                     scheme = HexSchematics.minerMk3;
-                    boom = Fx.reactorExplosion;
+                    boom = Fx.scatheExplosion;
 
                     prod = new Resource() {{
                         titanium = 3;
@@ -208,7 +208,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.compressor;
-            boom = Fx.surgeCruciSmoke;
+            boom = Fx.scatheExplosion;
 
             prod = new Resource() {{
                 plastanium = 1;
@@ -243,7 +243,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.oil;
-            boom = Fx.surgeCruciSmoke;
+            boom = Fx.scatheExplosion;
 
             prod = new Resource() {{
                 oil = 1;
@@ -259,7 +259,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.water;
-            boom = Fx.surgeCruciSmoke;
+            boom = Fx.scatheExplosion;
 
             prod = new Resource() {{
                 water = 1;
@@ -275,7 +275,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.cryo;
-            boom = Fx.surgeCruciSmoke;
+            boom = Fx.scatheExplosion;
 
             prod = new Resource() {{
                 cryo = 1;
@@ -292,7 +292,7 @@ public class HexBuilds {
             health = 18;
 
             scheme = HexSchematics.arkycite;
-            boom = Fx.surgeCruciSmoke;
+            boom = Fx.reactorExplosion;
 
             prod = new Resource() {{
                 arkycite = 1;

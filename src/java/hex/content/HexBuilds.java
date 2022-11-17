@@ -2,7 +2,7 @@ package hex.content;
 
 import hex.types.Hex;
 import hex.types.HexBuild;
-import hex.types.Production;
+import hex.types.Production.Resource;
 import hex.types.buttons.ShopButton;
 import mindustry.content.Fx;
 
@@ -18,10 +18,10 @@ public class HexBuilds {
             scheme = HexSchematics.citadelMk1;
             boom = Fx.impactReactorExplosion;
 
-            prod = new Production() {{
-                unit = 20;
+            prod = new Resource() {{
+                units = 20;
             }};
-            cons = new Production();
+            cons = new Resource();
 
             parent = () -> citadel;
             next = new HexBuild() {{
@@ -31,10 +31,10 @@ public class HexBuilds {
                 scheme = HexSchematics.citadelMk2;
                 boom = Fx.impactReactorExplosion;
 
-                prod = new Production() {{
-                    unit = 20;
+                prod = new Resource() {{
+                    units = 20;
                 }};
-                cons = new Production() {{
+                cons = new Resource() {{
                     titanium = 1000;
                     thorium = 1000;
                     plastanium = 500;
@@ -48,13 +48,13 @@ public class HexBuilds {
                     scheme = HexSchematics.citadelMk3;
                     boom = Fx.impactReactorExplosion;
 
-                    prod = new Production() {{
-                        unit = 20;
+                    prod = new Resource() {{
+                        units = 20;
                     }};
-                    cons = new Production() {{
+                    cons = new Resource() {{
                         titanium = 3000;
                         thorium = 3000;
-                        spore = 500;
+                        spores = 500;
                     }};
 
                     parent = () -> citadel;
@@ -70,10 +70,10 @@ public class HexBuilds {
             scheme = HexSchematics.baseMk1;
             boom = Fx.impactReactorExplosion;
 
-            prod = new Production();
-            cons = new Production() {{
+            prod = new Resource();
+            cons = new Resource() {{
                 titanium = 400;
-                unit = 1;
+                units = 1;
             }};
 
             parent = () -> base;
@@ -84,11 +84,11 @@ public class HexBuilds {
                 scheme = HexSchematics.baseMk2;
                 boom = Fx.impactReactorExplosion;
 
-                prod = new Production();
-                cons = new Production() {{
+                prod = new Resource();
+                cons = new Resource() {{
                     titanium = 1200;
                     plastanium = 500;
-                    unit = 1;
+                    units = 1;
                 }};
                 
                 parent = () -> base;
@@ -99,11 +99,11 @@ public class HexBuilds {
                     scheme = HexSchematics.baseMk3;
                     boom = Fx.impactReactorExplosion;
 
-                    prod = new Production();
-                    cons = new Production() {{
+                    prod = new Resource();
+                    cons = new Resource() {{
                         titanium = 2000;
-                        spore = 300;
-                        unit = 2;
+                        spores = 300;
+                        units = 2;
                     }};
 
                     parent = () -> base;
@@ -119,11 +119,11 @@ public class HexBuilds {
             scheme = HexSchematics.minerMk1;
             boom = Fx.reactorExplosion;
 
-            prod = new Production() {{
+            prod = new Resource() {{
                 titanium = 1;
             }};
-            cons = new Production() {{
-                unit = 1;
+            cons = new Resource() {{
+                units = 1;
             }};
 
             parent = () -> miner;
@@ -134,13 +134,13 @@ public class HexBuilds {
                 scheme = HexSchematics.minerMk2;
                 boom = Fx.reactorExplosion;
 
-                prod = new Production() {{
+                prod = new Resource() {{
                     titanium = 2;
                 }};
-                cons = new Production() {{
+                cons = new Resource() {{
                     thorium = 500;
                     plastanium = 100;
-                    unit = 1;
+                    units = 1;
                 }};
 
                 parent = () -> miner;
@@ -151,13 +151,13 @@ public class HexBuilds {
                     scheme = HexSchematics.minerMk3;
                     boom = Fx.reactorExplosion;
 
-                    prod = new Production() {{
+                    prod = new Resource() {{
                         titanium = 3;
                     }};
-                    cons = new Production() {{
+                    cons = new Resource() {{
                         thorium = 500;
-                        spore = 50;
-                        unit = 2;
+                        spores = 50;
+                        units = 2;
                     }};
 
                     parent = () -> miner;
@@ -173,12 +173,12 @@ public class HexBuilds {
             scheme = HexSchematics.thoryMk1;
             boom = Fx.reactorExplosion;
 
-            prod = new Production() {{
+            prod = new Resource() {{
                 thorium = 1;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 titanium = 100;
-                unit = 1;
+                units = 1;
             }};
 
             parent = () -> thory;
@@ -189,13 +189,13 @@ public class HexBuilds {
                 scheme = HexSchematics.thoryMk2;
                 boom = Fx.reactorExplosion;
 
-                prod = new Production() {{
+                prod = new Resource() {{
                     thorium = 2;
                 }};
-                cons = new Production() {{
+                cons = new Resource() {{
                     titanium = 500;
                     plastanium = 100;
-                    unit = 1;
+                    units = 1;
                 }};
 
                 parent = () -> thory;
@@ -210,13 +210,13 @@ public class HexBuilds {
             scheme = HexSchematics.compressor;
             boom = Fx.surgeCruciSmoke;
 
-            prod = new Production() {{
+            prod = new Resource() {{
                 plastanium = 1;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 titanium = 400;
                 oil = 1;
-                unit = 2;
+                units = 2;
             }};
         }};
 
@@ -227,14 +227,14 @@ public class HexBuilds {
             scheme = HexSchematics.cultivator;
             boom = Fx.reactorExplosion;
 
-            prod = new Production() {{
-                spore = 1;
+            prod = new Resource() {{
+                spores = 1;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 thorium = 2800;
                 plastanium = 2000;
                 water = 1;
-                unit = 5;
+                units = 5;
             }};
         }};
 
@@ -245,12 +245,12 @@ public class HexBuilds {
             scheme = HexSchematics.oil;
             boom = Fx.surgeCruciSmoke;
 
-            prod = new Production() {{
+            prod = new Resource() {{
                 oil = 1;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 thorium = 300;
-                unit = 2;
+                units = 2;
             }};
         }};
 
@@ -261,12 +261,12 @@ public class HexBuilds {
             scheme = HexSchematics.water;
             boom = Fx.surgeCruciSmoke;
 
-            prod = new Production() {{
+            prod = new Resource() {{
                 water = 1;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 thorium = 800;
-                unit = 2;
+                units = 2;
             }};
         }};
 
@@ -277,13 +277,13 @@ public class HexBuilds {
             scheme = HexSchematics.cryo;
             boom = Fx.surgeCruciSmoke;
 
-            prod = new Production() {{
+            prod = new Resource() {{
                 cryo = 1;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 thorium = 1000;
                 plastanium = 500;
-                unit = 2;
+                units = 2;
             }};
         }};
 
@@ -294,13 +294,13 @@ public class HexBuilds {
             scheme = HexSchematics.arkycite;
             boom = Fx.surgeCruciSmoke;
 
-            prod = new Production() {{
+            prod = new Resource() {{
                 arkycite = 1;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 thorium = 1800;
                 plastanium = 1000;
-                unit = 2;
+                units = 2;
             }};
         }};
 
@@ -311,10 +311,10 @@ public class HexBuilds {
             scheme = HexSchematics.city;
             boom = Fx.reactorExplosion;
 
-            prod = new Production() {{
-                unit = 10;
+            prod = new Resource() {{
+                units = 10;
             }};
-            cons = new Production() {{
+            cons = new Resource() {{
                 titanium = 300;
                 thorium = 200;
             }};
@@ -327,13 +327,13 @@ public class HexBuilds {
             scheme = HexSchematics.maze;
             boom = Fx.reactorExplosion;
 
-            prod = new Production();
-            cons = new Production() {{
+            prod = new Resource();
+            cons = new Resource() {{
                 titanium = 3000;
                 thorium = 6000;
                 plastanium = 2000;
                 cryo = 1;
-                unit = 5;
+                units = 5;
             }};
         }
 

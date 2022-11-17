@@ -5,8 +5,8 @@ import arc.math.geom.Vec2;
 import arc.util.Time;
 import hex.types.Hex;
 import hex.types.Human;
-import hex.types.Production;
 import hex.types.Weapon;
+import hex.types.Production.Resource;
 import mindustry.content.UnitTypes;
 import useful.Bundle;
 
@@ -22,7 +22,7 @@ public class Weapons {
             damage = 3;
 
             cost = 0;
-            cons = new Production() {{
+            cons = new Resource() {{
                 titanium = 150;
             }};
             todo = attack(UnitTypes.flare, 12, 18);
@@ -33,7 +33,7 @@ public class Weapons {
             damage = 6;
 
             cost = 0;
-            cons = new Production() {{
+            cons = new Resource() {{
                 titanium = 500;
                 thorium = 100;
             }};
@@ -45,7 +45,7 @@ public class Weapons {
             damage = 9;
 
             cost = 0;
-            cons = new Production() {{
+            cons = new Resource() {{
                 titanium = 800;
                 plastanium = 250;
             }};
@@ -57,9 +57,9 @@ public class Weapons {
             damage = 18;
 
             cost = 1;
-            cons = new Production() {{
+            cons = new Resource() {{
                 plastanium = 1000;
-                spore = 100;
+                spores = 100;
             }};
             todo = (human, hex, dmg) -> {
                 Vec2 cursor = hex.vec();
@@ -79,10 +79,10 @@ public class Weapons {
             damage = 36;
 
             cost = 2;
-            cons = new Production() {{
+            cons = new Resource() {{
                 thorium = 5000;
                 plastanium = 2000;
-                spore = 200;
+                spores = 200;
             }};
             todo = (human, hex, dmg) -> {
                 UnitTypes.quad.spawn(human.player.team(), hex.fx - 200f, hex.fy - 200f);

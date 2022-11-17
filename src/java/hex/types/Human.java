@@ -53,7 +53,7 @@ public class Human implements LocaleProvider {
 
         setPlayer(player);
         setFraction(fraction);
-        this.production = new Production(this);
+        this.production = new Production();
 
         this.citadel.owner = this;
         this.citadel.build(HexBuilds.citadel);
@@ -119,7 +119,7 @@ public class Human implements LocaleProvider {
         Fraction.leader(player.unit());
 
         Time.run(300f, () -> Generator.onEmpty(() -> { // recalculate production
-            production = new Production(this);
+            production = new Production();
             captured().each(hex -> hex.build.create(production));
             slaves().each(human -> {
                 human.production = production;

@@ -3,6 +3,7 @@ package hex.types;
 import arc.func.Cons3;
 import arc.math.Mathf;
 import arc.util.Time;
+import hex.types.Production.Resource;
 import mindustry.type.UnitType;
 import useful.Bundle;
 
@@ -15,7 +16,7 @@ public class Weapon {
 
     public int damage;
     public int cost;
-    public Production cons;
+    public Resource cons;
     public Cons3<Human, Hex, Integer> todo;
 
     public Weapon() {

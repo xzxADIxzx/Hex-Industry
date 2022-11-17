@@ -8,7 +8,7 @@ public class OpenButton extends Button {
 
     public OpenButton(Hex hex) {
         super((human, hex1) -> {
-            if (hex.isClosed() && human.production.unit(human, human.cost(hex))) {
+            if (hex.isClosed() && human.production.consUnits(human, human.cost(hex))) {
                 hex.open();
                 human.stats.opened++;
             }

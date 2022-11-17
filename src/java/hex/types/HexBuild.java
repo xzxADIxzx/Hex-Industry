@@ -19,15 +19,14 @@ public class HexBuild {
     public HexSchematic scheme;
     public Effect boom;
 
-    public Production prod;
-    public Production cons;
+    public Resource prod;
+    public Resource cons;
 
     public Prov<HexBuild> parent = () -> this;
     public HexBuild next;
 
     public void build(Hex hex) {
-        prod.resource.produce(hex.owner.production, true);
-        cons.resource.consume(hex.owner.production);
+        hex.owner.production.builded(prod, cons);
 
         hex.clearBuild(); // cleanup old build
         if (next != null) hex.buttons.add(new BuildButton(next, hex));
@@ -36,25 +35,19 @@ public class HexBuild {
     }
 
     public void create(Production production) {
-        family((prod, cons) -> {
-            prod.produce(production, true);
-            cons.unit(production, false);
-        });
+        family((prod, cons) -> production.builded(prod, cons));
     }
 
     public void destroy(Production production) {
-        family((prod, cons) -> {
-            prod.produce(production, false);
-            cons.unit(production, true);
-        });
+        family((prod, cons) -> production.destroyed(prod, cons));
     }
 
     public void family(Cons2<Resource, Resource> cons) {
-        cons.get(prod.resource, this.cons.resource);
-        HexBuild cur = parent.get();
-        while (cur != this) {
-            cons.get(cur.prod.resource, cur.cons.resource);
-            cur = cur.next;
+        cons.get(this.prod, this.cons);
+        HexBuild build = parent.get();
+        while (build != this) {
+            cons.get(build.prod, build.cons);
+            build = build.next;
         }
     }
 

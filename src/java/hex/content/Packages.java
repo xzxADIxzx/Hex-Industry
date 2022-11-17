@@ -14,16 +14,16 @@ public class Packages {
             name = "shop.pack.crawler";
             cost = 150;
 
-            cont = human -> human.production.crawler(human.shops());
+            cont = human -> human.production.prodCrawlers(human, human.shops());
             desc = human -> Bundle.format(name + ".desc", human, (int) (human.shops() * human.fraction.creature), cost);
-            cons = human -> human.production.spore(human, cost);
+            cons = human -> human.production.consSpores(human, cost);
         }};
 
         unit = new Package() {{
             name = "shop.pack.unit";
             cost = 1;
 
-            cont = human -> human.production.unit(human.cities());
+            cont = human -> human.production.prodUnits(human, human.cities());
             desc = human -> Bundle.format(name + ".desc", human, (int) (human.cities() * human.fraction.creature), cost);
             pred = human -> human.cities() > 0;
         }};
@@ -52,7 +52,7 @@ public class Packages {
             name = "shop.pack.free";
             cost = 0;
 
-            cont = human -> human.production.unit(20);
+            cont = human -> human.production.prodUnits(human, 20);
         }};
     }
 

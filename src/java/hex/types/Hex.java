@@ -11,6 +11,7 @@ import arc.util.Time;
 import hex.Generator;
 import hex.content.Buttons;
 import hex.content.HexBuilds;
+import hex.types.Production.Resource;
 import hex.types.buttons.BuildButton;
 import hex.types.buttons.Button;
 import hex.types.buttons.OpenButton;
@@ -30,7 +31,7 @@ import static mindustry.Vars.*;
 public class Hex implements Position {
 
     /** Resources needed to heal hex. */
-    public static final Production heal = new Production() {{
+    public static final Resource heal = new Resource() {{
         titanium = 500;
         arkycite = 1;
     }};

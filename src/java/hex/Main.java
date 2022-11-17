@@ -23,6 +23,7 @@ import mindustry.gen.Unit;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration;
 import useful.Bundle;
+import useful.Prefixes;
 
 import static mindustry.Vars.*;
 
@@ -35,6 +36,8 @@ public class Main extends Plugin {
     @Override
     public void init() {
         Bundle.load(Main.class);
+        Prefixes.load(Main.class);
+
         HexSchematics.load();
         Fractions.load();
         HexBuilds.load();

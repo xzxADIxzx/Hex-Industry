@@ -34,10 +34,6 @@ public class HexBuild {
         Generator.onEmpty(() -> scheme.build(hex));
     }
 
-    public void create(Production production) {
-        family((prod, cons) -> production.builded(prod, cons));
-    }
-
     public void destroy(Production production) {
         family((prod, cons) -> production.destroyed(prod, cons));
     }

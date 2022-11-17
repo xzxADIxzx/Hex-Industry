@@ -106,7 +106,10 @@ public class Human implements LocaleProvider {
         player.team(leader.player.team());
         setFraction(leader.fraction);
 
-        captured().each(hex -> {
+        this.production = leader.production.merge(this.production);
+        this.weaponry = leader.weaponry.merge(this.weaponry);
+
+        captured().each(hex -> { // TODO team
             hex.owner = leader;
             Time.run(Mathf.random(300f), () -> hex.build(hex.build));
         });
@@ -115,17 +118,8 @@ public class Human implements LocaleProvider {
     }
 
     public void lead() {
-        leaderPrefix();
+        Prefixes.get(player).add(prefix).apply();
         Fraction.leader(player.unit());
-
-        Time.run(300f, () -> Generator.onEmpty(() -> { // recalculate production
-            production = new Production();
-            captured().each(hex -> hex.build.create(production));
-            slaves().each(human -> {
-                human.production = production;
-                human.weaponry = weaponry.merge(human.weaponry);
-            });
-        }));
     }
 
     // region setters
@@ -157,7 +151,7 @@ public class Human implements LocaleProvider {
         lose.cancel(); // oh yes
         setPlayer(player);
 
-        if (slaves().any()) leaderPrefix();
+        if (slaves().any()) lead();
     }
 
     // endregion
@@ -226,10 +220,6 @@ public class Human implements LocaleProvider {
 
     public void despawnUnits() {
         player.team().data().units.each(Call::unitDespawn);
-    }
-
-    public void leaderPrefix() {
-        Prefixes.get(player).add(prefix).apply();
     }
 
     public void hack() {

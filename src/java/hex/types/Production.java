@@ -16,7 +16,7 @@ public class Production {
     protected boolean sending;
 
     public void update(Human human) {
-        float speed = human.fraction.production + (resources.water > 0 ? .1f : 0f) + (resources.cryo > 0 ? .2f : 0f);
+        float speed = human.fraction.production + (resources.water > 0 ? .15f : 0f) + (resources.cryo > 0 ? .25f : 0f);
         production.produce(resources, speed);
 
         if (resources.units <= 5 && !sending) { // free units without sms and registration
@@ -24,6 +24,16 @@ public class Production {
             Time.run(3f * Time.toMinutes, () -> sending = false);
             Packages.free.send(human);
         }
+    }
+
+    public Production merge(Production production) {
+        this.resources.produce(production.resources, 1f);
+        this.production.produce(production.production, 1f);
+
+        this.resources.units += production.resources.units;
+        this.resources.crawlers += production.resources.crawlers;
+
+        return this;
     }
 
     public void builded(Resource prod, Resource cons) {

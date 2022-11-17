@@ -16,6 +16,7 @@ import mindustry.game.Rules.TeamRule;
 import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
 import mindustry.core.UI;
+import mindustry.core.GameState.State;
 import mindustry.game.Rules;
 import mindustry.game.Team;
 import mindustry.gen.Player;
@@ -113,6 +114,11 @@ public class Main extends Plugin {
     @Override
     public void registerServerCommands(CommandHandler handler) {
         handler.register("host", "<size>", "Initialize new game.", args -> {
+            if (state.is(State.playing)) {
+                Log.err("Already hosting. Type 'stop' will not help you.");
+                return;
+            }
+
             MapSize size = MapSize.get(args[0]);
             if (size == null) Log.err("Can't find a MapSize with provided name.");
             else {

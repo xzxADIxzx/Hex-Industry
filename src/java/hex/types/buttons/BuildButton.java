@@ -23,7 +23,7 @@ public class BuildButton extends Button {
                     human.stats.builded++;
                 } else human.player.sendMessage(Bundle.get("hex.toofar", human));
             } else human.enough();
-        }, hex, x, y);
+        }, hex, x, y, 6f);
 
         this.build = build;
     }

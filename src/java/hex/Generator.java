@@ -52,6 +52,8 @@ public class Generator {
 
         Time.clear(); // cancel tasks for safety
         units.clear(); // remove the dependence of the player on the unit
+
+        buttons.each(button -> button.label.hide());
         humans.each(human -> {
             if (human.lose != null) human.lose.cancel(); // task can be executed after new game
         });

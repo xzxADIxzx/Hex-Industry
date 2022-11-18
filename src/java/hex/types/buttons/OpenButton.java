@@ -12,7 +12,7 @@ public class OpenButton extends Button {
                 hex.open();
                 human.stats.opened++;
             }
-        }, hex);
+        }, hex, hex.cx, hex.cy, 4f);
     }
 
     @Override

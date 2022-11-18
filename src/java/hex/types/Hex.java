@@ -89,7 +89,6 @@ public class Hex implements Position {
         if (busy) for (float i = 0; i < 60; i += 10f) Time.run(i, () -> smoke(human));
         else for (int deg = 0; deg < health; deg++) health(human, deg);
 
-        if (owner == null || owner == human.leader) buttons.each(b -> b.update(human));
         if (base && open) for (float i = 0; i < 60; i += 2f) Time.run(i, () -> inst(human));
     }
 

@@ -45,6 +45,7 @@ public class Buttons {
 
     public static void unregister(Button button) {
         buttons.remove(button);
+        button.label.hide();
     }
 
     public static class Click {

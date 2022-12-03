@@ -18,14 +18,14 @@ public class Fractions {
 
             damage = 1f;
             production = 1.5f;
-            creature = 1.9f;
+            creature = 2f;
         }};
 
         engineer = new Fraction() {{
             name = "fract.engineer";
             unit = UnitTypes.beta;
 
-            damage = 1.5f;
+            damage = 1.3f;
             production = 2f;
             creature = 1.2f;
         }};
@@ -35,7 +35,7 @@ public class Fractions {
             unit = UnitTypes.gamma;
 
             damage = 2.1f;
-            production = 1f;
+            production = 1.1f;
             creature = 1.5f;
         }};
 

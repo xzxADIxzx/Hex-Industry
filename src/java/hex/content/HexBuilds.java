@@ -19,7 +19,7 @@ public class HexBuilds {
             boom = Fx.impactReactorExplosion;
 
             prod = new Resource() {{
-                units = 20;
+                units = 30;
             }};
             cons = new Resource();
 

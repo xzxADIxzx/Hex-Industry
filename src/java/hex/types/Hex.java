@@ -32,7 +32,7 @@ public class Hex implements Position {
 
     /** Resources needed to heal hex. */
     public static final Resource heal = new Resource() {{
-        titanium = 500;
+        titanium = 600;
         arkycite = 1;
     }};
 
